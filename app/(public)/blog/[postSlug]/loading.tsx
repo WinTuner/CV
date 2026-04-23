@@ -3,7 +3,7 @@ export default function Loading() {
 }
     <div className="container mx-auto px-4 py-8">
       <article className="mx-auto max-w-4xl">
-        {/* Header skeleton */}
+        {/* Header skeleton */}x
         <header className="mb-12 space-y-6">
           <div className="h-12 w-3/4 bg-muted animate-pulse rounded-lg" />
           <div className="flex items-center gap-4">
