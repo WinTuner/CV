@@ -2,10 +2,10 @@
 
 import { cn } from "@/lib/utils"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { useMemo } from "react"
+import { useMemo, Suspense } from "react"
 import { useLanguage } from "./language-provider"
 
-export function LanguageToggle() {
+function LanguageToggleContent() {
   const { language, setLanguage } = useLanguage()
   const router = useRouter()
   const pathname = usePathname()
@@ -55,5 +55,13 @@ export function LanguageToggle() {
         EN
       </button>
     </div>
+  )
+}
+
+export function LanguageToggle() {
+  return (
+    <Suspense fallback={<div className="w-12 h-6 bg-muted animate-pulse rounded-lg" />}>
+      <LanguageToggleContent />
+    </Suspense>
   )
 }
