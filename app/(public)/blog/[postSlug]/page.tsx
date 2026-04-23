@@ -9,6 +9,7 @@ import {
   getLocalizedPostBySlugFromBackend,
   getLocalizedRelatedPostsFromBackend,
 } from "@/lib/notion-blog";
+import { Suspense } from "react";
 
 interface BlogPostPageProps {
   params: Promise<{ postSlug: string }>;
@@ -93,14 +94,21 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
   const structuredData = generateBlogPostStructuredData(post, baseUrl, postUrl);
   const relatedPosts = await getLocalizedRelatedPostsFromBackend(post.slug, language)
 
-  return (
+return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <div>
-        <BlogPostContent post={post} language={language} relatedPosts={relatedPosts} />
+        {/* 2. ครอบด้วย Suspense ตรงนี้ครับ */}
+        <Suspense fallback={<div className="min-h-screen animate-pulse bg-muted" />}>
+          <BlogPostContent 
+            post={post} 
+            language={language} 
+            relatedPosts={relatedPosts} 
+          />
+        </Suspense>
       </div>
     </>
   );
