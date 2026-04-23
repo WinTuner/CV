@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, Suspense } from "react"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { ArrowLeft, Calendar, Clock, Bookmark, Twitter, Linkedin, Link2, ChevronUp } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -12,6 +13,13 @@ interface BlogPostContentProps {
   post: BlogPost
   language: BlogLanguage
   relatedPosts: BlogPost[]
+}
+
+function SearchParamsHandler() {
+  const searchParams = useSearchParams()
+  // This component can be used to handle search-param-based logic
+  // such as analytics or dynamic language overrides if needed.
+  return null
 }
 
 export function BlogPostContent({ post, language, relatedPosts }: BlogPostContentProps) {
@@ -67,6 +75,9 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
 
   return (
     <>
+      <Suspense fallback={null}>
+        <SearchParamsHandler />
+      </Suspense>
       {/* Hero Section */}
       <section className="relative px-4 sm:px-6 pt-28 sm:pt-32 pb-12 sm:pb-16 border-b border-border/30">
         <div className={cn("absolute inset-0 bg-gradient-to-br opacity-30 pointer-events-none", post.color)} />
