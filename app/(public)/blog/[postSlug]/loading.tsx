@@ -1,5 +1,6 @@
 export default function Loading() {
-  return (
+  return <div className="animate-pulse p-10">Loading...</div>
+}
     <div className="container mx-auto px-4 py-8">
       <article className="mx-auto max-w-4xl">
         {/* Header skeleton */}
@@ -35,5 +36,5 @@ export default function Loading() {
         </div>
       </article>
     </div>
-  )
-}
+  
+
