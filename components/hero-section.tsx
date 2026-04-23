@@ -20,7 +20,7 @@ export function HeroSection() {
     en: {
       kicker: "WinTuner - Where Code Meets Curiosity",
       intro:
-        "Full-stack Developer & Open Source Contributor. I specialize in building high-performance web applications and optimizing IT infrastructures. Currently focused on Next.js, Node.js, and Linux system engineering.",
+        "DevOps Engineer & Open Source Contributor. I specialize in building high-performance web applications and optimizing IT infrastructures. Currently focused on Next.js, Node.js, and Linux system engineering.",
       explore: "explore artifacts",
       resume: "resume",
       scroll: "scroll",
@@ -31,7 +31,7 @@ export function HeroSection() {
     th: {
       kicker: "WinTuner - ที่ที่โค้ดเจอกับความอยากรู้อยากเห็น",
       intro:
-        "Full-stack Developer และ Open Source Contributor เชี่ยวชาญการสร้างเว็บแอปพลิเคชันประสิทธิภาพสูงและการจัดการโครงสร้างพื้นฐานไอที เน้นการพัฒนาด้วย Next.js, Node.js และวิศวกรรมระบบ Linux",
+        "DevOps Engineer และ Open Source Contributor เชี่ยวชาญการสร้างเว็บแอปพลิเคชันประสิทธิภาพสูงและการจัดการโครงสร้างพื้นฐานไอที เน้นการพัฒนาด้วย Next.js, Node.js และวิศวกรรมระบบ Linux",
       explore: "สำรวจผลงาน",
       resume: "เรซูเม่",
       scroll: "เลื่อนลง",
