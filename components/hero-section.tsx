@@ -114,63 +114,89 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right column - ASCII Art / Visual */}
+          {/* Right column - Visual / Portrait */}
           <div className="relative animate-scale-in stagger-4">
-            <div className="relative rounded-xl border border-border bg-card/60 glass p-5 sm:p-8 hover-lift">
-              {/* Terminal header dots */}
-              <div className="absolute top-4 left-4 flex items-center gap-2">
-                <div className="h-3 w-3 rounded-full bg-destructive/60 transition-colors hover:bg-destructive" />
-                <div className="h-3 w-3 rounded-full bg-yellow-500/60 transition-colors hover:bg-yellow-500" />
-                <div className="h-3 w-3 rounded-full bg-primary/60 transition-colors hover:bg-primary" />
-              </div>
-              <div className="absolute top-3.5 left-1/2 -translate-x-1/2 bg-background/50 rounded-md px-3 py-1 font-mono text-xs text-muted-foreground">
-                terminal://wintuner
+            <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 glass p-1 hover-lift shadow-2xl shadow-primary/10">
+              {/* Terminal header */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 bg-background/40 backdrop-blur-md">
+                <div className="flex items-center gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-primary/60" />
+                </div>
+                <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
+                  identity_protocol.v0
+                </div>
+                <div className="w-10" /> {/* Spacer */}
               </div>
 
-              <pre className="mt-6 overflow-hidden font-mono text-[10px] leading-relaxed text-primary/80 sm:text-xs md:text-sm">
-                <span className="sm:hidden">{`┌───────────────────────┐
-│  ██████╗███████╗      │
-│ ██╔════╝██╔════╝      │
-│ ██║     █████╗        │
-│ ██║     ██╔══╝        │
-│ ╚██████╗██║           │
-│  ╚═════╝╚═╝           │
-│                       │
-│  > experiments: 12    │
-│  > ${t.status}    │
-└───────────────────────┘`}</span>
-                <span className="hidden sm:block">{`┌─────────────────────────────────────┐
-│                                     │
-│  ██████╗ ██████╗ ██████╗ ███████╗   │
-│ ██╔════╝██╔═══██╗██╔══██╗██╔════╝   │
-│ ██║     ██║   ██║██║  ██║█████╗     │
-│ ██║     ██║   ██║██║  ██║██╔══╝     │
-│ ╚██████╗╚██████╔╝██████╔╝███████╗   │
-│  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝   │
-│        WinTuner                     │
-│                                     │
-│   > ${t.loaded}                     │
-│   > ${t.status}                     │
-│   > ${t.spark}                      │
-│                                     │
-└─────────────────────────────────────┘`}</span>
-              </pre>
+              {/* Image Container */}
+              <div className="relative aspect-[3/4] overflow-hidden group">
+                <img
+                  src="/developer-portrait.png"
+                  alt="Developer Portrait"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.2] contrast-[1.1]"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800"
+                  }}
+                />
+                
+                {/* Scanline overlay */}
+                <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,3px_100%]" />
+                
+                {/* Vignette */}
+                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle,transparent_40%,rgba(0,0,0,0.4)_100%)]" />
+
+                {/* Status Overlay */}
+                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-lg border border-white/10 bg-black/40 backdrop-blur-md p-3">
+                  <div className="flex items-center gap-3">
+                    <div className="relative h-2 w-2">
+                      <div className="absolute inset-0 rounded-full bg-primary animate-ping opacity-75" />
+                      <div className="relative h-2 w-2 rounded-full bg-primary" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-mono text-[10px] uppercase text-white/90 leading-none mb-1">Status</span>
+                      <span className="font-mono text-[12px] text-primary font-bold leading-none">{t.status.split(': ')[1]}</span>
+                    </div>
+                  </div>
+                  <div className="h-8 w-px bg-white/10" />
+                  <div className="flex flex-col items-end">
+                    <span className="font-mono text-[10px] uppercase text-white/90 leading-none mb-1">Uptime</span>
+                    <span className="font-mono text-[12px] text-white/70 font-bold leading-none">99.9%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Data footer */}
+              <div className="px-4 py-4 grid grid-cols-2 gap-4 border-t border-border/50 bg-background/20">
+                <div className="space-y-1">
+                  <p className="font-mono text-[9px] uppercase text-muted-foreground">Coordinates</p>
+                  <p className="font-mono text-xs text-foreground">13.7563° N, 100.5018° E</p>
+                </div>
+                <div className="space-y-1 text-right">
+                  <p className="font-mono text-[9px] uppercase text-muted-foreground">Kernel</p>
+                  <p className="font-mono text-xs text-primary">v16.2.4-stable</p>
+                </div>
+              </div>
             </div>
 
-            <div className="absolute -right-2 sm:-right-6 -top-2 sm:-top-6 rounded-lg border border-primary/40 bg-primary/15 glass px-3 sm:px-4 py-1.5 font-mono text-[11px] sm:text-xs text-primary animate-float">
-              <span className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                v0.1.0
-              </span>
+            {/* Floating badges */}
+            <div className="absolute -right-4 -top-4 rounded-xl border border-primary/30 bg-primary/10 backdrop-blur-xl px-4 py-2 font-mono text-[11px] text-primary animate-float shadow-xl shadow-primary/20">
+              <div className="flex items-center gap-2">
+                <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                <span>AUTHORIZED_USER</span>
+              </div>
             </div>
+            
             <div
-              className="absolute -bottom-3 sm:-bottom-6 -left-2 sm:-left-6 rounded-lg border border-border bg-card glass px-3 sm:px-4 py-1.5 font-mono text-[11px] sm:text-xs text-muted-foreground animate-float"
-              style={{ animationDelay: "1s" }}
+              className="absolute -bottom-4 -left-4 rounded-xl border border-border bg-card/80 backdrop-blur-xl px-4 py-2 font-mono text-[11px] text-muted-foreground animate-float shadow-xl"
+              style={{ animationDelay: "1.5s" }}
             >
-              Dec. 2025
+              LOC: BANGKOK_TH
             </div>
 
-            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full bg-primary/5 blur-3xl" />
+            {/* Glow background */}
+            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] rounded-full bg-primary/10 blur-3xl animate-pulse" />
           </div>
         </div>
       </div>
