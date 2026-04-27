@@ -1,17 +1,57 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
-import { Github, Star, GitFork, ExternalLink, Sparkles } from "lucide-react"
+import { Github, Star, GitFork, ExternalLink, Sparkles, Rocket, Trophy, BookOpen, Code2, Users } from "lucide-react"
 import { useLanguage } from "./language-provider"
 
 const projects = [
   {
-    id: 100,
+    id: 1,
+    title: "Municipality Web Application",
+    description: "A comprehensive web application project for Phlu Ta Luang Subdistrict Municipality to support real-world workflows.",
+    tags: ["React", "TypeScript", "SQL"],
+    category: "production",
+    status: "in-progress",
+    year: "2026",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/farpinta/ProjectPruta",
+    featured: true,
+    highlight: true,
+  },
+  {
+    id: 2,
+    title: "HYLIFE Hackathon 2025",
+    description: "Award-winning solution for Smart Agriculture and Food Supply Chain developed during the HYLIFE Hackathon.",
+    tags: ["Next.js", "AI", "IoT"],
+    category: "competition",
+    status: "shipped",
+    year: "2025",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/WinTuner",
+    featured: true,
+  },
+  {
+    id: 3,
+    title: "OOP-Lab-2026",
+    description: "Java final project for OOP Lab 2026, focusing on clean code and design patterns.",
+    tags: ["Java", "OOP"],
+    category: "academic",
+    status: "shipped",
+    year: "2026",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/WinTuner/OOP-Lab-2026",
+    featured: false,
+  },
+  {
+    id: 4,
     title: "AIM4 Mod",
-    description:
-      "HTML project for AIM4 Mod. A lightweight public project focused on static web content and layout practice.",
-    tags: ["HTML"],
+    description: "Modification project for AIM4 using HTML/CSS for static web content and layout practice.",
+    tags: ["HTML", "CSS"],
+    category: "personal",
     status: "shipped",
     year: "2026",
     stars: 0,
@@ -20,35 +60,21 @@ const projects = [
     featured: false,
   },
   {
-    id: 101,
-    title: "ProjectPruta",
-    description:
-      "Forked from farpinta/ProjectPruta. A municipal web application project built with TypeScript for real-world workflow support.",
-    tags: ["TypeScript", "Web App"],
-    status: "in-progress",
-    year: "2026",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/WinTuner/ProjectPruta",
-    featured: true,
-    highlight: true,
-  },
-  {
-    id: 102,
-    title: "OOP-Lab-2026",
-    description:
-      "Java final project for OOP Lab 2026. Coursework repository for object-oriented programming practice and submission.",
-    tags: ["Java", "OOP"],
+    id: 5,
+    title: "ProjectPruta Template",
+    description: "Contributing to open-source municipal templates and fixing core issues.",
+    tags: ["Open Source", "TypeScript"],
+    category: "openSource",
     status: "shipped",
-    year: "2026",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/WinTuner/OOP-Lab-2026",
+    year: "2025",
+    stars: 5,
+    forks: 2,
+    url: "https://github.com/WinTuner",
     featured: false,
   },
 ]
 
-const filters = ["all", "shipped", "in-progress", "archived"]
+const filters = ["all", "production", "competition", "academic", "personal", "openSource"]
 
 export function ProjectsGrid() {
   const { language } = useLanguage()
@@ -57,37 +83,53 @@ export function ProjectsGrid() {
   const copy = {
     en: {
       kicker: "Artifacts",
-      title: "Open Source Projects",
-      featured: "Featured",
+      title: "Featured Projects",
+      featured: "Prime",
       source: "source",
       live: "live",
       filters: {
         all: "all",
-        shipped: "shipped",
-        "in-progress": "in-progress",
-        archived: "archived",
+        production: "production",
+        competition: "competition",
+        academic: "academic",
+        personal: "personal",
+        openSource: "open source",
       },
     },
     th: {
       kicker: "ผลงาน",
-      title: "โปรเจกต์โอเพนซอร์ส",
+      title: "โปรเจกต์ที่โดดเด่น",
       featured: "แนะนำ",
       source: "ซอร์สโค้ด",
       live: "เว็บไซต์",
       filters: {
         all: "ทั้งหมด",
-        shipped: "เผยแพร่แล้ว",
-        "in-progress": "กำลังพัฒนา",
-        archived: "เก็บถาวร",
+        production: "งานจริง",
+        competition: "แข่งขัน",
+        academic: "วิชาการ",
+        personal: "ส่วนตัว",
+        openSource: "โอเพนซอร์ส",
       },
     },
   } as const
+
   const t = copy[language]
 
-  const filteredProjects = activeFilter === "all" ? projects : projects.filter((p) => p.status === activeFilter)
+  const filteredProjects = activeFilter === "all" ? projects : projects.filter((p) => p.category === activeFilter)
+
+  const CategoryIcon = ({ cat }: { cat: string }) => {
+    switch (cat) {
+      case 'production': return <Rocket className="h-3 w-3" />
+      case 'competition': return <Trophy className="h-3 w-3" />
+      case 'academic': return <BookOpen className="h-3 w-3" />
+      case 'personal': return <Code2 className="h-3 w-3" />
+      case 'openSource': return <Users className="h-3 w-3" />
+      default: return null
+    }
+  }
 
   return (
-    <section id="projects" className="px-4 sm:px-6 py-20 sm:py-28">
+    <section id="projects" className="px-4 sm:px-6 py-20 sm:py-28 bg-secondary/10">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 sm:mb-14 flex flex-col gap-6 sm:gap-8 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-3 animate-fade-in-up">
@@ -119,14 +161,14 @@ export function ProjectsGrid() {
               key={project.id}
               className={cn(
                 "group relative overflow-hidden rounded-xl border bg-card/40 p-6 sm:p-7 glass transition-all duration-400 active:scale-[0.99] hover-lift hover:border-primary/40 hover:bg-card/70 animate-fade-in-up",
-                "highlight" in project && project.highlight
+                project.highlight
                   ? "sm:col-span-2 lg:col-span-2 border-primary/30 bg-gradient-to-br from-primary/8 via-card/50 to-primary/8"
                   : "border-border/60",
-                project.featured && !("highlight" in project && project.highlight) && "sm:col-span-2 lg:col-span-1",
+                project.featured && !project.highlight && "sm:col-span-2 lg:col-span-1",
               )}
               style={{ animationDelay: `${(index % 6) * 100 + 200}ms` }}
             >
-              {"highlight" in project && project.highlight && (
+              {project.highlight && (
                 <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full border border-primary/40 bg-primary/15 px-3.5 py-1.5 animate-pulse-glow">
                   <Sparkles className="h-3.5 w-3.5 text-primary" />
                   <span className="font-mono text-[10px] uppercase tracking-wider text-primary font-medium">
@@ -135,30 +177,25 @@ export function ProjectsGrid() {
                 </div>
               )}
 
-              {/* Status indicator */}
+              {/* Category indicator */}
               <div
                 className={cn(
                   "absolute right-5 top-5 flex items-center gap-2.5",
-                  "highlight" in project && project.highlight && "top-5",
+                  project.highlight && "top-5",
                 )}
               >
-                <span
-                  className={cn(
-                    "h-2.5 w-2.5 rounded-full transition-shadow duration-300",
-                    project.status === "shipped" && "bg-primary shadow-sm shadow-primary/50",
-                    project.status === "in-progress" && "bg-yellow-500 animate-pulse shadow-sm shadow-yellow-500/50",
-                    project.status === "archived" && "bg-muted-foreground",
-                  )}
-                />
-                <span className="font-mono text-xs text-muted-foreground">
-                  {t.filters[project.status as keyof typeof t.filters]}
-                </span>
+                <div className="flex items-center gap-2 rounded-md border border-border/50 bg-secondary/50 px-2 py-1 text-primary">
+                  <CategoryIcon cat={project.category} />
+                  <span className="font-mono text-[10px] uppercase tracking-wider">
+                    {t.filters[project.category as keyof typeof t.filters]}
+                  </span>
+                </div>
               </div>
 
               <div
                 className={cn(
                   "mb-5 font-mono text-xs text-muted-foreground",
-                  "highlight" in project && project.highlight && "mt-10",
+                  project.highlight && "mt-10",
                 )}
               >
                 {project.year}
@@ -167,7 +204,7 @@ export function ProjectsGrid() {
               <h3
                 className={cn(
                   "mb-3 font-bold tracking-tight transition-all duration-300 group-hover:text-gradient",
-                  "highlight" in project && project.highlight ? "text-xl sm:text-2xl" : "text-lg sm:text-xl",
+                  project.highlight ? "text-xl sm:text-2xl" : "text-lg sm:text-xl",
                 )}
               >
                 {project.title}
@@ -176,22 +213,11 @@ export function ProjectsGrid() {
               <p
                 className={cn(
                   "mb-5 text-sm leading-relaxed text-muted-foreground",
-                  "highlight" in project && project.highlight ? "line-clamp-3" : "line-clamp-2",
+                  project.highlight ? "line-clamp-3" : "line-clamp-2",
                 )}
               >
                 {project.description}
               </p>
-
-              <div className="mb-5 flex items-center gap-5 font-mono text-xs text-muted-foreground">
-                <span className="flex items-center gap-1.5 transition-colors group-hover:text-yellow-500">
-                  <Star className="h-3.5 w-3.5" />
-                  {project.stars}
-                </span>
-                <span className="flex items-center gap-1.5 transition-colors group-hover:text-foreground">
-                  <GitFork className="h-3.5 w-3.5" />
-                  {project.forks}
-                </span>
-              </div>
 
               <div className="mb-5 flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
@@ -204,29 +230,24 @@ export function ProjectsGrid() {
                 ))}
               </div>
 
-              <div className="flex items-center gap-4">
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-primary transition-all duration-300 group/link"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Github className="h-4 w-4 transition-transform group-hover/link:scale-110" />
-                  <span className="underline-animate">{t.source}</span>
-                </a>
-                {project.homepage && (
+              <div className="flex items-center justify-between mt-auto">
+                <div className="flex items-center gap-4">
                   <a
-                    href={project.homepage}
+                    href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 font-mono text-xs text-primary hover:text-foreground transition-all duration-300 group/link"
+                    className="flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-primary transition-all duration-300 group/link"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <ExternalLink className="h-4 w-4 transition-transform group-hover/link:scale-110 group-hover/link:rotate-12" />
-                    <span className="underline-animate">{t.live}</span>
+                    <Github className="h-4 w-4 transition-transform group-hover/link:scale-110" />
+                    <span className="underline-animate">{t.source}</span>
                   </a>
-                )}
+                </div>
+
+                <div className="flex items-center gap-4 font-mono text-[10px] text-muted-foreground">
+                  <span className="flex items-center gap-1"><Star className="h-3 w-3" /> {project.stars}</span>
+                  <span className="flex items-center gap-1"><GitFork className="h-3 w-3" /> {project.forks}</span>
+                </div>
               </div>
 
               <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-primary via-primary/80 to-transparent transition-all duration-500 group-hover:w-full" />
