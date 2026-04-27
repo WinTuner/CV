@@ -11,6 +11,9 @@
     "typescript",
     "tailwindcss"
   ],
+  "engines": {
+    "node": ">=20.x"
+  },
   "author": "Thanatphong Tarin",
   "scripts": {
     "analyze": "next experimental-analyze",
