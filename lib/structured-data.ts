@@ -17,7 +17,7 @@ export function generateBlogPostStructuredData(post: BlogPost, siteUrl: string, 
     },
     publisher: {
       '@type': 'Person',
-      name: 'Ehsan Ghaffar',
+      name: 'Thanatphong Tarin',
       url: 'https://eindev.ir',
     },
     mainEntityOfPage: {
@@ -39,7 +39,7 @@ export function generateWebsiteStructuredData(url: string) {
     url: url,
     author: {
       '@type': 'Person',
-      name: 'Ehsan Ghaffar',
+      name: 'Thanatphong Tarin',
       url: 'https://github.com/WinTuner',
     },
     potentialAction: {
@@ -57,7 +57,7 @@ export function generatePersonStructuredData() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: 'Ehsan Ghaffar',
+    name: 'Thanatphong Tarin',
     url: 'https://eindev.ir',
     image: 'https://eindev.ir/developer-portrait.png',
     sameAs: [
