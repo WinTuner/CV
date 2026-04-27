@@ -181,7 +181,7 @@ const selfDevelopment = {
   en: {
     certifications: [
       { name: "UX/UI Foundation Program 2025", institution: "T.C.C. Technology Co., Ltd." },
-      { name: "Responsive Web Design", institution: "freeCodeCamp" },
+      
       { name: "Google Data Analytics", institution: "Coursera (In Progress)" },
     ],
     workshops: [
@@ -192,7 +192,7 @@ const selfDevelopment = {
   th: {
     certifications: [
       { name: "โครงการพื้นฐาน UX/UI 2025", institution: "บริษัท ที.ซี.ซี. เทคโนโลยี จำกัด" },
-      { name: "การออกแบบเว็บแบบ Responsive", institution: "freeCodeCamp" },
+      
       { name: "Google Data Analytics", institution: "Coursera (กำลังเรียน)" },
     ],
     workshops: [
@@ -226,13 +226,6 @@ const awards = {
 const leadership = {
   en: [
     {
-      title: "CAMT Open House Volunteer",
-      role: "Team Lead (Tech Support)",
-      description: "Coordinated the technical setup for the DII department booth.",
-      softSkills: ["Teamwork", "Leadership", "Problem Solving"],
-      period: "2025",
-    },
-    {
       title: "Class Representative",
       role: "Student Leader",
       description: "Managed communications between students and faculty during high school.",
@@ -241,13 +234,6 @@ const leadership = {
     },
   ],
   th: [
-    {
-      title: "อาสาสมัครงาน CAMT Open House",
-      role: "หัวหน้าทีม (ฝ่ายเทคนิค)",
-      description: "ประสานงานการตั้งค่าระบบและอุปกรณ์สำหรับบูธภาควิชา DII",
-      softSkills: ["การทำงานเป็นทีม", "ความเป็นผู้นำ", "การแก้ปัญหา"],
-      period: "2568",
-    },
     {
       title: "หัวหน้าห้อง/ตัวแทนชั้นเรียน",
       role: "ผู้นำนักเรียน",
