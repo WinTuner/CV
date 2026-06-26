@@ -5,60 +5,19 @@ import { cn } from "@/lib/utils"
 import { Github, Star, GitFork, ExternalLink, Sparkles, Search, Filter } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/components/language-provider"
-
-const projects = [
-  {
-    id: 100,
-    title: "AIM4 Mod",
-    description:
-      "HTML project for AIM4 Mod. A lightweight public project focused on static web content and layout practice.",
-    tags: ["HTML"],
-    status: "shipped",
-    year: "2026",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/WinTuner/aim4-mod",
-    featured: false,
-  },
-  {
-    id: 101,
-    title: "ProjectPruta",
-    description:
-      "Forked from farpinta/ProjectPruta. A municipal web application project built with TypeScript for real-world workflow support.",
-    tags: ["TypeScript", "Web App"],
-    status: "in-progress",
-    year: "2026",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/WinTuner/ProjectPruta",
-    featured: true,
-    highlight: true,
-  },
-  {
-    id: 102,
-    title: "OOP-Lab-2026",
-    description:
-      "Java final project for OOP Lab 2026. Coursework repository for object-oriented programming practice and submission.",
-    tags: ["Java", "OOP"],
-    status: "shipped",
-    year: "2026",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/WinTuner/OOP-Lab-2026",
-    featured: false,
-  },
-]
+import type { Project } from "@/lib/github"
 
 const filters = ["all", "shipped", "in-progress", "archived"]
-const allTags = [...new Set(projects.flatMap((p) => p.tags))]
 
-export function ProjectsPageContent() {
+export function ProjectsPageContent({ projects = [] }: { projects?: Project[] }) {
   const { language } = useLanguage()
   const [activeFilter, setActiveFilter] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
   const [isVisible, setIsVisible] = useState(false)
+
+  const allTags = [...new Set(projects.flatMap((p) => p.tags))]
   const sectionRef = useRef<HTMLElement>(null)
 
   const t = {

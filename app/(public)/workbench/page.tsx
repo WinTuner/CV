@@ -1,4 +1,5 @@
 import { WorkbenchPageContent } from "@/components/public/workbench/workbench-page-content";
+import { getGithubWipItems, getGithubRecentActivity } from "@/lib/github";
 import type { Metadata } from "next";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir';
@@ -26,10 +27,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function WorkbenchPage() {
+export default async function WorkbenchPage() {
+  const wipItems = await getGithubWipItems();
+  const recentActivity = await getGithubRecentActivity();
+
   return (
     <div className="pt-24">
-      <WorkbenchPageContent />
+      <WorkbenchPageContent wipItems={wipItems} recentActivity={recentActivity} />
     </div>
   );
 }
