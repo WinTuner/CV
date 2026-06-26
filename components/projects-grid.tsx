@@ -5,78 +5,11 @@ import { cn } from "@/lib/utils"
 import { Github, Star, GitFork, ExternalLink, Sparkles, Rocket, Trophy, BookOpen, Code2, Users } from "lucide-react"
 import { useLanguage } from "./language-provider"
 
-const projects = [
-  {
-    id: 1,
-    title: "Municipality Web Application",
-    description: "A comprehensive web application project for Phlu Ta Luang Subdistrict Municipality to support real-world workflows.",
-    tags: ["React", "TypeScript", "SQL"],
-    category: "production",
-    status: "in-progress",
-    year: "2026",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/farpinta/ProjectPruta",
-    featured: true,
-    highlight: true,
-  },
-  {
-    id: 2,
-    title: "HYLIFE Hackathon 2025",
-    description: "Award-winning solution for Smart Agriculture and Food Supply Chain developed during the HYLIFE Hackathon.",
-    tags: ["Next.js", "AI", "IoT"],
-    category: "competition",
-    status: "shipped",
-    year: "2025",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/WinTuner",
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "OOP-Lab-2026",
-    description: "Java final project for OOP Lab 2026, focusing on clean code and design patterns.",
-    tags: ["Java", "OOP"],
-    category: "academic",
-    status: "shipped",
-    year: "2026",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/WinTuner/OOP-Lab-2026",
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "AIM4 Mod",
-    description: "Modification project for AIM4 using HTML/CSS for static web content and layout practice.",
-    tags: ["HTML", "CSS"],
-    category: "personal",
-    status: "shipped",
-    year: "2026",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/WinTuner/aim4-mod",
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "ProjectPruta Template",
-    description: "Contributing to open-source municipal templates and fixing core issues.",
-    tags: ["Open Source", "TypeScript"],
-    category: "openSource",
-    status: "shipped",
-    year: "2025",
-    stars: 5,
-    forks: 2,
-    url: "https://github.com/WinTuner",
-    featured: false,
-  },
-]
+import type { Project } from "@/lib/github"
 
 const filters = ["all", "production", "competition", "academic", "personal", "openSource"]
 
-export function ProjectsGrid() {
+export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
   const { language } = useLanguage()
   const [activeFilter, setActiveFilter] = useState("all")
 
