@@ -6,7 +6,7 @@ import type { BlogLanguage } from "@/lib/blog-data";
 import mediumBlogApi from "@/lib/medium-blog";
 import type { Metadata } from "next";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir';
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app';
 
 export const metadata: Metadata = {
   title: "Blog",

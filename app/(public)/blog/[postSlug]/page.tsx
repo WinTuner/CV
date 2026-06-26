@@ -38,7 +38,7 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app';
   const postUrl = `${baseUrl}/blog/${post.slug}${language === "th" ? "?lang=th" : ""}`;
   const ogImageUrl = `${baseUrl}/og-images/${post.slug}.png`;
 
@@ -82,7 +82,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
     notFound();
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app';
   const postUrl = `${baseUrl}/blog/${post.slug}${language === "th" ? "?lang=th" : ""}`;
   const structuredData = generateBlogPostStructuredData(post, baseUrl, postUrl);
   const relatedPosts = await getLocalizedRelatedPostsFromBackend(post.slug, language)

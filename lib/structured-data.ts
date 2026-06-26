@@ -18,7 +18,7 @@ export function generateBlogPostStructuredData(post: BlogPost, siteUrl: string, 
     publisher: {
       '@type': 'Person',
       name: 'Thanatphong Tarin',
-      url: 'https://eindev.ir',
+      url: 'https://thanatphong.vercel.app',
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
@@ -35,7 +35,7 @@ export function generateWebsiteStructuredData(url: string) {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'WinTuner',
-    description: "A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by Ehsan Ghaffar.",
+    description: "A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by Thanatphong Tarin.",
     url: url,
     author: {
       '@type': 'Person',
@@ -58,8 +58,8 @@ export function generatePersonStructuredData() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Thanatphong Tarin',
-    url: 'https://eindev.ir',
-    image: 'https://eindev.ir/developer-portrait.png',
+    url: 'https://thanatphong.vercel.app',
+    image: 'https://thanatphong.vercel.app/developer-portrait.png',
     sameAs: [
       'https://github.com/WinTuner',
       'https://x.com/nut89189886',
