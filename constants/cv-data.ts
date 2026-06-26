@@ -207,14 +207,26 @@ export const selfDevelopment = {
 
 export const awards = {
   en: {
-    competitions: [{ name: "HYLIFE Hackathon 2025", rank: "3rd Place Winner", theme: "Smart Agriculture" }],
+    competitions: [
+      {
+        name: "HYLIFE Hackathon 2025",
+        rank: "3rd Place Winner",
+        theme: "Smart Agriculture",
+        image: "/hylife-hackathon.png",
+      },
+    ],
     honors: [
       { name: "Academic Excellence Award", institution: "Grade 12", detail: "Highest GPA in Software Program" },
     ],
   },
   th: {
     competitions: [
-      { name: "HYLIFE Hackathon 2025", rank: "รางวัลชนะเลิศอันดับ 3", theme: "Smart Agriculture" },
+      {
+        name: "HYLIFE Hackathon 2025",
+        rank: "รางวัลชนะเลิศอันดับ 3",
+        theme: "Smart Agriculture",
+        image: "/hylife-hackathon.png",
+      },
     ],
     honors: [{ name: "รางวัลผลการเรียนดีเด่น", institution: "ม.ปลาย", detail: "เกรดเฉลี่ยสูงสุดในแผนกซอฟต์แวร์" }],
   },
@@ -223,20 +235,22 @@ export const awards = {
 export const leadership = {
   en: [
     {
-      title: "Class Representative",
-      role: "Student Leader",
-      description: "Managed communications between students and faculty during high school.",
-      softSkills: ["Communication", "Conflict Resolution", "EQ"],
-      period: "2023 - 2025",
+      title: "School Representative - Japan Cultural Exchange",
+      role: "Student Representative",
+      description: "Selected as a school representative for the Language and Cultural Exchange Program at Shizuoka Seiko Academy in Shizuoka, Japan.",
+      softSkills: ["Cross-Cultural Communication", "Adaptability", "Interpersonal Skills"],
+      period: "April 12 - 26, 2023",
+      image: "/IMG_0809.jpg",
     },
   ],
   th: [
     {
-      title: "หัวหน้าห้อง/ตัวแทนชั้นเรียน",
-      role: "ผู้นำนักเรียน",
-      description: "จัดการสื่อสารระหว่างเพื่อนร่วมชั้นและครูผู้สอนในช่วงมัธยมปลาย",
-      softSkills: ["การสื่อสาร", "การจัดการความขัดแย้ง", "ความฉลาดทางอารมณ์"],
-      period: "2566 - 2568",
+      title: "ตัวแทนโรงเรียน - โครงการแลกเปลี่ยนภาษาและวัฒนธรรมต่างประเทศ (ประเทศญี่ปุ่น)",
+      role: "ตัวแทนนักเรียน",
+      description: "ได้รับการคัดเลือกเป็นตัวแทนของโรงเรียน ในโครงการส่งเสริมประสบการณ์การเรียนรู้ภาษาและวัฒนธรรมต่างประเทศ (ประเทศญี่ปุ่น) ณ Shizuoka Seiko Academy, จังหวัดชิซึโอกะ ประเทศญี่ปุ่น ระหว่างวันที่ 12 - 26 เมษายน ๒๕๖๖",
+      softSkills: ["การสื่อสารต่างวัฒนธรรม", "การปรับตัว", "มนุษยสัมพันธ์"],
+      period: "12 - 26 เมษายน 2566",
+      image: "/IMG_0809.jpg",
     },
   ],
 } satisfies LeadershipMap
