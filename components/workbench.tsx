@@ -4,75 +4,18 @@ import { cn } from "@/lib/utils"
 import { Github, ExternalLink } from "lucide-react"
 import { useLanguage } from "./language-provider"
 
-const wipItems = {
-  en: [
-    {
-      id: 100,
-      name: "aim4-mod",
-      description: "HTML project for AIM4 Mod and static layout practice",
-      progress: 40,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/aim4-mod",
-      branch: "main",
-      commits: 12,
-    },
-    {
-      id: 101,
-      name: "ProjectPruta",
-      description: "Forked from farpinta/ProjectPruta and extended as a TypeScript municipal web app",
-      progress: 55,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/ProjectPruta",
-      branch: "main",
-      commits: 24,
-    },
-    {
-      id: 102,
-      name: "OOP-Lab-2026",
-      description: "Java final project for OOP Lab 2026",
-      progress: 70,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/OOP-Lab-2026",
-      branch: "final",
-      commits: 18,
-    },
-  ],
-  th: [
-    {
-      id: 100,
-      name: "aim4-mod",
-      description: "โปรเจกต์ HTML สำหรับ AIM4 Mod และฝึกจัดเลย์เอาต์แบบ static",
-      progress: 40,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/aim4-mod",
-      branch: "main",
-      commits: 12,
-    },
-    {
-      id: 101,
-      name: "ProjectPruta",
-      description: "Fork จาก farpinta/ProjectPruta และต่อยอดเป็นเว็บแอปเทศบาลด้วย TypeScript",
-      progress: 55,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/ProjectPruta",
-      branch: "main",
-      commits: 24,
-    },
-    {
-      id: 102,
-      name: "OOP-Lab-2026",
-      description: "โปรเจกต์ Java ส่งท้ายวิชา OOP Lab 2026",
-      progress: 70,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/OOP-Lab-2026",
-      branch: "final",
-      commits: 18,
-    },
-  ],
-} as const
+import type { WipItem } from "@/lib/github"
 
-export function Workbench() {
+export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
   const { language } = useLanguage()
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    if (isNaN(date.getTime())) return dateString
+    return date.toLocaleDateString(language === 'en' ? 'en-US' : 'th-TH', {
+      month: 'short',
+      day: 'numeric'
+    })
+  }
   const t = {
     en: {
       kicker: "Work in Progress",
@@ -114,7 +57,7 @@ export function Workbench() {
           </div>
 
           <div className="divide-y divide-border/30">
-            {wipItems[language].map((item, index) => (
+            {wipItems.map((item, index) => (
               <a
                 key={item.id}
                 href={item.url}
@@ -161,7 +104,7 @@ export function Workbench() {
                     </span>
                   </div>
 
-                  <span className="font-mono text-xs text-muted-foreground shrink-0">{item.lastUpdated}</span>
+                  <span className="font-mono text-xs text-muted-foreground shrink-0">{formatDate(item.lastUpdated)}</span>
                 </div>
               </a>
             ))}

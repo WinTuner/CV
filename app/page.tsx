@@ -3,15 +3,21 @@ import { HeroSection } from "@/components/hero-section"
 import { SkillsMatrix } from "@/components/skills-matrix"
 import { ProjectsGrid } from "@/components/projects-grid"
 import { Workbench } from "@/components/workbench"
+import { getGithubRepos, getGithubWipItems } from "@/lib/github"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { CursorGlow } from "@/components/cursor-glow"
 import { generateWebsiteStructuredData, generatePersonStructuredData } from "@/lib/structured-data"
 
-export default function Home() {
+export default async function Home() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir'
   const websiteStructuredData = generateWebsiteStructuredData(baseUrl)
   const personStructuredData = generatePersonStructuredData()
+
+  const [projects, wipItems] = await Promise.all([
+    getGithubRepos(),
+    getGithubWipItems()
+  ]);
 
   return (
     <>
@@ -29,8 +35,8 @@ export default function Home() {
           <Header />
           <HeroSection />
           <SkillsMatrix />
-          <ProjectsGrid />
-          <Workbench />
+          <ProjectsGrid projects={projects} />
+          <Workbench wipItems={wipItems} />
           <ContactSection />
           <Footer />
         </div>
