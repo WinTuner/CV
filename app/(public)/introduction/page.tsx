@@ -167,6 +167,24 @@ export default function IntroductionPage() {
                   <li key={cert.name} className="group flex flex-col gap-1 border-l-2 border-primary/20 pl-4 transition-all hover:border-primary">
                     <span className="text-sm font-semibold">{cert.name}</span>
                     <span className="text-xs text-muted-foreground">{cert.institution}</span>
+                    {cert.image && (
+                      <div 
+                        onClick={() => setActiveImage(cert.image)}
+                        className="mt-2 overflow-hidden rounded-lg border border-border/50 max-w-[200px] cursor-zoom-in relative group"
+                      >
+                        <img 
+                          src={cert.image} 
+                          alt={cert.name} 
+                          className="w-full h-auto object-cover max-h-[120px] group-hover:scale-105 transition-transform duration-500" 
+                        />
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <span className="bg-background/85 text-[8px] font-mono px-2 py-1 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1 animate-scale-in">
+                            <span className="w-1 h-1 rounded-full bg-primary animate-pulse-glow" />
+                            Expand
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -306,6 +324,24 @@ export default function IntroductionPage() {
                   </div>
                   <p className="text-xs text-muted-foreground">{item.detail}</p>
                   <p className="text-xs font-mono">{t.gpaLabel}: {item.gpa}</p>
+                  {item.image && (
+                    <div 
+                      onClick={() => setActiveImage(item.image)}
+                      className="mt-3 overflow-hidden rounded-xl border border-border/50 max-w-sm cursor-zoom-in relative group"
+                    >
+                      <img 
+                        src={item.image} 
+                        alt={item.school} 
+                        className="w-full h-auto object-cover max-h-[200px] group-hover:scale-105 transition-transform duration-500" 
+                      />
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-glow" />
+                          Click to expand
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
