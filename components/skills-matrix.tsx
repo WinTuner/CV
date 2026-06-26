@@ -21,19 +21,19 @@ const skills = {
             items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]
         },
         {
-            category: "Backend",
+            category: "Backend & Database",
             icon: Database,
-            items: ["Node.js", "FastAPI", "PostgreSQL", "Prisma", "Express"]
+            items: ["Node.js", "Express", "Java", "PostgreSQL", "Supabase"]
         },
         {
             category: "Infrastructure",
             icon: Cloud,
-            items: ["Docker", "Linux (Ubuntu/Debian)", "Nginx", "CI/CD", "Vercel"]
+            items: ["Docker", "CI/CD", "Vercel", "Nginx", "Arch Linux / CachyOS", "WireGuard VPN"]
         },
         {
-            category: "Tools & Others",
+            category: "Tools & Media",
             icon: Terminal,
-            items: ["Git", "GitHub Actions", "Postman", "Canva", "Excel"]
+            items: ["Git", "GitHub Actions", "Postman", "DaVinci Resolve", "CapCut", "OBS Studio"]
         }
     ],
     th: [
@@ -43,19 +43,19 @@ const skills = {
             items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"]
         },
         {
-            category: "แบ็กเอนด์",
+            category: "แบ็กเอนด์ & ฐานข้อมูล",
             icon: Database,
-            items: ["Node.js", "FastAPI", "PostgreSQL", "Prisma", "Express"]
+            items: ["Node.js", "Express", "Java", "PostgreSQL", "Supabase"]
         },
         {
             category: "อินฟราสตรัคเจอร์",
             icon: Cloud,
-            items: ["Docker", "Linux (Ubuntu/Debian)", "Nginx", "CI/CD", "Vercel"]
+            items: ["Docker", "CI/CD", "Vercel", "Nginx", "Arch Linux / CachyOS", "WireGuard VPN"]
         },
         {
-            category: "เครื่องมืออื่นๆ",
+            category: "เครื่องมือ & มีเดีย",
             icon: Terminal,
-            items: ["Git", "GitHub Actions", "Postman", "Canva", "Excel"]
+            items: ["Git", "GitHub Actions", "Postman", "DaVinci Resolve", "CapCut", "OBS Studio"]
         }
     ]
 } as const
