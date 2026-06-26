@@ -45,11 +45,13 @@ export interface AwardItem {
     name: string
     rank: string
     theme: string
+    image?: string
   }>
   honors: Array<{
     name: string
     institution: string
     detail: string
+    image?: string
   }>
 }
 
@@ -59,6 +61,7 @@ export interface LeadershipItem {
   description: string
   softSkills: string[]
   period: string
+  image?: string
 }
 
 export interface CVCopy {

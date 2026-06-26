@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import {
   Briefcase,
   ExternalLink,
@@ -51,6 +52,7 @@ const renderTextWithLinks = (text: string) => {
 export default function IntroductionPage() {
   const { language } = useLanguage()
   const t = copy[language]
+  const [activeImage, setActiveImage] = useState<string | null>(null)
 
   return (
     <div className="pb-20">
@@ -191,15 +193,35 @@ export default function IntroductionPage() {
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             {awards[language].competitions.map((comp) => (
-              <div key={comp.name} className="flex items-center gap-5 rounded-xl border border-primary/20 bg-primary/5 p-6 transition-transform hover:scale-[1.02]">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary">
-                  <Trophy className="h-6 w-6" />
+              <div key={comp.name} className="flex flex-col gap-4 rounded-xl border border-primary/20 bg-primary/5 p-6 transition-transform hover:scale-[1.02]">
+                <div className="flex items-center gap-5">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary">
+                    <Trophy className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold">{comp.name}</h4>
+                    <p className="text-sm text-primary font-mono">{comp.rank}</p>
+                    <p className="text-xs text-muted-foreground">{comp.theme}</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-bold">{comp.name}</h4>
-                  <p className="text-sm text-primary font-mono">{comp.rank}</p>
-                  <p className="text-xs text-muted-foreground">{comp.theme}</p>
-                </div>
+                {comp.image && (
+                  <div 
+                    onClick={() => setActiveImage(comp.image)}
+                    className="overflow-hidden rounded-lg border border-primary/20 cursor-zoom-in relative group w-full h-[180px]"
+                  >
+                    <img 
+                      src={comp.image} 
+                      alt={comp.name} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-glow" />
+                        Click to expand
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
             {awards[language].honors.map((hon) => (
@@ -234,6 +256,24 @@ export default function IntroductionPage() {
                       <p className="font-medium text-primary/80">{item.role}</p>
                     </div>
                     <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+                    {item.image && (
+                      <div 
+                        onClick={() => setActiveImage(item.image)}
+                        className="mt-4 overflow-hidden rounded-xl border border-border/50 max-w-md cursor-zoom-in relative group"
+                      >
+                        <img 
+                          src={item.image} 
+                          alt={item.title} 
+                          className="w-full h-auto object-cover max-h-[300px] group-hover:scale-105 transition-transform duration-500" 
+                        />
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-glow" />
+                            Click to expand
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="space-y-3">
                     <span className="block font-mono text-[10px] uppercase text-muted-foreground">{t.skillLabel}</span>
@@ -294,6 +334,35 @@ export default function IntroductionPage() {
         </section>
 
       </div>
+
+      {/* Lightbox Modal */}
+      {activeImage && (
+        <div 
+          onClick={() => setActiveImage(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md cursor-zoom-out animate-fade-in"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-[95vw] max-h-[95vh] rounded-2xl overflow-hidden border border-border/50 bg-card/20 glass animate-scale-in"
+          >
+            <img 
+              src={activeImage} 
+              alt="Expanded view" 
+              className="max-w-full max-h-[90vh] object-contain shadow-2xl" 
+            />
+            {/* Close Button */}
+            <button
+              onClick={() => setActiveImage(null)}
+              className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-border/50 bg-background/80 text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:text-primary hover:scale-110"
+              aria-label="Close modal"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
