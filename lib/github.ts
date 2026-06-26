@@ -294,13 +294,18 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {
   }
 
   const EVENTS_URL = `https://api.github.com/users/${GITHUB_USERNAME}/events?per_page=30`
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github.v3+json",
+    "User-Agent": "WinTuner-Portfolio",
+  }
+  if (process.env.GITHUB_TOKEN) {
+    headers.Authorization = `token ${process.env.GITHUB_TOKEN}`
+  }
+
   try {
     const response = await fetch(EVENTS_URL, {
       next: { revalidate: 900 }, // Cache events for 15 minutes
-      headers: {
-        Accept: "application/vnd.github.v3+json",
-        "User-Agent": "WinTuner-Portfolio",
-      },
+      headers,
     })
 
     if (!response.ok) {
@@ -333,13 +338,45 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {
         }
       } else if (event.type === "PullRequestEvent") {
         const pr = event.payload.pull_request
-        const action = event.payload.action
+        const prNumber = pr?.number
+        let title = pr?.title
+        let action = event.payload.action
+
+        if (prNumber) {
+          try {
+            const cacheKey = `pr-${project}-${prNumber}`
+            let prDetails = (globalForGithub as any)[cacheKey]
+
+            if (!prDetails) {
+              const prResponse = await fetch(`https://api.github.com/repos/WinTuner/${project}/pulls/${prNumber}`, {
+                next: { revalidate: 3600 },
+                headers,
+              })
+              if (prResponse.ok) {
+                prDetails = await prResponse.json()
+                ;(globalForGithub as any)[cacheKey] = prDetails
+              }
+            }
+
+            if (prDetails) {
+              title = prDetails.title
+              if (action === "closed" && prDetails.merged) {
+                action = "merged"
+              }
+            }
+          } catch (e) {
+            console.error("Error fetching PR details:", e)
+          }
+        }
+
+        const finalTitle = title || `PR #${prNumber}`
+
         activity.push({
           type: "pr",
           project,
           message: {
-            en: `${action.toUpperCase()}: ${pr.title}`,
-            th: `${action === "opened" ? "เปิด" : action === "closed" ? "ปิด" : action} PR: ${pr.title}`,
+            en: `${action.toUpperCase()}: ${finalTitle}`,
+            th: `${action === "opened" ? "เปิด" : action === "closed" ? "ปิด" : action === "merged" ? "รวม" : action} PR: ${finalTitle}`,
           },
           time,
         })
@@ -352,7 +389,7 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {
             th: `สร้างรีโพสิทอรี ${project}`,
           },
           time,
-          })
+        })
       }
     }
 
