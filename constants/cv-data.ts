@@ -15,12 +15,14 @@ export const education = {
       period: "2019 - 2025",
       detail: "Software Engineer Program",
       gpa: "3.97",
+      image: "/crapao-school.png",
     },
     {
       school: "Chiang Mai University",
       period: "2025 - Present",
       detail: "CAMT, Bachelor of Science in Digital Industry Integration",
-      gpa: "3.31",
+      gpa: "3.40 ",
+      image: "/cmu-education.png",
     },
   ],
   th: [
@@ -29,12 +31,14 @@ export const education = {
       period: "2019 - 2025",
       detail: "แผนการเรียนวิศวกรรมซอฟต์แวร์",
       gpa: "3.97",
+      image: "/crapao-school.png",
     },
     {
       school: "มหาวิทยาลัยเชียงใหม่",
       period: "2025 - ปัจจุบัน",
       detail: "CAMT, วท.บ. สาขาการบูรณาการอุตสาหกรรมดิจิทัล",
-      gpa: "3.31",
+      gpa: "3.40 ",
+      image: "/cmu-education.png",
     },
   ],
 } satisfies EducationMap
@@ -53,7 +57,7 @@ export const professionalExperience = {
       },
       {
         name: "Municipality Web Application - Phlu Ta Luang",
-        role: "Frontend Developer (Member)",
+        role: "Back-end Developer (Member)",
         description: "A web application built to streamline municipal operations and service management.",
         target: "Government staff and local citizens.",
         problem: "Manual paperwork and decentralized data management.",
@@ -123,7 +127,7 @@ export const professionalExperience = {
       },
       {
         name: "เว็บแอปพลิเคชันเทศบาล - เทศบาลตำบลพลูตาหลวง",
-        role: "นักพัฒนาส่วนหน้า (สมาชิกทีม)",
+        role: "นักพัฒนาส่วนหลัง (สมาชิกทีม)",
         description: "แอปพลิเคชันเพื่อช่วยจัดการฐานข้อมูลและบริการประชาชนของเทศบาล",
         target: "พนักงานเทศบาลและประชาชนในพื้นที่",
         problem: "การจัดการระบบเอกสารที่ซ้ำซ้อนและข้อมูลไม่รวมศูนย์",
@@ -185,7 +189,7 @@ export const professionalExperience = {
 export const selfDevelopment = {
   en: {
     certifications: [
-      { name: "UX/UI Foundation Program 2025", institution: "T.C.C. Technology Co., Ltd." },
+      { name: "UX/UI Foundation Program 2025", institution: "T.C.C. Technology Co., Ltd.", image: "/tcc-uxui.png" },
       { name: "Google Data Analytics", institution: "Coursera (In Progress)" },
     ],
     workshops: [
@@ -195,7 +199,7 @@ export const selfDevelopment = {
   },
   th: {
     certifications: [
-      { name: "โครงการพื้นฐาน UX/UI 2025", institution: "บริษัท ที.ซี.ซี. เทคโนโลยี จำกัด" },
+      { name: "โครงการพื้นฐาน UX/UI 2025", institution: "บริษัท ที.ซี.ซี. เทคโนโลยี จำกัด", image: "/tcc-uxui.png" },
       { name: "Google Data Analytics", institution: "Coursera (กำลังเรียน)" },
     ],
     workshops: [
