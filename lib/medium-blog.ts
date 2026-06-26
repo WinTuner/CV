@@ -15,9 +15,15 @@ export interface MediumPost {
     avatar: string
     role: string
   }
+  image?: string
 }
 
 const FEED_URL = "https://medium.com/feed/@thanatphong2719"
+
+function extractFirstImage(content: string): string {
+  const match = content.match(/<img[^>]+src=["']([^"']+)["']/i)
+  return match?.[1] ?? ""
+}
 
 function decodeHtml(text: string) {
   return text
@@ -96,6 +102,7 @@ export async function getMediumPosts(limit = 12): Promise<MediumPost[]> {
         avatar: "/developer-portrait.png",
         role: "Writer",
       },
+      image: extractFirstImage(content),
     }
   })
 }

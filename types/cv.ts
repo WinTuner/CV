@@ -11,6 +11,7 @@ export interface EducationItem {
   period: string
   detail: string
   gpa: string
+  image?: string
 }
 
 export interface ExperienceItem {
@@ -33,10 +34,12 @@ export interface SelfDevelopmentItem {
   certifications: Array<{
     name: string
     institution: string
+    image?: string
   }>
   workshops: Array<{
     name: string
     institution: string
+    image?: string
   }>
 }
 
