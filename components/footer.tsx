@@ -1,8 +1,7 @@
-import { Github, Twitter, Linkedin, Mail, ExternalLink, Heart } from "lucide-react"
+import { Github, Linkedin, Mail, ExternalLink, Heart } from "lucide-react"
 
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/WinTuner", handle: "@WinTuner", icon: Github },
-  { label: "Twitter", href: "https://x.com/nut89189886", handle: "@nut89189886", icon: Twitter },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/thanatphong-tarin-1b6619385/", handle: "/in/thanatphong-tarin-1b6619385", icon: Linkedin },
   { label: "Email", href: "mailto:Thanatphong2719@gmail.com", handle: "Thanatphong2719@gmail.com", icon: Mail },
 ]
@@ -81,7 +80,7 @@ export function Footer() {
           </div>
 
           <div className="flex items-center gap-4">
-            {socialLinks.slice(0, 3).map((link) => (
+            {socialLinks.slice(0, 2).map((link) => (
               <a
                 key={link.label}
                 href={link.href}

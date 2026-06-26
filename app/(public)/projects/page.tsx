@@ -21,12 +21,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Projects — WinTuner",
-    description: "Explore open source projects, experiments, and tools.",
-    images: [`${baseUrl}/og-image-projects.png`],
-  },
   alternates: {
     canonical: `${baseUrl}/projects`,
   },

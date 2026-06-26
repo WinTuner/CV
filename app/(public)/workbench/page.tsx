@@ -21,12 +21,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Workbench — WinTuner",
-    description: "Active experiments, prototypes, and work in progress.",
-    images: [`${baseUrl}/og-image-workbench.png`],
-  },
   alternates: {
     canonical: `${baseUrl}/workbench`,
   },

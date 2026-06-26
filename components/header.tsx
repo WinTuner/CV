@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Github, Twitter, Linkedin } from "lucide-react"
+import { Github, Linkedin } from "lucide-react"
 import { ThemeToggle } from "./theme-toggle"
 import { ThemeChanger } from "./theme-changer"
 import { LanguageToggle } from "./language-toggle"
@@ -20,7 +20,6 @@ const navItems = [
 
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/WinTuner", icon: Github },
-  { label: "Twitter", href: "https://x.com/nut89189886", icon: Twitter },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/thanatphong-tarin-1b6619385/", icon: Linkedin },
 ]
 
