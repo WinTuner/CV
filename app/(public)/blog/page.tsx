@@ -25,12 +25,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog — WinTuner",
-    description: "Technical articles, experiments, and insights from the digital laboratory.",
-    images: [`${baseUrl}/og-image-blog.png`],
-  },
   alternates: {
     canonical: `${baseUrl}/blog`,
   },

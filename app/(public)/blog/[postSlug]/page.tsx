@@ -64,13 +64,6 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
         },
       ],
     },
-    twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.excerpt,
-      images: [ogImageUrl],
-      creator: "@",
-    },
     alternates: {
       canonical: postUrl,
     },

@@ -52,13 +52,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "WinTuner — Thanatphong Tarin's Digital Laboratory",
-    description: "A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts.",
-    creator: "@",
-    images: ["/og-image.png"],
-  },
   robots: {
     index: true,
     follow: true,
