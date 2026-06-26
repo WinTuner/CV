@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, Suspense } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { ArrowLeft, Calendar, Clock, Bookmark, Twitter, Linkedin, Link2, ChevronUp } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, Bookmark, Linkedin, Link2, ChevronUp } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import type { BlogPost, BlogLanguage } from "@/lib/blog-data"
@@ -32,7 +32,6 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
       back: "back to blog",
       featured: "featured",
       share: "share",
-      shareTwitter: "Share on Twitter",
       shareLinkedIn: "Share on LinkedIn",
       copy: "Copy link",
       bookmark: "Bookmark",
@@ -43,7 +42,6 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
       back: "กลับไปที่บล็อก",
       featured: "แนะนำ",
       share: "แชร์",
-      shareTwitter: "แชร์ไปยัง Twitter",
       shareLinkedIn: "แชร์ไปยัง LinkedIn",
       copy: "คัดลอกลิงก์",
       bookmark: "บันทึก",
@@ -217,20 +215,7 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
               <div className="sticky top-32 flex flex-col gap-3">
                 <span className="font-mono text-xs text-muted-foreground mb-2 text-center">share</span>
                 <span className="font-mono text-xs text-muted-foreground mb-2 text-center">{t.share}</span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent"
-                  onClick={() =>
-                    window.open(
-                      `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`,
-                      "_blank",
-                    )
-                  }
-                >
-                  <Twitter className="h-4 w-4" />
-                  <span className="sr-only">{t.shareTwitter}</span>
-                </Button>
+
                 <Button
                   variant="outline"
                   size="icon"
@@ -278,19 +263,7 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
             style={{ animationDelay: "450ms" }}
           >
             <span className="font-mono text-xs text-muted-foreground">{t.share}:</span>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-9 w-9 rounded-lg border-border/50 bg-transparent"
-              onClick={() =>
-                window.open(
-                  `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`,
-                  "_blank",
-                )
-              }
-            >
-              <Twitter className="h-4 w-4" />
-            </Button>
+
             <Button
               variant="outline"
               size="icon"
