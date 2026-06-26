@@ -244,14 +244,36 @@ export function WorkbenchPageContent({
                     <span
                       className={cn(
                         "shrink-0 w-1.5 h-1.5 rounded-full mt-1.5",
-                        activity.type === "commit" ? "bg-primary" : "bg-yellow-500",
+                        activity.type === "commit" && "bg-primary",
+                        activity.type === "pr" && activity.prAction === "opened" && "bg-emerald-500",
+                        activity.type === "pr" && activity.prAction === "merged" && "bg-purple-500",
+                        activity.type === "pr" && activity.prAction === "closed" && "bg-rose-500",
+                        (!activity.type || (activity.type !== "commit" && activity.type !== "pr")) && "bg-yellow-500"
                       )}
                     />
                     <div className="min-w-0 flex-1">
-                      <p className="text-foreground truncate">
-                        {typeof activity.message === "object" ? activity.message[language] : activity.message}
-                      </p>
-                      <p className="text-muted-foreground flex items-center gap-1">
+                      {activity.type === "pr" && activity.prAction && activity.prTitle ? (
+                        <div className="flex flex-wrap items-center gap-1.5 text-foreground leading-normal">
+                          <span
+                            className={cn(
+                              "rounded px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider border shrink-0",
+                              activity.prAction === "opened" && "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+                              activity.prAction === "merged" && "bg-purple-500/10 text-purple-400 border-purple-500/20",
+                              activity.prAction === "closed" && "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                            )}
+                          >
+                            {activity.prAction === "opened" ? (language === "th" ? "เปิด" : "OPENED") :
+                             activity.prAction === "merged" ? (language === "th" ? "รวม" : "MERGED") :
+                             (language === "th" ? "ปิด" : "CLOSED")}
+                          </span>
+                          <span className="truncate flex-1">{activity.prTitle}</span>
+                        </div>
+                      ) : (
+                        <p className="text-foreground truncate">
+                          {typeof activity.message === "object" ? activity.message[language] : activity.message}
+                        </p>
+                      )}
+                      <p className="text-muted-foreground flex items-center gap-1 mt-1">
                         <Clock className="h-3 w-3" />
                         {formatRelativeTime(activity.time, language)}
                       </p>
