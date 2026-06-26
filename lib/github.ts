@@ -48,45 +48,42 @@ const CACHE_DURATION = 120 * 1000 // 2 minutes in-memory cache
 const fallbackProjects: Project[] = [
   {
     id: 100,
-    title: "AIM4 Mod",
-    description:
-      "HTML project for AIM4 Mod. A lightweight public project focused on static web content and layout practice.",
-    tags: ["HTML"],
-    status: "shipped",
+    title: "DotDoctor",
+    description: "🩺 The ultimate config doctor & dependency checker for Hyprland and modular dotfiles.",
+    tags: ["Shell", "Bash", "Linux"],
+    status: "in-progress",
+    category: "personal",
+    year: "2026",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/WinTuner/DotDoctor",
+    featured: true,
+    highlight: true,
+  },
+  {
+    id: 101,
+    title: "aim4-mod",
+    description: "A modified version of the Autonomous Intersection Management (AIM4) micro-simulator for autonomous vehicle traffic control.",
+    tags: ["Java", "HTML", "Simulation"],
+    status: "in-progress",
     category: "personal",
     year: "2026",
     stars: 0,
     forks: 0,
     url: "https://github.com/WinTuner/aim4-mod",
-    featured: false,
-  },
-  {
-    id: 101,
-    title: "ProjectPruta",
-    description:
-      "Forked from farpinta/ProjectPruta. A municipal web application project built with TypeScript for real-world workflow support.",
-    tags: ["TypeScript", "Web App"],
-    status: "in-progress",
-    category: "openSource",
-    year: "2026",
-    stars: 0,
-    forks: 0,
-    url: "https://github.com/WinTuner/ProjectPruta",
     featured: true,
-    highlight: true,
   },
   {
     id: 102,
-    title: "OOP-Lab-2026",
-    description:
-      "Java final project for OOP Lab 2026. Coursework repository for object-oriented programming practice and submission.",
-    tags: ["Java", "OOP"],
+    title: "AEGIS-1-Terminal-Twine-game",
+    description: "An atmospheric, text-based psychological cosmic horror game built with Twine and SugarCube. Manage your O2 supply and Sanity while unravelling the terrifying mystery of Case File 24 aboard the shifting AEGIS-1 station. 🚀🧠🌌",
+    tags: ["Twine", "HTML", "CSS", "Game"],
     status: "shipped",
-    category: "academic",
+    category: "personal",
     year: "2026",
     stars: 0,
     forks: 0,
-    url: "https://github.com/WinTuner/OOP-Lab-2026",
+    url: "https://github.com/WinTuner/AEGIS-1-Terminal-Twine-game",
     featured: false,
   },
 ]
@@ -94,40 +91,40 @@ const fallbackProjects: Project[] = [
 const fallbackWipItems: WipItem[] = [
   {
     id: 100,
-    name: "aim4-mod",
-    description: "HTML project for AIM4 Mod and static layout practice",
-    progress: 40,
-    lastUpdated: "2026-06-26T00:00:00Z",
-    url: "https://github.com/WinTuner/aim4-mod",
+    name: "DotDoctor",
+    description: "🩺 The ultimate config doctor & dependency checker for Hyprland and modular dotfiles.",
+    progress: 57,
+    lastUpdated: "2026-06-26T18:00:00Z",
+    url: "https://github.com/WinTuner/DotDoctor",
     branch: "main",
-    commits: 12,
+    commits: 34,
   },
   {
     id: 101,
-    name: "ProjectPruta",
-    description: "Forked from farpinta/ProjectPruta and extended as a TypeScript municipal web app",
-    progress: 55,
-    lastUpdated: "2026-06-26T00:00:00Z",
-    url: "https://github.com/WinTuner/ProjectPruta",
+    name: "aim4-mod",
+    description: "A modified version of the Autonomous Intersection Management (AIM4) micro-simulator for autonomous vehicle traffic control.",
+    progress: 80,
+    lastUpdated: "2026-06-23T12:00:00Z",
+    url: "https://github.com/WinTuner/aim4-mod",
     branch: "main",
-    commits: 24,
+    commits: 100,
   },
   {
     id: 102,
-    name: "OOP-Lab-2026",
-    description: "Java final project for OOP Lab 2026",
-    progress: 70,
-    lastUpdated: "2026-03-24T00:00:00Z",
-    url: "https://github.com/WinTuner/OOP-Lab-2026",
-    branch: "final",
-    commits: 18,
+    name: "AEGIS-1-Terminal-Twine-game",
+    description: "An atmospheric, text-based psychological cosmic horror game built with Twine and SugarCube. Manage your O2 supply and Sanity while unravelling the terrifying mystery of Case File 24 aboard the shifting AEGIS-1 station. 🚀🧠🌌",
+    progress: 90,
+    lastUpdated: "2026-06-20T10:00:00Z",
+    url: "https://github.com/WinTuner/AEGIS-1-Terminal-Twine-game",
+    branch: "main",
+    commits: 23,
   },
 ]
 
 const fallbackActivities: ActivityItem[] = [
-  { type: "commit", project: "ProjectPruta", message: "Refine TypeScript structure", time: "2026-06-26T18:00:00Z" },
-  { type: "commit", project: "OOP-Lab-2026", message: "Finalize Java lab submission", time: "2026-06-26T14:00:00Z" },
-  { type: "commit", project: "aim4-mod", message: "Improve HTML layout and sections", time: "2026-06-25T20:00:00Z" },
+  { type: "commit", project: "DotDoctor", message: "Initial public release of dependency monitor", time: "2026-06-26T18:00:00Z" },
+  { type: "commit", project: "aim4-mod", message: "Tune micro-simulator vehicle traffic parameters", time: "2026-06-23T12:00:00Z" },
+  { type: "commit", project: "AEGIS-1-Terminal-Twine-game", message: "Implement Sanity mechanic and text transitions", time: "2026-06-20T10:00:00Z" },
 ]
 
 export async function getGithubRepos(): Promise<Project[]> {
@@ -185,12 +182,18 @@ export async function getGithubRepos(): Promise<Project[]> {
       const highlight = index === 0
       const featured = index === 0 || repo.stargazers_count > 0
 
-      // Try to generate a descriptive default fallback if github description is empty
-      const description = repo.description || (
-        repo.fork 
+      let description = repo.description
+      if (repo.name === "DotDoctor") {
+        description = "🩺 The ultimate config doctor & dependency checker for Hyprland and modular dotfiles."
+      } else if (repo.name === "aim4-mod") {
+        description = "A modified version of the Autonomous Intersection Management (AIM4) micro-simulator for autonomous vehicle traffic control."
+      } else if (repo.name === "AEGIS-1-Terminal-Twine-game") {
+        description = "An atmospheric, text-based psychological cosmic horror game built with Twine and SugarCube. Manage your O2 supply and Sanity while unravelling the terrifying mystery of Case File 24 aboard the shifting AEGIS-1 station. 🚀🧠🌌"
+      } else if (!description) {
+        description = repo.fork 
           ? `Forked repository ${repo.name} under active practice and custom adaptation.`
           : `Public repository for ${repo.name}. Focused on ${repo.language || 'software engineering'} experiments.`
-      )
+      }
 
       // Category heuristic mapping
       let category = "personal"
@@ -264,19 +267,36 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
 
     const result = targetRepos.map((repo: any) => {
       // Deterministic progress based on repository size & stars (looks realistic and dynamic)
-      const progress = Math.min(95, Math.max(25, 30 + (repo.stargazers_count * 5) + (Math.round(repo.size / 15) % 65)))
+      let progress = Math.min(95, Math.max(25, 30 + (repo.stargazers_count * 5) + (Math.round(repo.size / 15) % 65)))
+      let commits = Math.max(3, Math.round(repo.size / 12) % 150)
+      let description = repo.description || `Active development on ${repo.name} repository.`
+      let branch = repo.default_branch || "main"
 
-      // Estimated commits count
-      const commits = Math.max(3, Math.round(repo.size / 12) % 150)
+      if (repo.name === "DotDoctor") {
+        commits = 34
+        progress = 57
+        description = "🩺 The ultimate config doctor & dependency checker for Hyprland and modular dotfiles."
+        branch = "main"
+      } else if (repo.name === "aim4-mod") {
+        commits = 100
+        progress = 80
+        description = "A modified version of the Autonomous Intersection Management (AIM4) micro-simulator for autonomous vehicle traffic control."
+        branch = "main"
+      } else if (repo.name === "AEGIS-1-Terminal-Twine-game") {
+        commits = 23
+        progress = 90
+        description = "An atmospheric, text-based psychological cosmic horror game built with Twine and SugarCube. Manage your O2 supply and Sanity while unravelling the terrifying mystery of Case File 24 aboard the shifting AEGIS-1 station. 🚀🧠🌌"
+        branch = "main"
+      }
 
       return {
         id: repo.id,
         name: repo.name,
-        description: repo.description || `Active development on ${repo.name} repository.`,
+        description,
         progress,
         lastUpdated: repo.pushed_at, // ISO timestamp
         url: repo.html_url,
-        branch: repo.default_branch || "main",
+        branch,
         commits,
       }
     })
