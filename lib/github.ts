@@ -30,6 +30,8 @@ export interface ActivityItem {
   project: string
   message: { en: string; th: string } | string
   time: string // ISO timestamp
+  prAction?: 'opened' | 'closed' | 'merged'
+  prTitle?: string
 }
 
 const GITHUB_USERNAME = "WinTuner"
@@ -379,6 +381,8 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {
             th: `${action === "opened" ? "เปิด" : action === "closed" ? "ปิด" : action === "merged" ? "รวม" : action} PR: ${finalTitle}`,
           },
           time,
+          prAction: action as 'opened' | 'closed' | 'merged',
+          prTitle: finalTitle,
         })
       } else if (event.type === "CreateEvent" && event.payload.ref_type === "repository") {
         activity.push({
