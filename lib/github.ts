@@ -4,6 +4,7 @@ export interface Project {
   description: string
   tags: string[]
   status: 'shipped' | 'in-progress' | 'archived'
+  category: string
   year: string
   stars: number
   forks: number
@@ -34,6 +35,14 @@ export interface ActivityItem {
 const GITHUB_USERNAME = "WinTuner"
 const API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100`
 
+const globalForGithub = globalThis as unknown as {
+  githubReposCache?: { data: Project[]; timestamp: number }
+  githubWipCache?: { data: WipItem[]; timestamp: number }
+  githubActivityCache?: { data: ActivityItem[]; timestamp: number }
+}
+
+const CACHE_DURATION = 120 * 1000 // 2 minutes in-memory cache
+
 const fallbackProjects: Project[] = [
   {
     id: 100,
@@ -42,6 +51,7 @@ const fallbackProjects: Project[] = [
       "HTML project for AIM4 Mod. A lightweight public project focused on static web content and layout practice.",
     tags: ["HTML"],
     status: "shipped",
+    category: "personal",
     year: "2026",
     stars: 0,
     forks: 0,
@@ -55,6 +65,7 @@ const fallbackProjects: Project[] = [
       "Forked from farpinta/ProjectPruta. A municipal web application project built with TypeScript for real-world workflow support.",
     tags: ["TypeScript", "Web App"],
     status: "in-progress",
+    category: "openSource",
     year: "2026",
     stars: 0,
     forks: 0,
@@ -69,6 +80,7 @@ const fallbackProjects: Project[] = [
       "Java final project for OOP Lab 2026. Coursework repository for object-oriented programming practice and submission.",
     tags: ["Java", "OOP"],
     status: "shipped",
+    category: "academic",
     year: "2026",
     stars: 0,
     forks: 0,
@@ -117,6 +129,11 @@ const fallbackActivities: ActivityItem[] = [
 ]
 
 export async function getGithubRepos(): Promise<Project[]> {
+  const now = Date.now()
+  if (globalForGithub.githubReposCache && (now - globalForGithub.githubReposCache.timestamp < CACHE_DURATION)) {
+    return globalForGithub.githubReposCache.data
+  }
+
   try {
     const response = await fetch(API_URL, {
       next: { revalidate: 3600 }, // Cache on edge/server for 1 hour
@@ -143,7 +160,7 @@ export async function getGithubRepos(): Promise<Project[]> {
       return dateB - dateA
     })
 
-    return sortedRepos.map((repo: any, index: number) => {
+    const result = sortedRepos.map((repo: any, index: number) => {
       const year = repo.created_at 
         ? new Date(repo.created_at).getFullYear().toString() 
         : new Date().getFullYear().toString()
@@ -173,12 +190,26 @@ export async function getGithubRepos(): Promise<Project[]> {
           : `Public repository for ${repo.name}. Focused on ${repo.language || 'software engineering'} experiments.`
       )
 
+      // Category heuristic mapping
+      let category = "personal"
+      const nameLower = repo.name.toLowerCase()
+      if (repo.fork) {
+        category = "openSource"
+      } else if (nameLower.includes("lab") || nameLower.includes("homework") || nameLower.includes("class") || nameLower.includes("course") || nameLower.includes("final")) {
+        category = "academic"
+      } else if (nameLower.includes("hackathon") || nameLower.includes("competition") || nameLower.includes("contest") || nameLower.includes("hylife")) {
+        category = "competition"
+      } else if (repo.homepage || repo.stargazers_count > 2) {
+        category = "production"
+      }
+
       return {
         id: repo.id,
         title: repo.name,
         description,
         tags: tags.length > 0 ? tags : ["GitHub"],
         status,
+        category,
         year,
         stars: repo.stargazers_count,
         forks: repo.forks_count,
@@ -188,6 +219,9 @@ export async function getGithubRepos(): Promise<Project[]> {
         highlight,
       }
     })
+
+    globalForGithub.githubReposCache = { data: result, timestamp: now }
+    return result
   } catch (error) {
     console.error("Error fetching GitHub repos:", error)
     return fallbackProjects
@@ -195,6 +229,11 @@ export async function getGithubRepos(): Promise<Project[]> {
 }
 
 export async function getGithubWipItems(): Promise<WipItem[]> {
+  const now = Date.now()
+  if (globalForGithub.githubWipCache && (now - globalForGithub.githubWipCache.timestamp < CACHE_DURATION)) {
+    return globalForGithub.githubWipCache.data
+  }
+
   try {
     const response = await fetch(API_URL, {
       next: { revalidate: 3600 },
@@ -221,7 +260,7 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
     // Take top 3 repos
     const targetRepos = activeRepos.slice(0, 3)
 
-    return targetRepos.map((repo: any) => {
+    const result = targetRepos.map((repo: any) => {
       // Deterministic progress based on repository size & stars (looks realistic and dynamic)
       const progress = Math.min(95, Math.max(25, 30 + (repo.stargazers_count * 5) + (Math.round(repo.size / 15) % 65)))
 
@@ -239,6 +278,9 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
         commits,
       }
     })
+
+    globalForGithub.githubWipCache = { data: result, timestamp: now }
+    return result
   } catch (error) {
     console.error("Error fetching WIP items:", error)
     return fallbackWipItems
@@ -246,6 +288,11 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
 }
 
 export async function getGithubRecentActivity(): Promise<ActivityItem[]> {
+  const now = Date.now()
+  if (globalForGithub.githubActivityCache && (now - globalForGithub.githubActivityCache.timestamp < CACHE_DURATION)) {
+    return globalForGithub.githubActivityCache.data
+  }
+
   const EVENTS_URL = `https://api.github.com/users/${GITHUB_USERNAME}/events?per_page=30`
   try {
     const response = await fetch(EVENTS_URL, {
@@ -305,11 +352,13 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {
             th: `สร้างรีโพสิทอรี ${project}`,
           },
           time,
-        })
+          })
       }
     }
 
-    return activity.length > 0 ? activity : fallbackActivities
+    const result = activity.length > 0 ? activity : fallbackActivities
+    globalForGithub.githubActivityCache = { data: result, timestamp: now }
+    return result
   } catch (error) {
     console.error("Error fetching recent activity:", error)
     return fallbackActivities
