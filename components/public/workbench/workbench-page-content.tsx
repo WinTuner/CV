@@ -4,88 +4,63 @@ import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { Github, ExternalLink, Clock, GitBranch, Activity } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
+import type { WipItem, ActivityItem } from "@/lib/github"
 
-const wipItems = {
-  en: [
-    {
-      id: 100,
-      name: "aim4-mod",
-      description: "HTML project for AIM4 Mod and static layout practice",
-      progress: 40,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/aim4-mod",
-      branch: "main",
-      commits: 12,
-    },
-    {
-      id: 101,
-      name: "ProjectPruta",
-      description: "Forked from farpinta/ProjectPruta and extended as a TypeScript municipal web app",
-      progress: 55,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/ProjectPruta",
-      branch: "main",
-      commits: 24,
-    },
-    {
-      id: 102,
-      name: "OOP-Lab-2026",
-      description: "Java final project for OOP Lab 2026",
-      progress: 70,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/OOP-Lab-2026",
-      branch: "final",
-      commits: 18,
-    },
-  ],
-  th: [
-    {
-      id: 100,
-      name: "aim4-mod",
-      description: "โปรเจกต์ HTML สำหรับ AIM4 Mod และฝึกจัดเลย์เอาต์แบบ static",
-      progress: 40,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/aim4-mod",
-      branch: "main",
-      commits: 12,
-    },
-    {
-      id: 101,
-      name: "ProjectPruta",
-      description: "Fork จาก farpinta/ProjectPruta และต่อยอดเป็นเว็บแอปเทศบาลด้วย TypeScript",
-      progress: 55,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/ProjectPruta",
-      branch: "main",
-      commits: 24,
-    },
-    {
-      id: 102,
-      name: "OOP-Lab-2026",
-      description: "โปรเจกต์ Java ส่งท้ายวิชา OOP Lab 2026",
-      progress: 70,
-      lastUpdated: "2026",
-      url: "https://github.com/WinTuner/OOP-Lab-2026",
-      branch: "final",
-      commits: 18,
-    },
-  ],
-} as const
+function formatDate(dateString: string, language: 'en' | 'th') {
+  const date = new Date(dateString)
+  if (isNaN(date.getTime())) return dateString
+  return date.toLocaleDateString(language === 'en' ? 'en-US' : 'th-TH', {
+    month: 'short',
+    day: 'numeric'
+  })
+}
 
-const recentActivity = {
-  en: [
-    { type: "commit", project: "ProjectPruta", message: "Refine TypeScript structure", time: "2 hours ago" },
-    { type: "commit", project: "OOP-Lab-2026", message: "Finalize Java lab submission", time: "6 hours ago" },
-    { type: "commit", project: "aim4-mod", message: "Improve HTML layout and sections", time: "1 day ago" },
-  ],
-  th: [
-    { type: "commit", project: "ProjectPruta", message: "ปรับโครงสร้าง TypeScript", time: "2 ชั่วโมงที่แล้ว" },
-    { type: "commit", project: "OOP-Lab-2026", message: "สรุปงานส่งท้ายแลป Java", time: "6 ชั่วโมงที่แล้ว" },
-    { type: "commit", project: "aim4-mod", message: "ปรับเลย์เอาต์ HTML และส่วนเนื้อหา", time: "1 วันที่แล้ว" },
-  ],
-} as const
+function formatRelativeTime(dateString: string, language: 'en' | 'th') {
+  const date = new Date(dateString)
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000)
+  
+  if (isNaN(seconds)) return dateString
 
-export function WorkbenchPageContent() {
+  const intervals = {
+    en: [
+      { label: 'year', secs: 31536000 },
+      { label: 'month', secs: 2592000 },
+      { label: 'day', secs: 86400 },
+      { label: 'hour', secs: 3600 },
+      { label: 'minute', secs: 60 },
+      { label: 'second', secs: 1 }
+    ],
+    th: [
+      { label: 'ปี', secs: 31536000 },
+      { label: 'เดือน', secs: 2592000 },
+      { label: 'วัน', secs: 86400 },
+      { label: 'ชั่วโมง', secs: 3600 },
+      { label: 'นาที', secs: 60 },
+      { label: 'วินาที', secs: 1 }
+    ]
+  }
+
+  const currentIntervals = intervals[language]
+  for (const interval of currentIntervals) {
+    const count = Math.floor(seconds / interval.secs)
+    if (count >= 1) {
+      if (language === 'en') {
+        return `${count} ${interval.label}${count > 1 ? 's' : ''} ago`
+      } else {
+        return `${count} ${interval.label}ที่แล้ว`
+      }
+    }
+  }
+  return language === 'en' ? 'just now' : 'เมื่อสักครู่'
+}
+
+export function WorkbenchPageContent({
+  wipItems = [],
+  recentActivity = [],
+}: {
+  wipItems?: WipItem[]
+  recentActivity?: ActivityItem[]
+}) {
   const { language } = useLanguage()
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
   const [isVisible, setIsVisible] = useState(false)
@@ -153,7 +128,7 @@ export function WorkbenchPageContent() {
               </div>
 
               <div className="divide-y divide-border/30">
-                {wipItems[language].map((item, index) => (
+                {wipItems.map((item, index) => (
                   <a
                     key={item.id}
                     href={item.url}
@@ -213,7 +188,7 @@ export function WorkbenchPageContent() {
                         </span>
                       </div>
 
-                      <span className="font-mono text-xs text-muted-foreground shrink-0">{item.lastUpdated}</span>
+                      <span className="font-mono text-xs text-muted-foreground shrink-0">{formatDate(item.lastUpdated, language)}</span>
                     </div>
                   </a>
                 ))}
@@ -239,12 +214,14 @@ export function WorkbenchPageContent() {
               <h3 className="font-mono text-xs uppercase tracking-wider text-primary mb-4">{t.stats}</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-3 rounded-lg bg-secondary/30">
-                  <p className="text-2xl font-bold text-foreground">{wipItems[language].length}</p>
+                  <p className="text-2xl font-bold text-foreground">{wipItems.length}</p>
                   <p className="font-mono text-xs text-muted-foreground">{t.active}</p>
                 </div>
                 <div className="text-center p-3 rounded-lg bg-secondary/30">
                   <p className="text-2xl font-bold text-primary">
-                    {Math.round(wipItems[language].reduce((a, b) => a + b.progress, 0) / wipItems[language].length)}%
+                    {wipItems.length > 0
+                      ? `${Math.round(wipItems.reduce((a, b) => a + b.progress, 0) / wipItems.length)}%`
+                      : "0%"}
                   </p>
                   <p className="font-mono text-xs text-muted-foreground">{t.avgProgress}</p>
                 </div>
@@ -262,7 +239,7 @@ export function WorkbenchPageContent() {
                 {t.recentActivity}
               </h3>
               <div className="space-y-3">
-                {recentActivity[language].map((activity, index) => (
+                {recentActivity.map((activity, index) => (
                   <div key={index} className="flex items-start gap-3 text-xs">
                     <span
                       className={cn(
@@ -271,10 +248,12 @@ export function WorkbenchPageContent() {
                       )}
                     />
                     <div className="min-w-0 flex-1">
-                      <p className="text-foreground truncate">{activity.message}</p>
+                      <p className="text-foreground truncate">
+                        {typeof activity.message === "object" ? activity.message[language] : activity.message}
+                      </p>
                       <p className="text-muted-foreground flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        {activity.time}
+                        {formatRelativeTime(activity.time, language)}
                       </p>
                     </div>
                   </div>
