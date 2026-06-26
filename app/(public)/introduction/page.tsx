@@ -17,6 +17,37 @@ import {
 import { awards, copy, education, experiences, leadership, professionalExperience, selfDevelopment } from "@/constants/cv-data"
 import { useLanguage } from "@/components/language-provider"
 
+const renderTextWithLinks = (text: string) => {
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(
+      <a
+        key={match.index}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-primary hover:underline font-semibold"
+      >
+        {match[1]}
+      </a>
+    );
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 export default function IntroductionPage() {
   const { language } = useLanguage()
   const t = copy[language]
@@ -251,7 +282,9 @@ export default function IntroductionPage() {
                   </div>
                   <ul className="space-y-1.5 pl-4">
                     {exp.points.map(pt => (
-                      <li key={pt} className="text-xs text-muted-foreground list-disc marker:text-primary">{pt}</li>
+                      <li key={pt} className="text-xs text-muted-foreground list-disc marker:text-primary">
+                        {renderTextWithLinks(pt)}
+                      </li>
                     ))}
                   </ul>
                 </div>
