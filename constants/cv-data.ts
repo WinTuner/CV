@@ -43,6 +43,15 @@ export const professionalExperience = {
   en: {
     production: [
       {
+        name: "Muanjai (ม่วนใจ๋)",
+        role: "Co-Founder & Chief Technology Officer (CTO)",
+        description: "An Agentic AI Travel Concierge connecting domestic and foreign tourists in Chiang Mai with independent local SMEs via LINE Official Account and Web platforms.",
+        target: "Domestic and foreign tourists in Chiang Mai, and local independent SMEs.",
+        problem: "Connecting tourists directly with local SMEs without high platform commissions, while providing a seamless, automated booking experience.",
+        learned: "Integrating local LLMs (Pathumma LLM) on supercomputing infra (ThaiSC), designing autonomous conversational booking agents, and building secure real-time PromptPay verification.",
+        url: "https://muanjai-ai.up.railway.app/chat/",
+      },
+      {
         name: "Municipality Web Application - Phlu Ta Luang",
         role: "Frontend Developer (Member)",
         description: "A web application built to streamline municipal operations and service management.",
@@ -103,6 +112,15 @@ export const professionalExperience = {
   },
   th: {
     production: [
+      {
+        name: "Muanjai (ม่วนใจ๋)",
+        role: "ผู้ร่วมก่อตั้งและประธานเจ้าหน้าที่ฝ่ายเทคโนโลยี (Co-Founder & CTO)",
+        description: "แพลตฟอร์มผู้ช่วยท่องเที่ยวอัจฉริยะ (Agentic AI Travel Concierge) ที่เชื่อมโยงนักท่องเที่ยวทั้งไทยและต่างประเทศในเชียงใหม่กับผู้ประกอบการ SME ท้องถิ่นผ่าน LINE OA และเว็บแอปพลิเคชัน",
+        target: "นักท่องเที่ยวในจังหวัดเชียงใหม่ และผู้ประกอบการรายย่อย (SMEs) ในท้องถิ่น",
+        problem: "การเข้าถึงนักท่องเที่ยวโดยตรงของร้านค้าท้องถิ่นโดยไม่ต้องผ่านแพลตฟอร์มคอมมิชชันสูง และความสะดวกในการจองท่องเที่ยวอัจฉริยะแบบเรียลไทม์",
+        learned: "การผสานการใช้งาน Pathumma LLM บนโครงสร้างพื้นฐาน ThaiSC Supercomputer, ออกแบบการจองผ่าน LINE Chatbot และสร้างระบบสแกนชำระเงินและตรวจสอบสลิป PromptPay อัตโนมัติ",
+        url: "https://muanjai-ai.up.railway.app/chat/",
+      },
       {
         name: "เว็บแอปพลิเคชันเทศบาล - เทศบาลตำบลพลูตาหลวง",
         role: "นักพัฒนาส่วนหน้า (สมาชิกทีม)",
@@ -226,6 +244,16 @@ export const leadership = {
 export const experiences = {
   en: [
     {
+      title: "Muanjai (ม่วนใจ๋) - Co-Founder & Chief Technology Officer (CTO)",
+      period: "June 2026 - Present",
+      points: [
+        "Co-founded and engineered Muanjai, an Agentic AI Travel Concierge platform connecting global tourists with local SMEs via [LINE OA](https://line.me/R/ti/p/%40636owbhl) and [Web Client](https://muanjai-ai.up.railway.app/chat/).",
+        "Designed the core AI architecture, integrating NECTEC's Pathumma LLM leveraging ThaiSC's supercomputing infrastructure for localized AI agents.",
+        "Developed scalable backend services supporting automated booking engines and real-time PromptPay payment verification.",
+        "Established DevOps practices including cloud deployment, CI/CD automation, and rigorous security standards for proprietary code and data protection.",
+      ],
+    },
+    {
       title: "P'CAT HOUSE - Part-time Administrative Assistant",
       period: "March 2022 - Present",
       points: [
@@ -237,6 +265,16 @@ export const experiences = {
     },
   ],
   th: [
+    {
+      title: "Muanjai (ม่วนใจ๋) - ผู้ร่วมก่อตั้งและประธานเจ้าหน้าที่ฝ่ายเทคโนโลยี (Co-Founder & CTO)",
+      period: "มิถุนายน 2026 - ปัจจุบัน",
+      points: [
+        "ร่วมก่อตั้งและพัฒนา Muanjai แพลตฟอร์มผู้ช่วยท่องเที่ยวอัจฉริยะเพื่อสนับสนุนธุรกิจ SME ท้องถิ่นผ่าน [LINE OA](https://line.me/R/ti/p/%40636owbhl) และ [Web Client](https://muanjai-ai.up.railway.app/chat/)",
+        "ออกแบบโครงสร้างระบบ AI เชื่อมต่อระบบจองอัตโนมัติ โดยผสานการใช้ Pathumma LLM บนโครงสร้างพื้นฐานซูเปอร์คอมพิวเตอร์ ThaiSC",
+        "พัฒนา Backend สำหรับระบบจองท่องเที่ยวแบบเรียลไทม์ และระบบตรวจสอบความถูกต้องของสลิปและสแกนชำระเงินผ่าน PromptPay",
+        "จัดทำโครงสร้างพื้นฐานระบบ Cloud, ระบบตรวจสอบความผิดพลาด (Observability), วางระบบ CI/CD และรักษาความลับของซอร์สโค้ดและข้อมูลส่วนตัว", 
+      ],
+    },
     {
       title: "P'CAT HOUSE - ผู้ช่วยงานธุรการ (พาร์ตไทม์)",
       period: "มีนาคม 2022 - ปัจจุบัน",
