@@ -3,18 +3,125 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useLanguage } from "./language-provider"
+import { cn } from "@/lib/utils"
+import type { ActivityItem } from "@/lib/github"
 
 const roles = {
   en: ["building interfaces", "exploring systems", "breaking barriers", "forging ideas", "crafting code"],
   th: ["สร้างอินเทอร์เฟซ", "สำรวจระบบ", "ทลายข้อจำกัด", "หลอมรวมไอเดีย", "เขียนโค้ดอย่างประณีต"],
 } as const
 
-export function HeroSection() {
+function formatRelativeTime(dateString: string, language: 'en' | 'th') {
+  const date = new Date(dateString)
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000)
+  
+  if (isNaN(seconds)) return dateString
+
+  const intervals = {
+    en: [
+      { label: 'year', secs: 31536000 },
+      { label: 'month', secs: 2592000 },
+      { label: 'day', secs: 86400 },
+      { label: 'hour', secs: 3600 },
+      { label: 'minute', secs: 60 },
+      { label: 'second', secs: 1 }
+    ],
+    th: [
+      { label: 'ปี', secs: 31536000 },
+      { label: 'เดือน', secs: 2592000 },
+      { label: 'วัน', secs: 86400 },
+      { label: 'ชั่วโมง', secs: 3600 },
+      { label: 'นาที', secs: 60 },
+      { label: 'วินาที', secs: 1 }
+    ]
+  }
+
+  const currentIntervals = intervals[language]
+  for (const interval of currentIntervals) {
+    const count = Math.floor(seconds / interval.secs)
+    if (count >= 1) {
+      if (language === 'en') {
+        return `${count} ${interval.label}${count > 1 ? 's' : ''} ago`
+      } else {
+        return `${count} ${interval.label}ที่แล้ว`
+      }
+    }
+  }
+  return language === 'en' ? 'just now' : 'เมื่อสักครู่'
+}
+
+function formatJournalDate(dateString: string) {
+  const date = new Date(dateString)
+  if (isNaN(date.getTime())) return "Jun 26 22:09:54"
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const month = months[date.getMonth()]
+  const day = String(date.getDate()).padStart(2, ' ')
+  const time = date.toTimeString().split(' ')[0] // e.g. "22:09:54"
+  return `${month} ${day} ${time}`
+}
+
+function getMessageText(msg: any, lang: 'en' | 'th') {
+  if (!msg) return ""
+  if (typeof msg === 'string') return msg
+  return msg[lang] || msg.en || ""
+}
+
+function truncate(str: string, len: number) {
+  return str.length > len ? str.slice(0, len) + "..." : str
+}
+
+function getLogType(type: string) {
+  switch(type) {
+    case 'commit': return 'COMMIT'
+    case 'pr': return 'PULL_REQ'
+    case 'create': return 'CREATE'
+    default: return 'ACTIVITY'
+  }
+}
+
+export interface HeroSectionProps {
+  recentActivities?: ActivityItem[]
+}
+
+export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
   const { language } = useLanguage()
   const [currentRole, setCurrentRole] = useState(0)
   const [displayText, setDisplayText] = useState("")
   const [isDeleting, setIsDeleting] = useState(false)
   const currentRoles = roles[language]
+
+  // Terminal Dashboard State
+  const [activeTab, setActiveTab] = useState<'status' | 'git' | 'neofetch'>('status')
+  const [typedCommand, setTypedCommand] = useState("")
+  const [isTyping, setIsTyping] = useState(false)
+  const [showOutput, setShowOutput] = useState(false)
+
+  const commands = {
+    status: "systemctl status github-monitor.service",
+    git: "git log -n 3 --oneline",
+    neofetch: "neofetch"
+  }
+
+  useEffect(() => {
+    const fullCommand = commands[activeTab]
+    setTypedCommand("")
+    setShowOutput(false)
+    setIsTyping(true)
+    
+    let i = 0
+    const interval = setInterval(() => {
+      if (i < fullCommand.length) {
+        setTypedCommand(fullCommand.slice(0, i + 1))
+        i++
+      } else {
+        clearInterval(interval)
+        setIsTyping(false)
+        setShowOutput(true)
+      }
+    }, 12)
+    
+    return () => clearInterval(interval)
+  }, [activeTab])
 
   const copy = {
     en: {
@@ -111,6 +218,236 @@ export function HeroSection() {
                   →
                 </span>
               </Link>
+            </div>
+
+            {/* Minimal Custom Linux Terminal Widget */}
+            <div className="w-full max-w-lg overflow-hidden rounded-xl border border-border bg-zinc-950/60 backdrop-blur-md shadow-2xl hover:border-primary/30 transition-all duration-300 animate-fade-in-up stagger-4">
+              {/* Terminal Window Header */}
+              <div className="flex items-center bg-zinc-950/90 border-b border-zinc-900/80 px-4">
+                {/* Left Dot Controls */}
+                <div className="flex items-center gap-1.5 mr-6 py-3.5">
+                  <div className="h-2.5 w-2.5 rounded-full bg-rose-500/80" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-amber-500/80" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
+                </div>
+                
+                {/* Custom Linux Styled Tabs */}
+                <div className="flex items-end h-full gap-0.5 font-mono text-[10px]">
+                  <button 
+                    onClick={() => setActiveTab('status')}
+                    className={cn(
+                      "px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
+                      activeTab === 'status' 
+                        ? "bg-zinc-900/80 border-zinc-800 text-primary border-t-primary" 
+                        : "bg-zinc-950/40 border-transparent text-muted-foreground hover:bg-zinc-900/30 hover:text-foreground"
+                    )}
+                  >
+                    status.service
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('git')}
+                    className={cn(
+                      "px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
+                      activeTab === 'git' 
+                        ? "bg-zinc-900/80 border-zinc-800 text-primary border-t-primary" 
+                        : "bg-zinc-950/40 border-transparent text-muted-foreground hover:bg-zinc-900/30 hover:text-foreground"
+                    )}
+                  >
+                    git-log.sh
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('neofetch')}
+                    className={cn(
+                      "px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
+                      activeTab === 'neofetch' 
+                        ? "bg-zinc-900/80 border-zinc-800 text-primary border-t-primary" 
+                        : "bg-zinc-950/40 border-transparent text-muted-foreground hover:bg-zinc-900/30 hover:text-foreground"
+                    )}
+                  >
+                    neofetch
+                  </button>
+                </div>
+              </div>
+
+              {/* Terminal Body */}
+              <div className="p-4 font-mono text-[11px] leading-relaxed text-slate-300 min-h-[185px]">
+                {/* Shell Prompt */}
+                <div className="flex items-center gap-1.5 text-muted-foreground/50 mb-3 border-b border-zinc-900 pb-2">
+                  <span className="text-sky-400 font-bold">wintuner</span>
+                  <span>@</span>
+                  <span className="text-purple-400 font-bold">archlinux</span>
+                  <span className="text-foreground/30">in</span>
+                  <span className="text-emerald-400">~</span>
+                  <span className="text-fuchsia-500 font-bold">❯</span>
+                  <span className="text-foreground font-semibold">{typedCommand}</span>
+                  {isTyping && <span className="inline-block w-1.5 h-3.5 bg-primary animate-pulse ml-0.5" />}
+                  {!isTyping && <span className="inline-block w-1.5 h-3.5 bg-zinc-600 animate-pulse ml-0.5" />}
+                </div>
+
+                {/* Tab Output Section */}
+                {activeTab === 'status' && showOutput && (() => {
+                  const activitiesToUse = recentActivities.length > 0 ? recentActivities : [
+                    { type: "commit" as const, project: "ProjectPruta", message: "Refine TypeScript structure", time: new Date().toISOString() },
+                    { type: "commit" as const, project: "OOP-Lab-2026", message: "Finalize Java lab submission", time: new Date(Date.now() - 3600000).toISOString() },
+                    { type: "commit" as const, project: "aim4-mod", message: "Improve HTML layout and sections", time: new Date(Date.now() - 7200000).toISOString() },
+                  ]
+                  const latest = activitiesToUse[0]
+                  const latestMsg = getMessageText(latest.message, language)
+                  const relativeTime = formatRelativeTime(latest.time, language)
+                  const systemdTime = new Date(latest.time).toUTCString().replace("GMT", "UTC")
+                  const logType = getLogType(latest.type)
+                  const prActionText = latest.prAction ? ` [${latest.prAction.toUpperCase()}]` : ''
+                  
+                  return (
+                    <div className="space-y-1.5 animate-fade-in">
+                      <div className="flex items-center gap-1">
+                        <span className="text-emerald-500 font-bold animate-pulse">●</span>
+                        <span className="font-bold text-foreground">github-monitor.service</span>
+                        <span className="text-muted-foreground/80">- Live GitHub Activity Monitor</span>
+                      </div>
+                      <div className="pl-3 text-muted-foreground/90">
+                        Loaded: <span className="text-emerald-400">loaded</span> (/etc/systemd/system/github-monitor.service; enabled)
+                      </div>
+                      <div className="pl-3 text-muted-foreground/90">
+                        Active: <span className="text-emerald-400 font-bold">active (running)</span> since {systemdTime}
+                      </div>
+                      <div className="pl-3 text-muted-foreground/90">
+                        Status: <span className="text-sky-300">"Synced with GitHub API (revalidated cache)"</span>
+                      </div>
+                      <div className="pl-3 text-muted-foreground/90 mb-3">
+                        Main PID: 1337 (node-server)
+                      </div>
+                      
+                      <div className="border-t border-zinc-900 my-2 pt-2 text-[9px] text-muted-foreground/50 uppercase tracking-wider font-bold">
+                        Journalctl Logs:
+                      </div>
+                      <div className="space-y-1 text-[10.5px]">
+                        <div className="text-muted-foreground/75">
+                          <span className="text-zinc-500">{formatJournalDate(latest.time)}</span> arch systemd[1]: Started WinTuner's Live GitHub Monitor.
+                        </div>
+                        <div className="text-slate-200">
+                          <span className="text-zinc-500">{formatJournalDate(latest.time)}</span> arch <span className="text-cyan-400 font-semibold">github-monitor[1337]</span>: <span className="text-emerald-400 font-bold">[{logType}{prActionText}]</span> {latest.project} ❯ "{latestMsg}" <span className="text-muted-foreground text-[9px] font-normal font-sans ml-1">({relativeTime})</span>
+                        </div>
+                      </div>
+
+                      <div className="pt-3 flex items-center gap-1.5 border-t border-zinc-900/60 mt-3">
+                        <span className="text-fuchsia-500 font-bold">❯</span>
+                        <Link 
+                          href="/workbench" 
+                          className="text-primary hover:underline font-bold flex items-center gap-1 group/link text-[10px]"
+                        >
+                          ./view-workbench.sh
+                          <span className="text-muted-foreground text-[9px] font-normal group-hover/link:translate-x-1 transition-transform">→</span>
+                        </Link>
+                      </div>
+                    </div>
+                  )
+                })()}
+
+                {activeTab === 'git' && showOutput && (() => {
+                  const activitiesToUse = recentActivities.length > 0 ? recentActivities : [
+                    { type: "commit" as const, project: "ProjectPruta", message: "Refine TypeScript structure", time: new Date().toISOString() },
+                    { type: "commit" as const, project: "OOP-Lab-2026", message: "Finalize Java lab submission", time: new Date(Date.now() - 3600000).toISOString() },
+                    { type: "commit" as const, project: "aim4-mod", message: "Improve HTML layout and sections", time: new Date(Date.now() - 7200000).toISOString() },
+                  ]
+                  const gitLogs = activitiesToUse.slice(0, 3).map((act, index) => {
+                    const hashVal = (act.project + act.time + index).split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+                    const hexHash = (hashVal * 9876543).toString(16).substring(0, 7)
+                    const msg = getMessageText(act.message, language)
+                    const relTime = formatRelativeTime(act.time, language)
+                    const refText = index === 0 ? " (HEAD -> main, origin/main)" : ""
+                    return { hash: hexHash, ref: refText, project: act.project, message: msg, time: relTime }
+                  })
+                  
+                  return (
+                    <div className="space-y-1.5 animate-fade-in text-[10.5px]">
+                      {gitLogs.map((log, index) => (
+                        <div key={index} className="flex flex-wrap items-start gap-1 font-mono">
+                          <span className="text-zinc-600 font-bold">*</span>
+                          <span className="text-amber-400 font-semibold">{log.hash}</span>
+                          {log.ref && <span className="text-cyan-400 font-semibold">{log.ref}</span>}
+                          <span className="text-emerald-400 font-medium">[{log.project}]</span>
+                          <span className="text-slate-100 flex-1 min-w-[150px] break-words">
+                            {truncate(log.message, 50)}
+                          </span>
+                          <span className="text-zinc-500 font-normal font-sans ml-auto text-[9px]">{log.time}</span>
+                          <span className="text-sky-400 font-semibold text-[9px]">&lt;WinTuner&gt;</span>
+                        </div>
+                      ))}
+                      
+                      <div className="pt-3 flex items-center gap-1.5 border-t border-zinc-900/60 mt-4">
+                        <span className="text-fuchsia-500 font-bold">❯</span>
+                        <Link 
+                          href="/workbench" 
+                          className="text-primary hover:underline font-bold flex items-center gap-1 group/link text-[10px]"
+                        >
+                          git show --workbench
+                          <span className="text-muted-foreground text-[9px] font-normal group-hover/link:translate-x-1 transition-transform">→</span>
+                        </Link>
+                      </div>
+                    </div>
+                  )
+                })()}
+
+                {activeTab === 'neofetch' && showOutput && (
+                  <div className="flex flex-col sm:flex-row gap-5 animate-fade-in text-[10px] sm:text-[10.5px]">
+                    {/* Arch Logo in ASCII */}
+                    <pre className="text-cyan-400 leading-none select-none font-bold font-mono">
+{`      /\\
+     /  \\
+    /\\   \\
+   /  __  \\
+  /  (  )  \\
+ /  .-'\`'-. \\
+/___(____)___\\`}
+                    </pre>
+                    
+                    {/* Spec list */}
+                    <div className="space-y-0.5 text-slate-300 flex-1">
+                      <div>
+                        <span className="text-[#a78bfa] font-bold">wintuner</span>@<span className="text-cyan-400 font-bold">archlinux</span>
+                      </div>
+                      <div className="text-zinc-700 font-sans leading-none pb-1">---------------------</div>
+                      <div>
+                        <span className="text-sky-400">OS</span>: Arch Linux x86_64
+                      </div>
+                      <div>
+                        <span className="text-sky-400">Host</span>: Next.js Vercel Edge Server
+                      </div>
+                      <div>
+                        <span className="text-sky-400">Kernel</span>: Linux 6.9-stable-edge
+                      </div>
+                      <div>
+                        <span className="text-sky-400">Uptime</span>: 99.9% (Continuous Caching)
+                      </div>
+                      <div>
+                        <span className="text-sky-400">Shell</span>: zsh 5.9
+                      </div>
+                      <div>
+                        <span className="text-sky-400">WM</span>: Hyprland (Wayland)
+                      </div>
+                      <div>
+                        <span className="text-sky-400">CPU</span>: Serverless Edge (Vercel Node)
+                      </div>
+                      <div>
+                        <span className="text-sky-400">Memory</span>: 1024MB / 3072MB (Limit)
+                      </div>
+                      
+                      {/* Color blocks */}
+                      <div className="flex gap-1 pt-2">
+                        <span className="inline-block w-3.5 h-3 bg-black border border-zinc-800" />
+                        <span className="inline-block w-3.5 h-3 bg-red-500" />
+                        <span className="inline-block w-3.5 h-3 bg-green-500" />
+                        <span className="inline-block w-3.5 h-3 bg-yellow-500" />
+                        <span className="inline-block w-3.5 h-3 bg-blue-500" />
+                        <span className="inline-block w-3.5 h-3 bg-fuchsia-500" />
+                        <span className="inline-block w-3.5 h-3 bg-cyan-500" />
+                        <span className="inline-block w-3.5 h-3 bg-white" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
