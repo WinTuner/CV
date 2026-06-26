@@ -24,7 +24,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app'),
   title: {
     default: "WinTuner — Thanatphong Tarin's Digital Laboratory",
     template: "%s | WinTuner",

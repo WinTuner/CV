@@ -188,9 +188,9 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
                 Forging digital
                 <br />
                 <span
-                  className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text typing-cursor"
+                  className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text typing-cursor inline-block min-h-[1.2em]"
                 >
-                  {displayText}
+                  {displayText || "\u00A0"}
                 </span>
               </h1>
             </div>
@@ -270,7 +270,7 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
               </div>
 
               {/* Terminal Body */}
-              <div className="p-4 font-mono text-[11px] leading-relaxed text-slate-300 min-h-[185px]">
+              <div className="p-4 font-mono text-[11px] leading-relaxed text-slate-300 h-[205px] overflow-y-auto scrollbar-hide">
                 {/* Shell Prompt */}
                 <div className="flex items-center gap-1.5 text-muted-foreground/50 mb-3 border-b border-zinc-900 pb-2">
                   <span className="text-sky-400 font-bold">wintuner</span>
@@ -405,17 +405,17 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
                     {/* Spec list */}
                     <div className="space-y-0.5 text-slate-300 flex-1">
                       <div>
-                        <span className="text-[#a78bfa] font-bold">wintuner</span>@<span className="text-cyan-400 font-bold">archlinux</span>
+                        <span className="text-[#a78bfa] font-bold">wintuner</span>@<span className="text-cyan-400 font-bold">cachyos</span>
                       </div>
                       <div className="text-zinc-700 font-sans leading-none pb-1">---------------------</div>
                       <div>
-                        <span className="text-sky-400">OS</span>: Arch Linux x86_64
+                        <span className="text-sky-400">OS</span>: CachyOS Linux (Arch-based) x86_64
                       </div>
                       <div>
                         <span className="text-sky-400">Host</span>: Next.js Vercel Edge Server
                       </div>
                       <div>
-                        <span className="text-sky-400">Kernel</span>: Linux 6.9-stable-edge
+                        <span className="text-sky-400">Kernel</span>: Linux 6.10-cachyos
                       </div>
                       <div>
                         <span className="text-sky-400">Uptime</span>: 99.9% (Continuous Caching)
@@ -427,10 +427,10 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
                         <span className="text-sky-400">WM</span>: Hyprland (Wayland)
                       </div>
                       <div>
-                        <span className="text-sky-400">CPU</span>: Serverless Edge (Vercel Node)
+                        <span className="text-sky-400">CPU</span>: AMD Ryzen 7 7840HS (8C 16T) @ 5.1GHz
                       </div>
                       <div>
-                        <span className="text-sky-400">Memory</span>: 1024MB / 3072MB (Limit)
+                        <span className="text-sky-400">Memory</span>: 16GB / 32GB
                       </div>
                       
                       {/* Color blocks */}
