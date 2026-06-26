@@ -1,4 +1,5 @@
 import { ProjectsPageContent } from "@/components/public/projects/projects-page-content";
+import { getGithubRepos } from "@/lib/github";
 import type { Metadata } from "next";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir';
@@ -26,10 +27,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projects = await getGithubRepos();
+
   return (
     <div className="pt-24">
-      <ProjectsPageContent />
+      <ProjectsPageContent projects={projects} />
     </div>
   );
 }
