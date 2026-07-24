@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useLanguage } from "./language-provider"
 import { cn } from "@/lib/utils"
@@ -95,6 +96,8 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
   const [typedCommand, setTypedCommand] = useState("")
   const [isTyping, setIsTyping] = useState(false)
   const [showOutput, setShowOutput] = useState(false)
+
+  const [portraitSrc, setPortraitSrc] = useState("/developer-portrait.png")
 
   const commands = {
     status: "systemctl status github-monitor.service",
@@ -469,13 +472,16 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
 
               {/* Image Container */}
               <div className="relative aspect-[3/4] overflow-hidden group">
-                <img
-                  src="/developer-portrait.png"
+                <Image
+                  src={portraitSrc}
                   alt="Developer Portrait"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.2] contrast-[1.1]"
-                  onError={(e) => {
-                    e.currentTarget.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800"
+                  onError={() => {
+                    setPortraitSrc("https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800")
                   }}
+                  priority
                 />
                 
                 {/* Scanline overlay */}
