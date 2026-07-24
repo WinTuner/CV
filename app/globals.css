@@ -509,6 +509,38 @@
 
 /* Print styles for Resume layout */
 @media print {
+  /* Reset all Tailwind color variables to high-contrast print colors */
+  :root,
+  .dark {
+    --background: #ffffff !important;
+    --foreground: #000000 !important;
+    --card: #ffffff !important;
+    --card-foreground: #000000 !important;
+    --popover: #ffffff !important;
+    --popover-foreground: #000000 !important;
+    --primary: #000000 !important;
+    --primary-foreground: #ffffff !important;
+    --secondary: #f3f4f6 !important;
+    --secondary-foreground: #000000 !important;
+    --muted: #f3f4f6 !important;
+    --muted-foreground: #374151 !important;
+    --accent: #f3f4f6 !important;
+    --accent-foreground: #000000 !important;
+    --border: #d1d5db !important;
+    --input: #d1d5db !important;
+  }
+
+  /* Prevent page cutoff/blank pages caused by overflow:hidden wrappers */
+  html,
+  body,
+  main,
+  div,
+  section {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
   body {
     background: #ffffff !important;
     color: #000000 !important;
