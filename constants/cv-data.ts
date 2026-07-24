@@ -311,7 +311,7 @@ export const copy = {
     pageLabel: "Resume / CV",
     name: "Thanatphong Tarin",
     intro:
-      "Entry-level software engineering student with practical administrative experience and a growing focus on web development and IT infrastructure.",
+      "Software engineering student and Co-Founder & CTO of Muanjai. Passionate about building Agentic AI systems, full-stack web applications, and digital industry integrations.",
     sectionProf: "Professional Experience",
     sectionSelf: "Self-Development",
     sectionAwards: "Awards & Achievements",
@@ -339,7 +339,7 @@ export const copy = {
     pageLabel: "เรซูเม่ / ประวัติย่อ",
     name: "ธณัฐพงค์ ทะรินทร์",
     intro:
-      "นักศึกษาสายวิศวกรรมซอฟต์แวร์ระดับเริ่มต้น มีประสบการณ์งานธุรการจริง และมุ่งพัฒนาด้านเว็บแอปพลิเคชันรวมถึงโครงสร้างพื้นฐานไอที",
+      "นักศึกษาสายวิศวกรรมซอฟต์แวร์ ผู้ร่วมก่อตั้งและ CTO ของ Muanjai มุ่งเน้นการพัฒนาระบบ Agentic AI, เว็บแอปพลิเคชันแบบ Full-Stack และการบูรณาการเทคโนโลยีดิจิทัลในภาคอุตสาหกรรม",
     sectionProf: "ประสบการณ์ระดับมืออาชีพ",
     sectionSelf: "การพัฒนาตนเอง",
     sectionAwards: "รางวัลและความสำเร็จ",

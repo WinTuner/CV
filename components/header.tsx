@@ -176,52 +176,54 @@ export function Header() {
         {/* Mobile Menu */}
         <div
           className={cn(
-            " transition-all duration-400 md:hidden bg-background",
-            isMobileMenuOpen ? "max-h-96 opacity-100 pt-4" : "max-h-0 opacity-0",
+            "grid transition-all duration-300 ease-in-out md:hidden bg-background overflow-hidden",
+            isMobileMenuOpen ? "grid-rows-[1fr] opacity-100 pt-4" : "grid-rows-[0fr] opacity-0",
           )}
         >
-          <div className="flex flex-col gap-1 border-t border-border/50 pt-4">
-            {navItems.map((item, index) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-3 rounded-lg px-4 py-3.5 font-mono text-sm uppercase tracking-widest text-muted-foreground transition-all duration-200 active:bg-secondary hover:text-foreground hover:bg-secondary/50"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <span className="text-primary">{">"}</span>
-                {item.label[language]}
-              </Link>
-            ))}
-
-            <div className="mt-4 flex items-center gap-2 border-t border-border/50 pt-4 px-4">
-              <LanguageToggle />
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.label}
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50 text-muted-foreground transition-colors active:bg-secondary hover:border-primary/50 hover:text-primary hover:bg-primary/10"
+          <div className="overflow-hidden">
+            <div className="flex flex-col gap-1 border-t border-border/50 pt-4">
+              {navItems.map((item, index) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 rounded-lg px-4 py-3.5 font-mono text-sm uppercase tracking-widest text-muted-foreground transition-all duration-200 active:bg-secondary hover:text-foreground hover:bg-secondary/50"
+                  style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <link.icon className="h-4 w-4" />
-                </a>
+                  <span className="text-primary">{">"}</span>
+                  {item.label[language]}
+                </Link>
               ))}
-              <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
-                <ThemeChanger />
-              </div>
-              <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
-                <ThemeToggle />
-              </div>
-            </div>
 
-            <div className="mt-3 flex items-center gap-2.5 px-4 py-3 font-mono text-xs text-muted-foreground bg-secondary/30 rounded-lg mx-4 mb-2">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-              </span>
-              <span>{language === "th" ? "สถานะ: กำลังพัฒนา" : "status: building"}</span>
+              <div className="mt-4 flex items-center gap-2 border-t border-border/50 pt-4 px-4">
+                <LanguageToggle />
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50 text-muted-foreground transition-colors active:bg-secondary hover:border-primary/50 hover:text-primary hover:bg-primary/10"
+                  >
+                    <link.icon className="h-4 w-4" />
+                  </a>
+                ))}
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
+                  <ThemeChanger />
+                </div>
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
+                  <ThemeToggle />
+                </div>
+              </div>
+
+              <div className="mt-3 flex items-center gap-2.5 px-4 py-3 font-mono text-xs text-muted-foreground bg-secondary/30 rounded-lg mx-4 mb-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                </span>
+                <span>{language === "th" ? "สถานะ: กำลังพัฒนา" : "status: building"}</span>
+              </div>
             </div>
           </div>
         </div>
