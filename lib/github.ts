@@ -47,6 +47,20 @@ const CACHE_DURATION = 120 * 1000 // 2 minutes in-memory cache
 
 const fallbackProjects: Project[] = [
   {
+    id: 1305752375,
+    title: "AutoOS",
+    description: "AutoOS is a Native AOT WinUI 3 application that automates migrating to a new Windows installation on a separate partition. With minimal user effort, it seamlessly configures a cleaner and faster system optimized for gaming performance and productivity while preserving all system compatibility.",
+    tags: ["C#", "WinUI 3", "Windows"],
+    status: "in-progress",
+    category: "openSource",
+    year: "2026",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/tinodin/AutoOS",
+    featured: true,
+    highlight: true,
+  },
+  {
     id: 100,
     title: "DotDoctor",
     description: "🩺 The ultimate config doctor & dependency checker for Hyprland and modular dotfiles.",
@@ -58,7 +72,7 @@ const fallbackProjects: Project[] = [
     forks: 0,
     url: "https://github.com/WinTuner/DotDoctor",
     featured: true,
-    highlight: true,
+    highlight: false,
   },
   {
     id: 101,
@@ -90,6 +104,16 @@ const fallbackProjects: Project[] = [
 
 const fallbackWipItems: WipItem[] = [
   {
+    id: 1305752375,
+    name: "AutoOS",
+    description: "AutoOS is a Native AOT WinUI 3 application that automates migrating to a new Windows installation on a separate partition. With minimal user effort, it seamlessly configures a cleaner and faster system optimized for gaming performance and productivity while preserving all system compatibility.",
+    progress: 65,
+    lastUpdated: "2026-07-21T07:40:26Z",
+    url: "https://github.com/tinodin/AutoOS",
+    branch: "master",
+    commits: 42,
+  },
+  {
     id: 100,
     name: "DotDoctor",
     description: "🩺 The ultimate config doctor & dependency checker for Hyprland and modular dotfiles.",
@@ -109,22 +133,12 @@ const fallbackWipItems: WipItem[] = [
     branch: "main",
     commits: 100,
   },
-  {
-    id: 102,
-    name: "AEGIS-1-Terminal-Twine-game",
-    description: "An atmospheric, text-based psychological cosmic horror game built with Twine and SugarCube. Manage your O2 supply and Sanity while unravelling the terrifying mystery of Case File 24 aboard the shifting AEGIS-1 station. 🚀🧠🌌",
-    progress: 90,
-    lastUpdated: "2026-06-20T10:00:00Z",
-    url: "https://github.com/WinTuner/AEGIS-1-Terminal-Twine-game",
-    branch: "main",
-    commits: 23,
-  },
 ]
 
 const fallbackActivities: ActivityItem[] = [
+  { type: "commit", project: "AutoOS", message: "Optimize partition migration logic and WinUI 3 layouts", time: "2026-07-21T07:40:26Z" },
   { type: "commit", project: "DotDoctor", message: "Initial public release of dependency monitor", time: "2026-06-26T18:00:00Z" },
   { type: "commit", project: "aim4-mod", message: "Tune micro-simulator vehicle traffic parameters", time: "2026-06-23T12:00:00Z" },
-  { type: "commit", project: "AEGIS-1-Terminal-Twine-game", message: "Implement Sanity mechanic and text transitions", time: "2026-06-20T10:00:00Z" },
 ]
 
 export async function getGithubRepos(): Promise<Project[]> {
@@ -183,7 +197,9 @@ export async function getGithubRepos(): Promise<Project[]> {
       const featured = index === 0 || repo.stargazers_count > 0
 
       let description = repo.description
-      if (repo.name === "DotDoctor") {
+      if (repo.name === "AutoOS") {
+        description = "AutoOS is a Native AOT WinUI 3 application that automates migrating to a new Windows installation on a separate partition. With minimal user effort, it seamlessly configures a cleaner and faster system optimized for gaming performance and productivity while preserving all system compatibility."
+      } else if (repo.name === "DotDoctor") {
         description = "🩺 The ultimate config doctor & dependency checker for Hyprland and modular dotfiles."
       } else if (repo.name === "aim4-mod") {
         description = "A modified version of the Autonomous Intersection Management (AIM4) micro-simulator for autonomous vehicle traffic control."
@@ -218,7 +234,7 @@ export async function getGithubRepos(): Promise<Project[]> {
         year,
         stars: repo.stargazers_count,
         forks: repo.forks_count,
-        url: repo.html_url,
+        url: repo.name === "AutoOS" ? "https://github.com/tinodin/AutoOS" : repo.html_url,
         homepage: repo.homepage || undefined,
         featured,
         highlight,
@@ -272,7 +288,12 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
       let description = repo.description || `Active development on ${repo.name} repository.`
       let branch = repo.default_branch || "main"
 
-      if (repo.name === "DotDoctor") {
+      if (repo.name === "AutoOS") {
+        commits = 42
+        progress = 65
+        description = "AutoOS is a Native AOT WinUI 3 application that automates migrating to a new Windows installation on a separate partition. With minimal user effort, it seamlessly configures a cleaner and faster system optimized for gaming performance and productivity while preserving all system compatibility."
+        branch = "master"
+      } else if (repo.name === "DotDoctor") {
         commits = 34
         progress = 57
         description = "🩺 The ultimate config doctor & dependency checker for Hyprland and modular dotfiles."
@@ -295,7 +316,7 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
         description,
         progress,
         lastUpdated: repo.pushed_at, // ISO timestamp
-        url: repo.html_url,
+        url: repo.name === "AutoOS" ? "https://github.com/tinodin/AutoOS" : repo.html_url,
         branch,
         commits,
       }
