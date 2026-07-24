@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/components/language-provider"
 import "./globals.css"
+import { SpotifyPlayer } from "@/components/spotify-player"
 
 // Configure fonts with proper options
 const geist = Geist({
@@ -87,7 +88,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`${geist.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={true} storageKey="theme-mode">
-          <LanguageProvider>{children}</LanguageProvider>
+          <LanguageProvider>
+            {children}
+            <SpotifyPlayer />
+          </LanguageProvider>
         </ThemeProvider>
         <Analytics />
       </body>

@@ -506,3 +506,133 @@
   background: oklch(from var(--primary) l c h / 0.3);
   color: var(--foreground);
 }
+
+/* Print styles for Resume layout */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+  }
+  
+  header,
+  footer,
+  .print\:hidden,
+  .cursor-glow,
+  .scanlines::before,
+  button,
+  .absolute,
+  .flex.gap-2, /* Hide social buttons */
+  .relative.h-9.w-9 /* Hide social links */ {
+    display: none !important;
+  }
+
+  a {
+    text-decoration: none !important;
+    color: #000000 !important;
+  }
+
+  /* Reset layout constraints for print margins */
+  .mx-auto,
+  main,
+  section,
+  .max-w-5xl,
+  .max-w-4xl {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+  }
+
+  .grid {
+    display: grid !important;
+    grid-template-cols: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .md\:grid-cols-2 {
+    grid-template-cols: 1fr 1fr !important;
+  }
+
+  .space-y-24 > * + * {
+    margin-top: 1.5rem !important;
+  }
+
+  section {
+    page-break-inside: avoid !important;
+    margin-bottom: 2rem !important;
+  }
+
+  h1, h2, h3, h4 {
+    color: #000000 !important;
+    page-break-after: avoid !important;
+    font-weight: bold !important;
+  }
+
+  h1 {
+    font-size: 22pt !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  h2 {
+    font-size: 14pt !important;
+    border-bottom: 1.5px solid #000000 !important;
+    padding-bottom: 0.15rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  h3 {
+    font-size: 11pt !important;
+    margin-bottom: 0.5rem !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    color: #000000 !important;
+  }
+
+  /* Hide certificates, school pictures, and awards image maps */
+  img,
+  .relative.overflow-hidden,
+  .relative.group,
+  .w-full.h-\[180px\],
+  .max-w-\[200px\] {
+    display: none !important;
+  }
+
+  /* Convert glassy web cards into clean bordered print layout */
+  .bg-card\/30,
+  .bg-card\/50,
+  .glass,
+  .rounded-xl {
+    background: transparent !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 0.75rem !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Border overrides */
+  .border-primary\/20,
+  .border-border\/50 {
+    border-color: #cbd5e1 !important;
+  }
+
+  li {
+    page-break-inside: avoid !important;
+  }
+
+  /* Force print margins to be compact */
+  @page {
+    size: A4;
+    margin: 1.2cm 1.2cm 1.2cm 1.2cm;
+  }
+}
