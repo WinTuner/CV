@@ -51,7 +51,7 @@ export function BlogList({ posts, language }: BlogListProps) {
     <div ref={sectionRef} className="space-y-6">
       {posts.map((post, index) => (
         <article
-          key={post.id}
+          key={post.slug}
           className={cn(
             "group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-card/40 glass p-6 sm:p-7 transition-all duration-400 hover:border-primary/40 hover:bg-card/60 active:scale-[0.995] hover-lift opacity-0",
             isVisible && "animate-fade-in-up",
