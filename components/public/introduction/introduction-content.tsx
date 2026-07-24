@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
+import { useSearchParams } from "next/navigation"
 import {
   Briefcase,
   ExternalLink,
@@ -54,6 +55,16 @@ export function IntroductionContent() {
   const { language } = useLanguage()
   const t = copy[language]
   const [activeImage, setActiveImage] = useState<string | null>(null)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get("print") === "true") {
+      const timer = setTimeout(() => {
+        window.print()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [searchParams])
 
   return (
     <div className="pb-20">
@@ -71,13 +82,13 @@ export function IntroductionContent() {
               </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-3">
               <a
                 href="mailto:Thanatphong2719@gmail.com"
                 className="group flex items-center gap-3 rounded-lg border border-border/50 bg-card/50 px-4 py-3 transition-all duration-300 hover:border-primary/50 hover:bg-card"
               >
                 <Mail className="h-4 w-4 text-primary" />
-                <span className="text-sm text-muted-foreground group-hover:text-foreground">
+                <span className="text-sm text-muted-foreground group-hover:text-foreground truncate">
                   Thanatphong2719@gmail.com
                 </span>
               </a>
@@ -85,6 +96,15 @@ export function IntroductionContent() {
                 <Phone className="h-4 w-4 text-primary" />
                 <span className="text-sm text-muted-foreground">+66 91 876 3373</span>
               </div>
+              <button
+                onClick={() => window.print()}
+                className="group flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 transition-all duration-300 hover:border-primary hover:bg-primary/10 print:hidden cursor-pointer"
+              >
+                <Briefcase className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
+                <span className="text-sm text-primary font-semibold truncate">
+                  {language === "th" ? "พิมพ์ / บันทึก PDF" : "Print / Save PDF"}
+                </span>
+              </button>
             </div>
           </div>
         </div>

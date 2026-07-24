@@ -92,12 +92,26 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
   const currentRoles = roles[language]
 
   // Terminal Dashboard State
-  const [activeTab, setActiveTab] = useState<'status' | 'git' | 'neofetch'>('status')
+  const [activeTab, setActiveTab] = useState<'status' | 'git' | 'neofetch' | 'cli'>('status')
   const [typedCommand, setTypedCommand] = useState("")
   const [isTyping, setIsTyping] = useState(false)
   const [showOutput, setShowOutput] = useState(false)
 
   const [portraitSrc, setPortraitSrc] = useState("/developer-portrait.png")
+
+  // Interactive CLI States
+  const [cliInput, setCliInput] = useState("")
+  const [cliHistory, setCliHistory] = useState<Array<{ command: string; output: React.ReactNode }>>([
+    {
+      command: "init-portfolio-cli.sh",
+      output: (
+        <div className="space-y-1">
+          <p className="text-emerald-400 font-bold">--- WIN'S INTERACTIVE PORTFOLIO SHELL v1.0.0 ---</p>
+          <p className="text-muted-foreground text-[10px]">Type <span className="text-primary font-bold">help</span> to view available commands.</p>
+        </div>
+      ),
+    },
+  ])
 
   // Dynamic Real-time States
   const [cpuLoad, setCpuLoad] = useState(24.5)
@@ -202,10 +216,80 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
     }
   }, [recentActivities])
 
+  const handleCliSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const input = cliInput.trim().toLowerCase()
+    if (!input) return
+
+    let output: React.ReactNode = null
+
+    switch (input) {
+      case "help":
+        output = (
+          <div className="space-y-1 text-slate-350 text-[10px]">
+            <p className="text-primary font-bold">Available Commands:</p>
+            <p>  <span className="text-emerald-400 font-bold">about</span>    - Display profile bio summary</p>
+            <p>  <span className="text-emerald-400 font-bold">skills</span>   - List primary tech stack with charts</p>
+            <p>  <span className="text-emerald-400 font-bold">projects</span> - Show links to active GitHub repositories</p>
+            <p>  <span className="text-emerald-400 font-bold">clear</span>    - Clear terminal logs</p>
+            <p>  <span className="text-emerald-400 font-bold">exit</span>     - Exit CLI and return to live status</p>
+          </div>
+        )
+        break
+      case "about":
+        output = (
+          <div className="space-y-1 text-[10px]">
+            <p className="font-bold text-foreground">Thanatphong Tarin (WinTuner)</p>
+            <p className="text-muted-foreground leading-normal">
+              {language === "th"
+                ? "นักศึกษาสายวิศวกรรมซอฟต์แวร์ มหาวิทยาลัยเชียงใหม่ ผู้ร่วมก่อตั้งและ CTO ของ Muanjai เชี่ยวชาญด้าน Agentic AI, เว็บแอปพลิเคชัน และ DevOps"
+                : "Software engineering student at Chiang Mai University and Co-Founder & CTO of Muanjai. Specializing in Agentic AI, full-stack, and DevOps."}
+            </p>
+          </div>
+        )
+        break
+      case "skills":
+        output = (
+          <div className="space-y-0.5 font-mono text-[9.5px]">
+            <p className="text-primary font-bold mb-1">Tech Stack & Proficiency:</p>
+            <p>Next.js   [██████████████░░░░] 75%</p>
+            <p>TypeScript [████████████████░░] 80%</p>
+            <p>Node.js    [██████████████░░░░] 70%</p>
+            <p>Linux/Bash [██████████████████] 90%</p>
+          </div>
+        )
+        break
+      case "projects":
+        output = (
+          <div className="space-y-1 text-[10px]">
+            <p className="text-primary font-bold">Recent Projects:</p>
+            <p>• <a href="https://muanjai-ai.up.railway.app/chat/" target="_blank" rel="noopener noreferrer" className="text-emerald-400 underline hover:text-emerald-300">Muanjai</a> - Agentic AI Travel Assistant</p>
+            <p>• <a href="https://github.com/tinodin/AutoOS" target="_blank" rel="noopener noreferrer" className="text-emerald-400 underline hover:text-emerald-300">AutoOS</a> - Native WinUI 3 Migrator</p>
+            <p>• <a href="https://github.com/WinTuner/DotDoctor" target="_blank" rel="noopener noreferrer" className="text-emerald-400 underline hover:text-emerald-300">DotDoctor</a> - Hyprland Config Checker</p>
+          </div>
+        )
+        break
+      case "clear":
+        setCliHistory([])
+        setCliInput("")
+        return
+      case "exit":
+        setActiveTab("status")
+        setCliInput("")
+        return
+      default:
+        output = <p className="text-rose-400 text-[10px]">Command not found: "{input}". Type 'help' for instructions.</p>
+    }
+
+    setCliHistory((prev) => [...prev, { command: cliInput, output }])
+    setCliInput("")
+  }
+
   const commands = {
     status: "systemctl status github-monitor.service",
     git: "git log -n 3 --oneline",
-    neofetch: "neofetch"
+    neofetch: "neofetch",
+    cli: "init-portfolio-cli.sh"
   }
 
   useEffect(() => {
@@ -372,23 +456,36 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
                   >
                     neofetch
                   </button>
+                  <button 
+                    onClick={() => setActiveTab('cli')}
+                    className={cn(
+                      "px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
+                      activeTab === 'cli' 
+                        ? "bg-zinc-900/80 border-zinc-800 text-primary border-t-primary" 
+                        : "bg-zinc-950/40 border-transparent text-muted-foreground hover:bg-zinc-900/30 hover:text-foreground"
+                    )}
+                  >
+                    portfolio-cli.sh
+                  </button>
                 </div>
               </div>
 
               {/* Terminal Body */}
-              <div className="p-4 font-mono text-[11px] leading-relaxed text-slate-300 h-[205px] overflow-y-auto scrollbar-hide">
+              <div className={cn("p-4 font-mono text-[11px] leading-relaxed text-slate-300 h-[205px] overflow-y-auto scrollbar-hide", activeTab === 'cli' && "flex flex-col")}>
                 {/* Shell Prompt */}
-                <div className="flex items-center gap-1.5 text-muted-foreground/50 mb-3 border-b border-zinc-900 pb-2">
-                  <span className="text-sky-400 font-bold">wintuner</span>
-                  <span>@</span>
-                  <span className="text-purple-400 font-bold">archlinux</span>
-                  <span className="text-foreground/30">in</span>
-                  <span className="text-emerald-400">~</span>
-                  <span className="text-fuchsia-500 font-bold">❯</span>
-                  <span className="text-foreground font-semibold">{typedCommand}</span>
-                  {isTyping && <span className="inline-block w-1.5 h-3.5 bg-primary animate-pulse ml-0.5" />}
-                  {!isTyping && <span className="inline-block w-1.5 h-3.5 bg-zinc-600 animate-pulse ml-0.5" />}
-                </div>
+                {activeTab !== 'cli' && (
+                  <div className="flex items-center gap-1.5 text-muted-foreground/50 mb-3 border-b border-zinc-900 pb-2">
+                    <span className="text-sky-400 font-bold">wintuner</span>
+                    <span>@</span>
+                    <span className="text-purple-400 font-bold">archlinux</span>
+                    <span className="text-foreground/30">in</span>
+                    <span className="text-emerald-400">~</span>
+                    <span className="text-fuchsia-500 font-bold">❯</span>
+                    <span className="text-foreground font-semibold">{typedCommand}</span>
+                    {isTyping && <span className="inline-block w-1.5 h-3.5 bg-primary animate-pulse ml-0.5" />}
+                    {!isTyping && <span className="inline-block w-1.5 h-3.5 bg-zinc-600 animate-pulse ml-0.5" />}
+                  </div>
+                )}
 
                 {/* Tab Output Section */}
                 {activeTab === 'status' && showOutput && (() => {
@@ -564,6 +661,35 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
                         <span className="inline-block w-3.5 h-3 bg-white" />
                       </div>
                     </div>
+                  </div>
+                )}
+
+                {activeTab === 'cli' && showOutput && (
+                  <div className="flex flex-col flex-1 h-full select-text min-h-0">
+                    <div className="flex-1 overflow-y-auto space-y-1.5 scrollbar-hide min-h-0 mb-2 pr-0.5">
+                      {cliHistory.map((item, idx) => (
+                        <div key={idx} className="space-y-1">
+                          <div className="flex items-center gap-1 text-muted-foreground/50">
+                            <span className="text-sky-400">wintuner</span>@<span className="text-purple-400">archlinux</span>
+                            <span className="text-fuchsia-500 font-bold">❯</span>
+                            <span className="text-foreground font-semibold">{item.command}</span>
+                          </div>
+                          <div className="pl-3 text-slate-300 leading-normal">{item.output}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <form onSubmit={handleCliSubmit} className="flex items-center gap-1.5 border-t border-zinc-950 pt-2.5 mt-auto bg-zinc-950/80">
+                      <span className="text-sky-400 font-bold">wintuner</span>@<span className="text-purple-400 font-bold">archlinux</span>
+                      <span className="text-fuchsia-500 font-bold">❯</span>
+                      <input
+                        type="text"
+                        value={cliInput}
+                        onChange={(e) => setCliInput(e.target.value)}
+                        placeholder="type 'help'..."
+                        className="flex-1 bg-transparent border-none outline-none text-foreground p-0 m-0 font-mono text-[11px] focus:ring-0 focus:outline-none"
+                        autoFocus
+                      />
+                    </form>
                   </div>
                 )}
               </div>

@@ -1,5 +1,6 @@
 import { IntroductionContent } from "@/components/public/introduction/introduction-content"
 import type { Metadata } from "next"
+import { Suspense } from "react"
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app'
 
@@ -28,7 +29,13 @@ export const metadata: Metadata = {
 export default function IntroductionPage() {
   return (
     <div className="pt-24">
-      <IntroductionContent />
+      <Suspense fallback={
+        <div className="min-h-[60vh] flex flex-col items-center justify-center font-mono text-xs text-muted-foreground animate-pulse">
+          <span>Loading resume context...</span>
+        </div>
+      }>
+        <IntroductionContent />
+      </Suspense>
     </div>
   )
 }

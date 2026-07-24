@@ -53,7 +53,7 @@ export const professionalExperience = {
         target: "Domestic and foreign tourists in Chiang Mai, and local independent SMEs.",
         problem: "Connecting tourists directly with local SMEs without high platform commissions, while providing a seamless, automated booking experience.",
         learned: "Integrating local LLMs (Pathumma LLM) on supercomputing infra (ThaiSC), designing autonomous conversational booking agents, and building secure real-time PromptPay verification.",
-        url: "https://muanjai-ai.up.railway.app/chat/",
+        url: "https://line.me/R/ti/p/%40636owbhl",
       },
       {
         name: "Municipality Web Application - Phlu Ta Luang",
@@ -123,7 +123,7 @@ export const professionalExperience = {
         target: "นักท่องเที่ยวในจังหวัดเชียงใหม่ และผู้ประกอบการรายย่อย (SMEs) ในท้องถิ่น",
         problem: "การเข้าถึงนักท่องเที่ยวโดยตรงของร้านค้าท้องถิ่นโดยไม่ต้องผ่านแพลตฟอร์มคอมมิชชันสูง และความสะดวกในการจองท่องเที่ยวอัจฉริยะแบบเรียลไทม์",
         learned: "การผสานการใช้งาน Pathumma LLM บนโครงสร้างพื้นฐาน ThaiSC Supercomputer, ออกแบบการจองผ่าน LINE Chatbot และสร้างระบบสแกนชำระเงินและตรวจสอบสลิป PromptPay อัตโนมัติ",
-        url: "https://muanjai-ai.up.railway.app/chat/",
+        url: "https://line.me/R/ti/p/%40636owbhl",
       },
       {
         name: "เว็บแอปพลิเคชันเทศบาล - เทศบาลตำบลพลูตาหลวง",
