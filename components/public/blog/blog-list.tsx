@@ -5,10 +5,11 @@ import { cn } from "@/lib/utils"
 import { ArrowRight, Clock, Calendar } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
+import Image from "next/image"
 import type { BlogLanguage, BlogPost } from "@/lib/blog-data"
 
 interface BlogListProps {
-  posts: Array<BlogPost & { externalUrl?: string; image?: string }>
+  posts: Array<Omit<BlogPost, "content"> & { content?: string; externalUrl?: string; image?: string }>
   language: BlogLanguage
 }
 
@@ -78,9 +79,11 @@ export function BlogList({ posts, language }: BlogListProps) {
           <div className="relative z-0 flex flex-col md:flex-row gap-6">
             {post.image && post.image !== "" && (
               <div className="w-full md:w-[240px] h-[180px] md:h-[160px] shrink-0 overflow-hidden rounded-xl border border-border/50 relative">
-                <img
+                <Image
                   src={post.image}
                   alt={post.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 240px"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>

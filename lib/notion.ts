@@ -1,8 +1,4 @@
 import { Client } from "@notionhq/client"
-import {
-  QueryDatabaseResponse,
-  PageObjectResponse,
-} from "@notionhq/client/build/src/api-endpoints"
 
 // Initialize Notion Client
 const notion = new Client({
@@ -54,7 +50,7 @@ const getPropertyValue = (prop: any): any => {
  */
 export async function getBlogPosts(): Promise<NotionPost[]> {
   try {
-    const response = await notion.databases.query({
+    const response = await (notion.databases as any).query({
       database_id: DATABASE_ID,
       filter: {
         property: "Status",
@@ -70,8 +66,8 @@ export async function getBlogPosts(): Promise<NotionPost[]> {
       ],
     })
 
-    return response.results.map((page) => {
-      const p = page as PageObjectResponse
+    return response.results.map((page: any) => {
+      const p = page as any
       return {
         id: p.id,
         title: getPropertyValue(p.properties.Title),
@@ -93,7 +89,7 @@ export async function getBlogPosts(): Promise<NotionPost[]> {
  */
 export async function getSinglePost(slug: string): Promise<NotionPost | null> {
   try {
-    const response = await notion.databases.query({
+    const response = await (notion.databases as any).query({
       database_id: DATABASE_ID,
       filter: {
         property: "Slug",
@@ -107,7 +103,7 @@ export async function getSinglePost(slug: string): Promise<NotionPost | null> {
       return null
     }
 
-    const p = response.results[0] as PageObjectResponse
+    const p = response.results[0] as any
     
     // ดึงเนื้อหาภายในหน้า (Blocks)
     const content = await getPageContent(p.id)
