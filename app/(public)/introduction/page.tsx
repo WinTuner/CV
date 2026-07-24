@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import {
   Briefcase,
   ExternalLink,
@@ -172,9 +173,11 @@ export default function IntroductionPage() {
                         onClick={() => setActiveImage(cert.image)}
                         className="mt-2 overflow-hidden rounded-lg border border-border/50 max-w-[200px] cursor-zoom-in relative group"
                       >
-                        <img 
+                        <Image 
                           src={cert.image} 
                           alt={cert.name} 
+                          width={200}
+                          height={120}
                           className="w-full h-auto object-cover max-h-[120px] group-hover:scale-105 transition-transform duration-500" 
                         />
                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -227,9 +230,11 @@ export default function IntroductionPage() {
                     onClick={() => setActiveImage(comp.image)}
                     className="overflow-hidden rounded-lg border border-primary/20 cursor-zoom-in relative group w-full h-[180px]"
                   >
-                    <img 
+                    <Image 
                       src={comp.image} 
                       alt={comp.name} 
+                      fill
+                      sizes="(max-width: 768px) 100vw, 500px"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                     />
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -279,9 +284,11 @@ export default function IntroductionPage() {
                         onClick={() => setActiveImage(item.image)}
                         className="mt-4 overflow-hidden rounded-xl border border-border/50 max-w-md cursor-zoom-in relative group"
                       >
-                        <img 
+                        <Image 
                           src={item.image} 
                           alt={item.title} 
+                          width={448}
+                          height={300}
                           className="w-full h-auto object-cover max-h-[300px] group-hover:scale-105 transition-transform duration-500" 
                         />
                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -329,9 +336,11 @@ export default function IntroductionPage() {
                       onClick={() => setActiveImage(item.image)}
                       className="mt-3 overflow-hidden rounded-xl border border-border/50 max-w-sm cursor-zoom-in relative group"
                     >
-                      <img 
+                      <Image 
                         src={item.image} 
                         alt={item.school} 
+                        width={384}
+                        height={200}
                         className="w-full h-auto object-cover max-h-[200px] group-hover:scale-105 transition-transform duration-500" 
                       />
                       <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
