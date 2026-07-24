@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { useLanguage } from "./language-provider"
 import { cn } from "@/lib/utils"
 import type { ActivityItem } from "@/lib/github"
+import { DiscordProfileCard } from "./discord-profile-card"
 
 const roles = {
   en: ["building interfaces", "exploring systems", "breaking barriers", "forging ideas", "crafting code"],
@@ -693,6 +694,11 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* Discord Profile Card */}
+            <div className="w-full max-w-lg">
+              <DiscordProfileCard />
             </div>
           </div>
 
