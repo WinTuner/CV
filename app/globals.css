@@ -522,7 +522,7 @@
   .cursor-glow,
   .scanlines::before,
   button,
-  .absolute,
+  .pointer-events-none, /* Hide background icons and visual assets */
   .flex.gap-2, /* Hide social buttons */
   .relative.h-9.w-9 /* Hide social links */ {
     display: none !important;
