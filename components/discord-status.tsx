@@ -68,14 +68,16 @@ export function DiscordStatus() {
           }, interval)
 
           // Subscribe to user presence
-          socket.send(
-            JSON.stringify({
-              op: 2,
-              d: {
-                subscribe_to_id: DISCORD_ID,
-              },
-            })
-          )
+          if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(
+              JSON.stringify({
+                op: 2,
+                d: {
+                  subscribe_to_id: DISCORD_ID,
+                },
+              })
+            )
+          }
         } else if (payload.op === 0) {
           // Event messages
           if (payload.t === "INIT_STATE" || payload.t === "PRESENCE_UPDATE") {
