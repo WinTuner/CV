@@ -99,6 +99,109 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
 
   const [portraitSrc, setPortraitSrc] = useState("/developer-portrait.png")
 
+  // Dynamic Real-time States
+  const [cpuLoad, setCpuLoad] = useState(24.5)
+  const [ramUsed, setRamUsed] = useState(12.44)
+  const [localTime, setLocalTime] = useState("")
+  const [liveActivities, setLiveActivities] = useState<ActivityItem[]>(recentActivities)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+
+    const fetchLiveActivities = () => {
+      fetch("https://api.github.com/users/WinTuner/events?per_page=10")
+        .then((res) => {
+          if (!res.ok) throw new Error("Status code " + res.status)
+          return res.json()
+        })
+        .then((events) => {
+          if (Array.isArray(events)) {
+            const parsed: ActivityItem[] = []
+            for (const event of events) {
+              if (parsed.length >= 5) break
+              const project = event.repo.name.replace("WinTuner/", "")
+              const time = event.created_at
+
+              if (event.type === "PushEvent") {
+                const commits = event.payload.commits || []
+                if (commits.length > 0) {
+                  parsed.push({
+                    type: "commit",
+                    project,
+                    message: commits[0].message,
+                    time,
+                  })
+                }
+              } else if (event.type === "PullRequestEvent") {
+                const pr = event.payload.pull_request
+                parsed.push({
+                  type: "pr",
+                  project,
+                  message: {
+                    en: `${event.payload.action.toUpperCase()}: ${pr?.title || ""}`,
+                    th: `${event.payload.action === "opened" ? "เปิด" : event.payload.action === "closed" ? "ปิด" : "รวม"} PR: ${pr?.title || ""}`,
+                  },
+                  time,
+                  prAction: event.payload.action as any,
+                  prTitle: pr?.title || "",
+                })
+              } else if (event.type === "CreateEvent" && event.payload.ref_type === "repository") {
+                parsed.push({
+                  type: "create",
+                  project,
+                  message: {
+                    en: `Created repository ${project}`,
+                    th: `สร้างรีโพสิทอรี ${project}`,
+                  },
+                  time,
+                })
+              }
+            }
+            if (parsed.length > 0) {
+              setLiveActivities(parsed)
+            }
+          }
+        })
+        .catch((err) => console.warn("Failed client-side live fetch, using build fallback:", err))
+    }
+
+    fetchLiveActivities()
+    
+    // Periodically fetch live activity every 60 seconds
+    const activityInterval = setInterval(fetchLiveActivities, 60000)
+
+    // CPU and RAM dynamic fluctuation ticker (every 2.5 seconds)
+    const sysInterval = setInterval(() => {
+      setCpuLoad((prev) => {
+        const change = (Math.random() - 0.5) * 6
+        return parseFloat(Math.min(90, Math.max(5, prev + change)).toFixed(1))
+      })
+      setRamUsed((prev) => {
+        const change = (Math.random() - 0.5) * 0.3
+        return parseFloat(Math.min(30.2, Math.max(8.4, prev + change)).toFixed(2))
+      })
+    }, 2500)
+
+    // Thailand local clock ticking
+    const clockInterval = setInterval(() => {
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: "Asia/Bangkok",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }
+      setLocalTime(new Intl.DateTimeFormat("en-US", options).format(new Date()) + " (ICT)")
+    }, 1000)
+
+    return () => {
+      clearInterval(activityInterval)
+      clearInterval(sysInterval)
+      clearInterval(clockInterval)
+    }
+  }, [recentActivities])
+
   const commands = {
     status: "systemctl status github-monitor.service",
     git: "git log -n 3 --oneline",
@@ -289,7 +392,7 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
 
                 {/* Tab Output Section */}
                 {activeTab === 'status' && showOutput && (() => {
-                  const activitiesToUse = recentActivities.length > 0 ? recentActivities : [
+                  const activitiesToUse = liveActivities.length > 0 ? liveActivities : [
                     { type: "commit" as const, project: "ProjectPruta", message: "Refine TypeScript structure", time: new Date().toISOString() },
                     { type: "commit" as const, project: "OOP-Lab-2026", message: "Finalize Java lab submission", time: new Date(Date.now() - 3600000).toISOString() },
                     { type: "commit" as const, project: "aim4-mod", message: "Improve HTML layout and sections", time: new Date(Date.now() - 7200000).toISOString() },
@@ -348,7 +451,7 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
                 })()}
 
                 {activeTab === 'git' && showOutput && (() => {
-                  const activitiesToUse = recentActivities.length > 0 ? recentActivities : [
+                  const activitiesToUse = liveActivities.length > 0 ? liveActivities : [
                     { type: "commit" as const, project: "ProjectPruta", message: "Refine TypeScript structure", time: new Date().toISOString() },
                     { type: "commit" as const, project: "OOP-Lab-2026", message: "Finalize Java lab submission", time: new Date(Date.now() - 3600000).toISOString() },
                     { type: "commit" as const, project: "aim4-mod", message: "Improve HTML layout and sections", time: new Date(Date.now() - 7200000).toISOString() },
@@ -430,10 +533,23 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
                         <span className="text-sky-400">WM</span>: Hyprland (Wayland)
                       </div>
                       <div>
-                        <span className="text-sky-400">CPU</span>: AMD Ryzen 7 7840HS (8C 16T) @ 5.1GHz
+                        <span className="text-sky-400">CPU</span>: AMD Ryzen 7 7840HS (8C 16T) @ 5.1GHz{" "}
+                        <span className="text-emerald-400 font-mono text-[9px] ml-2 animate-pulse bg-emerald-500/10 border border-emerald-500/30 px-1 py-0.5 rounded">
+                          {mounted ? `${cpuLoad}% load` : "Calculating..."}
+                        </span>
                       </div>
                       <div>
-                        <span className="text-sky-400">Memory</span>: 16GB / 32GB
+                        <span className="text-sky-400">Memory</span>:{" "}
+                        {mounted ? `${ramUsed}GB / 32GB` : "16GB / 32GB"}{" "}
+                        <span className="text-muted-foreground/60 text-[9px] ml-1">
+                          {mounted ? `(${Math.round((ramUsed / 32) * 100)}%)` : "(50%)"}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-sky-400">Time (CMU/TH)</span>:{" "}
+                        <span className="text-yellow-400 font-mono font-semibold">
+                          {mounted ? localTime : "Loading... (ICT)"}
+                        </span>
                       </div>
                       
                       {/* Color blocks */}
@@ -514,7 +630,14 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
               <div className="px-4 py-4 grid grid-cols-2 gap-4 border-t border-border/50 bg-background/20">
                 <div className="space-y-1">
                   <p className="font-mono text-[9px] uppercase text-muted-foreground">Coordinates</p>
-                  <p className="font-mono text-xs text-foreground">13.7563° N, 100.5018° E</p>
+                  <a
+                    href="https://www.google.com/maps/place/%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B5%E0%B8%A2%E0%B8%A8%E0%B8%B4%E0%B8%A5%E0%B8%9B%E0%B8%B0+%E0%B8%AA%E0%B8%B7%E0%B9%88%E0%B8%AD+%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%84%E0%B9%82%E0%B8%99%E0%B9%82%E0%B8%A5%E0%B8%A2%E0%B8%B5+%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%80%E0%B8%8A%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88/@18.8004576,98.9481182,17z/data=!3m1!4b1!4m6!3m5!1s0x30da3a6bf542deb3:0x85fbac3033920444!8m2!3d18.8004525!4d98.9506931!16s%2Fg%2F1213vjmq?entry=ttu&g_ep=EgoyMDI2MDcyMS4wIKXMDSoASAFQAw%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block font-mono text-xs text-foreground hover:text-primary hover:underline transition-colors"
+                  >
+                    18.8004° N, 98.9507° E
+                  </a>
                 </div>
                 <div className="space-y-1 text-right">
                   <p className="font-mono text-[9px] uppercase text-muted-foreground">Kernel</p>
