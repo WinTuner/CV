@@ -18,6 +18,12 @@ type NotionListResponse = {
 
 const notionApiVersion = "2022-06-28"
 
+const globalForNotion = globalThis as unknown as {
+  notionPostsCache?: { data: BlogPost[]; timestamp: number }
+}
+
+const CACHE_DURATION = 120 * 1000 // 2 minutes in-memory cache
+
 function hasNotionConfig() {
   return Boolean(process.env.NOTION_API_KEY && process.env.NOTION_DATABASE_ID)
 }
@@ -214,6 +220,11 @@ function mapNotionPageToPost(page: NotionPage): Promise<BlogPost> | BlogPost {
 }
 
 async function getPostsFromNotionOrFallback(): Promise<BlogPost[]> {
+  const now = Date.now()
+  if (globalForNotion.notionPostsCache && (now - globalForNotion.notionPostsCache.timestamp < CACHE_DURATION)) {
+    return globalForNotion.notionPostsCache.data
+  }
+
   const pages = await fetchAllDatabasePages()
 
   if (!pages.length) {
@@ -221,7 +232,10 @@ async function getPostsFromNotionOrFallback(): Promise<BlogPost[]> {
   }
 
   const mappedPosts = await Promise.all(pages.map((page) => mapNotionPageToPost(page)))
-  return mappedPosts.length > 0 ? mappedPosts : blogPosts
+  const result = mappedPosts.length > 0 ? mappedPosts : blogPosts
+
+  globalForNotion.notionPostsCache = { data: result, timestamp: now }
+  return result
 }
 
 export async function getLocalizedBlogPostsFromBackend(language: BlogLanguage): Promise<BlogPost[]> {

@@ -41,24 +41,23 @@ export function CursorGlow() {
       <div
         className="cursor-glow hidden lg:block pointer-events-none"
         style={{
-          left: position.x,
-          top: position.y,
+          transform: `translate(${position.x}px, ${position.y}px) translate(-50%, -50%)`,
           opacity: isVisible ? 1 : 0,
           width: isHovering ? "500px" : "400px",
           height: isHovering ? "500px" : "400px",
           transition: "opacity 0.4s ease, width 0.3s ease, height 0.3s ease",
+          willChange: "transform, opacity, width, height",
         }}
       />
       <div
         className="hidden lg:block pointer-events-none fixed w-8 h-8 rounded-full mix-blend-screen"
         style={{
-          left: position.x,
-          top: position.y,
-          transform: "translate(-50%, -50%)",
+          transform: `translate(${position.x}px, ${position.y}px) translate(-50%, -50%)`,
           background: "radial-gradient(circle, var(--primary) 0%, transparent 70%)",
           opacity: isVisible ? 0.15 : 0,
           transition: "opacity 0.2s ease",
           filter: "blur(4px)",
+          willChange: "transform, opacity",
         }}
       />
     </>
