@@ -1,30 +1,75 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Mail, Rss, Search, Tag, TrendingUp } from "lucide-react"
+import { Mail, Rss, Search, Tag, TrendingUp, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/language-provider"
+import type { BlogPost } from "@/lib/blog-data"
 
-const categories = [
-  { name: "All Posts", count: 12, slug: "all" },
-  { name: "AI & Machine Learning", count: 4, slug: "ai" },
-  { name: "Frontend", count: 3, slug: "frontend" },
-  { name: "Systems & DevOps", count: 3, slug: "systems" },
-  { name: "Design", count: 2, slug: "design" },
-]
+interface BlogSidebarProps {
+  posts: Array<Omit<BlogPost, "content"> & { content?: string; externalUrl?: string; image?: string }>
+}
 
-const popularTags = ["nextjs", "react", "typescript", "llm", "rust", "linux", "python", "tailwind", "wasm", "rag"]
-
-export function BlogSidebar() {
+export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
   const { language } = useLanguage()
-  const [isVisible, setIsVisible] = useState(false)
-  const [activeCategory, setActiveCategory] = useState("all")
-  const [email, setEmail] = useState("")
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const sidebarRef = useRef<HTMLDivElement>(null)
+
+  const [isVisible, setIsVisible] = useState(false)
+  const [email, setEmail] = useState("")
+
+  const activeCategory = searchParams.get("category") || "all"
+  const activeTag = searchParams.get("tag") || ""
+  const searchQuery = searchParams.get("q") || ""
+
+  const [searchValue, setSearchValue] = useState(searchQuery)
+
+  useEffect(() => {
+    setSearchValue(searchQuery)
+  }, [searchQuery])
+
+  // Get dynamic counts for categories
+  const categories = [
+    { name: "All Posts", count: posts.length, slug: "all" },
+    { name: "AI & Machine Learning", count: posts.filter(p => p.category === "ai").length, slug: "ai" },
+    { name: "Frontend", count: posts.filter(p => p.category === "frontend").length, slug: "frontend" },
+    { name: "Systems & DevOps", count: posts.filter(p => p.category === "systems").length, slug: "systems" },
+  ]
+
+  // Add other dynamic categories (like medium, etc.) if any exist and aren't in the list
+  const standardSlugs = ["all", "ai", "frontend", "systems"]
+  posts.forEach(post => {
+    if (post.category && !standardSlugs.includes(post.category)) {
+      const existing = categories.find(c => c.slug === post.category)
+      if (existing) {
+        existing.count++
+      } else {
+        categories.push({
+          name: post.category.charAt(0).toUpperCase() + post.category.slice(1),
+          count: 1,
+          slug: post.category
+        })
+      }
+    }
+  })
+
+  // Compute popular tags dynamically from the actual posts
+  const tagCounts: Record<string, number> = {}
+  posts.forEach(post => {
+    post.tags?.forEach(tag => {
+      const normalized = tag.toLowerCase()
+      tagCounts[normalized] = (tagCounts[normalized] || 0) + 1
+    })
+  })
+  
+  const popularTags = Object.keys(tagCounts)
+    .sort((a, b) => tagCounts[b] - tagCounts[a])
+    .slice(0, 15)
 
   const t = {
     en: {
@@ -66,9 +111,48 @@ export function BlogSidebar() {
     return () => observer.disconnect()
   }, [])
 
+  const handleCategoryClick = (categorySlug: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    if (categorySlug === "all") {
+      params.delete("category")
+    } else {
+      params.set("category", categorySlug)
+    }
+    // Reset tag when category changes to avoid empty intersection results
+    params.delete("tag")
+    router.push(`/blog?${params.toString()}`, { scroll: false })
+  }
+
+  const handleTagClick = (tag: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    if (activeTag.toLowerCase() === tag.toLowerCase()) {
+      params.delete("tag")
+    } else {
+      params.set("tag", tag)
+    }
+    router.push(`/blog?${params.toString()}`, { scroll: false })
+  }
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const params = new URLSearchParams(searchParams.toString())
+    if (searchValue.trim()) {
+      params.set("q", searchValue.trim())
+    } else {
+      params.delete("q")
+    }
+    router.push(`/blog?${params.toString()}`, { scroll: false })
+  }
+
+  const clearSearch = () => {
+    setSearchValue("")
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete("q")
+    router.push(`/blog?${params.toString()}`, { scroll: false })
+  }
+
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle subscription
     setEmail("")
   }
 
@@ -76,14 +160,26 @@ export function BlogSidebar() {
     <aside ref={sidebarRef} className="space-y-8 lg:sticky lg:top-28 lg:self-start">
       {/* Search */}
       <div className={cn("opacity-0", isVisible && "animate-fade-in-up")}>
-        <div className="relative">
+        <form onSubmit={handleSearchSubmit} className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
             placeholder={t.search}
-            className="pl-10 bg-card/40 border-border/50 focus:border-primary/50"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            className="pl-10 pr-10 bg-card/40 border-border/50 focus:border-primary/50"
           />
-        </div>
+          {searchValue && (
+            <button
+              type="button"
+              onClick={clearSearch}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              aria-label="Clear search"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </form>
       </div>
 
       {/* Categories */}
@@ -96,7 +192,7 @@ export function BlogSidebar() {
           {categories.map((category) => (
             <button
               key={category.slug}
-              onClick={() => setActiveCategory(category.slug)}
+              onClick={() => handleCategoryClick(category.slug)}
               className={cn(
                 "flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-300",
                 activeCategory === category.slug
@@ -114,7 +210,7 @@ export function BlogSidebar() {
                         ? "ฟรอนต์เอนด์"
                         : category.slug === "systems"
                           ? "ระบบและ DevOps"
-                          : "ดีไซน์"
+                          : category.name
                   : category.name}
               </span>
               <span className="rounded-md bg-secondary/60 px-2 py-0.5 font-mono text-xs">{category.count}</span>
@@ -130,14 +226,23 @@ export function BlogSidebar() {
           <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">{t.tags}</h3>
         </div>
         <div className="flex flex-wrap gap-2">
-          {popularTags.map((tag) => (
-            <button
-              key={tag}
-              className="rounded-lg border border-border/50 bg-card/40 px-3 py-1.5 font-mono text-xs text-muted-foreground transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:text-primary"
-            >
-              #{tag}
-            </button>
-          ))}
+          {popularTags.map((tag) => {
+            const isActive = activeTag.toLowerCase() === tag.toLowerCase()
+            return (
+              <button
+                key={tag}
+                onClick={() => handleTagClick(tag)}
+                className={cn(
+                  "rounded-lg border px-3 py-1.5 font-mono text-xs transition-all duration-300",
+                  isActive
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border/50 bg-card/40 text-muted-foreground hover:border-primary/50 hover:bg-primary/10 hover:text-primary",
+                )}
+              >
+                #{tag}
+              </button>
+            )
+          })}
         </div>
       </div>
 
