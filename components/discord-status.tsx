@@ -95,7 +95,7 @@ export function DiscordStatus() {
       }
 
       socket.onerror = (error) => {
-        console.error("Lanyard WebSocket error:", error)
+        console.warn("Lanyard WebSocket error:", error)
         socket?.close()
       }
     }
