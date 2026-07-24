@@ -9,6 +9,7 @@ import { ThemeChanger } from "./theme-changer"
 import { LanguageToggle } from "./language-toggle"
 import { useLanguage } from "./language-provider"
 import Link from "next/link"
+import { DiscordStatus } from "./discord-status"
 
 const navItems = [
   { label: { en: "Home", th: "หน้าแรก" }, href: "/" },
@@ -144,6 +145,12 @@ export function Header() {
               <span>{language === "th" ? "สถานะ: กำลังพัฒนา" : "status: building"}</span>
             </div>
 
+            <div className="hidden h-5 w-px bg-border sm:block" />
+            
+            <div className="hidden sm:block">
+              <DiscordStatus />
+            </div>
+
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card/50 md:hidden transition-colors hover:bg-secondary"
@@ -223,6 +230,10 @@ export function Header() {
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
                 </span>
                 <span>{language === "th" ? "สถานะ: กำลังพัฒนา" : "status: building"}</span>
+              </div>
+
+              <div className="px-4 mb-3">
+                <DiscordStatus />
               </div>
             </div>
           </div>
