@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import type { ChangeEvent, SyntheticEvent, ReactNode } from "react";
 
