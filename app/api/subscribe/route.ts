@@ -102,6 +102,6 @@ export async function POST(request: Request) {
 
 	return NextResponse.json(
 		{ error: "Subscription service is not ready yet. Check back soon!" },
-		{ status: 501 },
+		{ status: 501, headers: { "Cache-Control": "no-store" } },
 	)
 }

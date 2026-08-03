@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/site"
 
+export const revalidate = 3600
+
 const baseUrl = SITE_URL;
 
 export const metadata: Metadata = {
