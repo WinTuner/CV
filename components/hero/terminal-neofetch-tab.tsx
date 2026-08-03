@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 interface NeofetchTabProps {
 	mounted: boolean;
@@ -7,7 +7,12 @@ interface NeofetchTabProps {
 	localTime: string;
 }
 
-export function NeofetchTab({ mounted, cpuLoad, ramUsed, localTime }: NeofetchTabProps) {
+export function NeofetchTab({
+	mounted,
+	cpuLoad,
+	ramUsed,
+	localTime,
+}: NeofetchTabProps) {
 	return (
 		<div className="flex flex-col sm:flex-row gap-5 animate-fade-in text-[10px] sm:text-[10.5px]">
 			{/* Arch Logo in ASCII */}
@@ -51,8 +56,8 @@ export function NeofetchTab({ mounted, cpuLoad, ramUsed, localTime }: NeofetchTa
 					<span className="text-sky-400">WM</span>: Hyprland (Wayland)
 				</div>
 				<div>
-					<span className="text-sky-400">CPU</span>: AMD Ryzen 7 7840HS (8C
-					16T) @ 5.1GHz{" "}
+					<span className="text-sky-400">CPU</span>: AMD Ryzen 7 7840HS (8C 16T)
+					@ 5.1GHz{" "}
 					<span className="text-emerald-400 font-mono text-[9px] ml-2 animate-pulse bg-emerald-500/10 border border-emerald-500/30 px-1 py-0.5 rounded">
 						{mounted ? `${cpuLoad}% load` : "Calculating..."}
 					</span>
