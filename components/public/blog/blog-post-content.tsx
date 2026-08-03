@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef, Suspense } from "react"
+import { useEffect, useMemo, useState, useRef, Suspense } from "react"
 import Link from "next/link"
 import { } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -205,7 +205,7 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
                 isVisible && "animate-fade-in-up",
               )}
               style={{ animationDelay: "350ms" }}
-              dangerouslySetInnerHTML={{ __html: parseMarkdown(post.content) }}
+              dangerouslySetInnerHTML={{ __html: useMemo(() => parseMarkdown(post.content), [post.content]) }}
             />
 
             {/* Sticky Share Sidebar */}
