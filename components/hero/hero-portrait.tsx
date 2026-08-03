@@ -71,7 +71,7 @@ export function HeroPortrait() {
           <div className="space-y-1">
             <p className="font-mono text-[9px] uppercase text-muted-foreground">Coordinates</p>
             <a
-              href="https://www.google.com/maps/place/%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B5%E0%B8%A2%E0%B8%A8%E0%B8%B4%E0%B8%A5%E0%B8%9B%E0%B8%B0+%E0%B8%AA%E0%B8%B7%E0%B9%88%E0%B8%AD+%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%84%E0%B9%82%E0%B8%99%E0%B9%82%E0%B8%A5%E0%B8%A2%E0%B8%B5+%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%80%E0%B8%8A%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88/@18.8004576,98.9481182,17z/data=!3m1!4b1!4m6!3m5!1s0x30da3a6bf542deb3:0x85fbac3033920444!8m2!3d18.8004525!4d98.9506931!16s%2Fg%2F1213vjmq?entry=ttu&g_ep=EgoyMDI2MDcyMS4wIKXMDSoASAFQAw%3D%3D"
+              href="https://www.google.com/maps/place/Chiang+Mai+University"
               target="_blank"
               rel="noopener noreferrer"
               className="block font-mono text-xs text-foreground hover:text-primary hover:underline transition-colors"

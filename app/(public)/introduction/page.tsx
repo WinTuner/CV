@@ -1,8 +1,9 @@
 import { IntroductionContent } from "@/components/public/introduction/introduction-content"
 import type { Metadata } from "next"
 import { Suspense } from "react"
+import { SITE_URL } from "@/lib/site"
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app'
+const baseUrl = SITE_URL
 
 export const metadata: Metadata = {
   title: "Resume & Introduction",
