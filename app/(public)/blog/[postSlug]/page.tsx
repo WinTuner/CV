@@ -93,7 +93,7 @@ return (
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <div>
+      <div id="main">
         {/* 2. ครอบด้วย Suspense ตรงนี้ครับ */}
         <Suspense fallback={<div className="min-h-screen animate-pulse bg-muted" />}>
           <BlogPostContent 

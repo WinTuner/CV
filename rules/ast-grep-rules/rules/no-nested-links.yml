@@ -1,0 +1,30 @@
+# Project override of the built-in ast-grep rule.
+# The built-in matched ANY jsx_element containing an anchor descendant
+# (e.g. <div><a>...</a></div>), producing false positives across the site.
+# Corrected to mirror the tree-sitter version: the OUTER element must
+# itself be an anchor for a nested-anchor violation to exist.
+id: no-nested-links
+language: TSX
+message: "Nested <a> tags are invalid HTML and cause unexpected behavior"
+severity: error
+note: |
+  HTML does not allow anchor tags nested inside other anchor tags.
+  This causes rendering issues and unpredictable click behavior.
+rule:
+  all:
+    - kind: jsx_element
+    - has:
+        field: open_tag
+        kind: jsx_opening_element
+        has:
+          field: name
+          regex: "^a$"
+    - has:
+        kind: jsx_element
+        stopBy: end
+        has:
+          field: open_tag
+          kind: jsx_opening_element
+          has:
+            field: name
+            regex: "^a$"

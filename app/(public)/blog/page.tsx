@@ -81,7 +81,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   }
 
   return (
-    <div>
+    <div id="main">
       <BlogHero />
       <section className="px-4 sm:px-6 py-16 sm:py-20 border-t border-border/30">
         <div className="mx-auto max-w-7xl">

@@ -45,6 +45,16 @@ export function ThemeChanger() {
     return () => window.removeEventListener("storage", handleStorageChange)
   }, [])
 
+  // Close dropdown with Escape key
+  useEffect(() => {
+    if (!isOpen) return
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false)
+    }
+    window.addEventListener("keydown", handleEscape)
+    return () => window.removeEventListener("keydown", handleEscape)
+  }, [isOpen])
+
   // Apply theme whenever resolvedTheme changes - always use ref to avoid state reset issues
   useEffect(() => {
     if (!mounted) return

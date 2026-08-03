@@ -1,4 +1,4 @@
-export interface MediumPost {
+interface MediumPost {
   id: number
   slug: string
   title: string
@@ -69,7 +69,7 @@ function slugFromLink(link: string, fallbackId: number) {
   return slug || `medium-post-${fallbackId}`
 }
 
-export async function getMediumPosts(limit = 12): Promise<MediumPost[]> {
+async function getMediumPosts(limit = 12): Promise<MediumPost[]> {
   const response = await fetch(FEED_URL, { next: { revalidate: 900 } })
   if (!response.ok) {
     throw new Error(`Failed to fetch Medium feed: ${response.status}`)

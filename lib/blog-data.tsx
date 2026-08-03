@@ -733,19 +733,6 @@ export function localizePost(post: BlogPost, language: BlogLanguage): BlogPost {
   }
 }
 
-export function getLocalizedBlogPosts(language: BlogLanguage): BlogPost[] {
-  return blogPosts.map((post) => localizePost(post, language))
-}
-
-export function getLocalizedPostBySlug(slug: string, language: BlogLanguage): BlogPost | undefined {
-  const post = getPostBySlug(slug)
-  return post ? localizePost(post, language) : undefined
-}
-
-export function getLocalizedRelatedPosts(currentSlug: string, language: BlogLanguage, limit = 3): BlogPost[] {
-  return getRelatedPosts(currentSlug, limit).map((post) => localizePost(post, language))
-}
-
 export function getPostBySlug(slug: string): BlogPost | undefined {
   return blogPosts.find((post) => post.slug === slug)
 }

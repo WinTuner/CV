@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 export default function IntroductionPage() {
   return (
-    <div className="pt-24">
+    <div id="main" className="pt-24">
       <Suspense fallback={
         <div className="min-h-[60vh] flex flex-col items-center justify-center font-mono text-xs text-muted-foreground animate-pulse">
           <span>Loading resume context...</span>
