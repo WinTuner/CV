@@ -1,65 +1,93 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useRef } from "react"
 
+/**
+ * Cursor glow effect.
+ *
+ * Updates element styles directly via refs inside a single rAF per frame —
+ * React state is not involved, so moving the mouse never re-renders the
+ * component. Respects `prefers-reduced-motion` by keeping the effect
+ * invisible for users who opt out of motion.
+ */
 export function CursorGlow() {
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-  const [isVisible, setIsVisible] = useState(false)
-  const [isHovering, setIsHovering] = useState(false)
+	const glowRef = useRef<HTMLDivElement>(null)
+	const dotRef = useRef<HTMLDivElement>(null)
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    requestAnimationFrame(() => {
-      setPosition({ x: e.clientX, y: e.clientY })
-    })
-    setIsVisible(true)
-  }, [])
+	useEffect(() => {
+		const glow = glowRef.current
+		const dot = dotRef.current
+		if (!glow || !dot) return
 
-  useEffect(() => {
-    const handleMouseLeave = () => {
-      setIsVisible(false)
-    }
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+			// Motion disabled — keep both elements hidden.
+			glow.style.display = "none"
+			dot.style.display = "none"
+			return
+		}
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const isInteractive = target.closest('a, button, [role="button"], input, textarea, select')
-      setIsHovering(!!isInteractive)
-    }
+		let x = -400
+		let y = -400
+		let visible = false
+		let hovering = false
+		let frame = 0
 
-    window.addEventListener("mousemove", handleMouseMove, { passive: true })
-    document.body.addEventListener("mouseleave", handleMouseLeave)
-    document.addEventListener("mouseover", handleMouseOver, { passive: true })
+		const apply = () => {
+			frame = 0
+			const translate = `translate(${x}px, ${y}px) translate(-50%, -50%)`
+			glow.style.transform = translate
+			dot.style.transform = translate
+			glow.style.opacity = visible ? "1" : "0"
+			dot.style.opacity = visible ? "0.15" : "0"
+			glow.style.width = hovering ? "500px" : "400px"
+			glow.style.height = hovering ? "500px" : "400px"
+		}
 
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-      document.body.removeEventListener("mouseleave", handleMouseLeave)
-      document.removeEventListener("mouseover", handleMouseOver)
-    }
-  }, [handleMouseMove])
+		const onMouseMove = (e: MouseEvent) => {
+			x = e.clientX
+			y = e.clientY
+			if (!frame) frame = requestAnimationFrame(apply)
+			if (!visible) {
+				visible = true
+				if (frame) cancelAnimationFrame(frame)
+				frame = requestAnimationFrame(apply)
+			}
+		}
 
-  return (
-    <>
-      <div
-        className="cursor-glow hidden lg:block pointer-events-none"
-        style={{
-          transform: `translate(${position.x}px, ${position.y}px) translate(-50%, -50%)`,
-          opacity: isVisible ? 1 : 0,
-          width: isHovering ? "500px" : "400px",
-          height: isHovering ? "500px" : "400px",
-          transition: "opacity 0.4s ease, width 0.3s ease, height 0.3s ease",
-          willChange: "transform, opacity, width, height",
-        }}
-      />
-      <div
-        className="hidden lg:block pointer-events-none fixed w-8 h-8 rounded-full mix-blend-screen"
-        style={{
-          transform: `translate(${position.x}px, ${position.y}px) translate(-50%, -50%)`,
-          background: "radial-gradient(circle, var(--primary) 0%, transparent 70%)",
-          opacity: isVisible ? 0.15 : 0,
-          transition: "opacity 0.2s ease",
-          filter: "blur(4px)",
-          willChange: "transform, opacity",
-        }}
-      />
-    </>
-  )
+		const onMouseOver = (e: MouseEvent) => {
+			const target = e.target as HTMLElement
+			hovering = !!target.closest(
+				'a, button, [role="button"], input, textarea, select',
+			)
+			if (frame) cancelAnimationFrame(frame)
+			frame = requestAnimationFrame(apply)
+		}
+
+		const onMouseLeave = () => {
+			visible = false
+			if (frame) cancelAnimationFrame(frame)
+			frame = requestAnimationFrame(apply)
+		}
+
+		window.addEventListener("mousemove", onMouseMove, { passive: true })
+		document.addEventListener("mouseover", onMouseOver, { passive: true })
+		document.body.addEventListener("mouseleave", onMouseLeave)
+
+		return () => {
+			if (frame) cancelAnimationFrame(frame)
+			window.removeEventListener("mousemove", onMouseMove)
+			document.removeEventListener("mouseover", onMouseOver)
+			document.body.removeEventListener("mouseleave", onMouseLeave)
+		}
+	}, [])
+
+	return (
+		<>
+			<div ref={glowRef} className="cursor-glow hidden lg:block" />
+			<div
+				ref={dotRef}
+				className="cursor-glow-dot hidden lg:block pointer-events-none fixed w-8 h-8 rounded-full mix-blend-screen"
+			/>
+		</>
+	)
 }
