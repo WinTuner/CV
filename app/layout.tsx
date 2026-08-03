@@ -28,6 +28,11 @@ export const metadata: Metadata = {
 	},
 	description:
 		"A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by Thanatphong Tarin.",
+	alternates: {
+		types: {
+			"application/rss+xml": `${SITE_URL}/feed.xml`,
+		},
+	},
 	keywords: [
 		"Software Engineering",
 		"Web Development",
