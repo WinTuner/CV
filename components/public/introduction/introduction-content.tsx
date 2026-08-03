@@ -66,6 +66,16 @@ export function IntroductionContent() {
     }
   }, [searchParams])
 
+  // Close the lightbox with Escape
+  useEffect(() => {
+    if (!activeImage) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveImage(null)
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [activeImage])
+
   return (
     <div className="pb-20">
       {/* Header Section */}
@@ -408,12 +418,13 @@ export function IntroductionContent() {
             onClick={(e) => e.stopPropagation()}
             className="relative max-w-[95vw] max-h-[95vh] rounded-2xl overflow-hidden border border-border/50 bg-card/20 glass animate-scale-in"
           >
-            <Image 
-              src={activeImage} 
-              alt="Expanded view" 
-              fill
+            <Image
+              src={activeImage}
+              alt="Expanded view"
+              width={1600}
+              height={1067}
               sizes="95vw"
-              className="max-w-full max-h-[90vh] object-contain shadow-2xl" 
+              className="w-auto h-auto max-w-[95vw] max-h-[90vh] object-contain shadow-2xl"
             />
             {/* Close Button */}
             <button
