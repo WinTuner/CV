@@ -87,6 +87,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${geist.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:font-mono focus:text-sm focus:text-primary-foreground focus:shadow-lg"
+        >
+          Skip to content
+        </a>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={true} storageKey="theme-mode">
           <LanguageProvider>
             {children}

@@ -43,6 +43,16 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Close mobile menu with Escape key
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileMenuOpen(false)
+    }
+    window.addEventListener("keydown", handleEscape)
+    return () => window.removeEventListener("keydown", handleEscape)
+  }, [isMobileMenuOpen])
+
   return (
     <header
       className={cn(
