@@ -9,6 +9,10 @@ export function ContactSection() {
     const { language } = useLanguage()
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isSent, setIsSent] = useState(false)
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [message, setMessage] = useState("")
+    const [error, setError] = useState("")
 
     const t = {
         en: {
@@ -37,14 +41,35 @@ export function ContactSection() {
         }
     }[language]
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        if (isSubmitting) return
+
         setIsSubmitting(true)
-        // Simulate API call
-        setTimeout(() => {
+        setError("")
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, message }),
+            })
+            const data = (await response.json().catch(() => ({}))) as {
+                error?: string
+            }
+            if (!response.ok) {
+                setError(data.error ?? "Something went wrong. Please try again.")
+                setIsSubmitting(false)
+                return
+            }
+            setName("")
+            setEmail("")
+            setMessage("")
             setIsSubmitting(false)
             setIsSent(true)
-        }, 2000)
+        } catch {
+            setError("Network error. Please try again.")
+            setIsSubmitting(false)
+        }
     }
 
     return (
@@ -122,6 +147,8 @@ export function ContactSection() {
                                                 <input
                                                     required
                                                     type="text"
+                                                    value={name}
+                                                    onChange={(e) => setName(e.target.value)}
                                                     className="w-full rounded-lg border border-border/50 bg-background/50 px-4 py-3 text-sm transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none"
                                                 />
                                             </div>
@@ -130,6 +157,8 @@ export function ContactSection() {
                                                 <input
                                                     required
                                                     type="email"
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
                                                     className="w-full rounded-lg border border-border/50 bg-background/50 px-4 py-3 text-sm transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none"
                                                 />
                                             </div>
@@ -139,9 +168,15 @@ export function ContactSection() {
                                             <textarea
                                                 required
                                                 rows={4}
+                                                value={message}
+                                                onChange={(e) => setMessage(e.target.value)}
                                                 className="w-full rounded-lg border border-border/50 bg-background/50 px-4 py-3 text-sm transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none resize-none"
                                             />
                                         </div>
+
+                                        {error && (
+                                            <p className="text-xs text-rose-400 leading-snug">{error}</p>
+                                        )}
 
                                         <button
                                             disabled={isSubmitting}
