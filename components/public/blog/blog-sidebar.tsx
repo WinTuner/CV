@@ -133,7 +133,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
     router.push(`/blog?${params.toString()}`, { scroll: false })
   }
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
+  const handleSearchSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
     const params = new URLSearchParams(searchParams.toString())
     if (searchValue.trim()) {
@@ -151,7 +151,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
     router.push(`/blog?${params.toString()}`, { scroll: false })
   }
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = (e: React.SyntheticEvent) => {
     e.preventDefault()
     setEmail("")
   }
