@@ -1,4 +1,5 @@
 import type { BlogPost } from './blog-data'
+import { SITE_URL } from './site'
 
 export function generateBlogPostStructuredData(post: BlogPost, siteUrl: string, pageUrl?: string) {
   const resolvedPageUrl = pageUrl ?? `${siteUrl}/blog/${post.slug}`
@@ -18,7 +19,7 @@ export function generateBlogPostStructuredData(post: BlogPost, siteUrl: string, 
     publisher: {
       '@type': 'Person',
       name: 'Thanatphong Tarin',
-      url: 'https://thanatphong.vercel.app',
+      url: SITE_URL,
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
@@ -59,7 +60,7 @@ export function generatePersonStructuredData() {
     '@type': 'Person',
     name: 'Thanatphong Tarin',
     url: 'https://thanatphong.vercel.app',
-    image: 'https://thanatphong.vercel.app/developer-portrait.png',
+    image: `${SITE_URL}/developer-portrait.png`,
     sameAs: [
       'https://github.com/WinTuner',
       'https://x.com/nut89189886',

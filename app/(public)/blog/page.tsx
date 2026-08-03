@@ -6,8 +6,9 @@ import type { BlogLanguage } from "@/lib/blog-data";
 import { getLocalizedBlogPostsFromBackend } from "@/lib/notion-blog";
 import mediumBlogApi from "@/lib/medium-blog";
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/site"
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app';
+const baseUrl = SITE_URL;
 
 export const metadata: Metadata = {
   title: "Blog",

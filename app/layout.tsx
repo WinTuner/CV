@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/components/language-provider"
 import "./globals.css"
 import { SpotifyPlayer } from "@/components/spotify-player"
+import { SITE_URL } from "@/lib/site"
 
 // Configure fonts with proper options
 const geist = Geist({
@@ -20,7 +21,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "WinTuner — Thanatphong Tarin's Digital Laboratory",
     template: "%s | WinTuner",

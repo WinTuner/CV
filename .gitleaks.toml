@@ -1,0 +1,12 @@
+title = "CV site gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Generated build artifacts, dependencies, and lockfiles"
+paths = [
+  '''^\.next/''',
+  '''^node_modules/''',
+  '''^package-lock\.json$''',
+]

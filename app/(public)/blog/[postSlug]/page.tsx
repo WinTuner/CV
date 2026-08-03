@@ -10,6 +10,7 @@ import {
   getLocalizedRelatedPostsFromBackend,
 } from "@/lib/notion-blog";
 import { Suspense } from "react";
+import { SITE_URL } from "@/lib/site"
 
 interface BlogPostPageProps {
   params: Promise<{ postSlug: string }>;
@@ -38,7 +39,7 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app';
+  const baseUrl = SITE_URL;
   const postUrl = `${baseUrl}/blog/${post.slug}${language === "th" ? "?lang=th" : ""}`;
   const ogImageUrl = `${baseUrl}/og-images/${post.slug}.png`;
 
@@ -82,7 +83,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
     notFound();
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app';
+  const baseUrl = SITE_URL;
   const postUrl = `${baseUrl}/blog/${post.slug}${language === "th" ? "?lang=th" : ""}`;
   const structuredData = generateBlogPostStructuredData(post, baseUrl, postUrl);
   const relatedPosts = await getLocalizedRelatedPostsFromBackend(post.slug, language)

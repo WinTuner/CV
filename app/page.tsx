@@ -8,9 +8,10 @@ import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { CursorGlow } from "@/components/cursor-glow"
 import { generateWebsiteStructuredData, generatePersonStructuredData } from "@/lib/structured-data"
+import { SITE_URL } from "@/lib/site"
 
 export default async function Home() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app'
+  const baseUrl = SITE_URL
   const websiteStructuredData = generateWebsiteStructuredData(baseUrl)
   const personStructuredData = generatePersonStructuredData()
 

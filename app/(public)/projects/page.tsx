@@ -2,8 +2,9 @@ import { ProjectsPageContent } from "@/components/public/projects/projects-page-
 import { getGithubRepos } from "@/lib/github";
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/site"
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thanatphong.vercel.app';
+const baseUrl = SITE_URL;
 
 export const metadata: Metadata = {
   title: "Projects",
