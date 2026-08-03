@@ -489,7 +489,7 @@ Here's what a typical LTI 1.3 launch request looks like:
 POST https://example.tool.com/lti/launch
 Content-Type: application/x-www-form-urlencoded
 
-id_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+id_token=<your-platform-issued-JWT>
 \`\`\`
 
 The JWT payload contains rich contextual information:
