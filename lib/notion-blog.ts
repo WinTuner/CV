@@ -195,7 +195,7 @@ function mapNotionPageToPost(page: NotionPage): Promise<BlogPost> | BlogPost {
   const featured = getBooleanValue(page.properties.Featured) || fallbackPost?.featured || false
   const color = getTextValue(page.properties.Color) || fallbackPost?.color || "from-primary/20 to-accent/20"
   const authorName = getTextValue(page.properties["Author Name"]) || getTextValue(page.properties.Author) || fallbackPost?.author.name || "Thanatphong Tarin"
-  const authorAvatar = getTextValue(page.properties.Avatar) || fallbackPost?.author.avatar || "/developer-portrait.png"
+  const authorAvatar = getTextValue(page.properties.Avatar) || fallbackPost?.author.avatar || "/developer-portrait.webp"
   const authorRole = getTextValue(page.properties.Role) || fallbackPost?.author.role || "Writer"
 
   const contentFromProperty = getTextValue(page.properties.Content)
