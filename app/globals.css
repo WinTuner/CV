@@ -142,8 +142,19 @@
   background: radial-gradient(circle, var(--glow-color) 0%, transparent 65%);
   transform: translate(-50%, -50%);
   z-index: 0;
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.3s ease,
+    height 0.3s ease;
+  will-change: transform, opacity, width, height;
   filter: blur(10px);
+}
+
+.cursor-glow-dot {
+  background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+  transition: opacity 0.2s ease;
+  filter: blur(4px);
+  will-change: transform, opacity;
 }
 
 :root:not(.dark) .cursor-glow {
