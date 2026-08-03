@@ -30,6 +30,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
   const [searchValue, setSearchValue] = useState(searchQuery)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional sync from URL search params
     setSearchValue(searchQuery)
   }, [searchQuery])
 

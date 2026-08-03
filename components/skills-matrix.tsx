@@ -1,14 +1,9 @@
 "use client"
 
 import { useLanguage } from "./language-provider"
-import { cn } from "@/lib/utils"
 import {
-    Code2,
     Terminal,
-    Cpu,
     Globe,
-    Layers,
-    ShieldCheck,
     Database,
     Cloud
 } from "lucide-react"

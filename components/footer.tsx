@@ -1,17 +1,18 @@
-import { Github, Linkedin, Mail, ExternalLink, Heart } from "lucide-react";
+import { Mail, ExternalLink, Heart } from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "./social-icons";
 
 const socialLinks = [
 	{
 		label: "GitHub",
 		href: "https://github.com/WinTuner",
 		handle: "@WinTuner",
-		icon: Github,
+		icon: GithubIcon,
 	},
 	{
 		label: "LinkedIn",
 		href: "https://www.linkedin.com/in/thanatphong-tarin-1b6619385/",
 		handle: "/in/thanatphong-tarin-1b6619385",
-		icon: Linkedin,
+		icon: LinkedinIcon,
 	},
 	{
 		label: "Email",

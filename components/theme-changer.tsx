@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useTheme } from "next-themes";
 import { Palette } from "lucide-react";
+import { useIsMounted } from "@/lib/use-is-mounted";
 import { cn } from "@/lib/utils";
 import { themes, type ThemeColor } from "@/lib/themes";
 
@@ -11,7 +12,7 @@ const STORAGE_KEY = "color-theme";
 export function ThemeChanger() {
 	const [currentTheme, setCurrentTheme] = useState<ThemeColor>("sky");
 	const [isOpen, setIsOpen] = useState(false);
-	const [mounted, setMounted] = useState(false);
+	const mounted = useIsMounted();
 	const { resolvedTheme, systemTheme } = useTheme();
 	const themeInitialized = useRef(false);
 	const currentThemeRef = useRef<ThemeColor>("sky");
@@ -20,12 +21,12 @@ export function ThemeChanger() {
 	useEffect(() => {
 		if (themeInitialized.current) return;
 
-		setMounted(true);
 		// Only read from localStorage after mount to avoid hydration mismatch
 		if (typeof window !== "undefined") {
 			const savedTheme = localStorage.getItem(STORAGE_KEY) as ThemeColor;
 			if (savedTheme && themes[savedTheme]) {
 				currentThemeRef.current = savedTheme;
+				// eslint-disable-next-line react-hooks/set-state-in-effect -- intentional init from localStorage
 				setCurrentTheme(savedTheme);
 			} else {
 				currentThemeRef.current = "sky";
@@ -59,6 +60,23 @@ export function ThemeChanger() {
 		return () => window.removeEventListener("keydown", handleEscape);
 	}, [isOpen]);
 
+
+	const applyTheme = useCallback((themeName: ThemeColor, mode?: string | null) => {
+		const themeConfig = themes[themeName];
+		// Use resolvedTheme or fallback to systemTheme, default to "light"
+		const effectiveMode = mode ?? systemTheme ?? "light";
+		const isDark = effectiveMode === "dark";
+		const colors = isDark ? themeConfig.dark : themeConfig.light;
+
+		// Use double requestAnimationFrame to ensure DOM is updated after dark class change
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				Object.entries(colors).forEach(([key, value]) => {
+					document.documentElement.style.setProperty(`--${key}`, value);
+				});
+			});
+		});
+	}, [systemTheme]);
 	// Apply theme whenever resolvedTheme changes - always use ref to avoid state reset issues
 	useEffect(() => {
 		if (!mounted) return;
@@ -85,24 +103,8 @@ export function ThemeChanger() {
 
 		// Apply theme using the verified value
 		applyTheme(themeToApply, resolvedTheme);
-	}, [mounted, resolvedTheme]); // Only depend on resolvedTheme, not currentTheme
+	}, [mounted, resolvedTheme, applyTheme]); // Only depend on resolvedTheme, not currentTheme
 
-	const applyTheme = (themeName: ThemeColor, mode?: string | null) => {
-		const themeConfig = themes[themeName];
-		// Use resolvedTheme or fallback to systemTheme, default to "light"
-		const effectiveMode = mode ?? systemTheme ?? "light";
-		const isDark = effectiveMode === "dark";
-		const colors = isDark ? themeConfig.dark : themeConfig.light;
-
-		// Use double requestAnimationFrame to ensure DOM is updated after dark class change
-		requestAnimationFrame(() => {
-			requestAnimationFrame(() => {
-				Object.entries(colors).forEach(([key, value]) => {
-					document.documentElement.style.setProperty(`--${key}`, value);
-				});
-			});
-		});
-	};
 
 	const handleThemeChange = (themeName: ThemeColor) => {
 		// Update ref first to ensure persistence

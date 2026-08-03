@@ -1,7 +1,8 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { Github, ExternalLink } from "lucide-react"
+import { ExternalLink } from "lucide-react"
+import { GithubIcon } from "./social-icons"
 import { useLanguage } from "./language-provider"
 
 import type { WipItem } from "@/lib/github"
@@ -75,7 +76,7 @@ export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
                       {item.name}
                     </h4>
                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <Github className="h-3.5 w-3.5 text-muted-foreground" />
+                      <GithubIcon className="h-3.5 w-3.5 text-muted-foreground" />
                       <ExternalLink className="h-3 w-3 text-muted-foreground" />
                     </div>
                   </div>

@@ -1,6 +1,8 @@
 "use client"
 
+import Image from "next/image"
 import { useEffect, useState } from "react"
+import { useIsMounted } from "@/lib/use-is-mounted"
 import { Music, X } from "lucide-react"
 import { DISCORD_ID } from "./discord-status"
 
@@ -18,10 +20,9 @@ interface LanyardSpotify {
 export function SpotifyPlayer() {
   const [data, setData] = useState<LanyardSpotify | null>(null)
   const [isOpen, setIsOpen] = useState(true)
-  const [mounted, setMounted] = useState(false)
+  const mounted = useIsMounted()
 
   useEffect(() => {
-    setMounted(true)
     let socket: WebSocket | null = null
     let heartbeatInterval: NodeJS.Timeout | null = null
 
@@ -91,9 +92,11 @@ export function SpotifyPlayer() {
         <div className="flex items-center gap-3">
           {/* Album Art with spin animation */}
           <div className="relative h-12 w-12 shrink-0 rounded-lg overflow-hidden border border-border shadow-md bg-secondary">
-            <img
+            <Image
               src={album_art_url}
               alt={song}
+              fill
+              sizes="48px"
               className="h-full w-full object-cover animate-[spin_20s_linear_infinite]"
             />
             {/* Overlay icon */}
