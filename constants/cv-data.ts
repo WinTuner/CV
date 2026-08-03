@@ -21,7 +21,7 @@ export const education = {
       school: "Chiang Mai University",
       period: "2025 - Present",
       detail: "CAMT, Bachelor of Science in Digital Industry Integration",
-      gpa: "3.40 ",
+      gpa: "3.40",
       image: "/cmu-education.png",
     },
   ],
@@ -37,7 +37,7 @@ export const education = {
       school: "มหาวิทยาลัยเชียงใหม่",
       period: "2025 - ปัจจุบัน",
       detail: "CAMT, วท.บ. สาขาการบูรณาการอุตสาหกรรมดิจิทัล",
-      gpa: "3.40 ",
+      gpa: "3.40",
       image: "/cmu-education.png",
     },
   ],
@@ -285,7 +285,7 @@ export const experiences = {
   th: [
     {
       title: "Muanjai (ม่วนใจ๋) - ผู้ร่วมก่อตั้งและประธานเจ้าหน้าที่ฝ่ายเทคโนโลยี (Co-Founder & CTO)",
-      period: "มิถุนายน 2026 - ปัจจุบัน",
+      period: "มิถุนายน 2569 - ปัจจุบัน",
       points: [
         "ร่วมก่อตั้งและพัฒนา Muanjai แพลตฟอร์มผู้ช่วยท่องเที่ยวอัจฉริยะเพื่อสนับสนุนธุรกิจ SME ท้องถิ่นผ่าน [LINE OA](https://line.me/R/ti/p/%40636owbhl) และ [Web Client](https://muanjai-ai.up.railway.app/chat/)",
         "ออกแบบโครงสร้างระบบ AI เชื่อมต่อระบบจองอัตโนมัติ โดยผสานการใช้ Pathumma LLM บนโครงสร้างพื้นฐานซูเปอร์คอมพิวเตอร์ ThaiSC",
