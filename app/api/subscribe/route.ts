@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
  * Outbound webhook URLs must be absolute HTTPS URLs. This is both a
@@ -9,10 +9,10 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
  */
 function isSafeWebhookUrl(raw: string): boolean {
 	try {
-		const url = new URL(raw)
-		return url.protocol === "https:" && url.hostname.length > 0
+		const url = new URL(raw);
+		return url.protocol === "https:" && url.hostname.length > 0;
 	} catch {
-		return false
+		return false;
 	}
 }
 
@@ -28,80 +28,80 @@ function isSafeWebhookUrl(raw: string): boolean {
  * Returns 501 when neither backend is configured.
  */
 export async function POST(request: Request) {
-	let body: { email?: string }
+	let body: { email?: string };
 	try {
-		body = await request.json()
+		body = await request.json();
 	} catch {
 		return NextResponse.json(
 			{ error: "Invalid request body" },
 			{ status: 400 },
-		)
+		);
 	}
 
-	const email = body.email?.trim().toLowerCase()
+	const email = body.email?.trim().toLowerCase();
 	if (!email || !EMAIL_RE.test(email)) {
 		return NextResponse.json(
 			{ error: "Please enter a valid email address." },
 			{ status: 400 },
-		)
+		);
 	}
 
 	// Backend 1: generic webhook
-	const webhookUrl = process.env.NEWSLETTER_WEBHOOK_URL
+	const webhookUrl = process.env.NEWSLETTER_WEBHOOK_URL;
 	if (webhookUrl) {
 		if (!isSafeWebhookUrl(webhookUrl)) {
 			return NextResponse.json(
 				{ error: "Subscription service is misconfigured." },
 				{ status: 500 },
-			)
+			);
 		}
 		try {
 			const response = await fetch(webhookUrl, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email }),
-			})
+			});
 			if (!response.ok) {
 				return NextResponse.json(
 					{ error: "Subscription service error. Please try again later." },
 					{ status: 502 },
-				)
+				);
 			}
-			return NextResponse.json({ success: true, email })
+			return NextResponse.json({ success: true, email });
 		} catch {
 			return NextResponse.json(
 				{ error: "Subscription service unreachable. Please try again later." },
 				{ status: 502 },
-			)
+			);
 		}
 	}
 
 	// Backend 2: Upstash Redis (list of subscriber emails)
-	const redisUrl = process.env.UPSTASH_REDIS_REST_URL
-	const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN
+	const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
+	const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 	if (redisUrl && redisToken) {
 		try {
 			const response = await fetch(
 				`${redisUrl}/rpush/newsletter:subscribers/${encodeURIComponent(email)}`,
 				{ headers: { Authorization: `Bearer ${redisToken}` } },
-			)
+			);
 			if (!response.ok) {
 				return NextResponse.json(
 					{ error: "Could not save subscription. Please try again later." },
 					{ status: 502 },
-				)
+				);
 			}
-			return NextResponse.json({ success: true, email })
+			return NextResponse.json({ success: true, email });
 		} catch {
 			return NextResponse.json(
 				{ error: "Subscription service unreachable. Please try again later." },
 				{ status: 502 },
-			)
+			);
 		}
 	}
 
 	return NextResponse.json(
 		{ error: "Subscription service is not ready yet. Check back soon!" },
 		{ status: 501, headers: { "Cache-Control": "no-store" } },
-	)
+	);
 }
