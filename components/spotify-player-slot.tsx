@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import dynamic from "next/dynamic"
+import dynamic from "next/dynamic";
 
 /**
  * Deferred mount for the Spotify player.
@@ -12,8 +12,8 @@ import dynamic from "next/dynamic"
 const SpotifyPlayerLazy = dynamic(
 	() => import("./spotify-player").then((m) => m.SpotifyPlayer),
 	{ ssr: false },
-)
+);
 
 export function SpotifyPlayerSlot() {
-	return <SpotifyPlayerLazy />
+	return <SpotifyPlayerLazy />;
 }
