@@ -12,13 +12,13 @@
  * After running, delete app/favicon.ico (1.7MB) — the layout metadata
  * already declares icon-light/dark + icon.svg, so the .ico is redundant.
  */
-import sharp from "sharp"
-import { statSync, renameSync } from "node:fs"
-import { dirname, resolve } from "node:path"
-import { fileURLToPath } from "node:url"
+import sharp from "sharp";
+import { statSync, renameSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), "..")
-const pub = (p) => resolve(root, "public", p)
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const pub = (p) => resolve(root, "public", p);
 
 const jobs = [
 	{
@@ -63,24 +63,24 @@ const jobs = [
 		resize: { width: 800 },
 		format: { png: { compressionLevel: 9 } },
 	},
-]
+];
 
 for (const job of jobs) {
-	const input = pub(job.in)
-	const output = pub(job.out)
-	const before = statSync(input).size
-	let pipeline = sharp(input)
-	if (job.resize) pipeline = pipeline.resize(job.resize)
-	const formatName = Object.keys(job.format)[0]
-	pipeline = pipeline[formatName](job.format[formatName])
+	const input = pub(job.in);
+	const output = pub(job.out);
+	const before = statSync(input).size;
+	let pipeline = sharp(input);
+	if (job.resize) pipeline = pipeline.resize(job.resize);
+	const formatName = Object.keys(job.format)[0];
+	pipeline = pipeline[formatName](job.format[formatName]);
 	// In-place jobs write to a temp file first, then replace the original.
-	const tmp = output + ".tmp"
-	await pipeline.toFile(tmp)
-	renameSync(tmp, output)
-	const after = statSync(output).size
+	const tmp = output + ".tmp";
+	await pipeline.toFile(tmp);
+	renameSync(tmp, output);
+	const after = statSync(output).size;
 	console.log(
 		`${job.in} -> ${job.out}: ${(before / 1024).toFixed(0)}KB -> ${(after / 1024).toFixed(0)}KB`,
-	)
+	);
 }
 
-console.log("Done. Also run: git rm app/favicon.ico")
+console.log("Done. Also run: git rm app/favicon.ico");
