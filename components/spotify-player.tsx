@@ -1,8 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { cn } from "@/lib/utils"
-import { Music, X, Volume2 } from "lucide-react"
+import { Music, X } from "lucide-react"
 import { DISCORD_ID } from "./discord-status"
 
 interface LanyardSpotify {
