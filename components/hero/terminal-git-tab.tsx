@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import type { ActivityItem } from "@/lib/github";
@@ -36,9 +36,7 @@ export function GitTab({ activities, language }: GitTabProps) {
 					{log.ref && (
 						<span className="text-cyan-400 font-semibold">{log.ref}</span>
 					)}
-					<span className="text-emerald-400 font-medium">
-						[{log.project}]
-					</span>
+					<span className="text-emerald-400 font-medium">[{log.project}]</span>
 					<span className="text-slate-100 flex-1 min-w-[150px] break-words">
 						{truncate(log.message, 50)}
 					</span>

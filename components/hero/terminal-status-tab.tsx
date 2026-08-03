@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import type { ActivityItem } from "@/lib/github";
@@ -28,7 +28,9 @@ export function StatusTab({ activities, language }: StatusTabProps) {
 		<div className="space-y-1.5 animate-fade-in">
 			<div className="flex items-center gap-1">
 				<span className="text-emerald-500 font-bold animate-pulse">●</span>
-				<span className="font-bold text-foreground">github-monitor.service</span>
+				<span className="font-bold text-foreground">
+					github-monitor.service
+				</span>
 				<span className="text-muted-foreground/80">
 					- Live GitHub Activity Monitor
 				</span>
@@ -63,7 +65,9 @@ export function StatusTab({ activities, language }: StatusTabProps) {
 					arch systemd[1]: Started WinTuner&apos;s Live GitHub Monitor.
 				</div>
 				<div className="text-slate-200">
-					<span className="text-zinc-500">{formatJournalDate(latest.time)}</span>{" "}
+					<span className="text-zinc-500">
+						{formatJournalDate(latest.time)}
+					</span>{" "}
 					arch{" "}
 					<span className="text-cyan-400 font-semibold">
 						github-monitor[1337]

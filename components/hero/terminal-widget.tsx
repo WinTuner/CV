@@ -147,7 +147,10 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 					}
 				})
 				.catch((err) =>
-					console.warn("Failed client-side live fetch, using build fallback:", err),
+					console.warn(
+						"Failed client-side live fetch, using build fallback:",
+						err,
+					),
 				);
 		};
 
@@ -164,7 +167,9 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 			});
 			setRamUsed((prev) => {
 				const change = (Math.random() - 0.5) * 0.3;
-				return parseFloat(Math.min(30.2, Math.max(8.4, prev + change)).toFixed(2));
+				return parseFloat(
+					Math.min(30.2, Math.max(8.4, prev + change)).toFixed(2),
+				);
 			});
 		}, 2500);
 
@@ -208,8 +213,8 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 						</p>
 						<p>
 							{" "}
-							<span className="text-emerald-400 font-bold">skills</span> -
-							List primary tech stack with charts
+							<span className="text-emerald-400 font-bold">skills</span> - List
+							primary tech stack with charts
 						</p>
 						<p>
 							{" "}
@@ -218,8 +223,8 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 						</p>
 						<p>
 							{" "}
-							<span className="text-emerald-400 font-bold">clear</span> -
-							Clear terminal logs
+							<span className="text-emerald-400 font-bold">clear</span> - Clear
+							terminal logs
 						</p>
 						<p>
 							{" "}
