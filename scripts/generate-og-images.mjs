@@ -6,11 +6,11 @@
  * Rasterizes an SVG template (site gradient + page title) with sharp —
  * the same sky->purple palette as the site theme.
  */
-import sharp from "sharp"
-import { dirname, resolve } from "node:path"
-import { fileURLToPath } from "node:url"
+import sharp from "sharp";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), "..")
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 const pages = [
 	{
@@ -28,12 +28,13 @@ const pages = [
 		kicker: "WinTuner · Digital Laboratory",
 		title: "Blog — Technical Articles",
 	},
-]
+];
 
 function svg(kicker, title) {
-	const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-	kicker = esc(kicker)
-	title = esc(title)
+	const esc = (s) =>
+		s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	kicker = esc(kicker);
+	title = esc(title);
 	return `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
@@ -48,13 +49,13 @@ function svg(kicker, title) {
   <text x="120" y="200" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="28" letter-spacing="4" fill="#7dd3fc">${kicker}</text>
   <text x="120" y="340" font-family="system-ui, sans-serif" font-size="64" font-weight="bold" fill="#ffffff">${title}</text>
   <text x="120" y="480" font-family="ui-monospace, monospace" font-size="24" fill="#e2e8f0">&gt; thanatphong.vercel.app</text>
-</svg>`
+</svg>`;
 }
 
 for (const page of pages) {
 	await sharp(Buffer.from(svg(page.kicker, page.title)))
 		.resize(1200, 630)
 		.png({ compressionLevel: 9 })
-		.toFile(resolve(root, "public", page.file))
-	console.log(`generated public/${page.file}`)
+		.toFile(resolve(root, "public", page.file));
+	console.log(`generated public/${page.file}`);
 }
