@@ -1,18 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useLanguage } from "../language-provider";
 import { useIsMounted } from "@/lib/use-is-mounted";
 import { cn } from "@/lib/utils";
 import type { ActivityItem } from "@/lib/github";
-import {
-	formatJournalDate,
-	formatRelativeTime,
-	getLogType,
-	getMessageText,
-	truncate,
-} from "@/lib/hero-utils";
+import { StatusTab } from "./terminal-status-tab";
+import { GitTab } from "./terminal-git-tab";
+import { NeofetchTab } from "./terminal-neofetch-tab";
+import { CliTab } from "./terminal-cli-tab";
 
 const FALLBACK_ACTIVITIES: ActivityItem[] = [
 	{
@@ -47,6 +43,13 @@ type TerminalTab = "status" | "git" | "neofetch" | "cli";
 interface TerminalWidgetProps {
 	recentActivities?: ActivityItem[];
 }
+
+const TABS: Array<{ id: TerminalTab; label: string }> = [
+	{ id: "status", label: "status.service" },
+	{ id: "git", label: "git-log.sh" },
+	{ id: "neofetch", label: "neofetch" },
+	{ id: "cli", label: "portfolio-cli.sh" },
+];
 
 export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 	const { language } = useLanguage();
@@ -86,7 +89,6 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 	const mounted = useIsMounted();
 
 	useEffect(() => {
-
 		const fetchLiveActivities = () => {
 			fetch("https://api.github.com/users/WinTuner/events?per_page=10")
 				.then((res) => {
@@ -145,10 +147,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 					}
 				})
 				.catch((err) =>
-					console.warn(
-						"Failed client-side live fetch, using build fallback:",
-						err,
-					),
+					console.warn("Failed client-side live fetch, using build fallback:", err),
 				);
 		};
 
@@ -165,9 +164,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 			});
 			setRamUsed((prev) => {
 				const change = (Math.random() - 0.5) * 0.3;
-				return parseFloat(
-					Math.min(30.2, Math.max(8.4, prev + change)).toFixed(2),
-				);
+				return parseFloat(Math.min(30.2, Math.max(8.4, prev + change)).toFixed(2));
 			});
 		}, 2500);
 
@@ -211,8 +208,8 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 						</p>
 						<p>
 							{" "}
-							<span className="text-emerald-400 font-bold">skills</span> - List
-							primary tech stack with charts
+							<span className="text-emerald-400 font-bold">skills</span> -
+							List primary tech stack with charts
 						</p>
 						<p>
 							{" "}
@@ -221,8 +218,8 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 						</p>
 						<p>
 							{" "}
-							<span className="text-emerald-400 font-bold">clear</span> - Clear
-							terminal logs
+							<span className="text-emerald-400 font-bold">clear</span> -
+							Clear terminal logs
 						</p>
 						<p>
 							{" "}
@@ -313,7 +310,8 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 			default:
 				output = (
 					<p className="text-rose-400 text-[10px]">
-						Command not found: &quot;{input}&quot;. Type &apos;help&apos; for instructions.
+						Command not found: &quot;{input}&quot;. Type &apos;help&apos; for
+						instructions.
 					</p>
 				);
 		}
@@ -344,6 +342,9 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 		return () => clearInterval(interval);
 	}, [activeTab]);
 
+	const activitiesToUse =
+		liveActivities.length > 0 ? liveActivities : FALLBACK_ACTIVITIES;
+
 	return (
 		<div className="w-full max-w-lg overflow-hidden rounded-xl border border-border bg-zinc-950/60 backdrop-blur-md shadow-2xl hover:border-primary/30 transition-all duration-300 animate-fade-in-up stagger-4">
 			{/* Terminal Window Header */}
@@ -357,54 +358,21 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 
 				{/* Custom Linux Styled Tabs */}
 				<div className="flex items-end h-full gap-0.5 font-mono text-[10px]">
-					<button
-						onClick={() => setActiveTab("status")}
-						aria-pressed={activeTab === "status"}
-						className={cn(
-							"px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
-							activeTab === "status"
-								? "bg-zinc-900/80 border-zinc-800 text-primary border-t-primary"
-								: "bg-zinc-950/40 border-transparent text-muted-foreground hover:bg-zinc-900/30 hover:text-foreground",
-						)}
-					>
-						status.service
-					</button>
-					<button
-						onClick={() => setActiveTab("git")}
-						aria-pressed={activeTab === "git"}
-						className={cn(
-							"px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
-							activeTab === "git"
-								? "bg-zinc-900/80 border-zinc-800 text-primary border-t-primary"
-								: "bg-zinc-950/40 border-transparent text-muted-foreground hover:bg-zinc-900/30 hover:text-foreground",
-						)}
-					>
-						git-log.sh
-					</button>
-					<button
-						onClick={() => setActiveTab("neofetch")}
-						aria-pressed={activeTab === "neofetch"}
-						className={cn(
-							"px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
-							activeTab === "neofetch"
-								? "bg-zinc-900/80 border-zinc-800 text-primary border-t-primary"
-								: "bg-zinc-950/40 border-transparent text-muted-foreground hover:bg-zinc-900/30 hover:text-foreground",
-						)}
-					>
-						neofetch
-					</button>
-					<button
-						onClick={() => setActiveTab("cli")}
-						aria-pressed={activeTab === "cli"}
-						className={cn(
-							"px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
-							activeTab === "cli"
-								? "bg-zinc-900/80 border-zinc-800 text-primary border-t-primary"
-								: "bg-zinc-950/40 border-transparent text-muted-foreground hover:bg-zinc-900/30 hover:text-foreground",
-						)}
-					>
-						portfolio-cli.sh
-					</button>
+					{TABS.map((tab) => (
+						<button
+							key={tab.id}
+							onClick={() => setActiveTab(tab.id)}
+							aria-pressed={activeTab === tab.id}
+							className={cn(
+								"px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
+								activeTab === tab.id
+									? "bg-zinc-900/80 border-zinc-800 text-primary border-t-primary"
+									: "bg-zinc-950/40 border-transparent text-muted-foreground hover:bg-zinc-900/30 hover:text-foreground",
+							)}
+						>
+							{tab.label}
+						</button>
+					))}
 				</div>
 			</div>
 
@@ -437,286 +405,30 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 				)}
 
 				{/* Tab Output Section */}
-				{activeTab === "status" &&
-					showOutput &&
-					(() => {
-						const activitiesToUse =
-							liveActivities.length > 0 ? liveActivities : FALLBACK_ACTIVITIES;
-						const latest = activitiesToUse[0];
-						const latestMsg = getMessageText(latest.message, language);
-						const relativeTime = formatRelativeTime(latest.time, language);
-						const systemdTime = new Date(latest.time)
-							.toUTCString()
-							.replace("GMT", "UTC");
-						const logType = getLogType(latest.type);
-						const prActionText = latest.prAction
-							? ` [${latest.prAction.toUpperCase()}]`
-							: "";
+				{activeTab === "status" && showOutput && (
+					<StatusTab activities={activitiesToUse} language={language} />
+				)}
 
-						return (
-							<div className="space-y-1.5 animate-fade-in">
-								<div className="flex items-center gap-1">
-									<span className="text-emerald-500 font-bold animate-pulse">
-										●
-									</span>
-									<span className="font-bold text-foreground">
-										github-monitor.service
-									</span>
-									<span className="text-muted-foreground/80">
-										- Live GitHub Activity Monitor
-									</span>
-								</div>
-								<div className="pl-3 text-muted-foreground/90">
-									Loaded: <span className="text-emerald-400">loaded</span>{" "}
-									(/etc/systemd/system/github-monitor.service; enabled)
-								</div>
-								<div className="pl-3 text-muted-foreground/90">
-									Active:{" "}
-									<span className="text-emerald-400 font-bold">
-										active (running)
-									</span>{" "}
-									since {systemdTime}
-								</div>
-								<div className="pl-3 text-muted-foreground/90">
-									Status:{" "}
-									<span className="text-sky-300">
-										&quot;Synced with GitHub API (revalidated cache)&quot;
-									</span>
-								</div>
-								<div className="pl-3 text-muted-foreground/90 mb-3">
-									Main PID: 1337 (node-server)
-								</div>
-
-								<div className="border-t border-zinc-900 my-2 pt-2 text-[9px] text-muted-foreground/50 uppercase tracking-wider font-bold">
-									Journalctl Logs:
-								</div>
-								<div className="space-y-1 text-[10.5px]">
-									<div className="text-muted-foreground/75">
-										<span className="text-zinc-500">
-											{formatJournalDate(latest.time)}
-										</span>{" "}
-										arch systemd[1]: Started WinTuner&apos;s Live GitHub Monitor.
-									</div>
-									<div className="text-slate-200">
-										<span className="text-zinc-500">
-											{formatJournalDate(latest.time)}
-										</span>{" "}
-										arch{" "}
-										<span className="text-cyan-400 font-semibold">
-											github-monitor[1337]
-										</span>
-										:{" "}
-										<span className="text-emerald-400 font-bold">
-											[{logType}
-											{prActionText}]
-										</span>{" "}
-										{latest.project} ❯ &quot;{latestMsg}&quot;{" "}
-										<span className="text-muted-foreground text-[9px] font-normal font-sans ml-1">
-											({relativeTime})
-										</span>
-									</div>
-								</div>
-
-								<div className="pt-3 flex items-center gap-1.5 border-t border-zinc-900/60 mt-3">
-									<span className="text-fuchsia-500 font-bold">❯</span>
-									<Link
-										href="/workbench"
-										className="text-primary hover:underline font-bold flex items-center gap-1 group/link text-[10px]"
-									>
-										./view-workbench.sh
-										<span className="text-muted-foreground text-[9px] font-normal group-hover/link:translate-x-1 transition-transform">
-											→
-										</span>
-									</Link>
-								</div>
-							</div>
-						);
-					})()}
-
-				{activeTab === "git" &&
-					showOutput &&
-					(() => {
-						const activitiesToUse =
-							liveActivities.length > 0 ? liveActivities : FALLBACK_ACTIVITIES;
-						const gitLogs = activitiesToUse.slice(0, 3).map((act, index) => {
-							const hashVal = (act.project + act.time + index)
-								.split("")
-								.reduce((acc, char) => acc + char.charCodeAt(0), 0);
-							const hexHash = (hashVal * 9876543).toString(16).substring(0, 7);
-							const msg = getMessageText(act.message, language);
-							const relTime = formatRelativeTime(act.time, language);
-							const refText = index === 0 ? " (HEAD -> main, origin/main)" : "";
-							return {
-								hash: hexHash,
-								ref: refText,
-								project: act.project,
-								message: msg,
-								time: relTime,
-							};
-						});
-
-						return (
-							<div className="space-y-1.5 animate-fade-in text-[10.5px]">
-								{gitLogs.map((log, index) => (
-									<div
-										key={index}
-										className="flex flex-wrap items-start gap-1 font-mono"
-									>
-										<span className="text-zinc-600 font-bold">*</span>
-										<span className="text-amber-400 font-semibold">
-											{log.hash}
-										</span>
-										{log.ref && (
-											<span className="text-cyan-400 font-semibold">
-												{log.ref}
-											</span>
-										)}
-										<span className="text-emerald-400 font-medium">
-											[{log.project}]
-										</span>
-										<span className="text-slate-100 flex-1 min-w-[150px] break-words">
-											{truncate(log.message, 50)}
-										</span>
-										<span className="text-zinc-500 font-normal font-sans ml-auto text-[9px]">
-											{log.time}
-										</span>
-										<span className="text-sky-400 font-semibold text-[9px]">
-											&lt;WinTuner&gt;
-										</span>
-									</div>
-								))}
-
-								<div className="pt-3 flex items-center gap-1.5 border-t border-zinc-900/60 mt-4">
-									<span className="text-fuchsia-500 font-bold">❯</span>
-									<Link
-										href="/workbench"
-										className="text-primary hover:underline font-bold flex items-center gap-1 group/link text-[10px]"
-									>
-										git show --workbench
-										<span className="text-muted-foreground text-[9px] font-normal group-hover/link:translate-x-1 transition-transform">
-											→
-										</span>
-									</Link>
-								</div>
-							</div>
-						);
-					})()}
+				{activeTab === "git" && showOutput && (
+					<GitTab activities={activitiesToUse} language={language} />
+				)}
 
 				{activeTab === "neofetch" && showOutput && (
-					<div className="flex flex-col sm:flex-row gap-5 animate-fade-in text-[10px] sm:text-[10.5px]">
-						{/* Arch Logo in ASCII */}
-						<pre className="text-cyan-400 leading-none select-none font-bold font-mono">
-							{`      /\\
-     /  \\
-    /\\   \\
-   /  __  \\
-  /  (  )  \\
- /  .-'\`'-. \\
-/___(____)___\\`}
-						</pre>
-
-						{/* Spec list */}
-						<div className="space-y-0.5 text-slate-300 flex-1">
-							<div>
-								<span className="text-[#a78bfa] font-bold">wintuner</span>@
-								<span className="text-cyan-400 font-bold">cachyos</span>
-							</div>
-							<div className="text-zinc-700 font-sans leading-none pb-1">
-								---------------------
-							</div>
-							<div>
-								<span className="text-sky-400">OS</span>: CachyOS Linux
-								(Arch-based) x86_64
-							</div>
-							<div>
-								<span className="text-sky-400">Host</span>: Next.js Vercel Edge
-								Server
-							</div>
-							<div>
-								<span className="text-sky-400">Kernel</span>: Linux 6.10-cachyos
-							</div>
-							<div>
-								<span className="text-sky-400">Uptime</span>: 99.9% (Continuous
-								Caching)
-							</div>
-							<div>
-								<span className="text-sky-400">Shell</span>: zsh 5.9
-							</div>
-							<div>
-								<span className="text-sky-400">WM</span>: Hyprland (Wayland)
-							</div>
-							<div>
-								<span className="text-sky-400">CPU</span>: AMD Ryzen 7 7840HS
-								(8C 16T) @ 5.1GHz{" "}
-								<span className="text-emerald-400 font-mono text-[9px] ml-2 animate-pulse bg-emerald-500/10 border border-emerald-500/30 px-1 py-0.5 rounded">
-									{mounted ? `${cpuLoad}% load` : "Calculating..."}
-								</span>
-							</div>
-							<div>
-								<span className="text-sky-400">Memory</span>:{" "}
-								{mounted ? `${ramUsed}GB / 32GB` : "16GB / 32GB"}{" "}
-								<span className="text-muted-foreground/60 text-[9px] ml-1">
-									{mounted ? `(${Math.round((ramUsed / 32) * 100)}%)` : "(50%)"}
-								</span>
-							</div>
-							<div>
-								<span className="text-sky-400">Time (CMU/TH)</span>:{" "}
-								<span className="text-yellow-400 font-mono font-semibold">
-									{mounted ? localTime : "Loading... (ICT)"}
-								</span>
-							</div>
-
-							{/* Color blocks */}
-							<div className="flex gap-1 pt-2">
-								<span className="inline-block w-3.5 h-3 bg-black border border-zinc-800" />
-								<span className="inline-block w-3.5 h-3 bg-red-500" />
-								<span className="inline-block w-3.5 h-3 bg-green-500" />
-								<span className="inline-block w-3.5 h-3 bg-yellow-500" />
-								<span className="inline-block w-3.5 h-3 bg-blue-500" />
-								<span className="inline-block w-3.5 h-3 bg-fuchsia-500" />
-								<span className="inline-block w-3.5 h-3 bg-cyan-500" />
-								<span className="inline-block w-3.5 h-3 bg-white" />
-							</div>
-						</div>
-					</div>
+					<NeofetchTab
+						mounted={mounted}
+						cpuLoad={cpuLoad}
+						ramUsed={ramUsed}
+						localTime={localTime}
+					/>
 				)}
 
 				{activeTab === "cli" && showOutput && (
-					<div className="flex flex-col flex-1 h-full select-text min-h-0">
-						<div className="flex-1 overflow-y-auto space-y-1.5 scrollbar-hide min-h-0 mb-2 pr-0.5">
-							{cliHistory.map((item, idx) => (
-								<div key={idx} className="space-y-1">
-									<div className="flex items-center gap-1 text-muted-foreground/50">
-										<span className="text-sky-400">wintuner</span>@
-										<span className="text-purple-400">archlinux</span>
-										<span className="text-fuchsia-500 font-bold">❯</span>
-										<span className="text-foreground font-semibold">
-											{item.command}
-										</span>
-									</div>
-									<div className="pl-3 text-slate-300 leading-normal">
-										{item.output}
-									</div>
-								</div>
-							))}
-						</div>
-						<form
-							onSubmit={handleCliSubmit}
-							className="flex items-center gap-1.5 border-t border-zinc-950 pt-2.5 mt-auto bg-zinc-950/80"
-						>
-							<span className="text-sky-400 font-bold">wintuner</span>@
-							<span className="text-purple-400 font-bold">archlinux</span>
-							<span className="text-fuchsia-500 font-bold">❯</span>
-							<input
-								type="text"
-								value={cliInput}
-								onChange={(e) => setCliInput(e.target.value)}
-								placeholder="type 'help'..."
-								className="flex-1 bg-transparent border-none outline-none text-foreground p-0 m-0 font-mono text-[11px] focus:ring-0 focus:outline-none"
-								autoFocus
-							/>
-						</form>
-					</div>
+					<CliTab
+						history={cliHistory}
+						input={cliInput}
+						onInput={(e) => setCliInput(e.target.value)}
+						onSubmit={handleCliSubmit}
+					/>
 				)}
 			</div>
 		</div>
