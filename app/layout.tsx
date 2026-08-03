@@ -5,7 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/components/language-provider";
 import "./globals.css";
-import { SpotifyPlayer } from "@/components/spotify-player";
+import { SpotifyPlayerSlot } from "@/components/spotify-player-slot";
 import { SITE_URL } from "@/lib/site";
 
 // Configure fonts with proper options
@@ -122,7 +122,7 @@ export default function RootLayout({
 				>
 					<LanguageProvider>
 						{children}
-						<SpotifyPlayer />
+						<SpotifyPlayerSlot />
 					</LanguageProvider>
 				</ThemeProvider>
 				<Analytics />
