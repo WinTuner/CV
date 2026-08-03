@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { cn } from "@/lib/utils"
-import { Github, Star, GitFork, ExternalLink, Sparkles, Rocket, Trophy, BookOpen, Code2, Users } from "lucide-react"
+import { Github, Star, GitFork, Sparkles, Rocket, Trophy, BookOpen, Code2, Users } from "lucide-react"
 import { useLanguage } from "./language-provider"
 
 import type { Project } from "@/lib/github"
