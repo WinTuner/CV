@@ -40,13 +40,19 @@ interface LanyardPresence {
 }
 
 export function DiscordProfileCard() {
-  const [data, setData] = useState<LanyardPresence | null>(null)
+  const [socketData, setSocketData] = useState<LanyardPresence | null>(null)
+  const [loading, setLoading] = useState(true)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
     let socket: WebSocket | null = null
     let heartbeatInterval: NodeJS.Timeout | null = null
+
+    // Safe timeout to stop loading and fallback if connection takes too long
+    const connectionTimeout = setTimeout(() => {
+      setLoading(false)
+    }, 3000)
 
     const connectWebSocket = () => {
       socket = new WebSocket("wss://api.lanyard.rest/socket")
@@ -72,7 +78,9 @@ export function DiscordProfileCard() {
           }
         } else if (payload.op === 0) {
           if (payload.t === "INIT_STATE" || payload.t === "PRESENCE_UPDATE") {
-            setData(payload.d)
+            setSocketData(payload.d)
+            setLoading(false)
+            clearTimeout(connectionTimeout)
           }
         }
       }
@@ -85,18 +93,20 @@ export function DiscordProfileCard() {
       socket.onerror = (error) => {
         console.warn("Lanyard profile WebSocket error:", error)
         socket?.close()
+        setLoading(false)
       }
     }
 
     connectWebSocket()
 
     return () => {
+      clearTimeout(connectionTimeout)
       if (heartbeatInterval) clearInterval(heartbeatInterval)
       if (socket) socket.close()
     }
   }, [])
 
-  if (!mounted || !data) {
+  if (!mounted || loading) {
     return (
       <div className="w-full max-w-lg rounded-xl border border-border/50 bg-zinc-950/20 glass p-5 flex items-center justify-center h-48 font-mono text-xs text-muted-foreground animate-pulse">
         <span>loading Discord profile presence...</span>
@@ -118,11 +128,24 @@ export function DiscordProfileCard() {
     offline: "Offline",
   }
 
+  const presence: LanyardPresence = socketData && socketData.discord_user ? socketData : {
+    discord_status: "offline",
+    discord_user: {
+      username: "wintuner",
+      global_name: "Thanatphong Tarin",
+      avatar: "",
+      id: DISCORD_ID,
+    },
+    activities: [],
+    listening_to_spotify: false,
+  }
+
+  const data = presence
   const status = data.discord_status
   const colorClass = statusColors[status] || "bg-zinc-500"
   
   // Find current active game/coding activity (excluding Spotify)
-  const activeActivity = data.activities.find(act => act.type !== 2) // type 2 is Spotify
+  const activeActivity = data.activities?.find(act => act.type !== 2) // type 2 is Spotify
   
   return (
     <div className="w-full max-w-lg overflow-hidden rounded-xl border border-border bg-zinc-950/40 backdrop-blur-md shadow-xl hover:border-primary/20 transition-all duration-300 animate-fade-in-up stagger-5">

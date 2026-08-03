@@ -530,15 +530,22 @@
     --input: #d1d5db !important;
   }
 
-  /* Prevent page cutoff/blank pages caused by overflow:hidden wrappers */
+  /* Prevent page cutoff/blank pages caused by overflow:hidden wrappers on main containers */
   html,
   body,
   main,
-  div,
-  section {
+  .relative.z-10 {
     overflow: visible !important;
     height: auto !important;
     min-height: 0 !important;
+    position: static !important;
+  }
+
+  /* Universal high-contrast text color override */
+  *, *::before, *::after {
+    color: #000000 !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
   }
 
   body {
@@ -645,7 +652,7 @@
   .glass,
   .rounded-xl {
     background: transparent !important;
-    border: 1px solid #e2e8f0 !important;
+    border: 1px solid #cbd5e1 !important;
     padding: 0.75rem !important;
     border-radius: 4px !important;
     box-shadow: none !important;
