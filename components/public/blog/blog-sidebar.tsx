@@ -22,6 +22,10 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 
   const [isVisible, setIsVisible] = useState(false)
   const [email, setEmail] = useState("")
+  const [subscribeState, setSubscribeState] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle")
+  const [subscribeError, setSubscribeError] = useState("")
 
   const activeCategory = searchParams.get("category") || "all"
   const activeTag = searchParams.get("tag") || ""
@@ -81,6 +85,8 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
       newsletterDesc: "Get notified about new articles and experiments. No spam, unsubscribe anytime.",
       email: "your@email.com",
       subscribe: "Subscribe",
+      sending: "Subscribing...",
+      subscribed: "Subscribed! You're on the list.",
       rss: "Subscribe via RSS",
     },
     th: {
@@ -91,6 +97,8 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
       newsletterDesc: "รับการแจ้งเตือนเมื่อมีบทความและงานทดลองใหม่ ไม่มีสแปม ยกเลิกเมื่อไรก็ได้",
       email: "you@email.com",
       subscribe: "ติดตาม",
+      sending: "กำลังติดตาม...",
+      subscribed: "ติดตามสำเร็จ! คุณอยู่ในรายการแล้ว",
       rss: "ติดตามผ่าน RSS",
     },
   }[language]
@@ -152,9 +160,33 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
     router.push(`/blog?${params.toString()}`, { scroll: false })
   }
 
-  const handleSubscribe = (e: React.SyntheticEvent) => {
+  const handleSubscribe = async (e: React.SyntheticEvent) => {
     e.preventDefault()
-    setEmail("")
+    const trimmed = email.trim()
+    if (!trimmed || subscribeState === "sending") return
+
+    setSubscribeState("sending")
+    setSubscribeError("")
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmed }),
+      })
+      const data = (await response.json().catch(() => ({}))) as {
+        error?: string
+      }
+      if (!response.ok) {
+        setSubscribeError(data.error ?? "Something went wrong. Please try again.")
+        setSubscribeState("error")
+        return
+      }
+      setEmail("")
+      setSubscribeState("success")
+    } catch {
+      setSubscribeError("Network error. Please try again.")
+      setSubscribeState("error")
+    }
   }
 
   return (
@@ -261,18 +293,41 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
         <p className="text-sm text-muted-foreground mb-4">
           {t.newsletterDesc}
         </p>
-        <form onSubmit={handleSubscribe} className="space-y-3">
-          <Input
-            type="email"
-            placeholder={t.email}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="bg-background/50 border-border/50 focus:border-primary/50"
-          />
-          <Button type="submit" className="w-full font-mono text-xs uppercase tracking-wider">
-            {t.subscribe}
-          </Button>
-        </form>
+        {subscribeState === "success" ? (
+          <div className="space-y-2">
+            <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2.5 text-xs text-emerald-400 font-mono">
+              {t.subscribed}
+            </div>
+            <a
+              href="/feed.xml"
+              className="inline-flex items-center gap-1.5 text-[10px] text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Rss className="h-3 w-3" />
+              {t.rss}
+            </a>
+          </div>
+        ) : (
+          <form onSubmit={handleSubscribe} className="space-y-3">
+            <Input
+              type="email"
+              placeholder={t.email}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={subscribeState === "sending"}
+              className="bg-background/50 border-border/50 focus:border-primary/50"
+            />
+            <Button
+              type="submit"
+              disabled={subscribeState === "sending"}
+              className="w-full font-mono text-xs uppercase tracking-wider"
+            >
+              {subscribeState === "sending" ? t.sending : t.subscribe}
+            </Button>
+            {subscribeState === "error" && (
+              <p className="text-[10px] text-rose-400 leading-snug">{subscribeError}</p>
+            )}
+          </form>
+        )}
       </div>
 
       {/* RSS Feed */}
