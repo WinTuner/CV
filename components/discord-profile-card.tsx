@@ -1,32 +1,32 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
-import { useIsMounted } from "@/lib/use-is-mounted"
-import { cn } from "@/lib/utils"
-import { Music, Code, Gamepad2, Info } from "lucide-react"
-import { DISCORD_ID } from "./discord-status"
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { useIsMounted } from "@/lib/use-is-mounted";
+import { cn } from "@/lib/utils";
+import { Music, Code, Gamepad2, Info } from "lucide-react";
+import { DISCORD_ID } from "./discord-status";
 import {
 	fetchDiscordPresence,
 	type DiscordPresenceResult,
 	type LanyardPresence,
-} from "@/lib/lanyard"
+} from "@/lib/lanyard";
 
-const POLL_INTERVAL_MS = 45_000
+const POLL_INTERVAL_MS = 45_000;
 
 const statusColors = {
 	online: "bg-emerald-500",
 	idle: "bg-amber-500",
 	dnd: "bg-rose-500",
 	offline: "bg-zinc-500",
-} as const
+} as const;
 
 const statusLabels = {
 	online: "Online",
 	idle: "Idle",
 	dnd: "Do Not Disturb",
 	offline: "Offline",
-} as const
+} as const;
 
 function fallbackPresence(): LanyardPresence {
 	return {
@@ -39,69 +39,66 @@ function fallbackPresence(): LanyardPresence {
 		},
 		activities: [],
 		listening_to_spotify: false,
-	}
+	};
 }
 
 export function DiscordProfileCard() {
-	const [result, setResult] = useState<DiscordPresenceResult | null>(null)
-	const [loading, setLoading] = useState(true)
-	const mounted = useIsMounted()
-	const abortRef = useRef<AbortController | null>(null)
+	const [result, setResult] = useState<DiscordPresenceResult | null>(null);
+	const [loading, setLoading] = useState(true);
+	const mounted = useIsMounted();
+	const abortRef = useRef<AbortController | null>(null);
 
 	useEffect(() => {
-		let active = true
+		let active = true;
 
 		const poll = async () => {
-			abortRef.current?.abort()
-			const controller = new AbortController()
-			abortRef.current = controller
+			abortRef.current?.abort();
+			const controller = new AbortController();
+			abortRef.current = controller;
 			try {
-				const next = await fetchDiscordPresence(DISCORD_ID, controller.signal)
+				const next = await fetchDiscordPresence(DISCORD_ID, controller.signal);
 				if (active) {
-					setResult(next)
-					setLoading(false)
+					setResult(next);
+					setLoading(false);
 				}
 			} catch (error) {
 				// AbortError on unmount or between polls — ignore
-				if (
-					error instanceof DOMException &&
-					error.name === "AbortError"
-				) {
-					return
+				if (error instanceof DOMException && error.name === "AbortError") {
+					return;
 				}
 				if (active) {
-					setResult({ status: "error", message: "Presence fetch failed" })
-					setLoading(false)
+					setResult({ status: "error", message: "Presence fetch failed" });
+					setLoading(false);
 				}
 			}
-		}
+		};
 
-		poll()
-		const interval = setInterval(poll, POLL_INTERVAL_MS)
+		poll();
+		const interval = setInterval(poll, POLL_INTERVAL_MS);
 
 		return () => {
-			active = false
-			clearInterval(interval)
-			abortRef.current?.abort()
-		}
-	}, [])
+			active = false;
+			clearInterval(interval);
+			abortRef.current?.abort();
+		};
+	}, []);
 
 	if (!mounted || loading) {
 		return (
 			<div className="w-full max-w-lg rounded-xl border border-border/50 bg-zinc-950/20 glass p-5 flex items-center justify-center h-48 font-mono text-xs text-muted-foreground animate-pulse">
 				<span>loading Discord profile presence...</span>
 			</div>
-		)
+		);
 	}
 
 	const presence =
-		result?.status === "ok" ? result.presence : fallbackPresence()
-	const data = presence
-	const status = data.discord_status
-	const colorClass = statusColors[status] || "bg-zinc-500"
+		result?.status === "ok" ? result.presence : fallbackPresence();
+	const data = presence;
+	const status = data.discord_status;
+	const colorClass = statusColors[status] || "bg-zinc-500";
 
 	// Find current active game/coding activity (excluding Spotify, type 2)
-	const activeActivity = data.activities?.find((act) => act.type !== 2)
+	const activeActivity = data.activities?.find((act) => act.type !== 2);
 
 	return (
 		<div className="w-full max-w-lg overflow-hidden rounded-xl border border-border bg-zinc-950/40 backdrop-blur-md shadow-xl hover:border-primary/20 transition-all duration-300 animate-fade-in-up stagger-5">
@@ -255,8 +252,8 @@ export function DiscordProfileCard() {
 					<div className="mt-4 pt-3 border-t border-border/20 flex items-start gap-2 text-[10px] text-muted-foreground">
 						<Info className="h-3.5 w-3.5 text-rose-400 shrink-0 mt-0.5" />
 						<p>
-							Presence service unreachable ({result.message}). Showing
-							offline profile.
+							Presence service unreachable ({result.message}). Showing offline
+							profile.
 						</p>
 					</div>
 				)}
@@ -268,12 +265,10 @@ export function DiscordProfileCard() {
 					!data.listening_to_spotify && (
 						<div className="mt-4 pt-3 border-t border-border/20 flex items-center gap-2 text-[10px] text-muted-foreground">
 							<Info className="h-3.5 w-3.5 text-muted-foreground/60 shrink-0" />
-							<p>
-								User is currently offline. Reach out via email or LinkedIn.
-							</p>
+							<p>User is currently offline. Reach out via email or LinkedIn.</p>
 						</div>
 					)}
 			</div>
 		</div>
-	)
+	);
 }
