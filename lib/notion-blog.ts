@@ -1,4 +1,4 @@
-import { blogPosts, localizePost, type BlogLanguage, type BlogPost, getPostBySlug, getRelatedPosts } from "@/lib/blog-data"
+import { blogPosts, localizePost, type BlogLanguage, type BlogPost, getPostBySlug } from "@/lib/blog-data"
 
 type NotionProperty = {
   type: string
@@ -121,19 +121,20 @@ async function fetchAllDatabasePages(): Promise<NotionPage[]> {
 async function fetchPageBlocks(pageId: string): Promise<string> {
   if (!hasNotionConfig()) return ""
 
-  const blocks: any[] = []
+  type NotionBlock = { id: string; type: string; has_children?: boolean; [key: string]: unknown }
+  const blocks: NotionBlock[] = []
   let cursor: string | undefined
 
   do {
     const query = cursor ? `?page_size=100&start_cursor=${cursor}` : "?page_size=100"
     const data = (await notionFetch(`/blocks/${pageId}/children${query}`)) as NotionListResponse
-    blocks.push(...data.results)
+    blocks.push(...(data.results as unknown as NotionBlock[]))
     cursor = data.has_more ? data.next_cursor ?? undefined : undefined
   } while (cursor)
 
   const lines: string[] = []
 
-  for (const block of blocks as Array<{ id: string; type: string; has_children?: boolean; [key: string]: unknown }>) {
+  for (const block of blocks) {
     const richText = (block[block.type] as { rich_text?: Array<{ plain_text?: string }>; text?: Array<{ plain_text?: string }>; language?: string } | undefined) ?? {}
     const text = (richText.rich_text ?? richText.text ?? []).map((item) => item.plain_text ?? "").join("")
 

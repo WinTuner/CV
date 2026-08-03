@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
-import { Github, Star, GitFork, ExternalLink, Sparkles, Search, Filter } from "lucide-react"
+import { Star, GitFork, ExternalLink, Sparkles, Search, Filter } from "lucide-react"
+import { GithubIcon } from "../../social-icons"
 import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/components/language-provider"
 import type { Project } from "@/lib/github"
@@ -57,6 +58,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
   } as const
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount animation trigger
     setIsVisible(true)
   }, [])
 
@@ -240,7 +242,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-primary transition-all duration-300 group/link"
                 >
-                  <Github className="h-4 w-4 transition-transform group-hover/link:scale-110" />
+                  <GithubIcon className="h-4 w-4 transition-transform group-hover/link:scale-110" />
                   <span className="underline-animate">{t[language].source}</span>
                 </a>
                 {project.homepage && (

@@ -137,7 +137,7 @@ export function IntroductionContent() {
                         <div className="flex items-start justify-between">
                           <h4 className="text-lg font-bold group-hover:text-primary transition-colors">{proj.name}</h4>
                           {"url" in proj && (
-                            <a href={(proj as any).url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                            <a href={(proj as { url?: string }).url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                               <ExternalLink className="h-4 w-4" />
                             </a>
                           )}
@@ -159,7 +159,7 @@ export function IntroductionContent() {
                             </div>
                             <div>
                               <span className="block font-mono text-[10px] uppercase text-primary mb-1">{t.learnedLabel}</span>
-                              <p className="text-xs text-muted-foreground leading-relaxed italic">"{proj.learned}"</p>
+                              <p className="text-xs text-muted-foreground leading-relaxed italic">&quot;{proj.learned}&quot;</p>
                             </div>
                           </div>
                         </div>
@@ -408,9 +408,11 @@ export function IntroductionContent() {
             onClick={(e) => e.stopPropagation()}
             className="relative max-w-[95vw] max-h-[95vh] rounded-2xl overflow-hidden border border-border/50 bg-card/20 glass animate-scale-in"
           >
-            <img 
+            <Image 
               src={activeImage} 
               alt="Expanded view" 
+              fill
+              sizes="95vw"
               className="max-w-full max-h-[90vh] object-contain shadow-2xl" 
             />
             {/* Close Button */}

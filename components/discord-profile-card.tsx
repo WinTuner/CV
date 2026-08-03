@@ -1,6 +1,8 @@
 "use client"
 
+import Image from "next/image"
 import { useEffect, useState } from "react"
+import { useIsMounted } from "@/lib/use-is-mounted"
 import { cn } from "@/lib/utils"
 import { Music, Code, Gamepad2, Info } from "lucide-react"
 import { DISCORD_ID } from "./discord-status"
@@ -42,10 +44,9 @@ interface LanyardPresence {
 export function DiscordProfileCard() {
   const [socketData, setSocketData] = useState<LanyardPresence | null>(null)
   const [loading, setLoading] = useState(true)
-  const [mounted, setMounted] = useState(false)
+  const mounted = useIsMounted()
 
   useEffect(() => {
-    setMounted(true)
     let socket: WebSocket | null = null
     let heartbeatInterval: NodeJS.Timeout | null = null
 
@@ -160,9 +161,11 @@ export function DiscordProfileCard() {
         {/* Avatar Profile */}
         <div className="absolute -top-9 left-5 h-16 w-16 rounded-full border-4 border-zinc-950 bg-zinc-900 overflow-hidden shadow-lg select-none">
           {data.discord_user.avatar ? (
-            <img
+            <Image
               src={`https://cdn.discordapp.com/avatars/${data.discord_user.id}/${data.discord_user.avatar}.png?size=128`}
               alt={data.discord_user.username}
+              fill
+              sizes="64px"
               className="h-full w-full object-cover"
             />
           ) : (
@@ -196,9 +199,11 @@ export function DiscordProfileCard() {
         {data.listening_to_spotify && data.spotify && (
           <div className="mt-4 pt-3.5 border-t border-border/20 flex gap-3 animate-fade-in select-text">
             <div className="relative h-12 w-12 shrink-0 rounded overflow-hidden border border-border bg-secondary shadow-sm">
-              <img
+              <Image
                 src={data.spotify.album_art_url}
                 alt={data.spotify.album}
+                fill
+                sizes="48px"
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
@@ -240,7 +245,7 @@ export function DiscordProfileCard() {
               </span>
               <p className="font-bold text-foreground truncate">{activeActivity.name}</p>
               {activeActivity.details && <p className="text-[10px] text-muted-foreground truncate">{activeActivity.details}</p>}
-              {activeActivity.state && <p className="text-[10px] text-muted-foreground/75 truncate italic">"{activeActivity.state}"</p>}
+              {activeActivity.state && <p className="text-[10px] text-muted-foreground/75 truncate italic">&quot;{activeActivity.state}&quot;</p>}
             </div>
           </div>
         )}

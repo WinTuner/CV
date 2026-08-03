@@ -2,9 +2,10 @@
 
 import { useEffect, useState, useRef, Suspense } from "react"
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
+import { } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { ArrowLeft, Calendar, Clock, Bookmark, Linkedin, Link2, ChevronUp } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, Bookmark, Link2, ChevronUp } from "lucide-react"
+import { LinkedinIcon } from "../../social-icons"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import type { BlogPost, BlogLanguage } from "@/lib/blog-data"
@@ -16,8 +17,7 @@ interface BlogPostContentProps {
 }
 
 function SearchParamsHandler() {
-  const searchParams = useSearchParams()
-  // This component can be used to handle search-param-based logic
+    // This component can be used to handle search-param-based logic
   // such as analytics or dynamic language overrides if needed.
   return null
 }
@@ -51,6 +51,7 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
   }[language]
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount animation trigger
     setIsVisible(true)
 
     const handleScroll = () => {
@@ -227,7 +228,7 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
                     )
                   }
                 >
-                  <Linkedin className="h-4 w-4" />
+                  <LinkedinIcon className="h-4 w-4" />
                   <span className="sr-only">{t.shareLinkedIn}</span>
                 </Button>
                 <Button
@@ -275,7 +276,7 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
                 )
               }
             >
-              <Linkedin className="h-4 w-4" />
+              <LinkedinIcon className="h-4 w-4" />
             </Button>
             <Button
               variant="outline"

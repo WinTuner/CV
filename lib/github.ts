@@ -34,6 +34,29 @@ export interface ActivityItem {
   prTitle?: string
 }
 
+interface GitHubRepo {
+  id: number
+  name: string
+  description: string | null
+  language: string | null
+  topics: string[]
+  fork: boolean
+  created_at: string
+  pushed_at: string
+  archived: boolean
+  stargazers_count: number
+  forks_count: number
+  size: number
+  homepage: string | null
+  html_url: string
+  default_branch: string
+}
+
+interface GitHubPullRequest {
+  title: string
+  merged: boolean
+}
+
 const GITHUB_USERNAME = "WinTuner"
 const API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100`
 
@@ -173,7 +196,7 @@ export async function getGithubRepos(): Promise<Project[]> {
       return dateB - dateA
     })
 
-    const result = sortedRepos.map((repo: any, index: number) => {
+    const result = sortedRepos.map((repo: GitHubRepo, index: number) => {
       const year = repo.created_at 
         ? new Date(repo.created_at).getFullYear().toString() 
         : new Date().getFullYear().toString()
@@ -190,7 +213,7 @@ export async function getGithubRepos(): Promise<Project[]> {
       }
 
       // Collect tags: language + topics
-      const tags = [repo.language, ...(repo.topics || [])].filter(Boolean)
+      const tags = [repo.language, ...(repo.topics || [])].filter((t): t is string => Boolean(t))
 
       // Highlight the first repository (most recently pushed)
       const highlight = index === 0
@@ -275,13 +298,13 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
 
     // Filter non-archived repos and sort by pushed_at desc
     const activeRepos = repos
-      .filter((repo: any) => !repo.archived)
-      .sort((a: any, b: any) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime())
+      .filter((repo: GitHubRepo) => !repo.archived)
+      .sort((a: GitHubRepo, b: GitHubRepo) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime())
 
     // Take top 3 repos
     const targetRepos = activeRepos.slice(0, 3)
 
-    const result = targetRepos.map((repo: any) => {
+    const result = targetRepos.map((repo: GitHubRepo) => {
       // Deterministic progress based on repository size & stars (looks realistic and dynamic)
       let progress = Math.min(95, Math.max(25, 30 + (repo.stargazers_count * 5) + (Math.round(repo.size / 15) % 65)))
       let commits = Math.max(3, Math.round(repo.size / 12) % 150)
@@ -388,7 +411,7 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {
         if (prNumber) {
           try {
             const cacheKey = `pr-${project}-${prNumber}`
-            let prDetails = (globalForGithub as any)[cacheKey]
+            let prDetails = (globalForGithub as unknown as Record<string, GitHubPullRequest>)[cacheKey]
 
             if (!prDetails) {
               const prResponse = await fetch(`https://api.github.com/repos/WinTuner/${project}/pulls/${prNumber}`, {
@@ -397,7 +420,7 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {
               })
               if (prResponse.ok) {
                 prDetails = await prResponse.json()
-                ;(globalForGithub as any)[cacheKey] = prDetails
+                ;(globalForGithub as unknown as Record<string, GitHubPullRequest>)[cacheKey] = prDetails
               }
             }
 

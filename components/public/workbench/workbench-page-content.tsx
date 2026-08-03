@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
-import { Github, ExternalLink, Clock, GitBranch, Activity } from "lucide-react"
+import { ExternalLink, Clock, GitBranch, Activity } from "lucide-react"
+import { GithubIcon } from "../../social-icons"
 import { useLanguage } from "@/components/language-provider"
 import type { WipItem, ActivityItem } from "@/lib/github"
 
@@ -94,6 +95,7 @@ export function WorkbenchPageContent({
   }[language]
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount animation trigger
     setIsVisible(true)
   }, [])
 
@@ -150,7 +152,7 @@ export function WorkbenchPageContent({
                           {item.name}
                         </h4>
                         <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                          <Github className="h-3.5 w-3.5 text-muted-foreground" />
+                          <GithubIcon className="h-3.5 w-3.5 text-muted-foreground" />
                           <ExternalLink className="h-3 w-3 text-muted-foreground" />
                         </div>
                       </div>
