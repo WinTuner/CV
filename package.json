@@ -23,7 +23,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@notionhq/client": "^5.20.0",
     "@radix-ui/react-avatar": "1.1.2",
     "@radix-ui/react-slot": "1.1.1",
     "@vercel/analytics": "^1.1.4",

@@ -6,6 +6,8 @@ const socialLinks = [
   { label: "Email", href: "mailto:Thanatphong2719@gmail.com", handle: "Thanatphong2719@gmail.com", icon: Mail },
 ]
 
+const staggerDelays = ["[animation-delay:400ms]", "[animation-delay:500ms]", "[animation-delay:600ms]"]
+
 export function Footer() {
   return (
     <footer id="connect" className="border-t border-border/30 px-4 sm:px-6 py-20 sm:py-28">
@@ -49,8 +51,7 @@ export function Footer() {
                   href={link.href}
                   target={link.label !== "Email" ? "_blank" : undefined}
                   rel={link.label !== "Email" ? "noopener noreferrer" : undefined}
-                  className="group flex items-center justify-between gap-4 rounded-xl border border-transparent p-4 transition-all duration-300 lg:flex-row-reverse active:bg-secondary/30 hover:border-border/50 hover:bg-card/50 glass animate-fade-in"
-                  style={{ animationDelay: `${index * 100 + 400}ms` }}
+                  className={`group flex items-center justify-between gap-4 rounded-xl border border-transparent p-4 transition-all duration-300 lg:flex-row-reverse active:bg-secondary/30 hover:border-border/50 hover:bg-card/50 glass animate-fade-in ${staggerDelays[index] ?? ""}`}
                 >
                   <div className="flex items-center gap-3 lg:flex-row-reverse">
                     <link.icon className="h-5 w-5 text-muted-foreground transition-all duration-300 group-hover:text-primary group-hover:scale-110" />
