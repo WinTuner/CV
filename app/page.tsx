@@ -17,6 +17,8 @@ import {
 } from "@/lib/structured-data";
 import { SITE_URL } from "@/lib/site";
 
+export const revalidate = 900
+
 export default async function Home() {
 	const baseUrl = SITE_URL;
 	const websiteStructuredData = generateWebsiteStructuredData(baseUrl);
