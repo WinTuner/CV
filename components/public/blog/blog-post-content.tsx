@@ -361,9 +361,22 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
 }
 
 // Simple markdown parser for rendering content
+/**
+ * Escape raw HTML in markdown input before converting, so no user-supplied
+ * tags can reach the DOM (XSS). Markdown syntax markers are converted after
+ * escaping, so code blocks and inline code also render their content literally.
+ */
+function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+}
+
 function parseMarkdown(content: string): string {
+  const escaped = escapeHtml(content)
   return (
-    content
+    escaped
       // Headers
       .replace(/^### (.*$)/gm, "<h3>$1</h3>")
       .replace(/^## (.*$)/gm, "<h2>$1</h2>")
