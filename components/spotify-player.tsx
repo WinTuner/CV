@@ -51,8 +51,8 @@ export function SpotifyPlayer() {
         } else if (payload.op === 0) {
           if (payload.t === "INIT_STATE" || payload.t === "PRESENCE_UPDATE") {
             setData({
-              listening_to_spotify: payload.d.listening_to_spotify,
-              spotify: payload.d.spotify,
+              listening_to_spotify: payload.d?.listening_to_spotify ?? false,
+              spotify: payload.d?.spotify,
             })
           }
         }

@@ -40,13 +40,19 @@ interface LanyardPresence {
 }
 
 export function DiscordStatus() {
-  const [data, setData] = useState<LanyardPresence | null>(null)
+  const [socketData, setSocketData] = useState<LanyardPresence | null>(null)
+  const [loading, setLoading] = useState(true)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
     let socket: WebSocket | null = null
     let heartbeatInterval: NodeJS.Timeout | null = null
+
+    // Safe timeout to stop loading and fallback if connection takes too long
+    const connectionTimeout = setTimeout(() => {
+      setLoading(false)
+    }, 3000)
 
     const connectWebSocket = () => {
       socket = new WebSocket("wss://api.lanyard.rest/socket")
@@ -81,7 +87,9 @@ export function DiscordStatus() {
         } else if (payload.op === 0) {
           // Event messages
           if (payload.t === "INIT_STATE" || payload.t === "PRESENCE_UPDATE") {
-            setData(payload.d)
+            setSocketData(payload.d)
+            setLoading(false)
+            clearTimeout(connectionTimeout)
           }
         }
       }
@@ -97,12 +105,14 @@ export function DiscordStatus() {
       socket.onerror = (error) => {
         console.warn("Lanyard WebSocket error:", error)
         socket?.close()
+        setLoading(false)
       }
     }
 
     connectWebSocket()
 
     return () => {
+      clearTimeout(connectionTimeout)
       if (heartbeatInterval) {
         clearInterval(heartbeatInterval)
       }
@@ -112,7 +122,7 @@ export function DiscordStatus() {
     }
   }, [])
 
-  if (!mounted || !data) {
+  if (!mounted || loading) {
     return (
       <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/50 border border-border/50 text-[11px] font-mono text-muted-foreground">
         <span className="h-1.5 w-1.5 rounded-full bg-zinc-500 animate-pulse" />
@@ -135,11 +145,24 @@ export function DiscordStatus() {
     offline: "offline",
   }
 
+  const presence: LanyardPresence = socketData && socketData.discord_user ? socketData : {
+    discord_status: "offline",
+    discord_user: {
+      username: "wintuner",
+      global_name: "Thanatphong Tarin",
+      avatar: "",
+      id: DISCORD_ID,
+    },
+    activities: [],
+    listening_to_spotify: false,
+  }
+
+  const data = presence
   const status = data.discord_status
   const colorClass = statusColors[status] || "bg-zinc-500"
   
   // Find current active game/coding activity (excluding Spotify)
-  const activeActivity = data.activities.find(act => act.type !== 2) // type 2 is Spotify
+  const activeActivity = data.activities?.find(act => act.type !== 2) // type 2 is Spotify
   
   // Get active activity text
   let activityText = ""
