@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { GithubIcon } from "./social-icons";
 import {
-	Github,
 	Star,
 	GitFork,
 	Sparkles,
@@ -209,7 +209,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 										className="flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-primary transition-all duration-300 group/link"
 										onClick={(e) => e.stopPropagation()}
 									>
-										<Github className="h-4 w-4 transition-transform group-hover/link:scale-110" />
+										<GithubIcon className="h-4 w-4 transition-transform group-hover/link:scale-110" />
 										<span className="underline-animate">{t.source}</span>
 									</a>
 								</div>

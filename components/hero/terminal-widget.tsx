@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useLanguage } from "../language-provider";
+import { useIsMounted } from "@/lib/use-is-mounted";
 import { cn } from "@/lib/utils";
 import type { ActivityItem } from "@/lib/github";
 import {
@@ -65,7 +66,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 			output: (
 				<div className="space-y-1">
 					<p className="text-emerald-400 font-bold">
-						--- WIN'S INTERACTIVE PORTFOLIO SHELL v1.0.0 ---
+						--- WIN&apos;S INTERACTIVE PORTFOLIO SHELL v1.0.0 ---
 					</p>
 					<p className="text-muted-foreground text-[10px]">
 						Type <span className="text-primary font-bold">help</span> to view
@@ -82,10 +83,9 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 	const [localTime, setLocalTime] = useState("");
 	const [liveActivities, setLiveActivities] =
 		useState<ActivityItem[]>(recentActivities);
-	const [mounted, setMounted] = useState(false);
+	const mounted = useIsMounted();
 
 	useEffect(() => {
-		setMounted(true);
 
 		const fetchLiveActivities = () => {
 			fetch("https://api.github.com/users/WinTuner/events?per_page=10")
@@ -121,7 +121,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 										th: `${event.payload.action === "opened" ? "เปิด" : event.payload.action === "closed" ? "ปิด" : "รวม"} PR: ${pr?.title || ""}`,
 									},
 									time,
-									prAction: event.payload.action as any,
+									prAction: event.payload.action as ActivityItem["prAction"],
 									prTitle: pr?.title || "",
 								});
 							} else if (
@@ -313,7 +313,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 			default:
 				output = (
 					<p className="text-rose-400 text-[10px]">
-						Command not found: "{input}". Type 'help' for instructions.
+						Command not found: &quot;{input}&quot;. Type &apos;help&apos; for instructions.
 					</p>
 				);
 		}
@@ -324,6 +324,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 
 	useEffect(() => {
 		const fullCommand = commands[activeTab];
+		// eslint-disable-next-line react-hooks/set-state-in-effect -- intentional reset on tab switch
 		setTypedCommand("");
 		setShowOutput(false);
 		setIsTyping(true);
@@ -479,7 +480,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 								<div className="pl-3 text-muted-foreground/90">
 									Status:{" "}
 									<span className="text-sky-300">
-										"Synced with GitHub API (revalidated cache)"
+										&quot;Synced with GitHub API (revalidated cache)&quot;
 									</span>
 								</div>
 								<div className="pl-3 text-muted-foreground/90 mb-3">
@@ -494,7 +495,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 										<span className="text-zinc-500">
 											{formatJournalDate(latest.time)}
 										</span>{" "}
-										arch systemd[1]: Started WinTuner's Live GitHub Monitor.
+										arch systemd[1]: Started WinTuner&apos;s Live GitHub Monitor.
 									</div>
 									<div className="text-slate-200">
 										<span className="text-zinc-500">
@@ -509,7 +510,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 											[{logType}
 											{prActionText}]
 										</span>{" "}
-										{latest.project} ❯ "{latestMsg}"{" "}
+										{latest.project} ❯ &quot;{latestMsg}&quot;{" "}
 										<span className="text-muted-foreground text-[9px] font-normal font-sans ml-1">
 											({relativeTime})
 										</span>

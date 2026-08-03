@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useLanguage } from "./language-provider"
 import { cn } from "@/lib/utils"
-import { Mail, Send, CheckCircle2, MessageSquare, ArrowRight } from "lucide-react"
+import { Mail, CheckCircle2, MessageSquare, ArrowRight } from "lucide-react"
 
 export function ContactSection() {
     const { language } = useLanguage()
