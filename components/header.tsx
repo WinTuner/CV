@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { GithubIcon, LinkedinIcon } from "./social-icons";
@@ -31,6 +31,8 @@ export function Header() {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
+	const menuToggleRef = useRef<HTMLButtonElement>(null);
+	const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
 	const pathname = usePathname();
 	const { language } = useLanguage();
 
@@ -47,9 +49,20 @@ export function Header() {
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
 
-	// Close mobile menu with Escape key
+	// Close mobile menu with Escape key + manage focus (a11y)
 	useEffect(() => {
-		if (!isMobileMenuOpen) return;
+		if (!isMobileMenuOpen) {
+			// Return focus to the toggle when the menu closes
+			if (
+				document.activeElement instanceof HTMLElement &&
+				document.activeElement.dataset.menuInside === "true"
+			) {
+				menuToggleRef.current?.focus();
+			}
+			return;
+		}
+		// Move focus into the menu when it opens
+		firstMenuLinkRef.current?.focus();
 		const handleEscape = (e: KeyboardEvent) => {
 			if (e.key === "Escape") setIsMobileMenuOpen(false);
 		};
@@ -170,6 +183,7 @@ export function Header() {
 						</div>
 
 						<button
+							ref={menuToggleRef}
 							onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
 							className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card/50 md:hidden transition-colors hover:bg-secondary"
 							aria-label="Toggle menu"
@@ -214,7 +228,12 @@ export function Header() {
 									key={item.href}
 									href={item.href}
 									onClick={() => setIsMobileMenuOpen(false)}
-									className="flex items-center gap-3 rounded-lg px-4 py-3.5 font-mono text-sm uppercase tracking-widest text-muted-foreground transition-all duration-200 active:bg-secondary hover:text-foreground hover:bg-secondary/50"
+									ref={index === 0 ? firstMenuLinkRef : undefined}
+									data-menu-inside="true"
+									className={cn(
+										"flex items-center gap-3 rounded-lg px-4 py-3.5 font-mono text-sm uppercase tracking-widest text-muted-foreground transition-all duration-200 active:bg-secondary hover:text-foreground hover:bg-secondary/50",
+										isMobileMenuOpen && "animate-slide-in-right",
+									)}
 									style={{ animationDelay: `${index * 50}ms` }}
 								>
 									<span className="text-primary">{">"}</span>
