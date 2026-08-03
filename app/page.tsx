@@ -30,7 +30,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personStructuredData) }}
       />
-      <main className="relative min-h-screen overflow-hidden scanlines">
+      <main id="main" className="relative min-h-screen overflow-hidden scanlines">
         <CursorGlow />
         <div className="relative z-10">
           <Header />

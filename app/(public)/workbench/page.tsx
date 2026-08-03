@@ -64,7 +64,7 @@ function WorkbenchSkeleton() {
 
 export default function WorkbenchPage() {
   return (
-    <div className="pt-24">
+    <div id="main" className="pt-24">
       <Suspense fallback={<WorkbenchSkeleton />}>
         <WorkbenchList />
       </Suspense>

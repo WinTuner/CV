@@ -256,6 +256,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
         <div className="flex items-end h-full gap-0.5 font-mono text-[10px]">
           <button
             onClick={() => setActiveTab('status')}
+            aria-pressed={activeTab === 'status'}
             className={cn(
               "px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
               activeTab === 'status'
@@ -267,6 +268,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
           </button>
           <button
             onClick={() => setActiveTab('git')}
+            aria-pressed={activeTab === 'git'}
             className={cn(
               "px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
               activeTab === 'git'
@@ -278,6 +280,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
           </button>
           <button
             onClick={() => setActiveTab('neofetch')}
+            aria-pressed={activeTab === 'neofetch'}
             className={cn(
               "px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
               activeTab === 'neofetch'
@@ -289,6 +292,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
           </button>
           <button
             onClick={() => setActiveTab('cli')}
+            aria-pressed={activeTab === 'cli'}
             className={cn(
               "px-3 py-1.5 transition-colors duration-200 border-t border-x rounded-t-md font-semibold",
               activeTab === 'cli'

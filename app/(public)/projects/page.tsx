@@ -74,7 +74,7 @@ function ProjectsSkeleton() {
 
 export default function ProjectsPage() {
   return (
-    <div className="pt-24">
+    <div id="main" className="pt-24">
       <Suspense fallback={<ProjectsSkeleton />}>
         <ProjectsList />
       </Suspense>
