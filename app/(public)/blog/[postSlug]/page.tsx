@@ -12,6 +12,8 @@ import {
 import { Suspense } from "react";
 import { SITE_URL } from "@/lib/site"
 
+export const revalidate = 3600
+
 interface BlogPostPageProps {
   params: Promise<{ postSlug: string }>;
   searchParams: Promise<{ lang?: string }>;
