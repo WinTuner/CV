@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useSyncExternalStore } from "react"
+import { useSyncExternalStore } from "react";
 
-const emptySubscribe = () => () => {}
+const emptySubscribe = () => () => {};
 
 /**
  * Returns true after the component has hydrated on the client.
@@ -12,5 +12,9 @@ const emptySubscribe = () => () => {}
  * `useSyncExternalStore` is the sanctioned way to detect client hydration.
  */
 export function useIsMounted(): boolean {
-  return useSyncExternalStore(emptySubscribe, () => true, () => false)
+	return useSyncExternalStore(
+		emptySubscribe,
+		() => true,
+		() => false,
+	);
 }
