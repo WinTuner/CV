@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useIsMounted } from "@/lib/use-is-mounted";
 import { cn } from "@/lib/utils";
 import { Music, Code, Gamepad2, Info } from "lucide-react";
+import { useLanguage } from "./language-provider";
 import { DISCORD_ID } from "./discord-status";
 import {
 	fetchDiscordPresence,
@@ -43,10 +44,22 @@ function fallbackPresence(): LanyardPresence {
 }
 
 export function DiscordProfileCard() {
+	const { language } = useLanguage();
 	const [result, setResult] = useState<DiscordPresenceResult | null>(null);
 	const [loading, setLoading] = useState(true);
 	const mounted = useIsMounted();
 	const abortRef = useRef<AbortController | null>(null);
+
+	const t = {
+		en: {
+			loading: "loading Discord profile presence...",
+			offline: "User is currently offline. Reach out via email or LinkedIn.",
+		},
+		th: {
+			loading: "กำลังโหลดสถานะ Discord...",
+			offline: "ผู้ใช้ไม่ออนไลน์อยู่ตอนนี้ ติดต่อผ่านอีเมลหรือ LinkedIn ได้เลย",
+		},
+	}[language];
 
 	useEffect(() => {
 		let active = true;
@@ -86,7 +99,7 @@ export function DiscordProfileCard() {
 	if (!mounted || loading) {
 		return (
 			<div className="w-full max-w-lg rounded-xl border border-border/50 bg-zinc-950/20 glass p-5 flex items-center justify-center h-48 font-mono text-xs text-muted-foreground animate-pulse">
-				<span>loading Discord profile presence...</span>
+				<span>{t.loading}</span>
 			</div>
 		);
 	}
@@ -265,7 +278,7 @@ export function DiscordProfileCard() {
 					!data.listening_to_spotify && (
 						<div className="mt-4 pt-3 border-t border-border/20 flex items-center gap-2 text-[10px] text-muted-foreground">
 							<Info className="h-3.5 w-3.5 text-muted-foreground/60 shrink-0" />
-							<p>User is currently offline. Reach out via email or LinkedIn.</p>
+							<p>{t.offline}</p>
 						</div>
 					)}
 			</div>
