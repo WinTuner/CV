@@ -1,5 +1,8 @@
+"use client";
+
 import { Mail, ExternalLink, Heart } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./social-icons";
+import { useLanguage } from "./language-provider";
 
 const socialLinks = [
 	{
@@ -29,6 +32,32 @@ const staggerDelays = [
 ];
 
 export function Footer() {
+	const { language } = useLanguage();
+	const t = {
+		en: {
+			connect: "Connect",
+			togetherA: "Let's build something ",
+			togetherB: "together",
+			desc: "Always interested in collaborations, interesting problems, and conversations about code, design, and everything in between.",
+			sendSignal: "send a signal",
+			findElsewhere: "Find me elsewhere",
+			forged: "Forged with",
+			code: "& code",
+			rights: "All experiments reserved",
+		},
+		th: {
+			connect: "เชื่อมต่อ",
+			togetherA: "มาสร้างอะไร ",
+			togetherB: "ด้วยกัน",
+			desc: "สนใจงานร่วมมือ โจทย์ที่น่าสนใจ และบทสนทนาเกี่ยวกับโค้ด ดีไซน์ และทุกอย่างที่อยู่ระหว่างกลางเสมอ",
+			sendSignal: "ส่งสัญญาณหาเรา",
+			findElsewhere: "ตามหาผมได้ที่อื่น",
+			forged: "สร้างสรรค์ด้วย",
+			code: "และโค้ด",
+			rights: "สงวนลิขสิทธิ์ผลงานทดลองทั้งหมด",
+		},
+	}[language];
+
 	return (
 		<footer
 			id="connect"
@@ -40,18 +69,17 @@ export function Footer() {
 					<div className="space-y-6 sm:space-y-8 animate-fade-in-up">
 						<div className="space-y-3">
 							<p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">
-								Connect
+								{t.connect}
 							</p>
 							<h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-balance">
-								{"Let's build something "}
+								{t.togetherA}
 								<span className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text ">
-									together
+									{t.togetherB}
 								</span>
 							</h2>
 						</div>
 						<p className="max-w-md text-base sm:text-lg text-muted-foreground leading-relaxed">
-							Always interested in collaborations, interesting problems, and
-							conversations about code, design, and everything in between.
+							{t.desc}
 						</p>
 
 						<div className="pt-2">
@@ -59,7 +87,7 @@ export function Footer() {
 								href="mailto:Thanatphong2719@gmail.com"
 								className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-primary bg-primary/10 px-8 py-4 sm:py-4 font-mono text-sm text-primary transition-all duration-500 hover:text-primary-foreground active:scale-[0.98] w-full sm:w-auto"
 							>
-								<span className="relative z-10">send a signal</span>
+								<span className="relative z-10">{t.sendSignal}</span>
 								<span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1">
 									→
 								</span>
@@ -71,7 +99,7 @@ export function Footer() {
 					{/* Right column - Links */}
 					<div className="space-y-6 lg:text-right animate-fade-in-up stagger-2">
 						<p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-muted-foreground">
-							Find me elsewhere
+							{t.findElsewhere}
 						</p>
 						<div className="space-y-2">
 							{socialLinks.map((link, index) => (
@@ -108,9 +136,9 @@ export function Footer() {
 							<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
 							<span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
 						</span>
-						<span>Forged with</span>
+						<span>{t.forged}</span>
 						<Heart className="h-3.5 w-3.5 text-destructive animate-pulse" />
-						<span>& code</span>
+						<span>{t.code}</span>
 					</div>
 
 					<div className="flex items-center gap-4">
@@ -129,7 +157,7 @@ export function Footer() {
 					</div>
 
 					<p className="font-mono text-xs text-muted-foreground text-center sm:text-right">
-						© {new Date().getFullYear()} WinTuner — All experiments reserved
+						© {new Date().getFullYear()} WinTuner — {t.rights}
 					</p>
 				</div>
 			</div>

@@ -214,7 +214,6 @@ export function BlogPostContent({ post, language, relatedPosts }: BlogPostConten
               style={{ animationDelay: "400ms" }}
             >
               <div className="sticky top-32 flex flex-col gap-3">
-                <span className="font-mono text-xs text-muted-foreground mb-2 text-center">share</span>
                 <span className="font-mono text-xs text-muted-foreground mb-2 text-center">{t.share}</span>
 
                 <Button

@@ -136,7 +136,8 @@ export const professionalExperience = {
 				role: "ผู้ร่วมก่อตั้งและประธานเจ้าหน้าที่ฝ่ายเทคโนโลยี (Co-Founder & CTO)",
 				description:
 					"บอทช่วยดูแลด้านการปฏิบัติตามข้อกำหนด (Compliance Helper Bot) ด้วย AI ช่วยให้โรงแรม โฮมสเตย์ และบุคคลทั่วไป จัดการใบอนุญาต ใบรับรอง และติดตามวันหมดอายุเอกสารผ่าน LINE OA และเว็บแอปพลิเคชัน",
-				target: "โรงแรม โฮมสเตย์ และบุคคลทั่วไป ที่ต้องติดตามใบอนุญาต ใบรับรอง และวันครบกำหนดด้าน compliance",
+				target:
+					"โรงแรม โฮมสเตย์ และบุคคลทั่วไป ที่ต้องติดตามใบอนุญาต ใบรับรอง และวันครบกำหนดด้าน compliance",
 				problem:
 					"วันหมดอายุของใบอนุญาตและใบรับรองกระจายอยู่ในเอกสารกระดาษและสเปรดชีต — หลงลืมง่าย เสี่ยงค่าปรับและปัญหาทางกฎหมายเมื่อปล่อยเลยกำหนด",
 				learned:
@@ -311,7 +312,7 @@ export const leadership = {
 } satisfies LeadershipMap;
 
 export const experiences = {
-		en: [
+	en: [
 		{
 			title: "Muanjai (ม่วนใจ๋) - Co-Founder & Chief Technology Officer (CTO)",
 			period: "June 2026 - Present",
