@@ -1,8 +1,9 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { useInView } from "@/lib/use-in-view"
 import { cn } from "@/lib/utils"
 import { Mail, Rss, Search, Tag, TrendingUp, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -18,9 +19,8 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
   const { language } = useLanguage()
   const router = useRouter()
   const searchParams = useSearchParams()
-  const sidebarRef = useRef<HTMLDivElement>(null)
+  const { ref: sidebarRef, isInView: isVisible } = useInView<HTMLElement>({ threshold: 0.1 })
 
-  const [isVisible, setIsVisible] = useState(false)
   const [email, setEmail] = useState("")
   const [subscribeState, setSubscribeState] = useState<
     "idle" | "sending" | "success" | "error"
@@ -102,23 +102,6 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
       rss: "ติดตามผ่าน RSS",
     },
   }[language]
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sidebarRef.current) {
-      observer.observe(sidebarRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
 
   const handleCategoryClick = (categorySlug: string) => {
     const params = new URLSearchParams(searchParams.toString())
