@@ -123,6 +123,71 @@ const fallbackProjects: Project[] = [
     url: "https://github.com/WinTuner/AEGIS-1-Terminal-Twine-game",
     featured: false,
   },
+  {
+    id: 103,
+    title: "linux-vs-windows-latency",
+    description: "A hands-on C benchmark comparing input latency and scheduling behavior between Linux and Windows on identical hardware.",
+    tags: ["C", "Linux", "Benchmark"],
+    status: "in-progress",
+    category: "personal",
+    year: "2026",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/WinTuner/linux-vs-windows-latency",
+    featured: false,
+  },
+  {
+    id: 104,
+    title: "sample-boot-3tier",
+    description: "Day 4 starting skeleton for Backend Programming (MFU): the library app split into three tiers, ready for the DTO + MapStruct session.",
+    tags: ["Java", "Spring Boot", "Academic"],
+    status: "in-progress",
+    category: "academic",
+    year: "2026",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/WinTuner/sample-boot-3tier",
+    featured: false,
+  },
+  {
+    id: 105,
+    title: "sample-boot-microservice",
+    description: "Backend Programming (MFU) microservice session: the library app split into two programs that talk over HTTP.",
+    tags: ["Java", "Spring Boot", "Microservices"],
+    status: "in-progress",
+    category: "academic",
+    year: "2026",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/WinTuner/sample-boot-microservice",
+    featured: false,
+  },
+  {
+    id: 106,
+    title: "sample-boot-pubsub",
+    description: "Backend Programming (MFU) event-driven session: the borrow service announces changes and other services react via pub/sub.",
+    tags: ["Java", "Spring Boot", "Event-Driven"],
+    status: "in-progress",
+    category: "academic",
+    year: "2026",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/WinTuner/sample-boot-pubsub",
+    featured: false,
+  },
+  {
+    id: 107,
+    title: "asg-backend-682110174",
+    description: "Assignment: Spring Data JPA domain model with relationships, H2 database, RESTful API controller, and unit tests.",
+    tags: ["Java", "Spring Boot", "JPA"],
+    status: "in-progress",
+    category: "academic",
+    year: "2026",
+    stars: 0,
+    forks: 0,
+    url: "https://github.com/WinTuner/asg-backend-682110174",
+    featured: false,
+  },
 ]
 
 const fallbackWipItems: WipItem[] = [
@@ -228,6 +293,18 @@ export async function getGithubRepos(): Promise<Project[]> {
         description = "A modified version of the Autonomous Intersection Management (AIM4) micro-simulator for autonomous vehicle traffic control."
       } else if (repo.name === "AEGIS-1-Terminal-Twine-game") {
         description = "An atmospheric, text-based psychological cosmic horror game built with Twine and SugarCube. Manage your O2 supply and Sanity while unravelling the terrifying mystery of Case File 24 aboard the shifting AEGIS-1 station. 🚀🧠🌌"
+      } else if (repo.name === "linux-vs-windows-latency") {
+        description = "A hands-on C benchmark comparing input latency and scheduling behavior between Linux and Windows on identical hardware."
+      } else if (repo.name === "sample-boot-3tier") {
+        description = "Day 4 starting skeleton for Backend Programming (MFU): the library app split into three tiers, ready for the DTO + MapStruct session."
+      } else if (repo.name === "sample-boot-microservice") {
+        description = "Backend Programming (MFU) microservice session: the library app split into two programs that talk over HTTP."
+      } else if (repo.name === "sample-boot-pubsub") {
+        description = "Backend Programming (MFU) event-driven session: the borrow service announces changes and other services react via pub/sub."
+      } else if (repo.name === "sample-boot-basic") {
+        description = "Backend Programming (MFU) starter: a simple Spring Boot application used to learn basic web service development."
+      } else if (repo.name === "asg-backend-682110174") {
+        description = "Assignment: Spring Data JPA domain model with relationships, H2 database, RESTful API controller, and unit tests."
       } else if (!description) {
         description = repo.fork 
           ? `Forked repository ${repo.name} under active practice and custom adaptation.`
@@ -239,7 +316,7 @@ export async function getGithubRepos(): Promise<Project[]> {
       const nameLower = repo.name.toLowerCase()
       if (repo.fork) {
         category = "openSource"
-      } else if (nameLower.includes("lab") || nameLower.includes("homework") || nameLower.includes("class") || nameLower.includes("course") || nameLower.includes("final")) {
+      } else if (nameLower.includes("lab") || nameLower.includes("homework") || nameLower.includes("class") || nameLower.includes("course") || nameLower.includes("final") || nameLower.includes("sample-boot") || nameLower.includes("asg-")) {
         category = "academic"
       } else if (nameLower.includes("hackathon") || nameLower.includes("competition") || nameLower.includes("contest") || nameLower.includes("hylife")) {
         category = "competition"
@@ -330,6 +407,31 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
         commits = 23
         progress = 90
         description = "An atmospheric, text-based psychological cosmic horror game built with Twine and SugarCube. Manage your O2 supply and Sanity while unravelling the terrifying mystery of Case File 24 aboard the shifting AEGIS-1 station. 🚀🧠🌌"
+        branch = "main"
+      } else if (repo.name === "linux-vs-windows-latency") {
+        commits = 12
+        progress = 40
+        description = "A hands-on C benchmark comparing input latency and scheduling behavior between Linux and Windows on identical hardware."
+        branch = "main"
+      } else if (repo.name === "sample-boot-3tier") {
+        commits = 8
+        progress = 35
+        description = "Day 4 starting skeleton for Backend Programming (MFU): the library app split into three tiers, ready for the DTO + MapStruct session."
+        branch = "main"
+      } else if (repo.name === "sample-boot-microservice") {
+        commits = 10
+        progress = 45
+        description = "Backend Programming (MFU) microservice session: the library app split into two programs that talk over HTTP."
+        branch = "main"
+      } else if (repo.name === "sample-boot-pubsub") {
+        commits = 12
+        progress = 50
+        description = "Backend Programming (MFU) event-driven session: the borrow service announces changes and other services react via pub/sub."
+        branch = "main"
+      } else if (repo.name === "asg-backend-682110174") {
+        commits = 20
+        progress = 55
+        description = "Assignment: Spring Data JPA domain model with relationships, H2 database, RESTful API controller, and unit tests."
         branch = "main"
       }
 

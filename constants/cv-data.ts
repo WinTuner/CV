@@ -44,7 +44,7 @@ export const education = {
 } satisfies EducationMap;
 
 export const professionalExperience = {
-		en: {
+	en: {
 		production: [
 			{
 				name: "Muanjai (ม่วนใจ๋)",
@@ -311,7 +311,7 @@ export const leadership = {
 } satisfies LeadershipMap;
 
 export const experiences = {
-		en: [
+	en: [
 		{
 			title: "Muanjai (ม่วนใจ๋) - Co-Founder & Chief Technology Officer (CTO)",
 			period: "June 2026 - Present",
