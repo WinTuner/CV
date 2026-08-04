@@ -32,7 +32,10 @@ class MockIntersectionObserver {
 	/** Test helper: fire an intersection with `isIntersecting`. */
 	intersect(isIntersecting: boolean) {
 		this.callback(
-			this.elements.map((target) => ({ target, isIntersecting })) as IntersectionObserverEntry[],
+			this.elements.map((target) => ({
+				target,
+				isIntersecting,
+			})) as IntersectionObserverEntry[],
 			this as unknown as IntersectionObserver,
 		);
 	}
@@ -80,7 +83,13 @@ describe("useInView", () => {
 		installMockIntersectionObserver();
 		vi.stubGlobal(
 			"matchMedia",
-			vi.fn().mockReturnValue({ matches: true, addListener: vi.fn(), removeListener: vi.fn() }),
+			vi
+				.fn()
+				.mockReturnValue({
+					matches: true,
+					addListener: vi.fn(),
+					removeListener: vi.fn(),
+				}),
 		);
 
 		render(<Probe />);

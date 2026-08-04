@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Observe when an element scrolls into view (fires once).
@@ -15,31 +15,31 @@ import { useEffect, useRef, useState } from "react"
 export function useInView<T extends HTMLElement = HTMLDivElement>(
 	options?: IntersectionObserverInit,
 ) {
-	const ref = useRef<T>(null)
-	const [isInView, setIsInView] = useState(false)
+	const ref = useRef<T>(null);
+	const [isInView, setIsInView] = useState(false);
 
 	useEffect(() => {
-		const element = ref.current
-		if (!element) return
+		const element = ref.current;
+		if (!element) return;
 
 		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 			// Intentional: reduced-motion users get content immediately, no animation gate
 			// eslint-disable-next-line react-hooks/set-state-in-effect -- by design
-			setIsInView(true)
-			return
+			setIsInView(true);
+			return;
 		}
 
 		const observer = new IntersectionObserver(([entry]) => {
 			if (entry.isIntersecting) {
-				setIsInView(true)
-				observer.disconnect()
+				setIsInView(true);
+				observer.disconnect();
 			}
-		}, options)
+		}, options);
 
-		observer.observe(element)
-		return () => observer.disconnect()
+		observer.observe(element);
+		return () => observer.disconnect();
 		// eslint-disable-next-line react-hooks/exhaustive-deps -- options is configuration, re-observe on change is not needed
-	}, [])
+	}, []);
 
-	return { ref, isInView }
+	return { ref, isInView };
 }
