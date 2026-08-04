@@ -21,18 +21,18 @@ export const heroCopy = {
 	en: {
 		kicker: "WinTuner - Where Code Meets Curiosity",
 		intro:
-			"DevOps Engineer & Open Source Contributor. I specialize in building high-performance web applications and optimizing IT infrastructures. Currently focused on Next.js, Node.js, and Linux system engineering.",
+			"Software engineering student at Chiang Mai University and Co-Founder & CTO of Muanjai. Building Agentic AI systems, full-stack web applications, and DevOps infrastructure.",
 		explore: "explore artifacts",
 		resume: "resume",
 		scroll: "scroll",
 		status: "status: forging",
-		loaded: "experiments loaded: 12",
+		loaded: "experiments loaded: 18",
 		spark: "last spark: today",
-	},
+},
 	th: {
 		kicker: "WinTuner - ที่ที่โค้ดเจอกับความอยากรู้อยากเห็น",
 		intro:
-			"DevOps Engineer และ Open Source Contributor เชี่ยวชาญการสร้างเว็บแอปพลิเคชันประสิทธิภาพสูงและการจัดการโครงสร้างพื้นฐานไอที เน้นการพัฒนาด้วย Next.js, Node.js และวิศวกรรมระบบ Linux",
+			"นักศึกษาสายวิศวกรรมซอฟต์แวร์ มหาวิทยาลัยเชียงใหม่ ผู้ร่วมก่อตั้งและ CTO ของ Muanjai มุ่งมั่นพัฒนาระบบ Agentic AI, เว็บแอปพลิเคชันแบบ Full-Stack และโครงสร้างพื้นฐาน DevOps",
 		explore: "สำรวจผลงาน",
 		resume: "เรซูเม่",
 		scroll: "เลื่อนลง",
