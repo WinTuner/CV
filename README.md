@@ -1,83 +1,107 @@
-# EinCode
+# WinTuner — Digital Laboratory
 
-A modern, minimal code editor / playground built with Next.js, React and Radix UI.
+Personal portfolio / CV site for **Thanatphong Tarin (WinTuner)** — a digital
+workshop where code meets curiosity. Experiments, prototypes, blog posts, and
+open-source artifacts.
 
-Version: `0.1.1`
+Built with Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4 and
+Radix UI primitives. Fully bilingual (EN/TH) via a client-side language
+provider.
 
-## What the project does
+## Pages
 
-Code Forge is a lightweight, opinionated editor UI and playground intended for experimenting with editor-like components and small developer tools. It demonstrates a modern stack including Next.js 16, React 19, TypeScript, Tailwind CSS and Radix UI primitives.
+| Route | Description |
+| --- | --- |
+| `/` | Landing page — terminal hero, live GitHub activity, Discord & Spotify presence, skills matrix |
+| `/introduction` | CV / introduction with education timeline and expandable image lightbox |
+| `/projects` | Featured projects pulled from the GitHub API (ISR, 1h) |
+| `/blog` | Blog — Notion-backed posts (with local fallback) merged with Medium, category/tag/search filtering |
+| `/workbench` | Curated tool stack |
 
-### Why this is useful
+## Getting started
 
-- Fast developer playground to prototype editor UX and integrations.
-- Collection of reusable UI components (see `components/`).
-- Up-to-date with Next.js 16 and React 19 modern patterns (app router, server components).
+Prerequisites:
 
-#### Key features
+- **Node.js 22+** (matches CI)
+- **npm** (the repo uses `package-lock.json`; `pnpm` also works)
 
-- App shell and layout in `app/`
-- Reusable UI primitives under `components/` (cursor glow, header, footer, workbench, etc.)
-- Styling with Tailwind CSS and global styles in `styles/` and `app/globals.css`
-- TypeScript-first codebase
-
-##### Getting started
-
-Prerequisites
-
-- Node.js 18 or newer
-- pnpm (recommended) — install from <https://pnpm.io/>
-
-Quick start
-
-\`\`\`bash
+```bash
 # install dependencies
-pnpm install
+npm install
 
 # run development server
-pnpm dev
-\`\`\`
+npm run dev
+```
 
-Available scripts
+Open <http://localhost:3000>.
 
-- `pnpm dev` — runs `next dev` (development server)
-- `pnpm build` — runs `next build` (production build)
-- `pnpm start` — runs `next start` (serve built app)
-- `pnpm lint` — run `eslint .`
+### Available scripts
 
-Building for production
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Development server (`next dev`) |
+| `npm run build` | Production build (`next build`) |
+| `npm start` | Serve the built app (`next start`) |
+| `npm run lint` | ESLint (`eslint .`) |
+| `npm test` | Vitest unit/component tests |
+| `npm run analyze` | Bundle analysis via `next experimental-analyze` |
 
-\`\`\`bash
-pnpm build
-pnpm start
-\`\`\`
+## Project layout
 
-Project layout (high level)
+- `app/` — App Router pages, layouts, API routes (`/api/contact`, `/api/subscribe`), `sitemap.ts`, `robots.ts`, `feed.xml`
+- `components/` — UI primitives (`ui/`), hero terminal widgets (`hero/`), and per-page feature components (`public/`)
+- `lib/` — data fetching (`github.ts`, `notion-blog.ts`, `medium-blog.ts`, `lanyard.ts`), content (`blog-data.tsx`, `cv-data.ts`), themes, and small hooks
+- `constants/` `types/` — shared config and TypeScript types
+- `scripts/` — one-off tooling (image optimization, OG image generation)
+- `docs/` — architecture, performance, accessibility, deployment notes
+- `public/` — static assets (icons, OG images, project screenshots)
 
-- `app/` — Next.js App Router pages and layout
-- `components/` — UI components and small feature pieces
-- `lib/` — utilities and helpers
-- `public/` — static assets
-- `styles/` — global styles and Tailwind CSS entry
+## Features
 
-Where to get help
+- **Bilingual (EN/TH)** — persisted language choice, all pages translated
+- **Live GitHub presence** — repos, contribution activity, and events with ISR caching
+- **Discord live status** — REST polling via Lanyard, offline/online states
+- **Spotify now-playing widget** — deferred, memoized client widget
+- **Blog** — Notion CMS integration with local fallback, Medium merge, tag/category/search, RSS feed (`/feed.xml`)
+- **Newsletter + contact forms** — webhook-driven API routes (Formspree/Zapier/Make/Upstash), safe-by-default 501s when unconfigured
+- **SEO** — dynamic sitemap, robots.txt, Open Graph images, JSON-LD structured data
+- **Accessibility** — skip link, focus-managed mobile menu, reduced-motion support, ARIA labels on icon buttons
+- **Performance** — ISR revalidation, deferred heavy widgets, memoized markdown parsing, direct-DOM cursor glow (zero re-renders)
+- **Security** — sanitized blog HTML rendering, validated webhook URLs (SSRF guard), rate-limit-friendly data fetching
 
-- Create an issue: <https://github.com/ehsanghaffar/code-forge/issues>
-- For quick questions, open a discussion or file a concise issue with reproduction steps.
+## Configuration
 
-Who maintains this project
+Copy `.env.example` to `.env.local` and fill in what you need. Everything is
+optional:
 
-- Maintainer: Ehsan Ghaffar — listed as the package author.
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL (defaults to production URL) |
+| `GITHUB_TOKEN` | Raise GitHub API rate limits during builds |
+| `NOTION_API_KEY` / `NOTION_DATABASE_ID` | Blog via Notion; falls back to bundled posts |
+| `NEWSLETTER_WEBHOOK_URL` / `UPSTASH_*` | Newsletter endpoint (Formspree, Buttondown, Zapier, Upstash Redis…) |
+| `CONTACT_WEBHOOK_URL` | Contact form endpoint |
 
-Contributing
+When a service is not configured, its API route returns `501` and the UI shows
+a graceful fallback.
 
-Contributions are welcome. Open an issue to discuss larger changes, or send a pull request with a focused, well-documented change. Keep changes small and include a description and screenshots (if UI-related).
+## Testing
 
-Notes and next steps
+```bash
+npm test        # vitest run
+npm run lint    # eslint .
+npx tsc --noEmit
+```
 
-- Consider adding a `CONTRIBUTING.md` and CI badges for build/lint status.
-- If you want, I can add a basic `CONTRIBUTING.md` and a PR template next.
+CI (`.github/workflows/ci.yml`) runs type check, lint, tests, and a production
+build on every push/PR to `main`.
 
----
+## Deployment
 
-If anything in this README should be adjusted (more examples, extra badges, or internal docs links), tell me which parts you want expanded and I'll update it.
+The site deploys as a static-friendly Next.js app (ISR for dynamic data) —
+works out of the box on Vercel, Netlify, or any Node server. See
+[`docs/deployment.md`](./docs/deployment.md) for details.
+
+## Author
+
+- **Thanatphong Tarin (WinTuner)** — <https://github.com/WinTuner>
