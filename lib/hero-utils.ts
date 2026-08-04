@@ -28,7 +28,7 @@ export const heroCopy = {
 		status: "status: forging",
 		loaded: "experiments loaded: 18",
 		spark: "last spark: today",
-},
+	},
 	th: {
 		kicker: "WinTuner - ที่ที่โค้ดเจอกับความอยากรู้อยากเห็น",
 		intro:
