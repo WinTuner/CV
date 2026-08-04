@@ -44,7 +44,7 @@ export const education = {
 } satisfies EducationMap;
 
 export const professionalExperience = {
-	en: {
+		en: {
 		production: [
 			{
 				name: "Muanjai (ม่วนใจ๋)",
@@ -56,7 +56,7 @@ export const professionalExperience = {
 				problem:
 					"Connecting tourists directly with local SMEs without high platform commissions, while providing a seamless, automated booking experience.",
 				learned:
-					"Integrating local LLMs (Pathumma LLM) on supercomputing infra (ThaiSC), designing autonomous conversational booking agents, and building secure real-time PromptPay verification.",
+					"Integrating local LLMs (Pathumma LLM) on supercomputing infra (ThaiSC), designing autonomous conversational booking agents, building secure real-time PromptPay verification, and hardening webhook reliability (retry dedup, reply-window deadlines, operator alerting).",
 				url: "https://line.me/R/ti/p/%40636owbhl",
 			},
 			{
@@ -140,7 +140,7 @@ export const professionalExperience = {
 				problem:
 					"การเข้าถึงนักท่องเที่ยวโดยตรงของร้านค้าท้องถิ่นโดยไม่ต้องผ่านแพลตฟอร์มคอมมิชชันสูง และความสะดวกในการจองท่องเที่ยวอัจฉริยะแบบเรียลไทม์",
 				learned:
-					"การผสานการใช้งาน Pathumma LLM บนโครงสร้างพื้นฐาน ThaiSC Supercomputer, ออกแบบการจองผ่าน LINE Chatbot และสร้างระบบสแกนชำระเงินและตรวจสอบสลิป PromptPay อัตโนมัติ",
+					"การผสานการใช้งาน Pathumma LLM บนโครงสร้างพื้นฐาน ThaiSC Supercomputer, ออกแบบการจองผ่าน LINE Chatbot, สร้างระบบสแกนชำระเงินและตรวจสอบสลิป PromptPay อัตโนมัติ และเสริมความน่าเชื่อถือของ webhook (กันข้อความซ้ำ, ควบคุมเวลาตอบกลับ, แจ้งเตือนผู้ดูแล)",
 				url: "https://line.me/R/ti/p/%40636owbhl",
 			},
 			{
@@ -311,7 +311,7 @@ export const leadership = {
 } satisfies LeadershipMap;
 
 export const experiences = {
-	en: [
+		en: [
 		{
 			title: "Muanjai (ม่วนใจ๋) - Co-Founder & Chief Technology Officer (CTO)",
 			period: "June 2026 - Present",
@@ -319,7 +319,9 @@ export const experiences = {
 				"Co-founded and engineered Muanjai, an Agentic AI Travel Concierge platform connecting global tourists with local SMEs via [LINE OA](https://line.me/R/ti/p/%40636owbhl) and [Web Client](https://muanjai-ai.up.railway.app/chat/).",
 				"Designed the core AI architecture, integrating NECTEC's Pathumma LLM leveraging ThaiSC's supercomputing infrastructure for localized AI agents.",
 				"Developed scalable backend services supporting automated booking engines and real-time PromptPay payment verification.",
-				"Established DevOps practices including cloud deployment, CI/CD automation, and rigorous security standards for proprietary code and data protection.",
+				"Hardened the LINE webhook pipeline: retry idempotency ledger, reply-window deadline guards, and concurrency caps so every message gets a reply inside LINE's 30s token window.",
+				"Added operator alerting that pushes critical errors (e.g. webhook error-rate spikes) to an admin LINE account, rate-limited to avoid alert floods.",
+				"Established DevOps practices including cloud deployment, CI/CD automation, and rigorous security standards for proprietary code and data protection — CI enforces lint, type checks, and 240+ tests.",
 			],
 		},
 		{
@@ -342,7 +344,9 @@ export const experiences = {
 				"ร่วมก่อตั้งและพัฒนา Muanjai แพลตฟอร์มผู้ช่วยท่องเที่ยวอัจฉริยะเพื่อสนับสนุนธุรกิจ SME ท้องถิ่นผ่าน [LINE OA](https://line.me/R/ti/p/%40636owbhl) และ [Web Client](https://muanjai-ai.up.railway.app/chat/)",
 				"ออกแบบโครงสร้างระบบ AI เชื่อมต่อระบบจองอัตโนมัติ โดยผสานการใช้ Pathumma LLM บนโครงสร้างพื้นฐานซูเปอร์คอมพิวเตอร์ ThaiSC",
 				"พัฒนา Backend สำหรับระบบจองท่องเที่ยวแบบเรียลไทม์ และระบบตรวจสอบความถูกต้องของสลิปและสแกนชำระเงินผ่าน PromptPay",
-				"จัดทำโครงสร้างพื้นฐานระบบ Cloud, ระบบตรวจสอบความผิดพลาด (Observability), วางระบบ CI/CD และรักษาความลับของซอร์สโค้ดและข้อมูลส่วนตัว",
+				"เสริมความน่าเชื่อถือให้ LINE Webhook: ระบบกันข้อความซ้ำ (idempotency), การควบคุมเวลาตอบกลับภายในหน้าต่าง reply token 30 วินาที และการจำกัดจำนวนงานพร้อมกัน",
+				"เพิ่มระบบแจ้งเตือนอัตโนมัติถึงผู้ดูแลเมื่อมีข้อผิดพลาดรุนแรง (เช่น อัตราข้อผิดพลาด webhook สูง) ผ่าน LINE โดยจำกัดความถี่ไม่ให้รบกวนเกินไป",
+				"จัดทำโครงสร้างพื้นฐานระบบ Cloud, ระบบตรวจสอบความผิดพลาด (Observability), วางระบบ CI/CD และรักษาความลับของซอร์สโค้ดและข้อมูลส่วนตัว — CI ตรวจ lint, type check และเทสต์ 240+ รายการ",
 			],
 		},
 		{
