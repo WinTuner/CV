@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 import { ArrowRight, Clock, Calendar } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
 import Image from "next/image"
+import { useInView } from "@/lib/use-in-view"
 import type { BlogLanguage, BlogPost } from "@/lib/blog-data"
 
 interface BlogListProps {
@@ -14,8 +14,7 @@ interface BlogListProps {
 }
 
 export function BlogList({ posts, language }: BlogListProps) {
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLDivElement>(null)
+  const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({ threshold: 0.1 })
 
   const t = {
     en: {
@@ -30,23 +29,6 @@ export function BlogList({ posts, language }: BlogListProps) {
     },
   }[language]
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
     <div ref={sectionRef} className="space-y-6">
       {posts.map((post, index) => (
@@ -54,7 +36,7 @@ export function BlogList({ posts, language }: BlogListProps) {
           key={post.slug}
           className={cn(
             "group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-card/40 glass p-6 sm:p-7 transition-all duration-400 hover:border-primary/40 hover:bg-card/60 active:scale-[0.995] hover-lift opacity-0",
-            isVisible && "animate-fade-in-up",
+            isInView && "animate-fade-in-up",
             post.featured && "ring-1 ring-primary/20",
           )}
           style={{ animationDelay: `${index * 80 + 100}ms` }}
