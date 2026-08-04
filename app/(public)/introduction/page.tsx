@@ -1,6 +1,7 @@
 import { IntroductionContent } from "@/components/public/introduction/introduction-content"
 import type { Metadata } from "next"
 import { Suspense } from "react"
+import { cookies } from "next/headers"
 import { SITE_URL } from "@/lib/site"
 
 const baseUrl = SITE_URL
@@ -27,16 +28,24 @@ export const metadata: Metadata = {
   },
 }
 
-export default function IntroductionPage() {
-  return (
-    <div id="main" className="pt-24">
-      <Suspense fallback={
-        <div className="min-h-[60vh] flex flex-col items-center justify-center font-mono text-xs text-muted-foreground animate-pulse">
-          <span>Loading resume context...</span>
-        </div>
-      }>
-        <IntroductionContent />
-      </Suspense>
-    </div>
-  )
+export default async function IntroductionPage() {
+	const cookieStore = await cookies();
+	const isThai = cookieStore.get("site-language")?.value === "th";
+	return (
+		<div id="main" className="pt-24">
+			<Suspense
+				fallback={
+					<div className="min-h-[60vh] flex flex-col items-center justify-center font-mono text-xs text-muted-foreground animate-pulse">
+						<span>
+							{isThai
+								? "กำลังโหลดข้อมูลเรซูเม่..."
+								: "Loading resume context..."}
+						</span>
+					</div>
+				}
+			>
+				<IntroductionContent />
+			</Suspense>
+		</div>
+	);
 }
