@@ -56,7 +56,7 @@ export const professionalExperience = {
 				problem:
 					"Connecting tourists directly with local SMEs without high platform commissions, while providing a seamless, automated booking experience.",
 				learned:
-					"Integrating local LLMs (Pathumma LLM) on supercomputing infra (ThaiSC), designing autonomous conversational booking agents, building secure real-time PromptPay verification, and hardening webhook reliability (retry dedup, reply-window deadlines, operator alerting).",
+					"Integrating local LLMs (Pathumma LLM) on supercomputing infra (ThaiSC), designing autonomous conversational booking agents, building secure real-time PromptPay verification, hardening webhook reliability (retry dedup, reply-window deadlines, operator alerting), and enforcing security best practices — session secret fail-fast, CORS anchoring, query validation — all guarded by a CI pipeline running 240+ tests.",
 				url: "https://line.me/R/ti/p/%40636owbhl",
 			},
 			{
@@ -140,7 +140,7 @@ export const professionalExperience = {
 				problem:
 					"การเข้าถึงนักท่องเที่ยวโดยตรงของร้านค้าท้องถิ่นโดยไม่ต้องผ่านแพลตฟอร์มคอมมิชชันสูง และความสะดวกในการจองท่องเที่ยวอัจฉริยะแบบเรียลไทม์",
 				learned:
-					"การผสานการใช้งาน Pathumma LLM บนโครงสร้างพื้นฐาน ThaiSC Supercomputer, ออกแบบการจองผ่าน LINE Chatbot, สร้างระบบสแกนชำระเงินและตรวจสอบสลิป PromptPay อัตโนมัติ และเสริมความน่าเชื่อถือของ webhook (กันข้อความซ้ำ, ควบคุมเวลาตอบกลับ, แจ้งเตือนผู้ดูแล)",
+					"การผสานการใช้งาน Pathumma LLM บนโครงสร้างพื้นฐาน ThaiSC Supercomputer, ออกแบบการจองผ่าน LINE Chatbot, สร้างระบบสแกนชำระเงินและตรวจสอบสลิป PromptPay อัตโนมัติ, เสริมความน่าเชื่อถือของ webhook (กันข้อความซ้ำ, ควบคุมเวลาตอบกลับ, แจ้งเตือนผู้ดูแล), และยึดหลักปฏิบัติด้านความปลอดภัย — บังคับ SESSION_SECRET_KEY, ตรึงขอบเขต CORS, ตรวจสอบความยาว query — โดยมี CI ที่รันเทสต์ 240+ รายการคอยดูแล",
 				url: "https://line.me/R/ti/p/%40636owbhl",
 			},
 			{
