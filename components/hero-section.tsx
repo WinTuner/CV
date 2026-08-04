@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useLanguage } from "./language-provider";
 import { heroCopy, roles } from "@/lib/hero-utils";
 import type { ActivityItem } from "@/lib/github";
@@ -11,11 +11,6 @@ const DiscordProfileCard = dynamic(
 	() => import("./discord-profile-card").then((m) => m.DiscordProfileCard),
 	{
 		ssr: false,
-		loading: () => (
-			<div className="w-full max-w-lg rounded-xl border border-border/50 bg-zinc-950/20 glass p-5 flex items-center justify-center h-48 font-mono text-xs text-muted-foreground animate-pulse">
-				<span>loading Discord profile presence...</span>
-			</div>
-		),
 	},
 );
 import { TerminalWidget } from "./hero/terminal-widget";
@@ -109,7 +104,19 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
 
 						{/* Discord Profile Card */}
 						<div className="w-full max-w-lg">
-							<DiscordProfileCard />
+							<Suspense
+								fallback={
+									<div className="w-full max-w-lg rounded-xl border border-border/50 bg-zinc-950/20 glass p-5 flex items-center justify-center h-48 font-mono text-xs text-muted-foreground animate-pulse">
+										<span>
+											{language === "th"
+												? "กำลังโหลดสถานะ Discord..."
+												: "loading Discord profile presence..."}
+										</span>
+									</div>
+								}
+							>
+								<DiscordProfileCard />
+							</Suspense>
 						</div>
 					</div>
 

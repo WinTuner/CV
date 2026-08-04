@@ -264,7 +264,9 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 			case "projects":
 				output = (
 					<div className="space-y-1 text-[10px]">
-						<p className="text-primary font-bold">Recent Projects:</p>
+						<p className="text-primary font-bold">
+							{language === "th" ? "โปรเจกต์ล่าสุด:" : "Recent Projects:"}
+						</p>
 						<p>
 							•{" "}
 							<a
@@ -275,7 +277,10 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 							>
 								Muanjai
 							</a>{" "}
-							- Agentic AI Travel Assistant
+							-
+							{language === "th"
+								? "Compliance Helper Bot"
+								: "AI Compliance Helper Bot"}
 						</p>
 						<p>
 							•{" "}

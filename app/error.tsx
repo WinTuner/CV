@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 export default function Error({
@@ -10,13 +10,40 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  // Root error boundary renders outside LanguageProvider — read the
+  // cookie directly to pick the language. Lazy initializer keeps the
+  // client-only cookie read out of an effect.
+  const [language] = useState<'en' | 'th'>(() => {
+    if (typeof window === "undefined") return "en";
+    const cookie = document.cookie
+      .split("; ")
+      .find((entry) => entry.startsWith("site-language="))
+      ?.split("=")[1];
+    return cookie === "th" ? "th" : "en";
+  });
+
+  const t = {
+    en: {
+      title: 'Application Error',
+      desc: 'A critical error occurred. We apologize for the inconvenience.',
+      retry: 'Try again',
+      home: 'Go home',
+    },
+    th: {
+      title: 'เกิดข้อผิดพลาดของแอปพลิเคชัน',
+      desc: 'เกิดข้อผิดพลาดร้ายแรง ขออภัยในความไม่สะดวก',
+      retry: 'ลองอีกครั้ง',
+      home: 'กลับหน้าหลัก',
+    },
+  }[language]
+
   useEffect(() => {
     // Log the error to an error reporting service
     console.error('Root error:', error)
   }, [error])
 
   return (
-    <html lang="en">
+    <html lang={language}>
       <body>
         <div className="min-h-screen flex items-center justify-center px-4">
           <div className="max-w-2xl text-center">
@@ -36,10 +63,8 @@ export default function Error({
                   />
                 </svg>
               </div>
-              <h2 className="text-3xl font-bold mb-4">Application Error</h2>
-              <p className="text-muted-foreground text-lg mb-2">
-                A critical error occurred. We apologize for the inconvenience.
-              </p>
+              <h2 className="text-3xl font-bold mb-4">{t.title}</h2>
+              <p className="text-muted-foreground text-lg mb-2">{t.desc}</p>
               {error.message && (
                 <p className="text-sm text-muted-foreground font-mono bg-muted px-4 py-2 rounded mt-4">
                   {error.message}
@@ -52,13 +77,13 @@ export default function Error({
                 onClick={reset}
                 className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
               >
-                Try again
+                {t.retry}
               </button>
               <Link
                 href="/"
                 className="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors"
               >
-                Go home
+                {t.home}
               </Link>
             </div>
           </div>

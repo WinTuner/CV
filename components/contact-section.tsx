@@ -25,7 +25,14 @@ export function ContactSection() {
             send: "Transmit Message",
             sending: "Transmitting...",
             sent: "Transmission Complete",
-            footer: "Direct frequency: Thanatphong2719@gmail.com"
+            footer: "Direct frequency: Thanatphong2719@gmail.com",
+            directEmail: "Direct Email",
+            socialHub: "Social Hub",
+            sendAnother: "Send another message",
+            errorGeneric: "Something went wrong. Please try again.",
+            errorNetwork: "Network error. Please try again.",
+            sentThanks:
+                "Thank you for reaching out — I'll get back to you as soon as possible.",
         },
         th: {
             kicker: "การเชื่อมต่อ",
@@ -37,8 +44,14 @@ export function ContactSection() {
             send: "ส่งข้อความ",
             sending: "กำลังส่ง...",
             sent: "ส่งข้อความสำเร็จ",
-            footer: "ติดต่อโดยตรงที่: Thanatphong2719@gmail.com"
-        }
+            footer: "ติดต่อโดยตรงที่: Thanatphong2719@gmail.com",
+            directEmail: "อีเมลโดยตรง",
+            socialHub: "โซเชียลมีเดีย",
+            sendAnother: "ส่งข้อความอีกครั้ง",
+            errorGeneric: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+            errorNetwork: "เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่",
+            sentThanks: "ขอบคุณสำหรับการติดต่อ ผมจะรีบตอบกลับโดยเร็วที่สุดครับ",
+        },
     }[language]
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -57,7 +70,7 @@ export function ContactSection() {
                 error?: string
             }
             if (!response.ok) {
-                setError(data.error ?? "Something went wrong. Please try again.")
+                setError(data.error ?? t.errorGeneric)
                 setIsSubmitting(false)
                 return
             }
@@ -67,7 +80,7 @@ export function ContactSection() {
             setIsSubmitting(false)
             setIsSent(true)
         } catch {
-            setError("Network error. Please try again.")
+            setError(t.errorNetwork)
             setIsSubmitting(false)
         }
     }
@@ -98,7 +111,7 @@ export function ContactSection() {
                                     <Mail className="h-5 w-5 text-primary" />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Direct Email</p>
+                                    <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">{t.directEmail}</p>
                                     <p className="text-sm font-medium">Thanatphong2719@gmail.com</p>
                                 </div>
                             </div>
@@ -107,7 +120,7 @@ export function ContactSection() {
                                     <MessageSquare className="h-5 w-5 text-primary" />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Social Hub</p>
+                                    <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">{t.socialHub}</p>
                                     <p className="text-sm font-medium">github.com/WinTuner</p>
                                 </div>
                             </div>
@@ -131,12 +144,12 @@ export function ContactSection() {
                                             <CheckCircle2 className="h-12 w-12 text-primary animate-pulse-glow" />
                                         </div>
                                         <h3 className="mb-2 text-2xl font-bold">{t.sent}</h3>
-                                        <p className="text-muted-foreground">ขอบคุณสำหรับการติดต่อ ผมจะรีบตอบกลับโดยเร็วที่สุดครับ</p>
+                                        <p className="text-muted-foreground">{t.sentThanks}</p>
                                         <button
                                             onClick={() => setIsSent(false)}
                                             className="mt-8 text-xs font-mono text-primary hover:underline underline-offset-4"
                                         >
-                                            Send another message
+                                            {t.sendAnother}
                                         </button>
                                     </div>
                                 ) : (
