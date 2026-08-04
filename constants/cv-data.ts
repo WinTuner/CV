@@ -50,13 +50,13 @@ export const professionalExperience = {
 				name: "Muanjai (ม่วนใจ๋)",
 				role: "Co-Founder & Chief Technology Officer (CTO)",
 				description:
-					"An Agentic AI Travel Concierge connecting domestic and foreign tourists in Chiang Mai with independent local SMEs via LINE Official Account and Web platforms.",
+					"An AI-powered compliance helper bot that helps hotels, homestays, and individuals manage their licenses, certificates, and document expiry via LINE Official Account and a web client.",
 				target:
-					"Domestic and foreign tourists in Chiang Mai, and local independent SMEs.",
+					"Hotels, homestays, and individuals who need to track licenses, certificates, and compliance deadlines.",
 				problem:
-					"Connecting tourists directly with local SMEs without high platform commissions, while providing a seamless, automated booking experience.",
+					"License and certificate expiry dates are scattered across paper documents and spreadsheets — easy to miss, with fines and compliance risks when forgotten.",
 				learned:
-					"Integrating local LLMs (Pathumma LLM) on supercomputing infra (ThaiSC), designing autonomous conversational booking agents, building secure real-time PromptPay verification, hardening webhook reliability (retry dedup, reply-window deadlines, operator alerting), and enforcing security best practices — session secret fail-fast, CORS anchoring, query validation — all guarded by a CI pipeline running 240+ tests.",
+					"Building RAG-based document Q&A on local LLMs (Pathumma LLM on ThaiSC supercomputing infra), designing expiry reminder flows, building secure real-time PromptPay verification, hardening webhook reliability (retry dedup, reply-window deadlines, operator alerting), and enforcing security best practices (session secret fail-fast, CORS anchoring) — all guarded by a CI pipeline running 240+ tests.",
 				url: "https://line.me/R/ti/p/%40636owbhl",
 			},
 			{
@@ -135,12 +135,12 @@ export const professionalExperience = {
 				name: "Muanjai (ม่วนใจ๋)",
 				role: "ผู้ร่วมก่อตั้งและประธานเจ้าหน้าที่ฝ่ายเทคโนโลยี (Co-Founder & CTO)",
 				description:
-					"แพลตฟอร์มผู้ช่วยท่องเที่ยวอัจฉริยะ (Agentic AI Travel Concierge) ที่เชื่อมโยงนักท่องเที่ยวทั้งไทยและต่างประเทศในเชียงใหม่กับผู้ประกอบการ SME ท้องถิ่นผ่าน LINE OA และเว็บแอปพลิเคชัน",
-				target: "นักท่องเที่ยวในจังหวัดเชียงใหม่ และผู้ประกอบการรายย่อย (SMEs) ในท้องถิ่น",
+					"บอทช่วยดูแลด้านการปฏิบัติตามข้อกำหนด (Compliance Helper Bot) ด้วย AI ช่วยให้โรงแรม โฮมสเตย์ และบุคคลทั่วไป จัดการใบอนุญาต ใบรับรอง และติดตามวันหมดอายุเอกสารผ่าน LINE OA และเว็บแอปพลิเคชัน",
+				target: "โรงแรม โฮมสเตย์ และบุคคลทั่วไป ที่ต้องติดตามใบอนุญาต ใบรับรอง และวันครบกำหนดด้าน compliance",
 				problem:
-					"การเข้าถึงนักท่องเที่ยวโดยตรงของร้านค้าท้องถิ่นโดยไม่ต้องผ่านแพลตฟอร์มคอมมิชชันสูง และความสะดวกในการจองท่องเที่ยวอัจฉริยะแบบเรียลไทม์",
+					"วันหมดอายุของใบอนุญาตและใบรับรองกระจายอยู่ในเอกสารกระดาษและสเปรดชีต — หลงลืมง่าย เสี่ยงค่าปรับและปัญหาทางกฎหมายเมื่อปล่อยเลยกำหนด",
 				learned:
-					"การผสานการใช้งาน Pathumma LLM บนโครงสร้างพื้นฐาน ThaiSC Supercomputer, ออกแบบการจองผ่าน LINE Chatbot, สร้างระบบสแกนชำระเงินและตรวจสอบสลิป PromptPay อัตโนมัติ, เสริมความน่าเชื่อถือของ webhook (กันข้อความซ้ำ, ควบคุมเวลาตอบกลับ, แจ้งเตือนผู้ดูแล), และยึดหลักปฏิบัติด้านความปลอดภัย — บังคับ SESSION_SECRET_KEY, ตรึงขอบเขต CORS, ตรวจสอบความยาว query — โดยมี CI ที่รันเทสต์ 240+ รายการคอยดูแล",
+					"สร้างระบบถาม-ตอบเอกสารด้วย RAG บน LLM ภาษาไทย (Pathumma LLM บนโครงสร้างพื้นฐาน ThaiSC Supercomputer), ออกแบบระบบแจ้งเตือนวันหมดอายุ, สร้างระบบตรวจสอบสลิปและสแกนชำระเงิน PromptPay อัตโนมัติ, เสริมความน่าเชื่อถือของ webhook (กันข้อความซ้ำ, ควบคุมเวลาตอบกลับ, แจ้งเตือนผู้ดูแล), และยึดหลักปฏิบัติด้านความปลอดภัย (บังคับ SESSION_SECRET_KEY, ตรึงขอบเขต CORS) — โดยมี CI ที่รันเทสต์ 240+ รายการคอยดูแล",
 				url: "https://line.me/R/ti/p/%40636owbhl",
 			},
 			{
@@ -311,14 +311,14 @@ export const leadership = {
 } satisfies LeadershipMap;
 
 export const experiences = {
-	en: [
+		en: [
 		{
 			title: "Muanjai (ม่วนใจ๋) - Co-Founder & Chief Technology Officer (CTO)",
 			period: "June 2026 - Present",
 			points: [
-				"Co-founded and engineered Muanjai, an Agentic AI Travel Concierge platform connecting global tourists with local SMEs via [LINE OA](https://line.me/R/ti/p/%40636owbhl) and [Web Client](https://muanjai-ai.up.railway.app/chat/).",
-				"Designed the core AI architecture, integrating NECTEC's Pathumma LLM leveraging ThaiSC's supercomputing infrastructure for localized AI agents.",
-				"Developed scalable backend services supporting automated booking engines and real-time PromptPay payment verification.",
+				"Co-founded and engineered Muanjai, an AI-powered compliance helper bot that helps hotels, homestays, and individuals track licenses and document expiry via [LINE OA](https://line.me/R/ti/p/%40636owbhl) and a [Web Client](https://muanjai-ai.up.railway.app/chat/).",
+				"Designed the core AI architecture, integrating NECTEC's Pathumma LLM leveraging ThaiSC's supercomputing infrastructure for RAG-based document Q&A in Thai.",
+				"Built expiry reminder flows, document upload and status summaries, plus secure real-time PromptPay payment verification.",
 				"Hardened the LINE webhook pipeline: retry idempotency ledger, reply-window deadline guards, and concurrency caps so every message gets a reply inside LINE's 30s token window.",
 				"Added operator alerting that pushes critical errors (e.g. webhook error-rate spikes) to an admin LINE account, rate-limited to avoid alert floods.",
 				"Established DevOps practices including cloud deployment, CI/CD automation, and rigorous security standards for proprietary code and data protection — CI enforces lint, type checks, and 240+ tests.",
@@ -341,9 +341,9 @@ export const experiences = {
 				"Muanjai (ม่วนใจ๋) - ผู้ร่วมก่อตั้งและประธานเจ้าหน้าที่ฝ่ายเทคโนโลยี (Co-Founder & CTO)",
 			period: "มิถุนายน 2569 - ปัจจุบัน",
 			points: [
-				"ร่วมก่อตั้งและพัฒนา Muanjai แพลตฟอร์มผู้ช่วยท่องเที่ยวอัจฉริยะเพื่อสนับสนุนธุรกิจ SME ท้องถิ่นผ่าน [LINE OA](https://line.me/R/ti/p/%40636owbhl) และ [Web Client](https://muanjai-ai.up.railway.app/chat/)",
-				"ออกแบบโครงสร้างระบบ AI เชื่อมต่อระบบจองอัตโนมัติ โดยผสานการใช้ Pathumma LLM บนโครงสร้างพื้นฐานซูเปอร์คอมพิวเตอร์ ThaiSC",
-				"พัฒนา Backend สำหรับระบบจองท่องเที่ยวแบบเรียลไทม์ และระบบตรวจสอบความถูกต้องของสลิปและสแกนชำระเงินผ่าน PromptPay",
+				"ร่วมก่อตั้งและพัฒนา Muanjai บอทช่วยดูแลด้านการปฏิบัติตามข้อกำหนด (Compliance Helper Bot) ด้วย AI สำหรับโรงแรม โฮมสเตย์ และบุคคลทั่วไป ในการติดตามใบอนุญาตและวันหมดอายุเอกสาร ผ่าน [LINE OA](https://line.me/R/ti/p/%40636owbhl) และ [Web Client](https://muanjai-ai.up.railway.app/chat/)",
+				"ออกแบบโครงสร้างระบบ AI ผสานการใช้ Pathumma LLM ของ NECTEC บนโครงสร้างพื้นฐานซูเปอร์คอมพิวเตอร์ ThaiSC สำหรับระบบถาม-ตอบเอกสาร (RAG) เป็นภาษาไทย",
+				"พัฒนาระบบแจ้งเตือนวันหมดอายุเอกสาร, ระบบอัปโหลดเอกสารและสรุปสถานะ รวมถึงระบบตรวจสอบความถูกต้องของสลิปและสแกนชำระเงินผ่าน PromptPay แบบเรียลไทม์",
 				"เสริมความน่าเชื่อถือให้ LINE Webhook: ระบบกันข้อความซ้ำ (idempotency), การควบคุมเวลาตอบกลับภายในหน้าต่าง reply token 30 วินาที และการจำกัดจำนวนงานพร้อมกัน",
 				"เพิ่มระบบแจ้งเตือนอัตโนมัติถึงผู้ดูแลเมื่อมีข้อผิดพลาดรุนแรง (เช่น อัตราข้อผิดพลาด webhook สูง) ผ่าน LINE โดยจำกัดความถี่ไม่ให้รบกวนเกินไป",
 				"จัดทำโครงสร้างพื้นฐานระบบ Cloud, ระบบตรวจสอบความผิดพลาด (Observability), วางระบบ CI/CD และรักษาความลับของซอร์สโค้ดและข้อมูลส่วนตัว — CI ตรวจ lint, type check และเทสต์ 240+ รายการ",
