@@ -23,9 +23,9 @@ const pub = (p) => resolve(root, "public", p);
 const jobs = [
 	{
 		in: "developer-portrait.png",
-		out: "developer-portrait.webp",
-		resize: { width: 1200 },
-		format: { webp: { quality: 82 } },
+		out: "developer-portrait-v3.webp",
+		resize: { width: 1200, withoutEnlargement: true },
+		format: { webp: { quality: 95 } },
 	},
 	{
 		in: "icon-light-32x32.png",

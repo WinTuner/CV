@@ -1,32 +1,34 @@
-import { IntroductionContent } from "@/components/public/introduction/introduction-content"
-import type { Metadata } from "next"
-import { Suspense } from "react"
-import { cookies } from "next/headers"
-import { SITE_URL } from "@/lib/site"
+import { IntroductionContent } from "@/components/public/introduction/introduction-content";
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import { cookies } from "next/headers";
+import { SITE_URL } from "@/lib/site";
 
-const baseUrl = SITE_URL
+const baseUrl = SITE_URL;
 
 export const metadata: Metadata = {
-  title: "Resume & Introduction",
-  description: "Detailed background, qualifications, certifications, achievements, and working experiments of Thanatphong Tarin.",
-  openGraph: {
-    title: "Resume & Introduction — WinTuner",
-    description: "Detailed background, qualifications, certifications, achievements, and working experiments of Thanatphong Tarin.",
-    url: `${baseUrl}/introduction`,
-    type: "profile",
-    images: [
-      {
-        url: `${baseUrl}/og-image.png`,
-        width: 1200,
-        height: 630,
-        alt: "Thanatphong Tarin profile page",
-      },
-    ],
-  },
-  alternates: {
-    canonical: `${baseUrl}/introduction`,
-  },
-}
+	title: "Resume & Introduction",
+	description:
+		"Detailed background, qualifications, certifications, achievements, and working experiments of Thanatphong Tarin.",
+	openGraph: {
+		title: "Resume & Introduction — WinTuner",
+		description:
+			"Detailed background, qualifications, certifications, achievements, and working experiments of Thanatphong Tarin.",
+		url: `${baseUrl}/introduction`,
+		type: "profile",
+		images: [
+			{
+				url: `${baseUrl}/og-image.png`,
+				width: 1200,
+				height: 630,
+				alt: "Thanatphong Tarin profile page",
+			},
+		],
+	},
+	alternates: {
+		canonical: `${baseUrl}/introduction`,
+	},
+};
 
 export default async function IntroductionPage() {
 	const cookieStore = await cookies();
@@ -37,9 +39,7 @@ export default async function IntroductionPage() {
 				fallback={
 					<div className="min-h-[60vh] flex flex-col items-center justify-center font-mono text-xs text-muted-foreground animate-pulse">
 						<span>
-							{isThai
-								? "กำลังโหลดข้อมูลเรซูเม่..."
-								: "Loading resume context..."}
+							{isThai ? "กำลังโหลดข้อมูลเรซูเม่..." : "Loading resume context..."}
 						</span>
 					</div>
 				}
