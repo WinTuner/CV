@@ -3,7 +3,8 @@ import { cookies } from "next/headers";
 
 export default async function NotFound() {
 	const cookieStore = await cookies();
-	const language = cookieStore.get("site-language")?.value === "th" ? "th" : "en";
+	const language =
+		cookieStore.get("site-language")?.value === "th" ? "th" : "en";
 	const t = {
 		en: {
 			title: "Page Not Found",

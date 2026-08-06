@@ -99,7 +99,7 @@ async function getMediumPosts(limit = 12): Promise<MediumPost[]> {
       externalUrl: link,
       author: {
         name: "Thanatphong Tarin",
-        avatar: "/developer-portrait.webp",
+        avatar: "/developer-portrait-v3.webp",
         role: "Writer",
       },
       image: extractFirstImage(content),
