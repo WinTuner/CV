@@ -7,7 +7,7 @@ import { heroCopy } from "@/lib/hero-utils";
 
 export function HeroPortrait() {
 	const { language } = useLanguage();
-	const [portraitSrc, setPortraitSrc] = useState("/developer-portrait.webp");
+	const [portraitSrc, setPortraitSrc] = useState("/developer-portrait-v3.webp");
 	const t = heroCopy[language];
 
 	return (
