@@ -12,6 +12,23 @@ export function HeroPortrait() {
 
 	return (
 		<div className="relative animate-scale-in stagger-4">
+			{/* Rotating decorative rings */}
+			<div
+				aria-hidden="true"
+				className="absolute -inset-5 rounded-[2rem] border border-dashed border-primary/20 animate-spin-slower"
+			/>
+			<div
+				aria-hidden="true"
+				className="absolute -inset-10 rounded-[3rem] border border-primary/5 animate-spin-slow"
+			/>
+			{/* Orbiting accent dot */}
+			<div
+				aria-hidden="true"
+				className="absolute -inset-10 animate-spin-slow pointer-events-none"
+			>
+				<div className="absolute -top-1 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-accent shadow-lg shadow-accent/40" />
+			</div>
+
 			<div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 glass p-1 hover-lift shadow-2xl shadow-primary/10">
 				{/* Terminal header */}
 				<div className="flex items-center justify-between px-4 py-3 border-b border-border/50 bg-background/40 backdrop-blur-md">
@@ -44,6 +61,9 @@ export function HeroPortrait() {
 
 					{/* Scanline overlay */}
 					<div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,3px_100%]" />
+
+					{/* Periodic sheen sweep */}
+					<span className="pointer-events-none absolute inset-y-0 left-0 w-2/5 animate-shine bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
 
 					{/* Vignette */}
 					<div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle,transparent_40%,rgba(0,0,0,0.4)_100%)]" />

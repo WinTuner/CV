@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useLanguage } from "./language-provider";
+import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
 import { Mail, CheckCircle2, MessageSquare, ArrowRight } from "lucide-react";
 
@@ -13,6 +14,9 @@ export function ContactSection() {
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState("");
 	const [error, setError] = useState("");
+	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
+		threshold: 0.1,
+	});
 
 	const t = {
 		en: {
@@ -90,25 +94,26 @@ export function ContactSection() {
 			id="contact"
 			className="relative px-4 sm:px-6 py-20 sm:py-32 overflow-hidden"
 		>
-			{/* Background glow */}
-			<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-full max-h-4xl rounded-full bg-primary/5 blur-[120px] -z-10" />
+			{/* Aurora background blobs */}
+			<div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[40rem] rounded-full bg-primary/10 blur-[120px] -z-10 animate-aurora" />
+			<div className="absolute bottom-0 right-1/4 w-full max-w-xl h-96 rounded-full bg-accent/10 blur-[120px] -z-10 animate-aurora-delayed" />
 
-			<div className="mx-auto max-w-7xl">
+			<div ref={sectionRef} className="mx-auto max-w-7xl">
 				<div className="grid gap-16 lg:grid-cols-2 lg:items-center">
 					<div className="space-y-8">
 						<div className="space-y-4">
-							<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary animate-fade-in">
+							<p className={cn("font-mono text-xs uppercase tracking-[0.3em] text-primary opacity-0", isInView && "animate-fade-in")}>
 								{t.kicker}
 							</p>
-							<h2 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl animate-fade-in-up">
+							<h2 className={cn("text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl opacity-0", isInView && "animate-fade-in-up")}>
 								{t.title}
 							</h2>
-							<p className="max-w-lg text-base sm:text-lg text-muted-foreground leading-relaxed animate-fade-in-up stagger-1">
+							<p className={cn("max-w-lg text-base sm:text-lg text-muted-foreground leading-relaxed opacity-0", isInView && "animate-fade-in-up stagger-1")}>
 								{t.desc}
 							</p>
 						</div>
 
-						<div className="space-y-6 animate-fade-in-up stagger-2">
+						<div className={cn("space-y-6 opacity-0", isInView && "animate-fade-in-up stagger-2")}>
 							<div className="flex items-center gap-4 group">
 								<div className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-card/50 transition-colors group-hover:border-primary/50 group-hover:bg-primary/5">
 									<Mail className="h-5 w-5 text-primary" />
@@ -136,8 +141,8 @@ export function ContactSection() {
 						</div>
 					</div>
 
-					<div className="animate-scale-in">
-						<div className="relative rounded-2xl border border-border/50 bg-card/40 p-1 glass backdrop-blur-xl">
+				<div className={cn("opacity-0", isInView && "animate-scale-in")}>
+					<div className="relative rounded-2xl p-1 glass backdrop-blur-xl animated-border">
 							{/* Form Header / Terminal bar */}
 							<div className="flex items-center gap-2 px-4 py-3 border-b border-border/50">
 								<div className="h-2.5 w-2.5 rounded-full bg-destructive/50" />
@@ -151,8 +156,10 @@ export function ContactSection() {
 							<div className="p-6 sm:p-8">
 								{isSent ? (
 									<div className="flex flex-col items-center justify-center py-12 text-center animate-fade-in">
-										<div className="mb-6 rounded-full bg-primary/10 p-4">
-											<CheckCircle2 className="h-12 w-12 text-primary animate-pulse-glow" />
+										<div className="relative mb-6 rounded-full bg-primary/10 p-4">
+											<span className="absolute inset-0 rounded-full bg-primary/30 animate-pulse-ring" />
+											<span className="absolute inset-0 rounded-full bg-primary/30 animate-pulse-ring" style={{ animationDelay: "1.2s" }} />
+											<CheckCircle2 className="relative h-12 w-12 text-primary animate-pulse-glow" />
 										</div>
 										<h3 className="mb-2 text-2xl font-bold">{t.sent}</h3>
 										<p className="text-muted-foreground">{t.sentThanks}</p>

@@ -4,11 +4,13 @@ import { cn } from "@/lib/utils"
 import { ExternalLink } from "lucide-react"
 import { GithubIcon } from "./social-icons"
 import { useLanguage } from "./language-provider"
+import { useInView } from "@/lib/use-in-view"
 
 import type { WipItem } from "@/lib/github"
 
 export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
   const { language } = useLanguage()
+  const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({ threshold: 0.08 })
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     if (isNaN(date.getTime())) return dateString
@@ -36,14 +38,14 @@ export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
 
   return (
     <section id="workbench" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/30">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-10 sm:mb-14 space-y-3 animate-fade-in-up">
+      <div ref={sectionRef} className="mx-auto max-w-7xl">
+        <div className={cn("mb-10 sm:mb-14 space-y-3 opacity-0", isInView && "animate-fade-in-up")}>
           <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">{t.kicker}</p>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">{t.title}</h2>
           <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">{t.desc}</p>
         </div>
 
-        <div className="rounded-xl border border-border bg-card/40 glass backdrop-blur-sm overflow-hidden hover-lift animate-scale-in stagger-2">
+        <div className={cn("rounded-xl border border-border bg-card/40 glass backdrop-blur-sm overflow-hidden hover-lift opacity-0", isInView && "animate-scale-in stagger-2")}>
           <div className="flex items-center gap-3 border-b border-border/50 bg-secondary/40 px-4 sm:px-5 py-3.5 sm:py-4">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-destructive/60 transition-colors hover:bg-destructive cursor-pointer" />
@@ -64,7 +66,7 @@ export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col gap-4 p-5 sm:p-6 transition-all duration-300 sm:flex-row sm:items-center sm:justify-between hover:bg-secondary/30 animate-fade-in"
+                className={cn("group flex flex-col gap-4 p-5 sm:p-6 transition-all duration-300 sm:flex-row sm:items-center sm:justify-between hover:bg-secondary/30 opacity-0", isInView && "animate-fade-in")}
                 style={{ animationDelay: `${index * 100 + 400}ms` }}
               >
                 <div className="flex-1 space-y-2 min-w-0">
@@ -88,10 +90,10 @@ export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
                     <div className="h-2 w-full sm:w-28 overflow-hidden rounded-full bg-secondary/80 relative">
                       <div
                         className={cn(
-                          "h-full rounded-full transition-all duration-700 ease-out",
+                          "h-full rounded-full transition-all duration-1000 ease-out",
                           item.progress >= 80 ? "bg-primary" : item.progress >= 50 ? "bg-yellow-500" : "bg-orange-500",
                         )}
-                        style={{ width: `${item.progress}%` }}
+                        style={{ width: isInView ? `${item.progress}%` : "0%" }}
                       />
                       <div className="absolute inset-0 animate-shimmer opacity-30" />
                     </div>
