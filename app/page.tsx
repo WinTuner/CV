@@ -11,6 +11,7 @@ import {
 import { ContactSection } from "@/components/contact-section";
 import { Footer } from "@/components/footer";
 import { CursorGlow } from "@/components/cursor-glow";
+import { StatusMarquee } from "@/components/status-marquee";
 import {
 	generateWebsiteStructuredData,
 	generatePersonStructuredData,
@@ -49,9 +50,11 @@ export default async function Home() {
 				className="relative min-h-screen overflow-hidden scanlines"
 			>
 				<CursorGlow />
+				<div className="crt-sweep" />
 				<div className="relative z-10">
 					<Header />
 					<HeroSection recentActivities={recentActivities} />
+					<StatusMarquee />
 					<SkillsMatrix />
 					<ProjectsGrid projects={projects} />
 					<Workbench wipItems={wipItems} />

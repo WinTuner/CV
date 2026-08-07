@@ -82,7 +82,7 @@ export function Header() {
 			<div className="mx-auto max-w-7xl px-4 sm:px-6 py-4">
 				<nav className="flex items-center justify-between">
 					<Link href="/" className="group flex items-center gap-3">
-						<div className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-primary/50 bg-primary/10 font-mono text-sm text-primary transition-all duration-400 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-primary/25">
+						<div className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-primary/50 bg-primary/10 font-mono text-sm text-primary transition-all duration-400 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-primary/25 animate-wiggle">
 							<span className="glitch">{"⚡"}</span>
 						</div>
 						<span className="font-mono text-sm tracking-tight">
