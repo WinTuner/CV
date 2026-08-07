@@ -126,7 +126,7 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
 			</div>
 
 			<div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 animate-fade-in stagger-6">
-				<span className="font-mono text-xs text-muted-foreground">
+				<span className="font-mono text-xs text-muted-foreground animate-bounce-soft">
 					{t.scroll}
 				</span>
 				<div className="w-px h-12 bg-gradient-to-b from-primary/50 to-transparent animate-pulse" />
