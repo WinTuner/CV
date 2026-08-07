@@ -3,6 +3,8 @@
 import { Mail, ExternalLink, Heart } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./social-icons";
 import { useLanguage } from "./language-provider";
+import { useInView } from "@/lib/use-in-view";
+import { cn } from "@/lib/utils";
 
 const socialLinks = [
 	{
@@ -33,6 +35,9 @@ const staggerDelays = [
 
 export function Footer() {
 	const { language } = useLanguage();
+	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
+		threshold: 0.15,
+	});
 	const t = {
 		en: {
 			connect: "Connect",
@@ -63,10 +68,10 @@ export function Footer() {
 			id="connect"
 			className="border-t border-border/30 px-4 sm:px-6 py-20 sm:py-28"
 		>
-			<div className="mx-auto max-w-7xl">
+			<div ref={sectionRef} className="mx-auto max-w-7xl">
 				<div className="grid gap-12 sm:gap-16 lg:grid-cols-2">
 					{/* Left column */}
-					<div className="space-y-6 sm:space-y-8 animate-fade-in-up">
+					<div className={cn("space-y-6 sm:space-y-8 opacity-0", isInView && "animate-fade-in-up")}>
 						<div className="space-y-3">
 							<p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">
 								{t.connect}
@@ -96,8 +101,8 @@ export function Footer() {
 						</div>
 					</div>
 
-					{/* Right column - Links */}
-					<div className="space-y-6 lg:text-right animate-fade-in-up stagger-2">
+				{/* Right column - Links */}
+				<div className={cn("space-y-6 lg:text-right opacity-0", isInView && "animate-fade-in-up stagger-2")}>
 						<p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-muted-foreground">
 							{t.findElsewhere}
 						</p>
@@ -130,7 +135,7 @@ export function Footer() {
 					</div>
 				</div>
 
-				<div className="mt-16 sm:mt-20 flex flex-col items-center justify-between gap-6 border-t border-border/30 pt-8 sm:pt-10 sm:flex-row animate-fade-in stagger-4">
+				<div className={cn("mt-16 sm:mt-20 flex flex-col items-center justify-between gap-6 border-t border-border/30 pt-8 sm:pt-10 sm:flex-row opacity-0", isInView && "animate-fade-in stagger-4")}>
 					<div className="flex items-center gap-2.5 font-mono text-xs text-muted-foreground">
 						<span className="relative flex h-2 w-2">
 							<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />

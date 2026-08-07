@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useInView } from "@/lib/use-in-view";
 import { GithubIcon } from "./social-icons";
 import {
 	Star,
@@ -29,6 +30,9 @@ const filters = [
 export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 	const { language } = useLanguage();
 	const [activeFilter, setActiveFilter] = useState("all");
+	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
+		threshold: 0.05,
+	});
 
 	const copy = {
 		en: {
@@ -92,9 +96,9 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 			id="projects"
 			className="px-4 sm:px-6 py-20 sm:py-28 bg-secondary/10"
 		>
-			<div className="mx-auto max-w-7xl">
+			<div ref={sectionRef} className="mx-auto max-w-7xl">
 				<div className="mb-10 sm:mb-14 flex flex-col gap-6 sm:gap-8 sm:flex-row sm:items-end sm:justify-between">
-					<div className="space-y-3 animate-fade-in-up">
+					<div className={cn("space-y-3 opacity-0", isInView && "animate-fade-in-up")}>
 						<p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">
 							{t.kicker}
 						</p>
@@ -103,7 +107,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 						</h2>
 					</div>
 
-					<div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap scrollbar-hide animate-fade-in-up stagger-2">
+					<div className={cn("flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap scrollbar-hide opacity-0", isInView && "animate-fade-in-up stagger-2")}>
 						{filters.map((filter) => (
 							<button
 								key={filter}
@@ -121,21 +125,25 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 					</div>
 				</div>
 
-				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-					{filteredProjects.map((project, index) => (
-						<article
-							key={project.id}
-							className={cn(
-								"group relative overflow-hidden rounded-xl border bg-card/40 p-6 sm:p-7 glass transition-all duration-400 active:scale-[0.99] hover-lift hover:border-primary/40 hover:bg-card/70 animate-fade-in-up",
-								project.highlight
-									? "sm:col-span-2 lg:col-span-2 border-primary/30 bg-gradient-to-br from-primary/8 via-card/50 to-primary/8"
-									: "border-border/60",
-								project.featured &&
-									!project.highlight &&
-									"sm:col-span-2 lg:col-span-1",
-							)}
-							style={{ animationDelay: `${(index % 6) * 100 + 200}ms` }}
-						>
+			<div
+				key={activeFilter}
+				className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+			>
+				{filteredProjects.map((project, index) => (
+					<article
+						key={project.id}
+						className={cn(
+							"group relative overflow-hidden rounded-xl border bg-card/40 p-6 sm:p-7 glass transition-all duration-400 active:scale-[0.99] hover-lift hover:border-primary/40 hover:bg-card/70 opacity-0",
+							isInView && "animate-fade-in-up",
+							project.highlight
+								? "sm:col-span-2 lg:col-span-2 border-primary/30 bg-gradient-to-br from-primary/8 via-card/50 to-primary/8"
+								: "border-border/60",
+							project.featured &&
+								!project.highlight &&
+								"sm:col-span-2 lg:col-span-1",
+						)}
+						style={{ animationDelay: `${(index % 6) * 100 + 200}ms` }}
+					>
 							{project.highlight && (
 								<div className="absolute left-5 top-5 flex items-center gap-2 rounded-full border border-primary/40 bg-primary/15 px-3.5 py-1.5 animate-pulse-glow">
 									<Sparkles className="h-3.5 w-3.5 text-primary" />
@@ -224,8 +232,11 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 								</div>
 							</div>
 
-							<div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-primary via-primary/80 to-transparent transition-all duration-500 group-hover:w-full" />
-						</article>
+						<div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-primary via-primary/80 to-transparent transition-all duration-500 group-hover:w-full" />
+
+						{/* Periodic sheen sweep */}
+						<span className="pointer-events-none absolute inset-y-0 left-0 w-2/5 animate-shine bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
+					</article>
 					))}
 				</div>
 			</div>
