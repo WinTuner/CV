@@ -877,11 +877,8 @@
   }
 
   /* Hide certificates, school pictures, and awards image maps */
-  img,
-  .relative.overflow-hidden,
-  .relative.group,
-  .w-full.h-\[180px\],
-  .max-w-\[200px\] {
+  .cursor-zoom-in,
+  .cursor-zoom-in img {
     display: none !important;
   }
 
