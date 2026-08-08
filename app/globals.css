@@ -636,6 +636,14 @@
   scroll-margin-top: 7rem;
 }
 
+/* Skip paint work for below-the-fold sections: the browser only renders them
+   as they approach the viewport, so scrolling the long home page stays smooth.
+   `contain-intrinsic-size` reserves an estimated height to avoid scrollbar jank. */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
 /* Glass morphism effect */
 .glass {
   background: oklch(from var(--card) l c h / 0.6);

@@ -158,45 +158,58 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 				);
 		};
 
-		fetchLiveActivities();
+		const isLiveTab = activeTab === "status" || activeTab === "git";
+		const isNeofetch = activeTab === "neofetch";
 
-		// Periodically fetch live activity every 60 seconds
-		const activityInterval = setInterval(fetchLiveActivities, 60000);
+		let activityInterval: ReturnType<typeof setInterval> | null = null;
+		let sysInterval: ReturnType<typeof setInterval> | null = null;
+		let clockInterval: ReturnType<typeof setInterval> | null = null;
 
-		// CPU and RAM dynamic fluctuation ticker (every 2.5 seconds)
-		const sysInterval = setInterval(() => {
-			setCpuLoad((prev) => {
-				const change = (Math.random() - 0.5) * 6;
-				return parseFloat(Math.min(90, Math.max(5, prev + change)).toFixed(1));
-			});
-			setRamUsed((prev) => {
-				const change = (Math.random() - 0.5) * 0.3;
-				return parseFloat(
-					Math.min(30.2, Math.max(8.4, prev + change)).toFixed(2),
-				);
-			});
-		}, 2500);
+		if (isLiveTab) {
+			fetchLiveActivities();
+			activityInterval = setInterval(fetchLiveActivities, 60000);
+		}
 
-		// Thailand local clock ticking
-		const clockInterval = setInterval(() => {
-			const options: Intl.DateTimeFormatOptions = {
-				timeZone: "Asia/Bangkok",
-				hour: "2-digit",
-				minute: "2-digit",
-				second: "2-digit",
-				hour12: false,
+		if (isNeofetch) {
+			const updateSys = () => {
+				setCpuLoad((prev) => {
+					const change = (Math.random() - 0.5) * 6;
+					return parseFloat(Math.min(90, Math.max(5, prev + change)).toFixed(1));
+				});
+				setRamUsed((prev) => {
+					const change = (Math.random() - 0.5) * 0.3;
+					return parseFloat(
+						Math.min(30.2, Math.max(8.4, prev + change)).toFixed(2),
+					);
+				});
 			};
-			setLocalTime(
-				new Intl.DateTimeFormat("en-US", options).format(new Date()) + " (ICT)",
-			);
-		}, 1000);
+
+			// Thailand local clock ticking
+			const updateClock = () => {
+				const options: Intl.DateTimeFormatOptions = {
+					timeZone: "Asia/Bangkok",
+					hour: "2-digit",
+					minute: "2-digit",
+					second: "2-digit",
+					hour12: false,
+				};
+				setLocalTime(
+					new Intl.DateTimeFormat("en-US", options).format(new Date()) + " (ICT)",
+				);
+			};
+
+			updateSys();
+			updateClock();
+			sysInterval = setInterval(updateSys, 2500);
+			clockInterval = setInterval(updateClock, 1000);
+		}
 
 		return () => {
-			clearInterval(activityInterval);
-			clearInterval(sysInterval);
-			clearInterval(clockInterval);
+			if (activityInterval) clearInterval(activityInterval);
+			if (sysInterval) clearInterval(sysInterval);
+			if (clockInterval) clearInterval(clockInterval);
 		};
-	}, [recentActivities]);
+	}, [activeTab, recentActivities]);
 
 	const handleCliSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();

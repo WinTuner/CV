@@ -94,7 +94,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 	return (
 		<section
 			id="projects"
-			className="px-4 sm:px-6 py-20 sm:py-28 bg-secondary/10"
+			className="px-4 sm:px-6 py-20 sm:py-28 bg-secondary/10 content-visibility-auto"
 		>
 			<div ref={sectionRef} className="mx-auto max-w-7xl">
 				<div className="mb-10 sm:mb-14 flex flex-col gap-6 sm:gap-8 sm:flex-row sm:items-end sm:justify-between">
