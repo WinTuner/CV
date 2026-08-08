@@ -34,6 +34,21 @@ export interface ActivityItem {
 	prTitle?: string;
 }
 
+export interface ContributionDay {
+	date: string; // yyyy-mm-dd
+	count: number;
+	level: 0 | 1 | 2 | 3 | 4;
+}
+
+export interface ContributionWeek {
+	days: ContributionDay[];
+}
+
+export interface Contributions {
+	weeks: ContributionWeek[];
+	total: number;
+}
+
 interface GitHubRepo {
 	id: number;
 	name: string;
@@ -540,8 +555,7 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
 	}
 }
 
-export async function getGithubRecentActivity(): Promise<ActivityItem[]> {
-	const now = Date.now();
+export async function getGithubRecentActivity(): Promise<ActivityItem[]> {	const now = Date.now();
 	if (
 		globalForGithub.githubActivityCache &&
 		now - globalForGithub.githubActivityCache.timestamp < CACHE_DURATION
@@ -670,5 +684,198 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {
 	} catch (error) {
 		console.error("Error fetching recent activity:", error);
 		return fallbackActivities;
+	}
+}
+
+interface GraphQLCalendarResponse {
+	data?: {
+		user?: {
+			contributionsCollection?: {
+				contributionCalendar?: {
+					totalContributions?: number;
+					weeks?: Array<{
+						contributionDays?: Array<{
+							date?: string;
+							contributionCount?: number;
+							level?: string;
+						}>;
+					}>;
+				};
+			};
+		};
+	};
+}
+
+const GITHUB_GRAPHQL_URL = "https://api.github.com/graphql";
+
+function mapGitHubLevel(level: string): 0 | 1 | 2 | 3 | 4 {
+	switch (level) {
+		case "FIRST_QUARTER":
+			return 1;
+		case "HALF":
+			return 2;
+		case "THREE_QUARTERS":
+			return 3;
+		case "FOURTH_QUARTER":
+			return 4;
+		default:
+			return 0;
+	}
+}
+
+function countToLevel(count: number): 0 | 1 | 2 | 3 | 4 {
+	if (count <= 0) return 0;
+	if (count <= 2) return 1;
+	if (count <= 4) return 2;
+	if (count <= 7) return 3;
+	return 4;
+}
+
+/** Deterministic PRNG so the offline fallback heatmap is stable per day. */
+function mulberry32(seed: number): () => number {
+	return () => {
+		let next = seed |= 0;
+		next = (next + 0x6d2b79f5) | 0;
+		let t = Math.imul(next ^ (next >>> 15), 1 | next);
+		t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+		return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+	};
+}
+
+function hashString(input: string): number {
+	let hash = 0;
+	for (let i = 0; i < input.length; i++) {
+		hash = (hash * 31 + input.charCodeAt(i)) | 0;
+	}
+	return hash;
+}
+
+/**
+ * Deterministic offline contribution calendar for the last 52 weeks.
+ * Weekdays get denser activity than weekends; the value is seeded by the
+ * ISO date so the same calendar renders on every visit.
+ */
+function generateFallbackContributions(): Contributions {
+	const weeks: ContributionWeek[] = [];
+	const today = new Date();
+	today.setHours(12, 0, 0, 0);
+
+	const toIso = (date: Date) =>
+		`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+
+	// Align to the last 52 weeks starting on a Sunday.
+	const end = today.getDay(); // 0 = Sunday
+	const startOffset = 52 * 7 - 1 - end;
+	const start = new Date(today);
+	start.setDate(today.getDate() - startOffset);
+
+	let total = 0;
+	for (let weekIndex = 0; weekIndex < 52; weekIndex++) {
+		const days: ContributionDay[] = [];
+		for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
+			const date = new Date(start);
+			date.setDate(start.getDate() + weekIndex * 7 + dayIndex);
+			const iso = toIso(date);
+			const random = mulberry32(hashString(`WinTuner:${iso}`))();
+
+			const weekday = date.getDay();
+			const isWeekend = weekday === 0 || weekday === 6;
+			// Weekend dips, weekday peaks; scale by closeness to today.
+			const recency = (52 * 7 - (weekIndex * 7 + dayIndex)) / (52 * 7);
+			const base = isWeekend ? 0.25 : 0.75;
+			const count =
+				date > today
+					? 0
+					: Math.floor(random * random * 6 * base * (0.6 + recency * 0.8));
+			total += count;
+			days.push({ date: iso, count, level: countToLevel(count) });
+		}
+		weeks.push({ days });
+	}
+
+	return { weeks, total };
+}
+
+export async function getGithubContributions(): Promise<Contributions> {
+	const now = Date.now();
+	const cache = (
+		globalThis as unknown as {
+			githubContributionsCache?: { data: Contributions; timestamp: number };
+		}
+	).githubContributionsCache;
+	if (cache && now - cache.timestamp < CACHE_DURATION) {
+		return cache.data;
+	}
+
+	const token = process.env.GITHUB_TOKEN;
+
+	// Without a token the REST API cannot expose contribution calendars, so
+	// fall back to the deterministic generator.
+	if (!token) {
+		return generateFallbackContributions();
+	}
+
+	try {
+		const query = `query($login: String!) {
+  user(login: $login) {
+    contributionsCollection {
+      contributionCalendar {
+        totalContributions
+        weeks {
+          contributionDays {
+            date
+            contributionCount
+            level
+          }
+        }
+      }
+    }
+  }
+}`;
+
+		const response = await fetch(GITHUB_GRAPHQL_URL, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				"User-Agent": "WinTuner-Portfolio",
+			},
+			body: JSON.stringify({ query, variables: { login: GITHUB_USERNAME } }),
+			next: { revalidate: 3600 },
+		});
+
+		if (!response.ok) {
+			return generateFallbackContributions();
+		}
+
+		const json = (await response.json()) as GraphQLCalendarResponse;
+		const calendar =
+			json?.data?.user?.contributionsCollection?.contributionCalendar;
+
+		if (!calendar?.weeks?.length) {
+			return generateFallbackContributions();
+		}
+
+		const weeks: ContributionWeek[] = calendar.weeks.map((week) => ({
+			days: (week.contributionDays ?? []).map((day) => ({
+				date: day.date ?? "",
+				count: day.contributionCount ?? 0,
+				level: mapGitHubLevel(day.level ?? "NONE"),
+			})),
+		}));
+
+		const result: Contributions = {
+			weeks,
+			total: calendar.totalContributions ?? 0,
+		};
+		(
+			globalThis as unknown as {
+				githubContributionsCache?: { data: Contributions; timestamp: number };
+			}
+		).githubContributionsCache = { data: result, timestamp: now };
+		return result;
+	} catch (error) {
+		console.error("Error fetching GitHub contributions:", error);
+		return generateFallbackContributions();
 	}
 }
