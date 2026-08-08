@@ -4,6 +4,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/components/language-provider";
+import { CommandPalette } from "@/components/command-palette";
+import { ScrollProgress } from "@/components/scroll-progress";
+import { BackToTop } from "@/components/back-to-top";
+import { EasterEgg } from "@/components/easter-egg";
 import "./globals.css";
 import { SpotifyPlayerSlot } from "@/components/spotify-player-slot";
 import { SITE_URL } from "@/lib/site";
@@ -123,6 +127,10 @@ export default function RootLayout({
 					<LanguageProvider>
 						{children}
 						<SpotifyPlayerSlot />
+						<CommandPalette />
+						<ScrollProgress />
+						<BackToTop />
+						<EasterEgg />
 					</LanguageProvider>
 				</ThemeProvider>
 				<Analytics />
