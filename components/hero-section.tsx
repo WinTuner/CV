@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, memo } from "react";
 import { useLanguage } from "./language-provider";
-import { heroCopy, roles } from "@/lib/hero-utils";
+import { heroCopy } from "@/lib/hero-utils";
 import type { ActivityItem } from "@/lib/github";
 import dynamic from "next/dynamic";
+import { HeroTypewriter } from "./hero/hero-typewriter";
+import { TerminalWidget } from "./hero/terminal-widget";
+import { HeroPortrait } from "./hero/hero-portrait";
 
 const DiscordProfileCard = dynamic(
 	() => import("./discord-profile-card").then((m) => m.DiscordProfileCard),
@@ -13,45 +16,18 @@ const DiscordProfileCard = dynamic(
 		ssr: false,
 	},
 );
-import { TerminalWidget } from "./hero/terminal-widget";
-import { HeroPortrait } from "./hero/hero-portrait";
 
 export interface HeroSectionProps {
 	recentActivities?: ActivityItem[];
 }
 
+const MemoizedTerminal = memo(TerminalWidget);
+const MemoizedDiscord = memo(DiscordProfileCard);
+
 export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
 	const { language } = useLanguage();
-	const [currentRole, setCurrentRole] = useState(0);
-	const [displayText, setDisplayText] = useState("");
-	const [isDeleting, setIsDeleting] = useState(false);
-	const currentRoles = roles[language];
 
 	const t = heroCopy[language];
-
-	useEffect(() => {
-		const targetText = currentRoles[currentRole];
-		const timeout = setTimeout(
-			() => {
-				if (!isDeleting) {
-					if (displayText.length < targetText.length) {
-						setDisplayText(targetText.slice(0, displayText.length + 1));
-					} else {
-						setTimeout(() => setIsDeleting(true), 2000);
-					}
-				} else {
-					if (displayText.length > 0) {
-						setDisplayText(displayText.slice(0, -1));
-					} else {
-						setIsDeleting(false);
-						setCurrentRole((prev) => (prev + 1) % currentRoles.length);
-					}
-				}
-			},
-			isDeleting ? 50 : 100,
-		);
-		return () => clearTimeout(timeout);
-	}, [displayText, isDeleting, currentRole, currentRoles]);
 
 	return (
 		<section className="relative px-4 sm:px-6 pt-28 sm:pt-36 pb-16 sm:pb-24">
@@ -66,9 +42,7 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
 							<h1 className="text-4xl font-bold tracking-tight sm:text-4xl lg:text-5xl xl:text-6xl text-balance">
 								Forging digital
 								<br />
-								<span className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text typing-cursor inline-block min-h-[1.2em]">
-									{displayText || "\u00A0"}
-								</span>
+								<HeroTypewriter />
 							</h1>
 						</div>
 
@@ -100,7 +74,7 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
 						</div>
 
 						{/* Minimal Custom Linux Terminal Widget */}
-						<TerminalWidget recentActivities={recentActivities} />
+						<MemoizedTerminal recentActivities={recentActivities} />
 
 						{/* Discord Profile Card */}
 						<div className="w-full max-w-lg">
@@ -115,7 +89,7 @@ export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
 									</div>
 								}
 							>
-								<DiscordProfileCard />
+								<MemoizedDiscord />
 							</Suspense>
 						</div>
 					</div>

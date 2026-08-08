@@ -92,7 +92,7 @@ export function ContactSection() {
 	return (
 		<section
 			id="contact"
-			className="relative px-4 sm:px-6 py-20 sm:py-32 overflow-hidden"
+			className="relative px-4 sm:px-6 py-20 sm:py-32 overflow-hidden content-visibility-auto"
 		>
 			{/* Aurora background blobs */}
 			<div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[40rem] rounded-full bg-primary/10 blur-[120px] -z-10 animate-aurora" />
