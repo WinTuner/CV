@@ -25,6 +25,8 @@ export function SpotifyPlayer() {
   useEffect(() => {
     let socket: WebSocket | null = null
     let heartbeatInterval: NodeJS.Timeout | null = null
+    let reconnectTimer: NodeJS.Timeout | null = null
+    let retries = 0
 
     const connectWebSocket = () => {
       socket = new WebSocket("wss://api.lanyard.rest/socket")
@@ -33,6 +35,7 @@ export function SpotifyPlayer() {
         const payload = JSON.parse(event.data)
 
         if (payload.op === 1) {
+          retries = 0 // healthy handshake — reset the reconnect budget
           const interval = payload.d.heartbeat_interval
           heartbeatInterval = setInterval(() => {
             if (socket && socket.readyState === WebSocket.OPEN) {
@@ -60,7 +63,13 @@ export function SpotifyPlayer() {
 
       socket.onclose = () => {
         if (heartbeatInterval) clearInterval(heartbeatInterval)
-        setTimeout(connectWebSocket, 5000)
+        // Back off (5s → 10s → 20s → …) and give up after 8 attempts so an
+        // offline tab doesn't reconnect forever.
+        retries += 1
+        if (retries <= 8) {
+          const delay = Math.min(30_000, 5_000 * 2 ** (retries - 1))
+          reconnectTimer = setTimeout(connectWebSocket, delay)
+        }
       }
 
       socket.onerror = () => {
@@ -72,6 +81,7 @@ export function SpotifyPlayer() {
 
     return () => {
       if (heartbeatInterval) clearInterval(heartbeatInterval)
+      if (reconnectTimer) clearTimeout(reconnectTimer)
       if (socket) socket.close()
     }
   }, [])
