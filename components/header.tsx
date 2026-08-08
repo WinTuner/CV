@@ -33,6 +33,7 @@ export function Header() {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const menuToggleRef = useRef<HTMLButtonElement>(null);
 	const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
+	const logoClicksRef = useRef<{ count: number; last: number }>({ count: 0, last: 0 });
 	const pathname = usePathname();
 	const { language } = useLanguage();
 
@@ -81,7 +82,21 @@ export function Header() {
 		>
 			<div className="mx-auto max-w-7xl px-4 sm:px-6 py-4">
 				<nav className="flex items-center justify-between">
-					<Link href="/" className="group flex items-center gap-3">
+					<Link
+						href="/"
+						className="group flex items-center gap-3"
+						onClick={() => {
+							const now = Date.now();
+							const clicks = logoClicksRef.current;
+							if (now - clicks.last > 1200) clicks.count = 0;
+							clicks.count += 1;
+							clicks.last = now;
+							if (clicks.count >= 7) {
+								clicks.count = 0;
+								window.dispatchEvent(new Event("wintuner:party"));
+							}
+						}}
+					>
 						<div className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-primary/50 bg-primary/10 font-mono text-sm text-primary transition-all duration-400 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-primary/25 animate-wiggle">
 							<span className="glitch">{"⚡"}</span>
 						</div>
