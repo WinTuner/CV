@@ -4,13 +4,14 @@ import { useEffect, useMemo, useState, useRef, Suspense } from "react";
 import Link from "next/link";
 import {} from "next/navigation";
 import { cn } from "@/lib/utils";
+import { slugify } from "@/lib/fuzzy";
 import {
 	ArrowLeft,
 	Calendar,
 	Clock,
 	Bookmark,
 	Link2,
-	ChevronUp,
+	List,
 } from "lucide-react";
 import { LinkedinIcon } from "../../social-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -21,6 +22,12 @@ interface BlogPostContentProps {
 	post: BlogPost;
 	language: BlogLanguage;
 	relatedPosts: BlogPost[];
+}
+
+interface Heading {
+	id: string;
+	level: 1 | 2 | 3;
+	title: string;
 }
 
 function SearchParamsHandler() {
@@ -35,9 +42,10 @@ export function BlogPostContent({
 	relatedPosts,
 }: BlogPostContentProps) {
 	const [isVisible, setIsVisible] = useState(false);
-	const [showScrollTop, setShowScrollTop] = useState(false);
 	const [copied, setCopied] = useState(false);
-	const contentRef = useRef<HTMLDivElement>(null);
+	const [activeHeading, setActiveHeading] = useState<string | null>(null);
+	const [readProgress, setReadProgress] = useState(0);
+	const articleRef = useRef<HTMLElement>(null);
 	const t = {
 		en: {
 			back: "back to blog",
@@ -48,6 +56,8 @@ export function BlogPostContent({
 			bookmark: "Bookmark",
 			related: "Continue",
 			reading: "Reading",
+			toc: "On this page",
+			progress: "read",
 		},
 		th: {
 			back: "กลับไปที่บล็อก",
@@ -58,29 +68,52 @@ export function BlogPostContent({
 			bookmark: "บันทึก",
 			related: "อ่าน",
 			reading: "ต่อ",
+			toc: "ในหน้านี้",
+			progress: "อ่านแล้ว",
 		},
 	}[language];
+
+	const headings = useMemo<Heading[]>(() => extractHeadings(post.content), [post.content]);
+
+	const renderedHtml = useMemo(() => parseMarkdown(post.content), [post.content]);
 
 	useEffect(() => {
 		// eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount animation trigger
 		setIsVisible(true);
 
 		const handleScroll = () => {
-			setShowScrollTop(window.scrollY > 500);
+			const article = articleRef.current;
+			if (!article) return;
+			const rect = article.getBoundingClientRect();
+			const total = rect.height - window.innerHeight * 0.5;
+			setReadProgress(
+				total > 0 ? Math.round(Math.max(0, Math.min(1, -rect.top / total)) * 100) : 0,
+			);
+
+			let current: string | null = null;
+			for (const heading of article.querySelectorAll<HTMLElement>("h2[id], h3[id]")) {
+				if (heading.getBoundingClientRect().top <= window.innerHeight * 0.35) {
+					current = heading.id;
+				} else {
+					break;
+				}
+			}
+			setActiveHeading(current);
 		};
 
-		window.addEventListener("scroll", handleScroll);
+		handleScroll();
+		window.addEventListener("scroll", handleScroll, { passive: true });
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
+
+	const scrollToHeading = (id: string) => {
+		document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+	};
 
 	const handleCopyLink = () => {
 		navigator.clipboard.writeText(window.location.href);
 		setCopied(true);
 		setTimeout(() => setCopied(false), 2000);
-	};
-
-	const scrollToTop = () => {
-		window.scrollTo({ top: 0, behavior: "smooth" });
 	};
 
 	return (
@@ -213,11 +246,64 @@ export function BlogPostContent({
 
 			{/* Content Section */}
 			<section className="px-4 sm:px-6 py-12 sm:py-16">
-				<div className="mx-auto max-w-4xl">
-					<div className="grid gap-8 lg:grid-cols-[1fr_auto]">
+				<div className="mx-auto max-w-6xl">
+					<div className="grid gap-8 lg:grid-cols-[220px_1fr_auto]">
+						{/* Table of Contents */}
+						<aside
+							className={cn(
+								"hidden lg:block opacity-0",
+								isVisible && "animate-fade-in-up",
+							)}
+							style={{ animationDelay: "300ms" }}
+						>
+							<nav className="sticky top-32" aria-label="Table of contents">
+								<div className="mb-4 flex items-center justify-between gap-3">
+									<span className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
+										<List className="h-3.5 w-3.5" />
+										{t.toc}
+									</span>
+									<span className="font-mono text-[10px] text-primary">
+										{readProgress}%
+									</span>
+								</div>
+								<div className="mb-4 h-1 w-full overflow-hidden rounded-full bg-secondary">
+									<div
+										className="h-full rounded-full bg-gradient-to-r from-primary to-accent transition-[width] duration-200"
+										style={{ width: `${readProgress}%` }}
+									/>
+								</div>
+								{headings.length > 0 ? (
+									<ul className="space-y-1 border-l border-border/60">
+										{headings.map((heading) => (
+											<li key={heading.id}>
+												<button
+													type="button"
+													onClick={() => scrollToHeading(heading.id)}
+													aria-current={activeHeading === heading.id ? "true" : undefined}
+													className={cn(
+														"-ml-px border-l-2 py-1.5 pl-3 text-left font-mono text-[11px] leading-snug transition-all duration-200 hover:text-foreground",
+														heading.level === 2 ? "pl-3" : "pl-6",
+														activeHeading === heading.id
+															? "border-primary text-primary"
+															: "border-transparent text-muted-foreground",
+													)}
+												>
+													{heading.title}
+												</button>
+											</li>
+										))}
+									</ul>
+								) : (
+									<p className="font-mono text-[11px] text-muted-foreground">
+										—
+									</p>
+								)}
+							</nav>
+						</aside>
+
 						{/* Main Content */}
 						<article
-							ref={contentRef}
+							ref={articleRef}
 							className={cn(
 								"prose prose-invert prose-lg max-w-none opacity-0",
 								"prose-headings:font-semibold prose-headings:tracking-tight",
@@ -234,12 +320,7 @@ export function BlogPostContent({
 								isVisible && "animate-fade-in-up",
 							)}
 							style={{ animationDelay: "350ms" }}
-							dangerouslySetInnerHTML={{
-								__html: useMemo(
-									() => parseMarkdown(post.content),
-									[post.content],
-								),
-							}}
+							dangerouslySetInnerHTML={{ __html: renderedHtml }}
 						/>
 
 						{/* Sticky Share Sidebar */}
@@ -396,20 +477,6 @@ export function BlogPostContent({
 					</div>
 				</section>
 			)}
-
-			{/* Scroll to Top Button */}
-			<button
-				onClick={scrollToTop}
-				className={cn(
-					"fixed bottom-8 right-8 z-50 h-12 w-12 rounded-full border border-border bg-card/90 glass backdrop-blur-sm flex items-center justify-center transition-all duration-300 hover:border-primary/50 hover:bg-card",
-					showScrollTop
-						? "opacity-100 translate-y-0"
-						: "opacity-0 translate-y-4 pointer-events-none",
-				)}
-				aria-label="Scroll to top"
-			>
-				<ChevronUp className="h-5 w-5" />
-			</button>
 		</>
 	);
 }
@@ -427,14 +494,31 @@ function escapeHtml(input: string): string {
 		.replace(/>/g, "&gt;");
 }
 
+/** Collect markdown headings so the TOC can link to their rendered anchors. */
+function extractHeadings(content: string): Heading[] {
+	const headings: Heading[] = [];
+	for (const line of content.split("\n")) {
+		const match = /^(#{1,3})\s+(.*)$/.exec(line);
+		if (!match) continue;
+		const rawTitle = match[2].trim();
+		const title = escapeHtml(rawTitle);
+		headings.push({
+			id: slugify(title),
+			level: match[1].length as 1 | 2 | 3,
+			title,
+		});
+	}
+	return headings;
+}
+
 function parseMarkdown(content: string): string {
 	const escaped = escapeHtml(content);
 	return (
 		escaped
-			// Headers
-			.replace(/^### (.*$)/gm, "<h3>$1</h3>")
-			.replace(/^## (.*$)/gm, "<h2>$1</h2>")
-			.replace(/^# (.*$)/gm, "<h1>$1</h1>")
+			// Headers (with anchors for the table of contents)
+			.replace(/^### (.*)$/gm, (_, title: string) => `<h3 id="${slugify(title)}">${title}</h3>`)
+			.replace(/^## (.*)$/gm, (_, title: string) => `<h2 id="${slugify(title)}">${title}</h2>`)
+			.replace(/^# (.*)$/gm, (_, title: string) => `<h1 id="${slugify(title)}">${title}</h1>`)
 			// Bold
 			.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
 			// Italic

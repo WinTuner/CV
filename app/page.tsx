@@ -3,10 +3,12 @@ import { HeroSection } from "@/components/hero-section";
 import { SkillsMatrix } from "@/components/skills-matrix";
 import { ProjectsGrid } from "@/components/projects-grid";
 import { Workbench } from "@/components/workbench";
+import { GithubContributionGraph } from "@/components/github-contribution-graph";
 import {
 	getGithubRepos,
 	getGithubWipItems,
 	getGithubRecentActivity,
+	getGithubContributions,
 } from "@/lib/github";
 import { ContactSection } from "@/components/contact-section";
 import { Footer } from "@/components/footer";
@@ -25,11 +27,13 @@ export default async function Home() {
 	const websiteStructuredData = generateWebsiteStructuredData(baseUrl);
 	const personStructuredData = generatePersonStructuredData();
 
-	const [projects, wipItems, recentActivities] = await Promise.all([
-		getGithubRepos(),
-		getGithubWipItems(),
-		getGithubRecentActivity(),
-	]);
+	const [projects, wipItems, recentActivities, contributions] =
+		await Promise.all([
+			getGithubRepos(),
+			getGithubWipItems(),
+			getGithubRecentActivity(),
+			getGithubContributions(),
+		]);
 
 	return (
 		<>
@@ -56,6 +60,7 @@ export default async function Home() {
 					<HeroSection recentActivities={recentActivities} />
 					<StatusMarquee />
 					<SkillsMatrix />
+					<GithubContributionGraph contributions={contributions} />
 					<ProjectsGrid projects={projects} />
 					<Workbench wipItems={wipItems} />
 					<ContactSection />
