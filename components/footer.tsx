@@ -66,7 +66,7 @@ export function Footer() {
 	return (
 		<footer
 			id="connect"
-			className="border-t border-border/30 px-4 sm:px-6 py-20 sm:py-28"
+			className="border-t border-border/30 px-4 sm:px-6 py-20 sm:py-28 content-visibility-auto"
 		>
 			<div ref={sectionRef} className="mx-auto max-w-7xl">
 				<div className="grid gap-12 sm:gap-16 lg:grid-cols-2">

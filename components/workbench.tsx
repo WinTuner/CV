@@ -37,7 +37,7 @@ export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
   }[language]
 
   return (
-    <section id="workbench" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/30">
+    <section id="workbench" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/30 content-visibility-auto">
       <div ref={sectionRef} className="mx-auto max-w-7xl">
         <div className={cn("mb-10 sm:mb-14 space-y-3 opacity-0", isInView && "animate-fade-in-up")}>
           <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">{t.kicker}</p>
