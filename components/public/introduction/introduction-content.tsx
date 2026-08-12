@@ -256,14 +256,14 @@ export function IntroductionContent() {
 										{cert.image && (
 											<div
 												onClick={() => setActiveImage(cert.image)}
-												className="mt-2 overflow-hidden rounded-lg border border-border/50 max-w-[200px] cursor-zoom-in relative group"
+												className="mt-2 w-full h-[120px] overflow-hidden rounded-lg border border-border/50 max-w-[200px] cursor-zoom-in relative group"
 											>
 												<Image
 													src={cert.image}
 													alt={cert.name}
-													width={200}
-													height={120}
-													className="w-full h-auto object-cover max-h-[120px] group-hover:scale-105 transition-transform duration-500"
+													fill
+													sizes="200px"
+													className="object-cover transition-transform duration-500 group-hover:scale-105"
 												/>
 												<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 													<span className="bg-background/85 text-[8px] font-mono px-2 py-1 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1 animate-scale-in">
@@ -404,14 +404,14 @@ export function IntroductionContent() {
 										{item.image && (
 											<div
 												onClick={() => setActiveImage(item.image)}
-												className="mt-4 overflow-hidden rounded-xl border border-border/50 max-w-md cursor-zoom-in relative group"
+												className="mt-4 w-full h-[300px] overflow-hidden rounded-xl border border-border/50 max-w-md cursor-zoom-in relative group"
 											>
 												<Image
 													src={item.image}
 													alt={item.title}
-													width={448}
-													height={300}
-													className="w-full h-auto object-cover max-h-[300px] group-hover:scale-105 transition-transform duration-500"
+													fill
+													sizes="(max-width: 768px) 100vw, 448px"
+													className="object-cover transition-transform duration-500 group-hover:scale-105"
 												/>
 												<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 													<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
@@ -471,14 +471,14 @@ export function IntroductionContent() {
 									{item.image && (
 										<div
 											onClick={() => setActiveImage(item.image)}
-											className="mt-3 overflow-hidden rounded-xl border border-border/50 max-w-sm cursor-zoom-in relative group"
+											className="mt-3 w-full h-[200px] overflow-hidden rounded-xl border border-border/50 max-w-sm cursor-zoom-in relative group"
 										>
 											<Image
 												src={item.image}
 												alt={item.school}
-												width={384}
-												height={200}
-												className="w-full h-auto object-cover max-h-[200px] group-hover:scale-105 transition-transform duration-500"
+												fill
+												sizes="(max-width: 768px) 100vw, 384px"
+												className="object-cover transition-transform duration-500 group-hover:scale-105"
 											/>
 											<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 												<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">

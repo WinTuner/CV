@@ -51,7 +51,6 @@ export const metadata: Metadata = {
 	authors: [{ name: "Thanatphong Tarin", url: "https://github.com/WinTuner" }],
 	creator: "Thanatphong Tarin",
 	publisher: "Thanatphong Tarin",
-	generator: "v0.app",
 	openGraph: {
 		type: "website",
 		locale: "en_US",
