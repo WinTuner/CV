@@ -222,14 +222,14 @@ export function ContactSection() {
 								<button
 									disabled={isSubmitting}
 									type="submit"
-									className={cn(
-										"group inline-flex w-full items-center justify-center gap-2.5 bg-primary py-4 text-sm font-medium text-primary-foreground transition-colors duration-300 hover:bg-primary/90",
-										isSubmitting && "opacity-80",
-									)}
+								className={cn(
+									"btn-cyan-shadow group inline-flex w-full items-center justify-center gap-2.5 py-4 text-sm font-medium text-primary-foreground",
+									isSubmitting && "opacity-80",
+								)}
 								>
 									{isSubmitting ? t.sending : t.send}
 									{!isSubmitting && (
-										<ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+										<ArrowRight className="arrow-spring h-4 w-4" />
 									)}
 								</button>
 							</form>
