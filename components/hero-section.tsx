@@ -14,6 +14,15 @@ export function HeroSection() {
 
 	return (
 		<section className="relative px-4 sm:px-6 pt-32 sm:pt-40 pb-16 sm:pb-24">
+			{/* Soft ice-blue glow accents (decorative) */}
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute -top-40 right-[-10%] h-[28rem] w-[28rem] rounded-full bg-primary/10 blur-[120px]"
+			/>
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute -bottom-32 left-[-8%] h-[24rem] w-[24rem] rounded-full bg-chart-2/10 blur-[110px]"
+			/>
 			<div className="mx-auto max-w-7xl">
 				<div className="grid gap-14 lg:grid-cols-12 lg:gap-12 lg:items-center">
 					{/* Left column — editorial text */}
