@@ -37,7 +37,8 @@ app/
 ├── api/
 │   ├── contact/route.ts        # Contact form webhook (501 when unconfigured)
 │   ├── subscribe/route.ts      # Newsletter webhook (501 when unconfigured)
-│   └── search/route.ts         # Blog search endpoint
+│   ├── search/route.ts         # Blog search endpoint
+│   └── activity/route.ts       # Live GitHub activity (polled every 30s)
 └── (public)/                   # Route group: shared Header/Footer + CursorGlow
     ├── layout.tsx
     ├── introduction/page.tsx   # CV / resume (?print=true triggers PDF print flow)
@@ -65,7 +66,8 @@ components/
 lib/      # github.ts, lanyard.ts, lanyard-presence.ts (shared real-time
           #   WebSocket), notion-blog.ts, medium-blog.ts, blog-data.tsx,
           # cv-data.ts (in constants/), themes.ts, site.ts, structured-data.ts,
-          # fuzzy.ts, hero-utils.ts, use-in-view.ts, use-is-mounted.ts, utils.ts
+          # fuzzy.ts, hero-utils.ts, use-in-view.ts, use-is-mounted.ts,
+          # use-live-github-activity.ts (30s activity poll), utils.ts
 constants/cv-data.ts            # All CV content (bilingual), typed by types/cv.ts
 scripts/  # generate-og-images.mjs, optimize-images.mjs
 docs/     # This documentation set
@@ -97,6 +99,11 @@ Base UI primitives (components/ui)
   backoff reconnect. No more REST polling; presence changes push instantly.
   The player itself stays a deferred, memoized client widget to avoid
   hydration cost.
+- **GitHub activity**: the hero terminal and workbench pages poll
+  `/api/activity` every 30s. The route wraps `getGithubRecentActivity()`
+  (server-side, `GITHUB_TOKEN`-aware, 2-min in-memory + 15-min ISR cache with
+  curated fallback) so refreshes are cheap and never trip the unauthenticated
+  GitHub rate limit.
 
 ## Client vs Server Components
 

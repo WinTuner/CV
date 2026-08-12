@@ -6,6 +6,7 @@ import { useLanguage } from "../language-provider";
 import { useIsMounted } from "@/lib/use-is-mounted";
 import { cn } from "@/lib/utils";
 import type { ActivityItem } from "@/lib/github";
+import { useLiveGithubActivity } from "@/lib/use-live-github-activity";
 import { StatusTab } from "./terminal-status-tab";
 import { GitTab } from "./terminal-git-tab";
 import { NeofetchTab } from "./terminal-neofetch-tab";
@@ -88,87 +89,17 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 	const [cpuLoad, setCpuLoad] = useState(24.5);
 	const [ramUsed, setRamUsed] = useState(12.44);
 	const [localTime, setLocalTime] = useState("");
-	const [liveActivities, setLiveActivities] =
-		useState<ActivityItem[]>(recentActivities);
+	const liveActivities = useLiveGithubActivity(
+		recentActivities,
+		activeTab === "status" || activeTab === "git",
+	);
 	const mounted = useIsMounted();
 
 	useEffect(() => {
-		const fetchLiveActivities = () => {
-			fetch("https://api.github.com/users/WinTuner/events?per_page=10")
-				.then((res) => {
-					if (!res.ok) throw new Error("Status code " + res.status);
-					return res.json();
-				})
-				.then((events) => {
-					if (Array.isArray(events)) {
-						const parsed: ActivityItem[] = [];
-						for (const event of events) {
-							if (parsed.length >= 5) break;
-							const project = event.repo.name.replace("WinTuner/", "");
-							const time = event.created_at;
-
-							if (event.type === "PushEvent") {
-								const commits = event.payload.commits || [];
-								if (commits.length > 0) {
-									parsed.push({
-										type: "commit",
-										project,
-										message: commits[0].message,
-										time,
-									});
-								}
-							} else if (event.type === "PullRequestEvent") {
-								const pr = event.payload.pull_request;
-								parsed.push({
-									type: "pr",
-									project,
-									message: {
-										en: `${event.payload.action.toUpperCase()}: ${pr?.title || ""}`,
-										th: `${event.payload.action === "opened" ? "เปิด" : event.payload.action === "closed" ? "ปิด" : "รวม"} PR: ${pr?.title || ""}`,
-									},
-									time,
-									prAction: event.payload.action as ActivityItem["prAction"],
-									prTitle: pr?.title || "",
-								});
-							} else if (
-								event.type === "CreateEvent" &&
-								event.payload.ref_type === "repository"
-							) {
-								parsed.push({
-									type: "create",
-									project,
-									message: {
-										en: `Created repository ${project}`,
-										th: `สร้างรีโพสิทอรี ${project}`,
-									},
-									time,
-								});
-							}
-						}
-						if (parsed.length > 0) {
-							setLiveActivities(parsed);
-						}
-					}
-				})
-				.catch((err) =>
-					console.warn(
-						"Failed client-side live fetch, using build fallback:",
-						err,
-					),
-				);
-		};
-
-		const isLiveTab = activeTab === "status" || activeTab === "git";
 		const isNeofetch = activeTab === "neofetch";
 
-		let activityInterval: ReturnType<typeof setInterval> | null = null;
 		let sysInterval: ReturnType<typeof setInterval> | null = null;
 		let clockInterval: ReturnType<typeof setInterval> | null = null;
-
-		if (isLiveTab) {
-			fetchLiveActivities();
-			activityInterval = setInterval(fetchLiveActivities, 60000);
-		}
 
 		if (isNeofetch) {
 			const updateSys = () => {
@@ -205,11 +136,10 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 		}
 
 		return () => {
-			if (activityInterval) clearInterval(activityInterval);
 			if (sysInterval) clearInterval(sysInterval);
 			if (clockInterval) clearInterval(clockInterval);
 		};
-	}, [activeTab, recentActivities]);
+	}, [activeTab]);
 
 	const handleCliSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
