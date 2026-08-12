@@ -1,5 +1,8 @@
 # WinTuner — Digital Laboratory
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/WinTuner/CV/actions/workflows/ci.yml/badge.svg)](https://github.com/WinTuner/CV/actions/workflows/ci.yml)
+
 Personal portfolio / CV site for **Thanatphong Tarin (WinTuner)** — a digital
 workshop where code meets curiosity. Experiments, prototypes, blog posts, and
 open-source artifacts.
@@ -101,6 +104,22 @@ build on every push/PR to `main`.
 The site deploys as a static-friendly Next.js app (ISR for dynamic data) —
 works out of the box on Vercel, Netlify, or any Node server. See
 [`docs/deployment.md`](./docs/deployment.md) for details.
+
+## Contributing
+
+Contributions are welcome — see [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the
+workflow, and [`SECURITY.md`](./SECURITY.md) for how to report vulnerabilities.
+
+## License
+
+Released under the [MIT License](./LICENSE).
+
+## Credits & Acknowledgments
+
+- **Original template** — this site builds on a portfolio template originally
+  created by [Ehsan Ghaffar](https://eindev.ir) (EinCode). It has been
+  substantially rewritten, translated (EN/TH), and extended for the WinTuner
+  digital laboratory. Please keep this attribution when reusing the codebase.
 
 ## Author
 
