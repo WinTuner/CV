@@ -31,7 +31,7 @@ export function HeroSection() {
 							<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
 								{t.kicker}
 							</p>
-							<h1 className="font-serif text-5xl font-medium leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl text-balance">
+							<h1 className="font-serif text-[2.7rem] font-medium leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl text-balance">
 								Forging digital
 								<br />
 								<HeroTypewriter />
@@ -43,16 +43,16 @@ export function HeroSection() {
 						</p>
 
 						<div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 animate-fade-in-up stagger-3">
-							<a
-								href="#projects"
-								className="btn-cyan-shadow group inline-flex items-center gap-2.5 px-7 py-3.5 text-sm font-medium text-primary-foreground"
-							>
+						<a
+							href="#projects"
+							className="btn-cyan-shadow group inline-flex w-full items-center justify-center gap-2.5 px-7 py-3.5 text-sm font-medium text-primary-foreground sm:w-auto"
+						>
 								{t.explore}
 								<ArrowRight className="arrow-spring h-4 w-4" />
 							</a>
 							<Link
 								href="/introduction"
-								className="group inline-flex items-center gap-2 border border-primary/60 px-7 py-3.5 text-sm font-medium text-primary transition-all duration-300 hover:border-primary hover:bg-primary/10"
+								className="group inline-flex w-full items-center justify-center gap-2 border border-primary/60 px-7 py-3.5 text-sm font-medium text-primary transition-all duration-300 hover:border-primary hover:bg-primary/10 sm:w-auto"
 							>
 								{t.resume}
 								<ArrowRight className="arrow-spring h-4 w-4" />

@@ -83,7 +83,7 @@ export function Footer() {
 
 						<a
 							href="mailto:Thanatphong2719@gmail.com"
-							className="btn-cyan-shadow group inline-flex items-center gap-2.5 px-8 py-4 text-sm font-medium text-primary-foreground"
+							className="btn-cyan-shadow group inline-flex w-full items-center justify-center gap-2.5 px-8 py-4 text-sm font-medium text-primary-foreground sm:w-auto"
 						>
 							{t.sendSignal}
 							<ArrowRight className="arrow-spring h-4 w-4" />

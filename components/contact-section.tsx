@@ -178,7 +178,7 @@ export function ContactSection() {
 											type="text"
 											value={name}
 											onChange={(e) => setName(e.target.value)}
-											className="w-full border-b border-border bg-transparent px-1 py-2.5 text-sm transition-colors focus:border-primary outline-none"
+											className="w-full border-b border-border bg-transparent px-1 py-2.5 text-base md:text-sm transition-colors focus:border-primary outline-none"
 										/>
 									</div>
 									<div className="space-y-2">
@@ -194,7 +194,7 @@ export function ContactSection() {
 											type="email"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
-											className="w-full border-b border-border bg-transparent px-1 py-2.5 text-sm transition-colors focus:border-primary outline-none"
+											className="w-full border-b border-border bg-transparent px-1 py-2.5 text-base md:text-sm transition-colors focus:border-primary outline-none"
 										/>
 									</div>
 								</div>
@@ -211,7 +211,7 @@ export function ContactSection() {
 										rows={5}
 										value={message}
 										onChange={(e) => setMessage(e.target.value)}
-										className="w-full resize-none border-b border-border bg-transparent px-1 py-2.5 text-sm transition-colors focus:border-primary outline-none"
+										className="w-full resize-none border-b border-border bg-transparent px-1 py-2.5 text-base md:text-sm transition-colors focus:border-primary outline-none"
 									/>
 								</div>
 
