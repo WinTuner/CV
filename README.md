@@ -102,17 +102,6 @@ The site deploys as a static-friendly Next.js app (ISR for dynamic data) —
 works out of the box on Vercel, Netlify, or any Node server. See
 [`docs/deployment.md`](./docs/deployment.md) for details.
 
-## License
-
-Released under the [MIT License](./LICENSE).
-
-## Credits & Acknowledgments
-
-- **Original template** — this site builds on a portfolio template originally
-  created by [Ehsan Ghaffar](https://eindev.ir) (EinCode). It has been
-  substantially rewritten, translated (EN/TH), and extended for the WinTuner
-  digital laboratory. Please keep this attribution when reusing the codebase.
-
 ## Author
 
 - **Thanatphong Tarin (WinTuner)** — <https://github.com/WinTuner>
