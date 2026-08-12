@@ -28,12 +28,8 @@ export default async function NotFound() {
 		<div className="min-h-screen flex items-center justify-center px-4">
 			<div className="max-w-2xl text-center">
 				<div className="mb-8">
-					{/* 404 Glitch Effect */}
-					<h1 className="text-9xl font-bold mb-4 font-mono relative">
-						<span className="glitch inline-block">404</span>
-					</h1>
-					<div className="h-1 w-32 bg-primary mx-auto mb-8" />
-					<h2 className="text-3xl font-bold mb-4">{t.title}</h2>
+					<h1 className="font-serif text-9xl font-medium mb-6">404</h1>
+					<h2 className="text-3xl font-serif font-medium mb-4">{t.title}</h2>
 					<p className="text-muted-foreground text-lg mb-2">{t.desc}</p>
 					<p className="text-muted-foreground">{t.track}</p>
 				</div>
@@ -60,7 +56,7 @@ export default async function NotFound() {
 				</div>
 
 				<div className="text-sm text-muted-foreground font-mono">
-					<span className="text-primary">&gt;</span> Error code: 404_NOT_FOUND
+					Error: 404 — page not found
 				</div>
 			</div>
 		</div>

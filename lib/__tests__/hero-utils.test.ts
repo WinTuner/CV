@@ -1,11 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-	formatJournalDate,
-	formatRelativeTime,
-	getLogType,
-	getMessageText,
-	truncate,
-} from "@/lib/hero-utils";
+import { formatRelativeTime, getMessageText } from "@/lib/hero-utils";
 
 describe("formatRelativeTime", () => {
 	it("returns 'just now' for recent timestamps (en)", () => {
@@ -36,17 +30,6 @@ describe("formatRelativeTime", () => {
 	});
 });
 
-describe("formatJournalDate", () => {
-	it("formats an ISO date as 'Mon DD HH:MM:SS'", () => {
-		const result = formatJournalDate("2025-06-26T15:09:54.000Z");
-		expect(result).toMatch(/^[A-Z][a-z]{2} \d{2} \d{2}:\d{2}:\d{2}$/);
-	});
-
-	it("falls back for invalid input", () => {
-		expect(formatJournalDate("garbage")).toBe("Jun 26 22:09:54");
-	});
-});
-
 describe("getMessageText", () => {
 	it("returns string messages as-is", () => {
 		expect(getMessageText("commit message", "en")).toBe("commit message");
@@ -66,32 +49,5 @@ describe("getMessageText", () => {
 	it("returns empty string for null/undefined", () => {
 		expect(getMessageText(null, "en")).toBe("");
 		expect(getMessageText(undefined, "th")).toBe("");
-	});
-});
-
-describe("truncate", () => {
-	it("keeps short strings unchanged", () => {
-		expect(truncate("short", 10)).toBe("short");
-	});
-
-	it("truncates long strings with an ellipsis", () => {
-		expect(truncate("a very long message here", 10)).toBe("a very lon...");
-	});
-
-	it("handles exact-length strings without adding an ellipsis", () => {
-		expect(truncate("12345", 5)).toBe("12345");
-	});
-});
-
-describe("getLogType", () => {
-	it("maps activity types to systemd-style log types", () => {
-		expect(getLogType("commit")).toBe("COMMIT");
-		expect(getLogType("pr")).toBe("PULL_REQ");
-		expect(getLogType("create")).toBe("CREATE");
-	});
-
-	it("defaults to ACTIVITY for unknown types", () => {
-		expect(getLogType("branch")).toBe("ACTIVITY");
-		expect(getLogType("")).toBe("ACTIVITY");
 	});
 });
