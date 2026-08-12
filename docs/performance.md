@@ -38,8 +38,9 @@ The codebase has already adopted the baseline optimizations:
    npm run build && npm start
    npx lighthouse http://localhost:3000 --view
    ```
-3. **Vercel Speed Insights** — add `@vercel/speed-insights/next` alongside
-   the existing `@vercel/analytics` to collect real-user Core Web Vitals.
+3. **Vercel Speed Insights** — ✅ installed (`@vercel/speed-insights/next`)
+   alongside `@vercel/analytics` in `app/layout.tsx`; real-user Core Web
+   Vitals now show in the Vercel dashboard.
 4. **Dependency audit** — `npx depcheck` to confirm nothing is orphaned.
 5. **Lazy components** — the GitHub contribution graph, skills matrix, and
    projects grid could be wrapped in `next/dynamic` or moved fully into

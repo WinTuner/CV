@@ -71,9 +71,9 @@ self-host.
 
 ## Monitoring
 
-- **Vercel Analytics** is already wired in `app/layout.tsx`.
-- Add **Vercel Speed Insights** (`@vercel/speed-insights/next`) for real-user
-  Core Web Vitals.
+- **Vercel Analytics + Speed Insights** are already wired in
+  `app/layout.tsx` — real-user page views and Core Web Vitals appear in the
+  Vercel dashboard after the next deploy.
 - Optional: Sentry or an uptime monitor (UptimeRobot) for the production URL.
 
 ---
