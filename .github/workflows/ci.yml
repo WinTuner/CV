@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   verify:
-    name: Lint, Test & Build
+    name: Lint, Test, Build & Lighthouse
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,3 +39,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Run Lighthouse CI (performance, a11y, best practices, SEO)
+        uses: GoogleChrome/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          temporaryPublicStorage: true

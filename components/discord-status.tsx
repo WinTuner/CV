@@ -1,1 +1,1 @@
-export const DISCORD_ID = "876802812510613546";
+export { DISCORD_ID } from "@/lib/lanyard";

@@ -18,7 +18,7 @@ npm run dev        # http://localhost:3000
 | `npm start` | Serve the production build |
 | `npm run lint` | ESLint (`eslint .`) |
 | `npm test` | Vitest (unit + component tests) |
-| `npm run analyze` | Bundle analysis (`next experimental-analyze`) |
+| `npm run analyze` | Bundle analysis (`ANALYZE=true next build` via `@next/bundle-analyzer`) |
 
 Before pushing, run the same gates CI runs:
 

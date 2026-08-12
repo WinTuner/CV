@@ -55,12 +55,12 @@ interface SearchPayload {
 	posts: BlogPost[];
 }
 
-export function CommandPalette() {
+export function CommandPalette({ autoOpen = false }: { autoOpen?: boolean } = {}) {
 	const router = useRouter();
 	const { setTheme, resolvedTheme } = useTheme();
 	const { language, setLanguage } = useLanguage();
 
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(autoOpen);
 	const [query, setQuery] = useState("");
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [status, setStatus] = useState<"idle" | "loading" | "ready">("idle");
@@ -167,6 +167,13 @@ export function CommandPalette() {
 		setOpen(false);
 		lastActiveRef.current?.focus?.();
 	}, []);
+
+	// When lazy-mounted on the first ⌘K (see CommandPaletteSlot), open
+	// immediately and load the search index instead of sitting closed.
+	useEffect(() => {
+		// eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: one-time mount sync when lazy-loaded on first ⌘K
+		if (autoOpen) openPalette();
+	}, [autoOpen, openPalette]);
 
 	// Global ⌘K / Ctrl+K shortcut
 	useEffect(() => {

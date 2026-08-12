@@ -37,6 +37,8 @@ export type DiscordPresenceResult =
 	| { status: "not-monitored" }
 	| { status: "error"; message: string };
 
+export const DISCORD_ID = "876802812510613546";
+
 const LANYARD_API = "https://api.lanyard.rest/v1/users";
 
 /**
