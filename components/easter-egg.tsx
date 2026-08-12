@@ -101,7 +101,7 @@ export function EasterEgg() {
 			context.font = "14px monospace";
 			for (let i = 0; i < drops.length; i++) {
 				const char = characters[Math.floor(Math.random() * characters.length)];
-				context.fillStyle = Math.random() > 0.975 ? "#bda6ef" : "#f2a7e8";
+				context.fillStyle = Math.random() > 0.975 ? "#7fc8e0" : "#c8f4ff";
 				context.fillText(char, i * 18, drops[i] * 18);
 				if (drops[i] * 18 > canvas.height && Math.random() > 0.975) {
 					drops[i] = 0;
