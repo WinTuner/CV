@@ -105,10 +105,9 @@ The site deploys as a static-friendly Next.js app (ISR for dynamic data) —
 works out of the box on Vercel, Netlify, or any Node server. See
 [`docs/deployment.md`](./docs/deployment.md) for details.
 
-## Contributing
+## Security
 
-Contributions are welcome — see [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the
-workflow, and [`SECURITY.md`](./SECURITY.md) for how to report vulnerabilities.
+See [`SECURITY.md`](./SECURITY.md) for how to report vulnerabilities.
 
 ## License
 
