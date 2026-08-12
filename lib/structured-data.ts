@@ -60,7 +60,7 @@ export function generatePersonStructuredData() {
     '@type': 'Person',
     name: 'Thanatphong Tarin',
     url: 'https://thanatphong.vercel.app',
-    image: `${SITE_URL}/developer-portrait-v3.webp`,
+    image: `${SITE_URL}/developer-portrait-v3.png`,
     sameAs: [
       'https://github.com/WinTuner',
       'https://x.com/nut89189886',

@@ -20,9 +20,23 @@ interface MediumPost {
 
 const FEED_URL = "https://medium.com/feed/@thanatphong2719"
 
-function extractFirstImage(content: string): string {
-  const match = content.match(/<img[^>]+src=["']([^"']+)["']/i)
-  return match?.[1] ?? ""
+export function extractFirstImage(content: string): string {
+  const images = content.match(/<img[^>]+src=["']([^"']+)["']/gi) ?? []
+  for (const tag of images) {
+    const match = /src=["']([^"']+)["']/i.exec(tag)
+    const src = match?.[1] ?? ""
+    // Skip data URIs and Medium's internal tracking pixels (they 403 when
+    // fetched by the image optimizer).
+    if (!src || src.startsWith("data:")) continue
+    if (/medium\.com\/_\/stat/i.test(src)) continue
+    return src
+  }
+  return ""
+}
+
+/** Remove Medium's `/_/stat` tracking pixels from post content. */
+export function stripTrackingPixels(content: string): string {
+  return content.replace(/<img[^>]*\/_\/stat[^>]*>/gi, "")
 }
 
 function decodeHtml(text: string) {
@@ -82,7 +96,9 @@ async function getMediumPosts(limit = 12): Promise<MediumPost[]> {
     const title = extractFirst(item, /<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/)
     const link = extractFirst(item, /<link>([\s\S]*?)<\/link>/)
     const pubDate = extractFirst(item, /<pubDate>([\s\S]*?)<\/pubDate>/)
-    const content = extractFirst(item, /<content:encoded><!\[CDATA\[([\s\S]*?)\]\]><\/content:encoded>/)
+    const content = stripTrackingPixels(
+      extractFirst(item, /<content:encoded><!\[CDATA\[([\s\S]*?)\]\]><\/content:encoded>/),
+    )
     const categories = [...item.matchAll(/<category><!\[CDATA\[([\s\S]*?)\]\]><\/category>/g)].map((m) => m[1])
 
     return {
@@ -99,7 +115,7 @@ async function getMediumPosts(limit = 12): Promise<MediumPost[]> {
       externalUrl: link,
       author: {
         name: "Thanatphong Tarin",
-        avatar: "/developer-portrait-v3.webp",
+        avatar: "/developer-portrait-v3.png",
         role: "Writer",
       },
       image: extractFirstImage(content),
