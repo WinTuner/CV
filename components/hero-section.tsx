@@ -45,17 +45,17 @@ export function HeroSection() {
 						<div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 animate-fade-in-up stagger-3">
 							<a
 								href="#projects"
-								className="group inline-flex items-center gap-2.5 border border-chart-2/60 bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground shadow-[4px_4px_0_var(--chart-2)] ring-1 ring-inset ring-primary-foreground/20 transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-[6px_6px_0_var(--chart-2)]"
+								className="btn-cyan-shadow group inline-flex items-center gap-2.5 px-7 py-3.5 text-sm font-medium text-primary-foreground"
 							>
 								{t.explore}
-								<ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+								<ArrowRight className="arrow-spring h-4 w-4" />
 							</a>
 							<Link
 								href="/introduction"
 								className="group inline-flex items-center gap-2 border border-primary/60 px-7 py-3.5 text-sm font-medium text-primary transition-all duration-300 hover:border-primary hover:bg-primary/10"
 							>
 								{t.resume}
-								<ArrowRight className="h-4 w-4 transition-all duration-300 group-hover:translate-x-1" />
+								<ArrowRight className="arrow-spring h-4 w-4" />
 							</Link>
 						</div>
 

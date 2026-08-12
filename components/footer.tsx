@@ -83,10 +83,10 @@ export function Footer() {
 
 						<a
 							href="mailto:Thanatphong2719@gmail.com"
-							className="group inline-flex items-center gap-2.5 bg-primary px-8 py-4 text-sm font-medium text-primary-foreground transition-colors duration-300 hover:bg-primary/90"
+							className="btn-cyan-shadow group inline-flex items-center gap-2.5 px-8 py-4 text-sm font-medium text-primary-foreground"
 						>
 							{t.sendSignal}
-							<ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+							<ArrowRight className="arrow-spring h-4 w-4" />
 						</a>
 					</div>
 
