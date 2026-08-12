@@ -105,10 +105,6 @@ The site deploys as a static-friendly Next.js app (ISR for dynamic data) —
 works out of the box on Vercel, Netlify, or any Node server. See
 [`docs/deployment.md`](./docs/deployment.md) for details.
 
-## Security
-
-See [`SECURITY.md`](./SECURITY.md) for how to report vulnerabilities.
-
 ## License
 
 Released under the [MIT License](./LICENSE).
