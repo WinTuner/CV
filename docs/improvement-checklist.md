@@ -37,18 +37,21 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
    GitHub auto-descriptions only.
 3. **Vercel Speed Insights** — ✅ installed (`@vercel/speed-insights/next` in
    `app/layout.tsx`) to collect real-user Core Web Vitals alongside Analytics.
-4. **Lighthouse CI or a weekly local run** — guard LCP/CLS/TBT regressions.
+4. **Lighthouse CI** — ✅ `GoogleChrome/lighthouse-ci-action` in CI with
+   score assertions (perf ≥0.85, a11y ≥0.95, BP ≥0.9, SEO ≥0.9) across 4
+   routes; resource budgets in `budgets.json` (scripts ≤800KiB).
+5. **Bundle analysis** — ✅ measured via `.next/diagnostics/route-bundle-stats.json`;
+   Command Palette lazy-mounted to cut shared JS; see `docs/performance.md`.
 
 ---
 
 ## 🟡 Medium (when time allows)
 
-5. **Playwright E2E** — smoke tests for the terminal CLI, language toggle,
+6. **Playwright E2E** — smoke tests for the terminal CLI, language toggle,
    project filters, and the print flow.
-6. **Accessibility sweep** — axe-core audit; contrast fixes for the yellow
+7. **Accessibility sweep** — axe-core audit; contrast fixes for the yellow
    accent palette; `aria-live` for form feedback; touch targets ≥44px.
-7. **Bundle analysis** — `npm run analyze`; trim the largest first-load
-   chunks (terminal widget is a candidate for code-splitting).8. **Search indexing** — per-post Article JSON-LD already exists in
+8. **Search indexing** — per-post Article JSON-LD already exists in
    `app/(public)/blog/[postSlug]/page.tsx`; verify posts are actually being
    indexed and that the RSS feed doesn't duplicate canonical URLs.
 
@@ -78,6 +81,8 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
 | Docs | ✅ rewritten Aug 2026 |
 | Content (case studies) | ⬜ next |
 | Analytics | page views ✅ / speed ✅ |
+| Lighthouse CI + budgets | ✅ done |
+| Bundle analysis + lazy palette | ✅ done |
 
-**Recommended next phase**: items 1–2 (content) + 3 (speed insights) — the
-highest return for a student-focused portfolio.
+**Recommended next phase**: items 1–2 (content case studies + project
+metrics) — the highest return for a student-focused portfolio.

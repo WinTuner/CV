@@ -29,22 +29,50 @@ The codebase has already adopted the baseline optimizations:
   ambient animation set in `app/globals.css`.
 - **Paint containment**: `.content-visibility-auto` on long sections.
 
+## Bundle Size (measured August 2026)
+
+First-load JS (uncompressed) per route, from `.next/diagnostics/route-bundle-stats.json`
+(after the CommandPalette lazy-mount optimization):
+
+| Route | First-load JS |
+| --- | --- |
+| `/` (home) | ~680KB |
+| `/introduction` | ~648KB |
+| `/blog` | ~631KB |
+
+Notes:
+- The bulk (~370KB) is the Next.js 16 + React 19 framework runtime that every
+  App Router page pays for — not directly reducible.
+- **Command Palette** (fuzzy search + icons, ~15–20KB) is now lazy-mounted via
+  `components/command-palette-slot.tsx` — it loads only on the first ⌘K/Ctrl+K,
+  so it no longer ships with every route's initial JS.
+- The terminal widget (~71KB) is home-page only and split across tab
+  components already.
+- Re-check after any dependency change: `npx next build`, then inspect
+  `.next/diagnostics/route-bundle-stats.json`.
+
+## CI Guardrails
+
+- **Lighthouse CI** — `.github/workflows/ci.yml` runs `GoogleChrome/lighthouse-ci-action`
+  after each build (scores: performance ≥0.85, accessibility ≥0.95,
+  best-practices ≥0.9, SEO ≥0.9) across `/`, `/introduction`, `/projects`, `/blog`.
+- **Resource budgets** — `budgets.json` fails the build if scripts exceed
+  800KiB or the total page weight exceeds 2500KiB on any audited URL.
+- **Vercel Speed Insights** — ✅ installed (`@vercel/speed-insights/next`)
+  alongside `@vercel/analytics` in `app/layout.tsx`; real-user Core Web
+  Vitals now show in the Vercel dashboard.
+
 ## Remaining Opportunities
 
-1. **Bundle analysis** — run `npm run analyze` (`next experimental-analyze`)
-   or add `@next/bundle-analyzer` and tune large first-load chunks.
-2. **Audit with Lighthouse** locally:
+1. **Audit locally** for before/after comparisons:
    ```bash
    npm run build && npm start
    npx lighthouse http://localhost:3000 --view
    ```
-3. **Vercel Speed Insights** — ✅ installed (`@vercel/speed-insights/next`)
-   alongside `@vercel/analytics` in `app/layout.tsx`; real-user Core Web
-   Vitals now show in the Vercel dashboard.
-4. **Dependency audit** — `npx depcheck` to confirm nothing is orphaned.
-5. **Lazy components** — the GitHub contribution graph, skills matrix, and
-   projects grid could be wrapped in `next/dynamic` or moved fully into
-   Suspense if any route's first paint regresses.
+2. **Dependency audit** — `npx depcheck` to confirm nothing is orphaned.
+3. **More lazy components** — the GitHub contribution graph, skills matrix,
+   and projects grid could be wrapped in `next/dynamic` if any route's first
+   paint regresses.
 
 ## Notes
 
