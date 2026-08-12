@@ -105,3 +105,5 @@ works out of the box on Vercel, Netlify, or any Node server. See
 ## Author
 
 - **Thanatphong Tarin (WinTuner)** — <https://github.com/WinTuner>
+
+_Built on the EinCode template by [Ehsan Ghaffar](https://eindev.ir)._
