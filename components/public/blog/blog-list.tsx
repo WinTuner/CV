@@ -148,8 +148,7 @@ export function BlogList({ posts, language }: BlogListProps) {
 									</div>
 
 									<div className="flex items-center gap-2 font-mono text-xs text-primary transition-all duration-300 sm:opacity-0 sm:translate-x-[-8px] group-hover:opacity-100 group-hover:translate-x-0">
-										<span>{t.readArticle}</span>
-										<ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+										<span>{t.readArticle}</span>													<ArrowRight className="arrow-spring h-3.5 w-3.5" />
 									</div>
 								</div>
 
