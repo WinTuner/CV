@@ -181,14 +181,16 @@ export function Header() {
 				{/* Mobile Menu */}
 				<div
 					className={cn(
-						"grid transition-all duration-300 ease-in-out md:hidden bg-background overflow-hidden",
-						isMobileMenuOpen
-							? "grid-rows-[1fr] opacity-100 pt-4"
-							: "grid-rows-[0fr] opacity-0",
+					"grid transition-all duration-300 ease-in-out md:hidden bg-background overflow-hidden",
+					isMobileMenuOpen
+						? "grid-rows-[1fr] opacity-100 pt-4"
+						: "grid-rows-[0fr] opacity-0",
 					)}
 				>
 					<div className="overflow-hidden">
-						<div className="flex flex-col gap-1 border-t border-border/60 pt-4">
+						{/* Safe-area padding lives on the collapsible content (clipped when closed),
+							so phones with gesture bars / home indicators never hide the last row. */}
+						<div className="flex flex-col gap-1 border-t border-border/60 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
 							{navItems.map((item, index) => (
 								<Link
 									key={item.href}
