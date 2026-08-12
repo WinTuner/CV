@@ -1,8 +1,5 @@
 # WinTuner — Digital Laboratory
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![CI](https://github.com/WinTuner/CV/actions/workflows/ci.yml/badge.svg)](https://github.com/WinTuner/CV/actions/workflows/ci.yml)
-
 Personal portfolio / CV site for **Thanatphong Tarin (WinTuner)** — a digital
 workshop where code meets curiosity. Experiments, prototypes, blog posts, and
 open-source artifacts.
