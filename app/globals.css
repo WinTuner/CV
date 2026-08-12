@@ -274,6 +274,20 @@
   contain-intrinsic-size: auto 720px;
 }
 
+/* Before hydration (or with JS disabled), don't gate content behind the
+   `opacity-0` + `useInView` entrance animations: an inline script in the root
+   layout removes `no-js` from <html> as soon as the HTML is parsed, and then
+   the reveal animations take over as usual. Prevents blank sections while the
+   JS bundle downloads on slow mobile connections.
+
+   Scoped to <main> so JS-gated chrome that lives outside the content (e.g.
+   the floating back-to-top button, which is SSR'd as `opacity-0`) stays
+   hidden until hydration. */
+html.no-js main .opacity-0 {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
 /* Flat editorial card surface (replaces the old glassmorphism) */
 .glass {
   background: var(--card);
