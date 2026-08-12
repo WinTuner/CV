@@ -12,9 +12,12 @@ The codebase has already adopted the baseline optimizations:
 | ISR / caching | ✅ GitHub & blog data revalidate on a schedule + 2-min in-memory cache |
 | Loading states | ✅ `loading.tsx` skeletons for blog, projects, workbench, introduction |
 | Error boundaries | ✅ `error.tsx` at root and per-route-group |
-| Streaming | ✅ Suspense around async data fetching (e.g. projects page) |
+| Streaming | ✅ Suspense around async data fetching (home page streams the
+  GitHub-backed sections; projects & workbench pages stream their lists) |
 | Scroll performance | ✅ `content-visibility-auto` on below-the-fold sections |
 | Hydration | ✅ Client widgets kept small and memoized; server-first sections |
+| Progressive enhancement | ✅ `html.no-js` fallback keeps `opacity-0`-gated content
+  visible until the JS bundle hydrates |
 | Bundle | ✅ No unused Radix packages installed; only what's imported |
 
 ## What's Already In Place
@@ -73,9 +76,14 @@ Notes:
 
 ## Notes
 
-- The homepage fetches GitHub repos, WIP items, activity, and contributions
-  in a single `Promise.all` on the server (`revalidate = 900`), so the
-  initial HTML is complete and only fallback data is used during outages.
+- The homepage streams the GitHub-backed sections (contribution graph, projects
+  grid, workbench) behind Suspense boundaries, so the hero and static content
+  paint immediately and only the data sections wait on the GitHub API. Each
+  fetch still honors `revalidate = 900` + a 2-min in-memory cache.
+- Below-the-fold sections gate entrance animations behind `useInView`; an
+  inline script in `app/layout.tsx` removes the `no-js` class from `<html>` at
+  parse time, and `html.no-js .opacity-0 { opacity: 1 }` in `app/globals.css`
+  guarantees content is visible even before the JS bundle hydrates.
 - The workbench pages poll `/api/activity` (server-cached) every 30s via
   `useLiveGithubActivity`; intervals are cleaned up on unmount.
 
