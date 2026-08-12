@@ -1,62 +1,117 @@
-# GitHub Copilot / AI Agent Instructions — EinCode
+# GitHub Copilot / AI Agent Instructions — WinTuner CV
 
 Quick orienting notes for AI agents working in this repository.
 
 ## Goal
-Help contributors rapidly make safe, small improvements and fixes in a Next.js 16 + TypeScript + Tailwind project focused on UI components and a small content site.
+
+Help contributors make safe, small improvements to a Next.js 16 (App Router) +
+React 19 + TypeScript + Tailwind v4 personal portfolio / CV site with a live
+terminal, bilingual (EN/TH) content, GitHub/Discord/Spotify presence, a
+Notion-backed blog, and API routes for newsletter/contact webhooks.
 
 ## How the project is structured (big picture)
-- `app/` — Next.js App Router pages and layouts (server components by default). See `app/layout.tsx` for global fonts, metadata and the `ThemeProvider` wrapper.
-- `components/` — Reusable UI primitives. Many components are client components and include the `"use client"` directive (e.g. `components/header.tsx`, `components/theme-toggle.tsx`).
-- `lib/` — Single-source utilities and data (e.g. `lib/utils.ts`, `lib/blog-data.tsx` which contains the site's blog posts as in-repo content).
-- `styles/` and `app/globals.css` — Tailwind and CSS tokens. Uses a CSS-first Tailwind v4 style with `@theme inline` tokens.
-- `public/` — Static assets and some page-specific subcomponents (e.g. `public/blog/*`).
+
+- `app/` — App Router pages and layouts (server components by default) plus
+  API routes under `app/api/` (`contact`, `subscribe`, `search`, `activity`).
+  `app/layout.tsx` holds global fonts, metadata, providers, and global widgets.
+- `components/` — UI. `components/ui/` are base primitives, `components/hero/`
+  holds the terminal widget, `components/public/<route>/` are page-specific
+  feature components. Client components use `"use client"` at the top.
+- `lib/` — single-source utilities and data: `github.ts` (GitHub API + fallback
+  data), `lanyard.ts` / `lanyard-presence.ts` (shared live-presence WebSocket),
+  `blog-data.tsx` (bundled blog posts), `notion-blog.ts`, `medium-blog.ts`,
+  `cv-data.ts` (in `constants/`), plus small hooks (`use-in-view`,
+  `use-is-mounted`, `use-live-github-activity`).
+- `app/globals.css` — Tailwind v4 CSS-first design tokens (`@theme inline`),
+  animations, and print styles.
+- `docs/` — architecture, performance, accessibility, deployment, development,
+  and an improvement checklist. Keep them in sync when behavior changes.
+- `public/` — static assets (icons, OG images, project screenshots).
 
 ## Important conventions and patterns
-- Next.js 16 App Router is used. Expect server components by default; add `"use client"` at the top of files that rely on browser APIs or hooks.
-- Theme and UI styling:
-  - Global theme config is in `app/layout.tsx` and `components/theme-provider.tsx` (uses `next-themes`). Default theme is `dark` and the storage key is `theme-mode`.
-  - Design tokens and Tailwind utilities live in `app/globals.css`. If you need to change colors, radii, or animation tokens, edit `app/globals.css` (not scattered inline styles).
-- CSS helper `cn` (in `lib/utils.ts`) is the canonical way to compose class names (clsx + twMerge)
-- Content source for blog posts is `lib/blog-data.tsx`. Adding or editing posts there updates `/blog` pages; there is no external CMS.
-- `next.config.mjs` disables TypeScript build errors (`typescript.ignoreBuildErrors: true`) and `images.unoptimized: true` — be cautious: type errors may be suppressed during `next build`.
+
+- Server components by default; add `"use client"` only where browser APIs or
+  hooks are needed.
+- Theme: `next-themes` in `app/layout.tsx`, `defaultTheme="light"`, storage key
+  `theme-mode`. Language: custom `LanguageProvider` (EN/TH), persisted via the
+  `site-language` cookie + `localStorage`.
+- Bilingual copy: every user-facing string should exist for both `en` and `th`
+  (see `constants/cv-data.ts` and `lib/hero-utils.ts` for the pattern).
+- `cn` (`lib/utils.ts`, clsx + twMerge) is the canonical way to compose class
+  names.
+- Tailwind utilities are defined in `app/globals.css` — prefer editing design
+  tokens there instead of scattering inline values.
+- Animation/visibility: `use-in-view` powers `animate-fade-in-up` reveals;
+  respect the `prefers-reduced-motion` handling that hook already provides.
+- Real-time data: the Discord card and Spotify player share ONE Lanyard
+  WebSocket (`lib/lanyard-presence.ts`, `useLanyardPresence`). The hero
+  terminal + workbench poll `/api/activity` every 30s via
+  `useLiveGithubActivity`. Do not open a second socket or hit GitHub's API
+  directly from the browser.
 
 ## Developer workflows & common commands
-- Setup (pnpm is preferred):
-  - `pnpm install`
-  - `pnpm dev` — runs `next dev` (local dev server)
-  - `pnpm build` — production build (runs `next build`)
-  - `pnpm start` — serve the built app
-  - `pnpm lint` — runs `eslint .`
-- Verify changes rapidly by running `pnpm dev` and visiting the route under test (e.g. `/`, `/blog`, `/projects`, `/workbench`).
-- There are no automated tests in the repo; adding tests requires an explicit discussion in the PR.
+
+The project uses **npm** (Node 22+, matching CI). Do not use pnpm/yarn.
+
+- `npm install`
+- `npm run dev` — local dev server
+- `npm run build` — production build (type-checks + lints in CI too)
+- `npm run start` — serve the built app (used by Lighthouse CI)
+- `npm run lint` — ESLint (`eslint .`)
+- `npm test` — Vitest unit/component tests (jsdom + Testing Library)
+- `npx tsc --noEmit` — standalone type check
+- `npm run analyze` — bundle analysis (`ANALYZE=true next build`); also inspect
+  `.next/diagnostics/route-bundle-stats.json`
+
+## Automated checks (do not skip)
+
+CI (`.github/workflows/ci.yml`) runs on every push/PR to `main`:
+
+1. `npx tsc --noEmit`
+2. `npm run lint`
+3. `npm test`
+4. `npm run build`
+5. Lighthouse CI (`treosh/lighthouse-ci-action@v12`) against `lighthouserc.json`
+   — performance ≥ 0.85, accessibility ≥ 0.9, best-practices ≥ 0.9, SEO ≥ 0.9,
+   plus `budgets.json` resource budgets.
+
+There **are** automated tests in this repo (currently ~48). When you add or
+change behavior, add or update tests in `lib/__tests__/` (or
+`components/__tests__/`) and make sure `npm test` passes.
 
 ## When making changes (AI agent checklist)
+
 1. Keep changes small and focused (one logical change per PR).
-2. Run `pnpm lint` and fix reported issues.
-3. Run `pnpm dev` and manually verify the UI in a browser for visual changes.
-4. If you change styling tokens, prefer edits in `app/globals.css` (and update the component snapshot or screenshots if requested).
-5. If you add or modify a blog post, update `lib/blog-data.tsx` and ensure the page renders as expected.
-6. Do not remove `typescript.ignoreBuildErrors` in `next.config.mjs` without a maintainer-approved migration plan — builds rely on this flag.
+2. Match surrounding conventions: tabs for indentation, `cn()` for class
+   names, bilingual copy, existing animation classes.
+3. Run `npx tsc --noEmit && npm run lint && npm test` and fix everything.
+4. If the change is user-visible, run `npm run dev` and verify in a browser
+   (both EN and TH).
+5. If you touch behavior, update the relevant file under `docs/`.
+6. Never commit secrets: server-only values come from `.env.local`
+   (`GITHUB_TOKEN`, `NOTION_API_KEY`, webhook URLs, Upstash creds) and are
+   gitignored. Use `.env.example` placeholders only.
 
 ## Things AI agents should NOT assume
-- There is no CI or test runner configured by default — do not assume you can run a test suite.
-- The project uses `pnpm` (not npm or yarn) — prefer `pnpm` commands for accuracy.
-- TypeScript diagnostics may be intentionally relaxed by the config; prefer to keep types consistent and flag any type regressions to maintainers.
 
-## Example edits (short snippets)
-- Add a new blog post: append a `BlogPost` entry to `lib/blog-data.tsx`. Follow the existing structure for `id`, `slug`, `title`, `excerpt`, `content` (MD), `date`, `readTime`, `category`, `tags`, `author`, `featured`, `color`.
-- Add a small UI fix: update the component in `components/`, keep it client/server correct (`"use client"` if it uses hooks/browser APIs), run `pnpm dev` and visually validate.
+- `next.config.mjs` has `typescript.ignoreBuildErrors: false` — type errors
+  WILL fail the build. Keep types strict.
+- There is no `styles/` directory; all styling lives in `app/globals.css`.
+- Blog content is NOT solely in `lib/blog-data.tsx` — posts can come from
+  Notion (`NOTION_API_KEY`/`NOTION_DATABASE_ID`) and Medium, merged and
+  de-duplicated. `blog-data.tsx` is the offline fallback.
+- `npm` is the package manager, not `pnpm`.
 
 ## Helpful files to inspect during PRs
-- `app/layout.tsx` — global layout, fonts, theme provider
-- `app/globals.css` — design tokens and Tailwind inline theme
-- `components/*` — header, footer, theme toggles, and page components
-- `lib/blog-data.tsx` — source-of-truth for blog content
+
+- `app/layout.tsx` — global layout, fonts, metadata, providers, global widgets
+- `app/globals.css` — design tokens, Tailwind v4 inline theme, animations
+- `constants/cv-data.ts` — all CV content (bilingual, typed by `types/cv.ts`)
+- `lib/github.ts` — GitHub data fetching + curated fallbacks
+- `lib/lanyard-presence.ts` — shared real-time presence socket
 - `next.config.mjs` and `package.json` — build behavior and scripts
 
 ## If something is unclear
-- Ask the repository maintainer in the issue tracker or create a draft PR with a short description and screenshots for visual changes.
 
----
-Please review these instructions and tell me if you'd like me to add project-specific examples (PR templates, CI steps, or a `CONTRIBUTING.md`). I can iterate on this file based on your feedback.
+Open an issue or start a discussion in the repository; maintainers are happy to
+point you at the right file before you write code.
