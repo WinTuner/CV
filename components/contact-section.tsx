@@ -115,7 +115,7 @@ export function ContactSection() {
 								className="group flex items-center gap-4"
 							>
 								<div className="flex h-11 w-11 items-center justify-center border border-border/70 bg-card transition-colors duration-300 group-hover:border-primary/50">
-									<Mail className="h-4 w-4 text-primary" />
+									<Mail className="icon-spring h-4 w-4 text-primary" />
 								</div>
 								<div>
 									<p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -133,7 +133,7 @@ export function ContactSection() {
 								className="group flex items-center gap-4"
 							>
 								<div className="flex h-11 w-11 items-center justify-center border border-border/70 bg-card transition-colors duration-300 group-hover:border-primary/50">
-									<MessageSquare className="h-4 w-4 text-primary" />
+									<MessageSquare className="icon-spring h-4 w-4 text-primary" />
 								</div>
 								<div>
 									<p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">

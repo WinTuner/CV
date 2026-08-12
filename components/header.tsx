@@ -140,7 +140,7 @@ export function Header() {
 									aria-label={link.label}
 									className="group flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors duration-300 hover:text-primary"
 								>
-									<link.icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+									<link.icon className="icon-spring h-4 w-4" />
 								</a>
 							))}
 						</div>
@@ -219,7 +219,7 @@ export function Header() {
 										aria-label={link.label}
 										className="flex h-10 w-10 items-center justify-center rounded-md border border-border/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
 									>
-										<link.icon className="h-4 w-4" />
+										<link.icon className="icon-spring h-4 w-4" />
 									</a>
 								))}
 							</div>

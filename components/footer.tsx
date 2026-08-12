@@ -107,7 +107,7 @@ export function Footer() {
 									className="group flex items-center justify-between gap-4 border-b border-border/50 py-3 transition-colors duration-300 lg:flex-row-reverse hover:border-primary/40"
 								>
 									<span className="flex items-center gap-3 lg:flex-row-reverse">
-										<link.icon className="h-4 w-4 text-muted-foreground transition-colors duration-300 group-hover:text-primary" />
+										<link.icon className="icon-spring h-4 w-4 text-muted-foreground transition-colors duration-300 group-hover:text-primary" />
 										<span className="text-sm font-medium transition-colors group-hover:text-primary">
 											{link.label}
 										</span>
