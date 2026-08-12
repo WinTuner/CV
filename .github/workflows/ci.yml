@@ -45,3 +45,5 @@ jobs:
         with:
           configPath: ./lighthouserc.json
           temporaryPublicStorage: true
+          uploadArtifacts: true
+          artifactName: lighthouse-reports
