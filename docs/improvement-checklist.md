@@ -35,8 +35,8 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
 2. **Recruiter-facing project numbers** — surface concrete metrics
    (240+ CI tests, tech stack, "why") in `/projects` cards rather than
    GitHub auto-descriptions only.
-3. **Vercel Speed Insights** — add `@vercel/speed-insights/next` to collect
-   real-user Core Web Vitals alongside existing Analytics.
+3. **Vercel Speed Insights** — ✅ installed (`@vercel/speed-insights/next` in
+   `app/layout.tsx`) to collect real-user Core Web Vitals alongside Analytics.
 4. **Lighthouse CI or a weekly local run** — guard LCP/CLS/TBT regressions.
 
 ---
@@ -77,7 +77,7 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
 | Testing | unit ✅ / E2E ⬜ |
 | Docs | ✅ rewritten Aug 2026 |
 | Content (case studies) | ⬜ next |
-| Analytics | page views ✅ / speed ⬜ |
+| Analytics | page views ✅ / speed ✅ |
 
 **Recommended next phase**: items 1–2 (content) + 3 (speed insights) — the
 highest return for a student-focused portfolio.
