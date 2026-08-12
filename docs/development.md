@@ -39,8 +39,7 @@ npx tsc --noEmit && npm run lint && npm test
   `border-border`, `text-primary`…). Custom colors are CSS variables in
   `app/globals.css`, exposed through `@theme inline`.
 - **Animation classes**: reuse the named utilities in `globals.css`
-  (`animate-fade-in-up`, `animate-shine`, `hover-lift`, `glass`, …) instead
-  of inventing new keyframes.
+  (`animate-fade-in-up`, `hover-lift`, …) instead of inventing new keyframes.
 
 ## Editing Content
 
@@ -69,11 +68,12 @@ GitHub repos drive `/projects` and the homepage grid through
 repos). To pin a specific repo's blurb, extend the `repo.name` special-cases
 in `getGithubRepos()`, or edit the `fallbackProjects` array used offline.
 
-### Interactive terminal
+### Hero section
 
-`components/hero/terminal-widget.tsx` — the CLI commands live in
-`runCliCommand()`. Add a `case` for a new command and a line in the `help`
-output. Quick links are the `links` map inside the `open` case.
+`components/hero-section.tsx` renders the editorial hero; the typewriter
+accent line lives in `components/hero/hero-typewriter.tsx` (roles defined in
+`lib/hero-utils.ts`), and the framed portrait in
+`components/hero/hero-portrait.tsx`.
 
 ## Adding a Page
 

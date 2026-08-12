@@ -8,20 +8,20 @@ The codebase has already adopted the baseline optimizations:
 | --- | --- |
 | Image formats | ✅ AVIF + WebP configured, remote patterns allowed |
 | Type safety | ✅ `ignoreBuildErrors: false`, `npx tsc --noEmit` runs in CI |
-| Fonts | ✅ Geist + Geist Mono via `next/font`, `display: swap`, used as CSS vars |
+| Fonts | ✅ Geist + Geist Mono + Fraunces via `next/font`, `display: swap`, used as CSS vars |
 | ISR / caching | ✅ GitHub & blog data revalidate on a schedule + 2-min in-memory cache |
 | Loading states | ✅ `loading.tsx` skeletons for blog, projects, workbench, introduction |
 | Error boundaries | ✅ `error.tsx` at root and per-route-group |
 | Streaming | ✅ Suspense around async data fetching (e.g. projects page) |
 | Scroll performance | ✅ `content-visibility-auto` on below-the-fold sections |
-| Hydration | ✅ Heavy widgets (Spotify, command palette) deferred; cursor glow updates DOM directly |
+| Hydration | ✅ Client widgets kept small and memoized; server-first sections |
 | Bundle | ✅ No unused Radix packages installed; only what's imported |
 
 ## What's Already In Place
 
-- **Font loading**: `app/layout.tsx` loads Geist + Geist Mono with
-  `subsets`, `variable`, and `display: swap`, wired into
-  `--font-sans` / `--font-mono` via `@theme inline`.
+- **Font loading**: `app/layout.tsx` loads Geist + Geist Mono + Fraunces
+  (serif display) with `subsets`, `variable`, and `display: swap`, wired into
+  `--font-sans` / `--font-mono` / `--font-serif` via `@theme inline`.
 - **Image pipeline**: `next.config.mjs` enables AVIF/WebP and a permissive
   `remotePatterns` block (images are also pre-optimized by
   `scripts/optimize-images.mjs`).
@@ -43,11 +43,8 @@ First-load JS (uncompressed) per route, from `.next/diagnostics/route-bundle-sta
 Notes:
 - The bulk (~370KB) is the Next.js 16 + React 19 framework runtime that every
   App Router page pays for — not directly reducible.
-- **Command Palette** (fuzzy search + icons, ~15–20KB) is now lazy-mounted via
-  `components/command-palette-slot.tsx` — it loads only on the first ⌘K/Ctrl+K,
-  so it no longer ships with every route's initial JS.
-- The terminal widget (~71KB) is home-page only and split across tab
-  components already.
+- The command palette and Spotify player were removed in the editorial
+  redesign, which also cut the terminal widget's ~71KB and its tab components.
 - Re-check after any dependency change: `npx next build`, then inspect
   `.next/diagnostics/route-bundle-stats.json`.
 
@@ -79,8 +76,8 @@ Notes:
 - The homepage fetches GitHub repos, WIP items, activity, and contributions
   in a single `Promise.all` on the server (`revalidate = 900`), so the
   initial HTML is complete and only fallback data is used during outages.
-- The interactive terminal polls the GitHub events API client-side every 60s
-  only while a live tab is visible; intervals are cleaned up on tab switch.
+- The workbench pages poll `/api/activity` (server-cached) every 30s via
+  `useLiveGithubActivity`; intervals are cleaned up on unmount.
 
 ---
 

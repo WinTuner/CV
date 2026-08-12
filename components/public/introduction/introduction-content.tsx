@@ -267,7 +267,7 @@ export function IntroductionContent() {
 												/>
 												<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 													<span className="bg-background/85 text-[8px] font-mono px-2 py-1 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1 animate-scale-in">
-														<span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-glow" />
+														<span className="w-1.5 h-1.5 rounded-full bg-primary" />
 														Expand
 													</span>
 												</div>
@@ -343,7 +343,7 @@ export function IntroductionContent() {
 										/>
 										<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 											<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
-												<span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-glow" />
+												<span className="w-1.5 h-1.5 rounded-full bg-primary" />
 												Click to expand
 											</span>
 										</div>
@@ -415,7 +415,7 @@ export function IntroductionContent() {
 												/>
 												<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 													<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
-														<span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-glow" />
+														<span className="w-1.5 h-1.5 rounded-full bg-primary" />
 														Click to expand
 													</span>
 												</div>
@@ -482,7 +482,7 @@ export function IntroductionContent() {
 											/>
 											<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 												<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
-													<span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-glow" />
+													<span className="w-1.5 h-1.5 rounded-full bg-primary" />
 													Click to expand
 												</span>
 											</div>

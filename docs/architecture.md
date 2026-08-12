@@ -1,12 +1,12 @@
 # Architecture
 
-> WinTuner — Digital Laboratory (personal portfolio / CV site for **Thanatphong Tarin**).
+> WinTuner — Personal Site & CV (portfolio for **Thanatphong Tarin**).
 
 ## Overview
 
-A server-first Next.js 16 (App Router) application that doubles as a live
-portfolio piece: a terminal hero, real-time GitHub / Discord / Spotify
-presence, a bilingual CV, and a Notion-backed blog — all with graceful
+A server-first Next.js 16 (App Router) application with an editorial,
+light-first design: a serif-typography hero, GitHub-powered projects and
+activity, a bilingual CV, and a Notion-backed blog — all with graceful
 fallbacks when external services are unavailable.
 
 ## Technology Stack
@@ -39,7 +39,7 @@ app/
 │   ├── subscribe/route.ts      # Newsletter webhook (501 when unconfigured)
 │   ├── search/route.ts         # Blog search endpoint
 │   └── activity/route.ts       # Live GitHub activity (polled every 30s)
-└── (public)/                   # Route group: shared Header/Footer + CursorGlow
+└── (public)/                   # Route group: shared Header/Footer
     ├── layout.tsx
     ├── introduction/page.tsx   # CV / resume (?print=true triggers PDF print flow)
     ├── projects/page.tsx       # GitHub-backed project showcase (Suspense + skeleton)
@@ -52,20 +52,18 @@ app/
 ```
 components/
 ├── ui/                         # Base primitives (button, input, avatar)
-├── hero/                       # Terminal widget + tabs (status/git/neofetch/cli)
+├── hero/                       # Hero portrait + typewriter
 ├── public/<route>/             # Page-specific feature components
 ├── header.tsx, footer.tsx      # Navigation & footer (client)
 ├── language-provider.tsx       # EN/TH context + persistence
-├── theme-provider.tsx / theme-toggle / theme-changer
-├── cursor-glow.tsx, scroll-progress.tsx, back-to-top.tsx, command-palette.tsx
-├── spotify-player.tsx / spotify-player-slot.tsx
+├── theme-provider.tsx / theme-toggle
+├── scroll-progress.tsx, back-to-top.tsx, easter-egg.tsx
 ├── github-contribution-graph.tsx, skills-matrix.tsx, projects-grid.tsx,
-│   workbench.tsx, status-marquee.tsx, contact-section.tsx, easter-egg.tsx
+│   workbench.tsx, highlights-strip.tsx, contact-section.tsx
 └── social-icons.tsx
 
-lib/      # github.ts, lanyard.ts, lanyard-presence.ts (shared real-time
-          #   WebSocket), notion-blog.ts, medium-blog.ts, blog-data.tsx,
-          # cv-data.ts (in constants/), themes.ts, site.ts, structured-data.ts,
+lib/      # github.ts, notion-blog.ts, medium-blog.ts, blog-data.tsx,
+          # cv-data.ts (in constants/), site.ts, structured-data.ts,
           # fuzzy.ts, hero-utils.ts, use-in-view.ts, use-is-mounted.ts,
           # use-live-github-activity.ts (30s activity poll), utils.ts
 constants/cv-data.ts            # All CV content (bilingual), typed by types/cv.ts
@@ -78,7 +76,7 @@ docs/     # This documentation set
 ```
 Static content (constants/cv-data.ts, lib/blog-data.tsx)
         ↓
-Route component (app/…)            ← async data fetch (GitHub, Notion, Lanyard)
+Route component (app/…)            ← async data fetch (GitHub, Notion, Medium)
         ↓
 Page-specific component (components/public/…)
         ↓
@@ -93,31 +91,23 @@ Base UI primitives (components/ui)
 - **Blog** (`lib/notion-blog.ts` + `lib/medium-blog.ts`): Notion is the CMS
   with bundled posts in `lib/blog-data.tsx` as the offline fallback; Medium
   posts are merged in and de-duplicated.
-- **Presence widgets** (`lib/lanyard-presence.ts`): the Discord status card
-  and the Spotify player share ONE real-time Lanyard WebSocket — ref-counted
-  (opens with the first subscriber, closes with the last), heartbeat + 5s→30s
-  backoff reconnect. No more REST polling; presence changes push instantly.
-  The player itself stays a deferred, memoized client widget to avoid
-  hydration cost.
-- **GitHub activity**: the hero terminal and workbench pages poll
-  `/api/activity` every 30s. The route wraps `getGithubRecentActivity()`
-  (server-side, `GITHUB_TOKEN`-aware, 2-min in-memory + 15-min ISR cache with
-  curated fallback) so refreshes are cheap and never trip the unauthenticated
-  GitHub rate limit.
+- **GitHub activity**: the workbench pages poll `/api/activity` every 30s. The
+  route wraps `getGithubRecentActivity()` (server-side, `GITHUB_TOKEN`-aware,
+  2-min in-memory + 15-min ISR cache with curated fallback) so refreshes are
+  cheap and never trip the unauthenticated GitHub rate limit.
 
 ## Client vs Server Components
 
 Server-first by default. `"use client"` is used only where interactivity
-requires it (menu state, theme, language, terminal, forms, observers). Static
-sections such as the projects grid and skills matrix stay presentational.
+requires it (menu state, theme, language, forms, observers). Static sections
+such as the projects grid and skills matrix stay presentational.
 
 ## Styling & Theming
 
 - All design tokens are CSS variables in `app/globals.css` (`:root` light,
   `.dark` dark), exposed through Tailwind v4's `@theme inline` block so
   utilities like `bg-primary` / `text-muted-foreground` map to them.
-- `next-themes` toggles the `.dark` class; custom color themes
-  (`lib/themes.ts`) swap the same variables at runtime via `theme-changer`.
+- `next-themes` toggles the `.dark` class.
 - Language is orthogonal to theme: `LanguageProvider` reads a cookie on the
   server (for SSR-correct text) and `localStorage` on the client.
 
@@ -125,9 +115,9 @@ sections such as the projects grid and skills matrix stay presentational.
 
 - ISR revalidation + short in-memory caches to keep API pressure low.
 - `content-visibility-auto` on below-the-fold sections (smooth long-page
-  scrolling), deferred heavy widgets, memoized markdown parsing.
-- Cursor glow updates DOM style directly (zero re-renders).
-- Next.js font loader with `display: swap` for Geist + Geist Mono.
+  scrolling), memoized markdown parsing.
+- Next.js font loader with `display: swap` for Geist + Geist Mono + Fraunces
+  (serif display).
 
 ## Security Notes
 

@@ -1,18 +1,19 @@
-# WinTuner — Digital Laboratory
+# WinTuner — Personal Site & CV
 
-Personal portfolio / CV site for **Thanatphong Tarin (WinTuner)** — a digital
-workshop where code meets curiosity. Experiments, prototypes, blog posts, and
-open-source artifacts.
+Personal portfolio / CV site for **Thanatphong Tarin (WinTuner)** — a software
+engineering student, co-founder & CTO of Muanjai. Projects, writing, and a
+curated look at the tools and work behind the build.
 
-Built with Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4 and
-Radix UI primitives. Fully bilingual (EN/TH) via a client-side language
-provider.
+Designed with a clean, editorial, light-first aesthetic (warm paper, ink,
+serif display type). Built with Next.js 16 (App Router), React 19,
+TypeScript, Tailwind CSS v4 and Radix UI primitives. Fully bilingual (EN/TH)
+via a client-side language provider.
 
 ## Pages
 
 | Route | Description |
 | --- | --- |
-| `/` | Landing page — terminal hero, live GitHub activity, Discord & Spotify presence, skills matrix |
+| `/` | Landing page — editorial hero, highlights, skills, GitHub contributions, projects, workbench |
 | `/introduction` | CV / introduction with education timeline and expandable image lightbox |
 | `/projects` | Featured projects pulled from the GitHub API (ISR, 1h) |
 | `/blog` | Blog — Notion-backed posts (with local fallback) merged with Medium, category/tag/search filtering |
@@ -49,8 +50,8 @@ Open <http://localhost:3000>.
 ## Project layout
 
 - `app/` — App Router pages, layouts, API routes (`/api/contact`, `/api/subscribe`), `sitemap.ts`, `robots.ts`, `feed.xml`
-- `components/` — UI primitives (`ui/`), hero terminal widgets (`hero/`), and per-page feature components (`public/`)
-- `lib/` — data fetching (`github.ts`, `notion-blog.ts`, `medium-blog.ts`, `lanyard.ts`, `lanyard-presence.ts`), content (`blog-data.tsx`, `cv-data.ts`), themes, and small hooks
+- `components/` — UI primitives (`ui/`), hero portrait + typewriter (`hero/`), and per-page feature components (`public/`)
+- `lib/` — data fetching (`github.ts`, `notion-blog.ts`, `medium-blog.ts`), content (`blog-data.tsx`, `cv-data.ts`), and small hooks
 - `constants/` `types/` — shared config and TypeScript types
 - `scripts/` — one-off tooling (image optimization, OG image generation)
 - `docs/` — architecture, performance, accessibility, deployment notes
@@ -59,14 +60,12 @@ Open <http://localhost:3000>.
 ## Features
 
 - **Bilingual (EN/TH)** — persisted language choice, all pages translated
-- **Live GitHub presence** — repos, contribution activity, and events with ISR caching; the terminal widget + workbench refresh activity every 30s via `/api/activity`
-- **Discord live status** — real-time Lanyard WebSocket (shared socket, instant presence updates), offline/online states
-- **Spotify now-playing widget** — deferred, memoized client widget sharing the same real-time socket
+- **Live GitHub presence** — repos, contribution activity, and events with ISR caching; the workbench refreshes activity every 30s via `/api/activity`
 - **Blog** — Notion CMS integration with local fallback, Medium merge, tag/category/search, RSS feed (`/feed.xml`)
 - **Newsletter + contact forms** — webhook-driven API routes (Formspree/Zapier/Make/Upstash), safe-by-default 501s when unconfigured
 - **SEO** — dynamic sitemap, robots.txt, Open Graph images, JSON-LD structured data
 - **Accessibility** — skip link, focus-managed mobile menu, reduced-motion support, ARIA labels on icon buttons
-- **Performance** — ISR revalidation, deferred heavy widgets, memoized markdown parsing, direct-DOM cursor glow (zero re-renders)
+- **Performance** — ISR revalidation, deferred heavy widgets, memoized markdown parsing, content-visibility for below-the-fold sections
 - **Security** — sanitized blog HTML rendering, validated webhook URLs (SSRF guard), rate-limit-friendly data fetching
 
 ## Configuration
@@ -102,8 +101,12 @@ The site deploys as a static-friendly Next.js app (ISR for dynamic data) —
 works out of the box on Vercel, Netlify, or any Node server. See
 [`docs/deployment.md`](./docs/deployment.md) for details.
 
+## License
+
+[MIT](./LICENSE) © 2026 Thanatphong Tarin (WinTuner). Built on the
+[EinCode](https://eindev.ir) template by Ehsan Ghaffar — see
+[`LICENSE`](./LICENSE) for the full notice.
+
 ## Author
 
 - **Thanatphong Tarin (WinTuner)** — <https://github.com/WinTuner>
-
-_Built on the EinCode template by [Ehsan Ghaffar](https://eindev.ir)._

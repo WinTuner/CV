@@ -1,109 +1,75 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, memo } from "react";
+import { ArrowRight, MapPin, Mail } from "lucide-react";
 import { useLanguage } from "./language-provider";
 import { heroCopy } from "@/lib/hero-utils";
-import type { ActivityItem } from "@/lib/github";
-import dynamic from "next/dynamic";
 import { HeroTypewriter } from "./hero/hero-typewriter";
-import { TerminalWidget } from "./hero/terminal-widget";
 import { HeroPortrait } from "./hero/hero-portrait";
 
-const DiscordProfileCard = dynamic(
-	() => import("./discord-profile-card").then((m) => m.DiscordProfileCard),
-	{
-		ssr: false,
-	},
-);
-
-export interface HeroSectionProps {
-	recentActivities?: ActivityItem[];
-}
-
-const MemoizedTerminal = memo(TerminalWidget);
-const MemoizedDiscord = memo(DiscordProfileCard);
-
-export function HeroSection({ recentActivities = [] }: HeroSectionProps) {
+export function HeroSection() {
 	const { language } = useLanguage();
 
 	const t = heroCopy[language];
 
 	return (
-		<section className="relative px-4 sm:px-6 pt-28 sm:pt-36 pb-16 sm:pb-24">
+		<section className="relative px-4 sm:px-6 pt-32 sm:pt-40 pb-16 sm:pb-24">
 			<div className="mx-auto max-w-7xl">
-				<div className="grid gap-12 lg:grid-cols-2 lg:gap-20 lg:items-center lg:min-h-[70vh]">
-					{/* Left column - Text */}
-					<div className="space-y-8 sm:space-y-10">
-						<div className="space-y-3 animate-fade-in-up">
-							<p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">
+				<div className="grid gap-14 lg:grid-cols-12 lg:gap-12 lg:items-center">
+					{/* Left column — editorial text */}
+					<div className="lg:col-span-7 space-y-7 sm:space-y-8">
+						<div className="space-y-4 animate-fade-in-up">
+							<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
 								{t.kicker}
 							</p>
-							<h1 className="text-4xl font-bold tracking-tight sm:text-4xl lg:text-5xl xl:text-6xl text-balance">
+							<h1 className="font-serif text-5xl font-medium leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl text-balance">
 								Forging digital
 								<br />
 								<HeroTypewriter />
 							</h1>
 						</div>
 
-						<p className="max-w-lg text-base sm:text-lg leading-relaxed text-muted-foreground animate-fade-in-up stagger-2">
+						<p className="max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground animate-fade-in-up stagger-2">
 							{t.intro}
 						</p>
 
-						<div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-3">
+						<div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 animate-fade-in-up stagger-3">
 							<a
 								href="#projects"
-								className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-lg border border-primary bg-primary/10 px-7 py-4 sm:py-3.5 font-mono text-sm text-primary transition-all duration-500 hover:bg-primary hover:text-primary-foreground active:scale-[0.98]"
+								className="group inline-flex items-center gap-2.5 bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition-colors duration-300 hover:bg-primary/90"
 							>
-								<span className="relative z-10">{t.explore}</span>
-								<span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1">
-									→
-								</span>
-								{/* Animated background */}
-								<span className="absolute inset-0 -translate-x-full bg-primary transition-transform duration-500 group-hover:translate-x-0" />
+								{t.explore}
+								<ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
 							</a>
 							<Link
 								href="/introduction"
-								className="group inline-flex items-center justify-center gap-3 rounded-lg border border-border px-7 py-4 sm:py-3.5 font-mono text-sm text-muted-foreground transition-all duration-300 hover:border-foreground hover:text-foreground hover:bg-secondary/50 active:scale-[0.98]"
+								className="group inline-flex items-center gap-2 text-sm font-medium text-foreground underline-offset-4 hover:underline"
 							>
-								<span>{t.resume}</span>
-								<span className="opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-									→
-								</span>
+								{t.resume}
+								<ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
 							</Link>
 						</div>
 
-						{/* Minimal Custom Linux Terminal Widget */}
-						<MemoizedTerminal recentActivities={recentActivities} />
-
-						{/* Discord Profile Card */}
-						<div className="w-full max-w-lg">
-							<Suspense
-								fallback={
-									<div className="w-full max-w-lg rounded-xl border border-border/50 bg-zinc-950/20 glass p-5 flex items-center justify-center h-48 font-mono text-xs text-muted-foreground animate-pulse">
-										<span>
-											{language === "th"
-												? "กำลังโหลดสถานะ Discord..."
-												: "loading Discord profile presence..."}
-										</span>
-									</div>
-								}
+						<div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 font-mono text-xs text-muted-foreground animate-fade-in-up stagger-4">
+							<span className="inline-flex items-center gap-1.5">
+								<MapPin className="h-3.5 w-3.5 text-primary" />
+								{t.location}
+							</span>
+							<a
+								href={`mailto:${t.email}`}
+								className="inline-flex items-center gap-1.5 transition-colors hover:text-primary"
 							>
-								<MemoizedDiscord />
-							</Suspense>
+								<Mail className="h-3.5 w-3.5 text-primary" />
+								{t.email}
+							</a>
 						</div>
 					</div>
 
-					{/* Right column - Visual / Portrait */}
-					<HeroPortrait />
+					{/* Right column — portrait */}
+					<div className="lg:col-span-5">
+						<HeroPortrait />
+					</div>
 				</div>
-			</div>
-
-			<div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 animate-fade-in stagger-6">
-				<span className="font-mono text-xs text-muted-foreground animate-bounce-soft">
-					{t.scroll}
-				</span>
-				<div className="w-px h-12 bg-gradient-to-b from-primary/50 to-transparent animate-pulse" />
 			</div>
 		</section>
 	);

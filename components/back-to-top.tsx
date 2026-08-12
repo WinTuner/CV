@@ -38,7 +38,7 @@ export function BackToTop() {
 			onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
 			aria-label={language === "th" ? "กลับขึ้นด้านบน" : "Back to top"}
 			className={cn(
-				"fixed bottom-8 right-8 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-border bg-card/90 glass backdrop-blur-sm shadow-lg transition-all duration-300 hover:border-primary/50 hover:bg-card hover:text-primary",
+				"fixed bottom-8 right-8 z-50 flex h-11 w-11 items-center justify-center border border-border/70 bg-card text-muted-foreground shadow-sm transition-all duration-300 hover:border-primary/50 hover:text-primary",
 				visible
 					? "translate-y-0 opacity-100"
 					: "pointer-events-none translate-y-4 opacity-0",

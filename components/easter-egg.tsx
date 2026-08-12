@@ -136,14 +136,12 @@ export function EasterEgg() {
 			<canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
 			{party && (
 				<div className="absolute inset-0 flex items-center justify-center">
-					<div className="animate-scale-in rounded-2xl border border-primary/50 bg-card/90 glass-strong px-8 py-6 text-center shadow-2xl">
+					<div className="animate-scale-in border border-primary/50 bg-card px-10 py-8 text-center shadow-xl">
 						<p className="font-mono text-xs uppercase tracking-[0.35em] text-primary">
 							{language === "th" ? "ปลดล็อกความลับ" : "secret unlocked"}
 						</p>
-						<p className="mt-2 text-2xl font-bold tracking-tight">
-							<span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-								{language === "th" ? "โหมดปาร์ตี้!" : "PARTY MODE!"}
-							</span>
+						<p className="mt-3 font-serif text-3xl font-medium tracking-tight text-primary">
+							{language === "th" ? "โหมดปาร์ตี้!" : "PARTY MODE!"}
 						</p>
 						<p className="mt-2 font-mono text-xs text-muted-foreground">
 							{language === "th"
