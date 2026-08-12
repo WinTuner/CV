@@ -17,8 +17,9 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
 - [x] Sitemap, robots.txt, RSS feed, JSON-LD structured data
 - [x] Blog search API + client filtering
 - [x] Contact + newsletter webhooks with safe 501 defaults
-- [x] Interactive terminal CLI (help/about/skills/projects/socials/open/…)
-- [x] Command palette, back-to-top, scroll progress, easter egg
+- [x] Editorial redesign (Aug 2026) — removed template DNA (terminal,
+      glassmorphism, glitch/scanlines, Discord/Spotify widgets)
+- [x] Back-to-top, scroll progress, easter egg
 - [x] Print-optimized resume (`/introduction?print=true` + `@media print`)
 - [x] Reduced-motion support, skip link, focus-managed mobile menu
 - [x] CI (typecheck → lint → test → build) on every push/PR
@@ -41,15 +42,16 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
    score assertions (perf ≥0.85, a11y ≥0.95, BP ≥0.9, SEO ≥0.9) across 4
    routes; resource budgets in `budgets.json` (scripts ≤800KiB).
 5. **Bundle analysis** — ✅ measured via `.next/diagnostics/route-bundle-stats.json`;
-   Command Palette lazy-mounted to cut shared JS; see `docs/performance.md`.
+   the redesign removed the command palette and terminal widget (~90KB); see
+   `docs/performance.md`.
 
 ---
 
 ## 🟡 Medium (when time allows)
 
-6. **Playwright E2E** — smoke tests for the terminal CLI, language toggle,
-   project filters, and the print flow.
-7. **Accessibility sweep** — axe-core audit; contrast fixes for the yellow
+6. **Playwright E2E** — smoke tests for the language toggle, project filters,
+   and the print flow.
+7. **Accessibility sweep** — axe-core audit; contrast fixes for the green
    accent palette; `aria-live` for form feedback; touch targets ≥44px.
 8. **Search indexing** — per-post Article JSON-LD already exists in
    `app/(public)/blog/[postSlug]/page.tsx`; verify posts are actually being

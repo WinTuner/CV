@@ -1,16 +1,14 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/components/language-provider";
-import { CommandPaletteSlot } from "@/components/command-palette-slot";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { BackToTop } from "@/components/back-to-top";
 import { EasterEgg } from "@/components/easter-egg";
 import "./globals.css";
-import { SpotifyPlayerSlot } from "@/components/spotify-player-slot";
 import { SITE_URL } from "@/lib/site";
 
 // Configure fonts with proper options
@@ -22,6 +20,11 @@ const geist = Geist({
 const geistMono = Geist_Mono({
 	subsets: ["latin"],
 	variable: "--font-geist-mono",
+	display: "swap",
+});
+const fraunces = Fraunces({
+	subsets: ["latin"],
+	variable: "--font-fraunces",
 	display: "swap",
 });
 
@@ -109,7 +112,7 @@ export default function RootLayout({
 		<html
 			lang="en"
 			suppressHydrationWarning
-			className={`${geist.variable} ${geistMono.variable}`}
+			className={`${geist.variable} ${geistMono.variable} ${fraunces.variable}`}
 		>
 			<body className="font-sans antialiased">
 				<a
@@ -126,8 +129,6 @@ export default function RootLayout({
 				>
 					<LanguageProvider>
 						{children}
-						<SpotifyPlayerSlot />
-						<CommandPaletteSlot />
 						<ScrollProgress />
 						<BackToTop />
 						<EasterEgg />

@@ -16,9 +16,8 @@ Target: **WCAG 2.1 Level AA** (in progress — baseline is implemented).
   `prefers-reduced-motion` via a shared media query block.
 - **Semantic landmarks** — pages use `header`, `nav`, `main`, `section`,
   `article`, `footer`; headings follow a logical hierarchy.
-- **Keyboard-operable widgets** — tabs in the hero terminal use
-  `aria-pressed` buttons; the lightbox closes on `Escape`; the CLI accepts
-  keyboard input and history (ArrowUp/Down).
+- **Keyboard-operable widgets** — the lightbox closes on `Escape`; the
+  language toggle and theme toggle are plain buttons.
 - **Contrast-aware print** — the `@media print` block forces high-contrast
   black-on-white for the resume flow.
 
@@ -29,10 +28,10 @@ Target: **WCAG 2.1 Level AA** (in progress — baseline is implemented).
    npx @axe-core/cli http://localhost:3000
    ```
 2. **Contrast pass** — verify `muted-foreground` on `background` and
-   `secondary-foreground` on `secondary` hit 4.5:1 in both themes (the yellow
-   accent palette is the main risk).
-3. **Screen-reader testing** — NVDA / VoiceOver pass over the terminal widget
-   and the blog post content (check that `<pre>`/code blocks read sensibly).
+   `secondary-foreground` on `secondary` hit 4.5:1 in both themes (the green
+   primary on paper is the main check).
+3. **Screen-reader testing** — NVDA / VoiceOver pass over the blog post
+   content (check that `<pre>`/code blocks read sensibly).
 4. **Live regions** — add an `aria-live` region for form submission
    feedback in the contact/newsletter sections.
 5. **Touch targets** — confirm interactive elements are ≥44×44px on mobile
@@ -47,7 +46,7 @@ Target: **WCAG 2.1 Level AA** (in progress — baseline is implemented).
 - [ ] `Escape` closes menu and lightbox
 - [ ] Run axe-core; fix all critical issues
 - [ ] Test both themes in light and dark mode at 200% zoom
-- [ ] Verify reduced-motion disables marquee, aurora, shine, pulse animations
+- [ ] Verify reduced-motion disables reveal and caret animations
 
 ---
 

@@ -18,11 +18,11 @@ const WEEKDAY_ROWS = [
 ] as const;
 
 const LEVEL_CLASSES = [
-	"bg-border/40",
+	"bg-border/50",
 	"bg-primary/25",
-	"bg-primary/50",
-	"bg-primary/80",
-	"bg-accent",
+	"bg-primary/45",
+	"bg-primary/70",
+	"bg-primary",
 ] as const;
 
 interface GithubContributionGraphProps {
@@ -39,7 +39,7 @@ export function GithubContributionGraph({
 
 	const t = {
 		en: {
-			kicker: "GitHub Pulse",
+			kicker: "GitHub",
 			title: "Contribution Activity",
 			desc: "My last 365 days of building, experimenting and shipping — straight from the contribution calendar.",
 			total: "contributions in the last year",
@@ -47,7 +47,7 @@ export function GithubContributionGraph({
 			more: "More",
 		},
 		th: {
-			kicker: "ชีพจร GitHub",
+			kicker: "GitHub",
 			title: "กิจกรรมการคอมมิต",
 			desc: "365 วันที่ผ่านมาของการสร้างสรรค์ ทดลอง และปล่อยผลงาน — ตรงจากปฏิทินการคอมมิต",
 			total: "คอมมิตในรอบปีที่ผ่านมา",
@@ -78,27 +78,27 @@ export function GithubContributionGraph({
 	return (
 		<section className="px-4 sm:px-6 py-20 sm:py-28 content-visibility-auto">
 			<div ref={sectionRef} className="mx-auto max-w-7xl">
-				<div className={cn("mb-12 sm:mb-14 space-y-4 text-center opacity-0", isInView && "animate-fade-in-up")}>
-					<p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">
+				<div className={cn("mb-12 sm:mb-16 space-y-4 opacity-0", isInView && "animate-fade-in-up")}>
+					<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
 						{t.kicker}
 					</p>
-					<h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+					<h2 className="font-serif text-4xl sm:text-5xl font-medium tracking-tight">
 						{t.title}
 					</h2>
-					<p className="mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
+					<p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
 						{t.desc}
 					</p>
 				</div>
 
 				<div
 					className={cn(
-						"rounded-2xl border border-border/50 bg-card/30 glass p-5 sm:p-8 opacity-0",
+						"border border-border/70 bg-card p-5 sm:p-8 opacity-0",
 						isInView && "animate-fade-in-up stagger-2",
 					)}
 				>
 					<div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 						<p className="font-mono text-xs text-muted-foreground">
-							<span className="text-2xl font-bold text-primary">
+							<span className="font-serif text-3xl font-medium text-primary">
 								{contributions.total.toLocaleString()}
 							</span>{" "}
 							{t.total}
