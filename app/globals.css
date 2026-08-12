@@ -122,8 +122,27 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    /* Keep iOS from rescaling text on rotation/zoom, and kill the grey flash on tap */
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
   body {
     @apply bg-background text-foreground;
+    /* Clip instead of hidden so sticky/fixed positioning and scrolling stay intact,
+       while decorative glows (hero, intro icons) can't cause a horizontal scrollbar on mobile. */
+    overflow-x: clip;
+  }
+}
+
+/* Safari/iOS < 16 doesn't support overflow: clip, so decorative glows could still
+   cause horizontal scrolling there. Fall back to hidden only below the lg breakpoint
+   (the blog sidebar's lg:sticky needs a real viewport scroll container at ≥1024px). */
+@supports not (overflow: clip) {
+  @media (max-width: 1023px) {
+    body {
+      overflow-x: hidden;
+    }
   }
 }
 

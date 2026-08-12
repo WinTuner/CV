@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -27,6 +27,17 @@ const fraunces = Fraunces({
 	variable: "--font-fraunces",
 	display: "swap",
 });
+
+export const viewport: Viewport = {
+	width: "device-width",
+	initialScale: 1,
+	viewportFit: "cover",
+	// Color the mobile browser chrome (address bar) to match each theme.
+	themeColor: [
+		{ media: "(prefers-color-scheme: light)", color: "#f2fbff" },
+		{ media: "(prefers-color-scheme: dark)", color: "#101c23" },
+	],
+};
 
 export const metadata: Metadata = {
 	metadataBase: new URL(SITE_URL),
