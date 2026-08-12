@@ -4,7 +4,7 @@
  * Run: node scripts/optimize-images.mjs
  *
  * Resizes/compresses the oversized images committed to /public:
- *  - hero portrait       1792x2390 PNG 7.4MB  -> 1200px WebP
+ *  - hero portrait       PNG 7.4MB            -> optimized PNG
  *  - app icons           1024x1024 PNG 1.4MB  -> real 32x32 / 180x180 PNG
  *  - og image            oversized PNG        -> 1200x630 compressed PNG
  *  - CV images           2.1MB / 1.8MB PNG    -> 800px compressed PNG
@@ -22,8 +22,8 @@ const pub = (p) => resolve(root, "public", p);
 
 const jobs = [
 	{
-		in: "developer-portrait.png",
-		out: "developer-portrait-v3.webp",
+		in: "developer-portrait-v3.png",
+		out: "developer-portrait-v3.png",
 		resize: { width: 1200, withoutEnlargement: true },
 		format: { webp: { quality: 95 } },
 	},

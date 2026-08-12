@@ -14,6 +14,7 @@ import { ContactSection } from "@/components/contact-section";
 import { Footer } from "@/components/footer";
 import { CursorGlow } from "@/components/cursor-glow";
 import { StatusMarquee } from "@/components/status-marquee";
+import { HighlightsStrip } from "@/components/highlights-strip";
 import {
 	generateWebsiteStructuredData,
 	generatePersonStructuredData,
@@ -59,6 +60,7 @@ export default async function Home() {
 					<Header />
 					<HeroSection recentActivities={recentActivities} />
 					<StatusMarquee />
+					<HighlightsStrip />
 					<SkillsMatrix />
 					<GithubContributionGraph contributions={contributions} />
 					<ProjectsGrid projects={projects} />
