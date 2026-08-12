@@ -19,6 +19,15 @@ const t = {
 	},
 } as const;
 
+/* Pastel accents, cycling through the five palette colors (theme-aware). */
+const ACCENTS = [
+	{ dot: "bg-chart-1", ring: "border-chart-1/40", dash: "group-hover:bg-chart-1/60", period: "text-chart-1" },
+	{ dot: "bg-chart-2", ring: "border-chart-2/40", dash: "group-hover:bg-chart-2/60", period: "text-chart-2" },
+	{ dot: "bg-chart-3", ring: "border-chart-3/40", dash: "group-hover:bg-chart-3/60", period: "text-chart-3" },
+	{ dot: "bg-chart-4", ring: "border-chart-4/40", dash: "group-hover:bg-chart-4/60", period: "text-chart-4" },
+	{ dot: "bg-chart-5", ring: "border-chart-5/40", dash: "group-hover:bg-chart-5/60", period: "text-chart-5" },
+] as const;
+
 export function ExperienceTimeline() {
 	const { language } = useLanguage();
 	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
@@ -69,8 +78,18 @@ export function ExperienceTimeline() {
 									aria-hidden="true"
 									className="absolute left-0 top-1.5 flex h-3.5 w-3.5 items-center justify-center"
 								>
-									<span className="h-2 w-2 rounded-full bg-primary transition-transform duration-300 group-hover:scale-125" />
-									<span className="absolute inset-0 rounded-full border border-primary/40 transition-all duration-300 group-hover:scale-125" />
+									<span
+										className={cn(
+											"h-2 w-2 rounded-full transition-transform duration-300 group-hover:scale-125",
+											ACCENTS[index % ACCENTS.length].dot,
+										)}
+									/>
+									<span
+										className={cn(
+											"absolute inset-0 rounded-full border transition-all duration-300 group-hover:scale-125",
+											ACCENTS[index % ACCENTS.length].ring,
+										)}
+									/>
 								</span>
 
 								<div className="flex flex-col gap-1.5">
@@ -78,7 +97,12 @@ export function ExperienceTimeline() {
 										<h3 className="font-serif text-xl sm:text-2xl font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
 											{exp.title}
 										</h3>
-										<span className="shrink-0 font-mono text-xs text-primary">
+										<span
+											className={cn(
+												"shrink-0 font-mono text-xs",
+												ACCENTS[index % ACCENTS.length].period,
+											)}
+										>
 											{exp.period}
 										</span>
 									</div>
@@ -91,7 +115,10 @@ export function ExperienceTimeline() {
 											>
 												<span
 													aria-hidden="true"
-													className="mt-[9px] h-px w-3 shrink-0 bg-border transition-colors duration-300 group-hover:bg-primary/50"
+													className={cn(
+														"mt-[9px] h-px w-3 shrink-0 bg-border transition-colors duration-300",
+														ACCENTS[index % ACCENTS.length].dash,
+													)}
 												/>
 												<span>{renderTextWithLinks(point)}</span>
 											</li>
