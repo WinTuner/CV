@@ -53,7 +53,7 @@ Notes:
 
 ## CI Guardrails
 
-- **Lighthouse CI** — `.github/workflows/ci.yml` runs `GoogleChrome/lighthouse-ci-action`
+- **Lighthouse CI** — `.github/workflows/ci.yml` runs `treosh/lighthouse-ci-action`
   after each build (scores: performance ≥0.85, accessibility ≥0.95,
   best-practices ≥0.9, SEO ≥0.9) across `/`, `/introduction`, `/projects`, `/blog`.
 - **Resource budgets** — `budgets.json` fails the build if scripts exceed

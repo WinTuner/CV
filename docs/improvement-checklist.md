@@ -37,7 +37,7 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
    GitHub auto-descriptions only.
 3. **Vercel Speed Insights** — ✅ installed (`@vercel/speed-insights/next` in
    `app/layout.tsx`) to collect real-user Core Web Vitals alongside Analytics.
-4. **Lighthouse CI** — ✅ `GoogleChrome/lighthouse-ci-action` in CI with
+4. **Lighthouse CI** — ✅ `treosh/lighthouse-ci-action` in CI with
    score assertions (perf ≥0.85, a11y ≥0.95, BP ≥0.9, SEO ≥0.9) across 4
    routes; resource budgets in `budgets.json` (scripts ≤800KiB).
 5. **Bundle analysis** — ✅ measured via `.next/diagnostics/route-bundle-stats.json`;

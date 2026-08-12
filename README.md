@@ -59,7 +59,7 @@ Open <http://localhost:3000>.
 ## Features
 
 - **Bilingual (EN/TH)** — persisted language choice, all pages translated
-- **Live GitHub presence** — repos, contribution activity, and events with ISR caching
+- **Live GitHub presence** — repos, contribution activity, and events with ISR caching; the terminal widget + workbench refresh activity every 30s via `/api/activity`
 - **Discord live status** — real-time Lanyard WebSocket (shared socket, instant presence updates), offline/online states
 - **Spotify now-playing widget** — deferred, memoized client widget sharing the same real-time socket
 - **Blog** — Notion CMS integration with local fallback, Medium merge, tag/category/search, RSS feed (`/feed.xml`)
