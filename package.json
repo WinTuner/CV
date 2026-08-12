@@ -16,7 +16,7 @@
   },
   "author": "Thanatphong Tarin",
   "scripts": {
-    "analyze": "next experimental-analyze",
+    "analyze": "ANALYZE=true next build",
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
@@ -39,6 +39,7 @@
     "tailwind-merge": "^2.5.5"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.3.0",
     "@tailwindcss/postcss": "^4.1.9",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",

@@ -44,13 +44,13 @@ Open <http://localhost:3000>.
 | `npm start` | Serve the built app (`next start`) |
 | `npm run lint` | ESLint (`eslint .`) |
 | `npm test` | Vitest unit/component tests |
-| `npm run analyze` | Bundle analysis via `next experimental-analyze` |
+| `npm run analyze` | Bundle analysis via `ANALYZE=true next build` (`@next/bundle-analyzer`); also inspect `.next/diagnostics/route-bundle-stats.json` |
 
 ## Project layout
 
 - `app/` — App Router pages, layouts, API routes (`/api/contact`, `/api/subscribe`), `sitemap.ts`, `robots.ts`, `feed.xml`
 - `components/` — UI primitives (`ui/`), hero terminal widgets (`hero/`), and per-page feature components (`public/`)
-- `lib/` — data fetching (`github.ts`, `notion-blog.ts`, `medium-blog.ts`, `lanyard.ts`), content (`blog-data.tsx`, `cv-data.ts`), themes, and small hooks
+- `lib/` — data fetching (`github.ts`, `notion-blog.ts`, `medium-blog.ts`, `lanyard.ts`, `lanyard-presence.ts`), content (`blog-data.tsx`, `cv-data.ts`), themes, and small hooks
 - `constants/` `types/` — shared config and TypeScript types
 - `scripts/` — one-off tooling (image optimization, OG image generation)
 - `docs/` — architecture, performance, accessibility, deployment notes
@@ -60,8 +60,8 @@ Open <http://localhost:3000>.
 
 - **Bilingual (EN/TH)** — persisted language choice, all pages translated
 - **Live GitHub presence** — repos, contribution activity, and events with ISR caching
-- **Discord live status** — REST polling via Lanyard, offline/online states
-- **Spotify now-playing widget** — deferred, memoized client widget
+- **Discord live status** — real-time Lanyard WebSocket (shared socket, instant presence updates), offline/online states
+- **Spotify now-playing widget** — deferred, memoized client widget sharing the same real-time socket
 - **Blog** — Notion CMS integration with local fallback, Medium merge, tag/category/search, RSS feed (`/feed.xml`)
 - **Newsletter + contact forms** — webhook-driven API routes (Formspree/Zapier/Make/Upstash), safe-by-default 501s when unconfigured
 - **SEO** — dynamic sitemap, robots.txt, Open Graph images, JSON-LD structured data
