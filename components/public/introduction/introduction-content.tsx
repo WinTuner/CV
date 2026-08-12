@@ -27,37 +27,7 @@ import {
 	selfDevelopment,
 } from "@/constants/cv-data";
 import { useLanguage } from "@/components/language-provider";
-
-const renderTextWithLinks = (text: string) => {
-	const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
-	const parts = [];
-	let lastIndex = 0;
-	let match;
-
-	while ((match = regex.exec(text)) !== null) {
-		if (match.index > lastIndex) {
-			parts.push(text.substring(lastIndex, match.index));
-		}
-		parts.push(
-			<a
-				key={match.index}
-				href={match[2]}
-				target="_blank"
-				rel="noopener noreferrer"
-				className="text-primary hover:underline font-semibold"
-			>
-				{match[1]}
-			</a>,
-		);
-		lastIndex = regex.lastIndex;
-	}
-
-	if (lastIndex < text.length) {
-		parts.push(text.substring(lastIndex));
-	}
-
-	return parts.length > 0 ? parts : text;
-};
+import { renderTextWithLinks } from "@/lib/render-text-with-links";
 
 export function IntroductionContent() {
 	const { language } = useLanguage();

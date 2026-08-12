@@ -109,7 +109,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 						<article
 							key={project.id}
 							className={cn(
-								"group relative flex flex-col border border-border/70 bg-card p-6 sm:p-7 transition-all duration-300 opacity-0 hover:border-primary/50 hover:shadow-[0_18px_40px_-24px_oklch(0.3_0.06_160/0.5)]",
+								"group relative flex flex-col border border-border/70 bg-card p-6 sm:p-7 transition-all duration-300 opacity-0 hover:border-primary/50 hover:shadow-[0_18px_40px_-24px_oklch(0.3_0.09_345/0.5)]",
 								isInView && "animate-fade-in-up",
 								project.highlight
 									? "sm:col-span-2 lg:col-span-2 border-primary/40"

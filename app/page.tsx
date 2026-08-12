@@ -1,6 +1,7 @@
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
 import { SkillsMatrix } from "@/components/skills-matrix";
+import { ExperienceTimeline } from "@/components/experience-timeline";
 import { ProjectsGrid } from "@/components/projects-grid";
 import { Workbench } from "@/components/workbench";
 import { GithubContributionGraph } from "@/components/github-contribution-graph";
@@ -51,6 +52,7 @@ export default async function Home() {
 					<HeroSection />
 					<HighlightsStrip />
 					<SkillsMatrix />
+					<ExperienceTimeline />
 					<GithubContributionGraph contributions={contributions} />
 					<ProjectsGrid projects={projects} />
 					<Workbench wipItems={wipItems} />
