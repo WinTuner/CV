@@ -26,3 +26,28 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 *.DS_Store
+
+# --- Personal / local only ---
+*.local
+notes/
+scratch/
+*.history
+
+# --- Editor / IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- OS ---
+Thumbs.db
+Desktop.ini
+
+# --- Logs & temp ---
+*.log
+*.tmp
+
+# --- Coverage & archives ---
+coverage/
+*.tgz
