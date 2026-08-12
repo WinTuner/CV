@@ -42,7 +42,7 @@ export function HeroTypewriter() {
 	}, [displayText, isDeleting, currentRole, currentRoles]);
 
 	return (
-		<span className="font-serif italic text-primary inline-block min-h-[1.15em]">
+		<span className="font-serif italic inline-block min-h-[1.15em] bg-gradient-to-r from-primary via-primary to-chart-2 bg-clip-text text-transparent">
 			{displayText || "\u00A0"}
 			<span className="typing-caret" aria-hidden="true" />
 		</span>
