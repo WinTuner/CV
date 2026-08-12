@@ -62,7 +62,8 @@ components/
 │   workbench.tsx, status-marquee.tsx, contact-section.tsx, easter-egg.tsx
 └── social-icons.tsx
 
-lib/      # github.ts, lanyard.ts, notion-blog.ts, medium-blog.ts, blog-data.tsx,
+lib/      # github.ts, lanyard.ts, lanyard-presence.ts (shared real-time
+          #   WebSocket), notion-blog.ts, medium-blog.ts, blog-data.tsx,
           # cv-data.ts (in constants/), themes.ts, site.ts, structured-data.ts,
           # fuzzy.ts, hero-utils.ts, use-in-view.ts, use-is-mounted.ts, utils.ts
 constants/cv-data.ts            # All CV content (bilingual), typed by types/cv.ts
@@ -90,8 +91,12 @@ Base UI primitives (components/ui)
 - **Blog** (`lib/notion-blog.ts` + `lib/medium-blog.ts`): Notion is the CMS
   with bundled posts in `lib/blog-data.tsx` as the offline fallback; Medium
   posts are merged in and de-duplicated.
-- **Presence widgets**: Discord status polls Lanyard REST; Spotify uses a
-  deferred, memoized client widget to avoid hydration cost.
+- **Presence widgets** (`lib/lanyard-presence.ts`): the Discord status card
+  and the Spotify player share ONE real-time Lanyard WebSocket — ref-counted
+  (opens with the first subscriber, closes with the last), heartbeat + 5s→30s
+  backoff reconnect. No more REST polling; presence changes push instantly.
+  The player itself stays a deferred, memoized client widget to avoid
+  hydration cost.
 
 ## Client vs Server Components
 

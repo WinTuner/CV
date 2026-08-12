@@ -1,19 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 import { useIsMounted } from "@/lib/use-is-mounted";
 import { cn } from "@/lib/utils";
 import { Music, Code, Gamepad2, Info } from "lucide-react";
 import { useLanguage } from "./language-provider";
-import { DISCORD_ID } from "./discord-status";
+import { useLanyardPresence } from "@/lib/lanyard-presence";
 import {
-	fetchDiscordPresence,
+	DISCORD_ID,
 	type DiscordPresenceResult,
 	type LanyardPresence,
 } from "@/lib/lanyard";
-
-const POLL_INTERVAL_MS = 45_000;
 
 const statusColors = {
 	online: "bg-emerald-500",
@@ -45,10 +42,23 @@ function fallbackPresence(): LanyardPresence {
 
 export function DiscordProfileCard() {
 	const { language } = useLanguage();
-	const [result, setResult] = useState<DiscordPresenceResult | null>(null);
-	const [loading, setLoading] = useState(true);
 	const mounted = useIsMounted();
-	const abortRef = useRef<AbortController | null>(null);
+	const {
+		presence: livePresence,
+		status: socketStatus,
+		error: socketError,
+	} = useLanyardPresence();
+
+	// Map the shared real-time socket state onto the presence result the
+	// rest of the card renders against (ok / not-monitored / error).
+	const result: DiscordPresenceResult | null =
+		socketStatus === "not-monitored"
+			? { status: "not-monitored" }
+			: socketStatus === "error"
+				? { status: "error", message: socketError ?? "Presence fetch failed" }
+				: socketStatus === "connected" && livePresence
+					? { status: "ok", presence: livePresence }
+					: null;
 
 	const t = {
 		en: {
@@ -61,42 +71,7 @@ export function DiscordProfileCard() {
 		},
 	}[language];
 
-	useEffect(() => {
-		let active = true;
-
-		const poll = async () => {
-			abortRef.current?.abort();
-			const controller = new AbortController();
-			abortRef.current = controller;
-			try {
-				const next = await fetchDiscordPresence(DISCORD_ID, controller.signal);
-				if (active) {
-					setResult(next);
-					setLoading(false);
-				}
-			} catch (error) {
-				// AbortError on unmount or between polls — ignore
-				if (error instanceof DOMException && error.name === "AbortError") {
-					return;
-				}
-				if (active) {
-					setResult({ status: "error", message: "Presence fetch failed" });
-					setLoading(false);
-				}
-			}
-		};
-
-		poll();
-		const interval = setInterval(poll, POLL_INTERVAL_MS);
-
-		return () => {
-			active = false;
-			clearInterval(interval);
-			abortRef.current?.abort();
-		};
-	}, []);
-
-	if (!mounted || loading) {
+	if (!mounted || !result) {
 		return (
 			<div className="w-full max-w-lg rounded-xl border border-border/50 bg-zinc-950/20 glass p-5 flex items-center justify-center h-48 font-mono text-xs text-muted-foreground animate-pulse">
 				<span>{t.loading}</span>
