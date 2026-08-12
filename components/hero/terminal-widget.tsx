@@ -274,6 +274,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 						<p><span className={`${green} font-bold`}>skills</span> - {language === "th" ? "สกิลและเทคโนโลยี" : "List primary tech stack"}</p>
 						<p><span className={`${green} font-bold`}>projects</span> - {language === "th" ? "โปรเจกต์เด่น" : "Show featured projects"}</p>
 						<p><span className={`${green} font-bold`}>socials</span> - {language === "th" ? "ช่องทางติดต่อ" : "Social links"}</p>
+						<p><span className={`${green} font-bold`}>resume</span> - {language === "th" ? "เปิดเรซูเม่ (PDF ได้)" : "Open resume (PDF-friendly)"}</p>
 						<p><span className={`${green} font-bold`}>open &lt;name&gt;</span> - {language === "th" ? "เปิดลิงก์ด่วน (เช่น open autoos)" : "Open a quick link (e.g. open autoos)"}</p>
 						<p><span className={`${green} font-bold`}>ls</span> - {language === "th" ? "รายการคำสั่งลัด" : "List available topics"}</p>
 						<p><span className={`${green} font-bold`}>echo &lt;text&gt;</span> - {language === "th" ? "พิมพ์ข้อความ" : "Print text"}</p>
@@ -344,6 +345,21 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 						</p>
 					</div>
 				);
+			case "resume":
+				window.open("https://wintuner.dev/introduction", "_blank", "noopener,noreferrer");
+				return (
+					<div className="space-y-1 text-[10px]">
+						<p>
+							<span className={green}>opening</span>{" "}
+							<span className={cyan}>wintuner.dev/introduction</span>
+						</p>
+						<p className={`${dim}`}>
+							{language === "th"
+								? "กดพิมพ์บนหน้านั้นเพื่อบันทึกเป็น PDF"
+								: "Use the print button there to save as PDF"}
+						</p>
+					</div>
+				);
 			case "socials":
 			case "contact":
 				return (
@@ -368,7 +384,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 				return (
 					<div className="space-y-1 text-[10px]">
 						<p className={`${dim}`}>{language === "th" ? "หัวข้อที่มีให้เปิด:" : "topics you can open:"}</p>
-						<p><span className={green}>muanjai</span> <span className={green}>autoos</span> <span className={green}>dotdoctor</span> <span className={green}>github</span> <span className={green}>linkedin</span> <span className={green}>blog</span> <span className={green}>cv</span></p>
+						<p><span className={green}>muanjai</span> <span className={green}>autoos</span> <span className={green}>dotdoctor</span> <span className={green}>github</span> <span className={green}>linkedin</span> <span className={green}>blog</span> <span className={green}>cv</span> <span className={green}>resume</span></p>
 						<p className={`${dim}`}>{language === "th" ? "ใช้คำสั่ง: open &lt;name&gt;" : "usage: open <name>"}</p>
 					</div>
 				);
@@ -382,6 +398,7 @@ export function TerminalWidget({ recentActivities = [] }: TerminalWidgetProps) {
 					linkedin: "https://www.linkedin.com/in/thanatphong-tarin-1b6619385/",
 					blog: "https://wintuner.dev/blog",
 					cv: "https://wintuner.dev/introduction",
+					resume: "https://wintuner.dev/introduction",
 				};
 				const url = links[target];
 				if (!url) {
