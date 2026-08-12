@@ -5,9 +5,10 @@ Quick orienting notes for AI agents working in this repository.
 ## Goal
 
 Help contributors make safe, small improvements to a Next.js 16 (App Router) +
-React 19 + TypeScript + Tailwind v4 personal portfolio / CV site with a live
-terminal, bilingual (EN/TH) content, GitHub/Discord/Spotify presence, a
-Notion-backed blog, and API routes for newsletter/contact webhooks.
+React 19 + TypeScript + Tailwind v4 personal portfolio / CV site with an
+editorial light-first design, bilingual (EN/TH) content, GitHub-powered
+projects and activity, a Notion-backed blog, and API routes for
+newsletter/contact webhooks.
 
 ## How the project is structured (big picture)
 
@@ -15,13 +16,13 @@ Notion-backed blog, and API routes for newsletter/contact webhooks.
   API routes under `app/api/` (`contact`, `subscribe`, `search`, `activity`).
   `app/layout.tsx` holds global fonts, metadata, providers, and global widgets.
 - `components/` — UI. `components/ui/` are base primitives, `components/hero/`
-  holds the terminal widget, `components/public/<route>/` are page-specific
-  feature components. Client components use `"use client"` at the top.
+  holds the hero portrait + typewriter, `components/public/<route>/` are
+  page-specific feature components. Client components use `"use client"` at
+  the top.
 - `lib/` — single-source utilities and data: `github.ts` (GitHub API + fallback
-  data), `lanyard.ts` / `lanyard-presence.ts` (shared live-presence WebSocket),
-  `blog-data.tsx` (bundled blog posts), `notion-blog.ts`, `medium-blog.ts`,
-  `cv-data.ts` (in `constants/`), plus small hooks (`use-in-view`,
-  `use-is-mounted`, `use-live-github-activity`).
+  data), `blog-data.tsx` (bundled blog posts), `notion-blog.ts`,
+  `medium-blog.ts`, `cv-data.ts` (in `constants/`), plus small hooks
+  (`use-in-view`, `use-is-mounted`, `use-live-github-activity`).
 - `app/globals.css` — Tailwind v4 CSS-first design tokens (`@theme inline`),
   animations, and print styles.
 - `docs/` — architecture, performance, accessibility, deployment, development,
@@ -43,11 +44,8 @@ Notion-backed blog, and API routes for newsletter/contact webhooks.
   tokens there instead of scattering inline values.
 - Animation/visibility: `use-in-view` powers `animate-fade-in-up` reveals;
   respect the `prefers-reduced-motion` handling that hook already provides.
-- Real-time data: the Discord card and Spotify player share ONE Lanyard
-  WebSocket (`lib/lanyard-presence.ts`, `useLanyardPresence`). The hero
-  terminal + workbench poll `/api/activity` every 30s via
-  `useLiveGithubActivity`. Do not open a second socket or hit GitHub's API
-  directly from the browser.
+- Real-time data: the workbench pages poll `/api/activity` every 30s via
+  `useLiveGithubActivity`. Do not hit GitHub's API directly from the browser.
 
 ## Developer workflows & common commands
 
@@ -108,7 +106,6 @@ change behavior, add or update tests in `lib/__tests__/` (or
 - `app/globals.css` — design tokens, Tailwind v4 inline theme, animations
 - `constants/cv-data.ts` — all CV content (bilingual, typed by `types/cv.ts`)
 - `lib/github.ts` — GitHub data fetching + curated fallbacks
-- `lib/lanyard-presence.ts` — shared real-time presence socket
 - `next.config.mjs` and `package.json` — build behavior and scripts
 
 ## If something is unclear

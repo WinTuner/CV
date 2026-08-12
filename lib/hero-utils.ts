@@ -19,26 +19,24 @@ export const roles = {
 
 export const heroCopy = {
 	en: {
-		kicker: "WinTuner - Where Code Meets Curiosity",
+		kicker: "Thanatphong Tarin",
 		intro:
 			"Software engineering student at Chiang Mai University and Co-Founder & CTO of Muanjai. Building Agentic AI systems, full-stack web applications, and DevOps infrastructure.",
-		explore: "explore artifacts",
-		resume: "resume",
+		explore: "Explore projects",
+		resume: "Resume",
 		scroll: "scroll",
-		status: "status: forging",
-		loaded: "experiments loaded: 18",
-		spark: "last spark: today",
+		location: "Chiang Mai, Thailand",
+		email: "Thanatphong2719@gmail.com",
 	},
 	th: {
-		kicker: "WinTuner - ที่ที่โค้ดเจอกับความอยากรู้อยากเห็น",
+		kicker: "ธนัทพงษ์ ตาเรือน",
 		intro:
 			"นักศึกษาสายวิศวกรรมซอฟต์แวร์ มหาวิทยาลัยเชียงใหม่ ผู้ร่วมก่อตั้งและ CTO ของ Muanjai มุ่งมั่นพัฒนาระบบ Agentic AI, เว็บแอปพลิเคชันแบบ Full-Stack และโครงสร้างพื้นฐาน DevOps",
-		explore: "สำรวจผลงาน",
+		explore: "ดูโปรเจกต์",
 		resume: "เรซูเม่",
 		scroll: "เลื่อนลง",
-		status: "สถานะ: กำลังพัฒนา",
-		loaded: "โหลดการทดลองแล้ว: 12",
-		spark: "อัปเดตล่าสุด: วันนี้",
+		location: "เชียงใหม่ ประเทศไทย",
+		email: "Thanatphong2719@gmail.com",
 	},
 } as const;
 
@@ -81,29 +79,6 @@ export function formatRelativeTime(dateString: string, language: "en" | "th") {
 	return language === "en" ? "just now" : "เมื่อสักครู่";
 }
 
-export function formatJournalDate(dateString: string) {
-	const date = new Date(dateString);
-	if (isNaN(date.getTime())) return "Jun 26 22:09:54";
-	const months = [
-		"Jan",
-		"Feb",
-		"Mar",
-		"Apr",
-		"May",
-		"Jun",
-		"Jul",
-		"Aug",
-		"Sep",
-		"Oct",
-		"Nov",
-		"Dec",
-	];
-	const month = months[date.getMonth()];
-	const day = String(date.getDate()).padStart(2, " ");
-	const time = date.toTimeString().split(" ")[0]; // e.g. "22:09:54"
-	return `${month} ${day} ${time}`;
-}
-
 export function getMessageText(
 	msg: ActivityItem["message"] | null | undefined,
 	lang: "en" | "th",
@@ -111,21 +86,4 @@ export function getMessageText(
 	if (!msg) return "";
 	if (typeof msg === "string") return msg;
 	return msg[lang] || msg.en || "";
-}
-
-export function truncate(str: string, len: number) {
-	return str.length > len ? str.slice(0, len) + "..." : str;
-}
-
-export function getLogType(type: string) {
-	switch (type) {
-		case "commit":
-			return "COMMIT";
-		case "pr":
-			return "PULL_REQ";
-		case "create":
-			return "CREATE";
-		default:
-			return "ACTIVITY";
-	}
 }

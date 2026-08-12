@@ -5,11 +5,10 @@ import { useLanguage } from "../language-provider";
 import { roles } from "@/lib/hero-utils";
 
 /**
- * Self-contained typewriter effect.
+ * Self-contained typewriter effect for the serif headline accent line.
  *
  * Lives in its own component so the per-character state updates (roughly every
- * 100ms) re-render only this tiny span — never the whole hero section, its
- * terminal widget, or the Discord card below it.
+ * 100ms) re-render only this tiny span — never the whole hero section.
  */
 export function HeroTypewriter() {
 	const { language } = useLanguage();
@@ -26,7 +25,7 @@ export function HeroTypewriter() {
 					if (displayText.length < targetText.length) {
 						setDisplayText(targetText.slice(0, displayText.length + 1));
 					} else {
-						setTimeout(() => setIsDeleting(true), 2000);
+						setTimeout(() => setIsDeleting(true), 2200);
 					}
 				} else {
 					if (displayText.length > 0) {
@@ -37,14 +36,15 @@ export function HeroTypewriter() {
 					}
 				}
 			},
-			isDeleting ? 50 : 100,
+			isDeleting ? 40 : 90,
 		);
 		return () => clearTimeout(timeout);
 	}, [displayText, isDeleting, currentRole, currentRoles]);
 
 	return (
-		<span className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text typing-cursor inline-block min-h-[1.2em]">
+		<span className="font-serif italic text-primary inline-block min-h-[1.15em]">
 			{displayText || "\u00A0"}
+			<span className="typing-caret" aria-hidden="true" />
 		</span>
 	);
 }

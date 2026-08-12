@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { GithubIcon, LinkedinIcon } from "./social-icons";
 import { ThemeToggle } from "./theme-toggle";
-import { ThemeChanger } from "./theme-changer";
 import { LanguageToggle } from "./language-toggle";
 import { useLanguage } from "./language-provider";
 import Link from "next/link";
@@ -28,7 +27,6 @@ const socialLinks = [
 ];
 
 export function Header() {
-	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
 	const menuToggleRef = useRef<HTMLButtonElement>(null);
@@ -76,7 +74,7 @@ export function Header() {
 			className={cn(
 				"fixed top-0 left-0 right-0 z-50 transition-all duration-500",
 				isScrolled
-					? "border-b border-border/50 bg-background/80 backdrop-blur-xl shadow-sm"
+					? "border-b border-border/60 bg-background/90 backdrop-blur-md"
 					: "bg-transparent",
 			)}
 		>
@@ -84,7 +82,7 @@ export function Header() {
 				<nav className="flex items-center justify-between">
 					<Link
 						href="/"
-						className="group flex items-center gap-3"
+						className="group flex items-center gap-2.5"
 						onClick={() => {
 							const now = Date.now();
 							const clicks = logoClicksRef.current;
@@ -96,72 +94,37 @@ export function Header() {
 								window.dispatchEvent(new Event("wintuner:party"));
 							}
 						}}
+						aria-label="WinTuner — home"
 					>
-						<div className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-primary/50 bg-primary/10 font-mono text-sm text-primary transition-all duration-400 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-primary/25 animate-wiggle">
-							<span className="glitch">{"⚡"}</span>
-						</div>
-						<span className="font-mono text-sm tracking-tight">
-							WIN
-							<span className="bg-gradient-to-l from-primary/50 to-accent bg-clip-text text-transparent font-semibold">
-								TUNER
-							</span>
+						<span className="font-serif text-xl font-semibold tracking-tight">
+							Win<span className="text-primary">Tuner</span>
 						</span>
 					</Link>
 
 					{/* Desktop Navigation */}
-					<div className="hidden items-center gap-1 md:flex">
-						{navItems.map((item, index) => (
+					<div className="hidden items-center gap-7 md:flex">
+						{navItems.map((item) => (
 							<Link
 								key={item.href}
 								href={item.href}
 								className={cn(
-									"relative px-4 py-2.5 font-mono text-xs uppercase tracking-widest transition-all duration-300 rounded-lg",
+									"relative text-sm transition-colors duration-300",
 									isActive(item.href)
-										? "text-primary"
-										: "text-muted-foreground hover:text-foreground hover:bg-secondary/50",
-									hoveredIndex === index &&
-										!isActive(item.href) &&
-										"text-foreground",
+										? "text-foreground font-medium"
+										: "text-muted-foreground hover:text-foreground",
 								)}
-								onMouseEnter={() => setHoveredIndex(index)}
-								onMouseLeave={() => setHoveredIndex(null)}
 							>
+								{item.label[language]}
 								<span
 									className={cn(
-										"absolute left-1.5 text-primary transition-all duration-200",
-										isActive(item.href)
-											? "opacity-100 translate-x-0"
-											: hoveredIndex === index
-												? "opacity-100 translate-x-0"
-												: "opacity-0 -translate-x-2",
-									)}
-								>
-									{">"}
-								</span>
-								<span
-									className={cn(
-										"transition-transform duration-200",
-										(hoveredIndex === index || isActive(item.href)) &&
-											"translate-x-2",
-									)}
-								>
-									{item.label[language]}
-								</span>
-								<span
-									className={cn(
-										"absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 bg-primary rounded-full transition-all duration-300",
-										isActive(item.href)
-											? "w-6"
-											: hoveredIndex === index
-												? "w-6"
-												: "w-0",
+										"absolute -bottom-1 left-0 h-px bg-primary transition-all duration-300",
+										isActive(item.href) ? "w-full" : "w-0",
 									)}
 								/>
 							</Link>
 						))}
-						<div className="ml-2 flex items-center gap-1">
+						<div className="ml-2 flex items-center gap-2 border-l border-border/70 pl-4">
 							<LanguageToggle />
-							<ThemeChanger />
 							<ThemeToggle />
 						</div>
 					</div>
@@ -175,51 +138,39 @@ export function Header() {
 									target="_blank"
 									rel="noopener noreferrer"
 									aria-label={link.label}
-									className="group relative flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-all duration-300 hover:text-primary hover:bg-primary/10"
+									className="group flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors duration-300 hover:text-primary"
 								>
 									<link.icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
-									<span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-card border border-border px-2.5 py-1 font-mono text-[10px] text-muted-foreground opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:-bottom-9 pointer-events-none shadow-lg">
-										{link.label}
-									</span>
 								</a>
 							))}
 						</div>
 
 						<div className="hidden h-5 w-px bg-border sm:block" />
 
-						<div className="hidden items-center gap-2.5 font-mono text-xs text-muted-foreground sm:flex px-3 py-1.5 rounded-full bg-secondary/50 border border-border/50">
-							<span className="relative flex h-2 w-2">
-								<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-								<span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-							</span>
-							<span>
-								{language === "th" ? "สถานะ: กำลังพัฒนา" : "status: building"}
-							</span>
-						</div>
-
 						<button
 							ref={menuToggleRef}
 							onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-							className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card/50 md:hidden transition-colors hover:bg-secondary"
+							className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card/50 md:hidden transition-colors hover:bg-secondary"
 							aria-label="Toggle menu"
+							aria-expanded={isMobileMenuOpen}
 						>
-							<div className="flex flex-col gap-1.5 w-5">
+							<div className="flex w-5 flex-col gap-1.5">
 								<span
 									className={cn(
-										"h-0.5 bg-foreground transition-all duration-300 origin-center",
-										isMobileMenuOpen ? "w-5 translate-y-2 rotate-45" : "w-5",
+										"h-px bg-foreground transition-all duration-300 origin-center",
+										isMobileMenuOpen ? "w-5 translate-y-1 rotate-45" : "w-5",
 									)}
 								/>
 								<span
 									className={cn(
-										"h-0.5 w-3.5 bg-foreground transition-all duration-300",
+										"h-px bg-foreground transition-all duration-300",
 										isMobileMenuOpen && "opacity-0 translate-x-2",
 									)}
 								/>
 								<span
 									className={cn(
-										"h-0.5 bg-foreground transition-all duration-300 origin-center",
-										isMobileMenuOpen ? "w-5 -translate-y-2 -rotate-45" : "w-5",
+										"h-px bg-foreground transition-all duration-300 origin-center",
+										isMobileMenuOpen ? "w-5 -translate-y-1 -rotate-45" : "w-5",
 									)}
 								/>
 							</div>
@@ -237,7 +188,7 @@ export function Header() {
 					)}
 				>
 					<div className="overflow-hidden">
-						<div className="flex flex-col gap-1 border-t border-border/50 pt-4">
+						<div className="flex flex-col gap-1 border-t border-border/60 pt-4">
 							{navItems.map((item, index) => (
 								<Link
 									key={item.href}
@@ -246,18 +197,19 @@ export function Header() {
 									ref={index === 0 ? firstMenuLinkRef : undefined}
 									data-menu-inside="true"
 									className={cn(
-										"flex items-center gap-3 rounded-lg px-4 py-3.5 font-mono text-sm uppercase tracking-widest text-muted-foreground transition-all duration-200 active:bg-secondary hover:text-foreground hover:bg-secondary/50",
-										isMobileMenuOpen && "animate-slide-in-right",
+										"flex items-center gap-3 rounded-md px-3 py-3 text-base transition-colors duration-200",
+										isActive(item.href)
+											? "text-foreground font-medium"
+											: "text-muted-foreground hover:text-foreground hover:bg-secondary/50",
 									)}
-									style={{ animationDelay: `${index * 50}ms` }}
 								>
-									<span className="text-primary">{">"}</span>
 									{item.label[language]}
 								</Link>
 							))}
 
-							<div className="mt-4 flex items-center gap-2 border-t border-border/50 pt-4 px-4">
+							<div className="mt-3 flex items-center gap-2 border-t border-border/60 pt-4 px-3">
 								<LanguageToggle />
+								<ThemeToggle />
 								{socialLinks.map((link) => (
 									<a
 										key={link.label}
@@ -265,27 +217,11 @@ export function Header() {
 										target="_blank"
 										rel="noopener noreferrer"
 										aria-label={link.label}
-										className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50 text-muted-foreground transition-colors active:bg-secondary hover:border-primary/50 hover:text-primary hover:bg-primary/10"
+										className="flex h-10 w-10 items-center justify-center rounded-md border border-border/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
 									>
 										<link.icon className="h-4 w-4" />
 									</a>
 								))}
-								<div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
-									<ThemeChanger />
-								</div>
-								<div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
-									<ThemeToggle />
-								</div>
-							</div>
-
-							<div className="mt-3 flex items-center gap-2.5 px-4 py-3 font-mono text-xs text-muted-foreground bg-secondary/30 rounded-lg mx-4 mb-2">
-								<span className="relative flex h-2 w-2">
-									<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-									<span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-								</span>
-								<span>
-									{language === "th" ? "สถานะ: กำลังพัฒนา" : "status: building"}
-								</span>
 							</div>
 						</div>
 					</div>

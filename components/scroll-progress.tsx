@@ -49,7 +49,7 @@ export function ScrollProgress() {
 		<div className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5">
 			<div
 				ref={barRef}
-				className="h-full w-0 bg-gradient-to-r from-primary via-accent to-primary"
+				className="h-full w-0 bg-primary"
 			/>
 		</div>
 	);

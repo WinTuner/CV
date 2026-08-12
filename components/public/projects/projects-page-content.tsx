@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
-import { Star, GitFork, ExternalLink, Sparkles, Search, Filter } from "lucide-react"
+import { Star, GitFork, ExternalLink, Search, Filter } from "lucide-react"
 import { GithubIcon } from "../../social-icons"
 import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/components/language-provider"
@@ -23,7 +23,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
 
   const t = {
     en: {
-      kicker: "Artifacts",
+      kicker: "Selected Work",
       title: "Open Source Projects",
       desc:
         "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
@@ -40,7 +40,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
       },
     },
     th: {
-      kicker: "ผลงาน",
+      kicker: "ผลงานที่คัดสรร",
       title: "โปรเจกต์โอเพนซอร์ส",
       desc: "รวมเครื่องมือ งานทดลอง และผลงานที่แบ่งปันให้ชุมชนโอเพนซอร์ส สร้างด้วยความตั้งใจ ดูแลต่อเนื่อง",
       search: "ค้นหาโปรเจกต์...",
@@ -81,8 +81,8 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
       <div className="mx-auto max-w-7xl">
         {/* Hero */}
         <div className={cn("mb-12 sm:mb-16 space-y-4 opacity-0", isVisible && "animate-fade-in-up")}>
-          <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">{t[language].kicker}</p>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">{t[language].title}</h1>
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">{t[language].kicker}</p>
+          <h1 className="font-serif text-5xl sm:text-6xl font-medium tracking-tight">{t[language].title}</h1>
           <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
             {t[language].desc}
           </p>
@@ -146,12 +146,12 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
             <article
               key={project.id}
               className={cn(
-                "group relative overflow-hidden rounded-xl border bg-card/40 p-6 sm:p-7 glass transition-all duration-400 active:scale-[0.99] hover-lift opacity-0",
+                "group relative flex flex-col border bg-card p-6 sm:p-7 transition-all duration-300 opacity-0 hover:border-primary/50",
                 isVisible && "animate-fade-in-up",
-                hoveredProject === project.id && "border-primary/40 bg-card/70",
+                hoveredProject === project.id && "border-primary/50",
                 "highlight" in project && project.highlight
-                  ? "sm:col-span-2 lg:col-span-2 border-primary/30 bg-gradient-to-br from-primary/8 via-card/50 to-primary/8"
-                  : "border-border/60",
+                  ? "sm:col-span-2 lg:col-span-2 border-primary/40"
+                  : "border-border/70",
                 project.featured && !("highlight" in project && project.highlight) && "sm:col-span-2 lg:col-span-1",
               )}
               style={{ animationDelay: `${(index % 6) * 80 + 200}ms` }}
@@ -159,28 +159,19 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
               onMouseLeave={() => setHoveredProject(null)}
             >
               {"highlight" in project && project.highlight && (
-                <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full border border-primary/40 bg-primary/15 px-3.5 py-1.5 animate-pulse-glow">
-                  <Sparkles className="h-3.5 w-3.5 text-primary" />
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-primary font-medium">
-                    {t[language].featured}
+                <div className="absolute right-6 top-6">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-primary">
+                    ★ {t[language].featured}
                   </span>
                 </div>
               )}
 
               <div
                 className={cn(
-                  "absolute right-5 top-5 flex items-center gap-2.5",
-                  "highlight" in project && project.highlight && "top-5",
+                  "absolute right-6 top-6",
+                  "highlight" in project && project.highlight && "top-6",
                 )}
               >
-                <span
-                  className={cn(
-                    "h-2.5 w-2.5 rounded-full transition-shadow duration-300",
-                    project.status === "shipped" && "bg-primary shadow-sm shadow-primary/50",
-                    project.status === "in-progress" && "bg-yellow-500 animate-pulse shadow-sm shadow-yellow-500/50",
-                    project.status === "archived" && "bg-muted-foreground",
-                  )}
-                />
                 <span className="font-mono text-xs text-muted-foreground">
                   {t[language].filters[project.status as keyof typeof t.en.filters]}
                 </span>
@@ -197,7 +188,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
 
               <h3
                 className={cn(
-                  "mb-3 font-bold tracking-tight transition-all duration-300 group-hover:text-gradient",
+                  "mb-3 font-serif font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary",
                   "highlight" in project && project.highlight ? "text-xl sm:text-2xl" : "text-lg sm:text-xl",
                 )}
               >
@@ -213,52 +204,49 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
                 {project.description}
               </p>
 
-              <div className="mb-5 flex items-center gap-5 font-mono text-xs text-muted-foreground">
-                <span className="flex items-center gap-1.5 transition-colors group-hover:text-yellow-500">
-                  <Star className="h-3.5 w-3.5" />
-                  {project.stars}
-                </span>
-                <span className="flex items-center gap-1.5 transition-colors group-hover:text-foreground">
-                  <GitFork className="h-3.5 w-3.5" />
-                  {project.forks}
-                </span>
-              </div>
-
-              <div className="mb-5 flex flex-wrap gap-2">
+              <div className="mb-5 flex flex-wrap gap-1.5">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-md border border-border/80 bg-secondary/60 px-2.5 py-1 font-mono text-xs text-secondary-foreground transition-colors hover:border-primary/50 hover:bg-primary/10"
+                    className="border border-border/70 px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <div className="flex items-center gap-4">
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-primary transition-all duration-300 group/link"
-                >
-                  <GithubIcon className="h-4 w-4 transition-transform group-hover/link:scale-110" />
-                  <span className="underline-animate">{t[language].source}</span>
-                </a>
-                {project.homepage && (
+              <div className="mt-auto flex items-center gap-5 border-t border-border/50 pt-4 font-mono text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5">
+                  <Star className="h-3.5 w-3.5" />
+                  {project.stars}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <GitFork className="h-3.5 w-3.5" />
+                  {project.forks}
+                </span>
+                <span className="ml-auto flex items-center gap-4">
                   <a
-                    href={project.homepage}
+                    href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 font-mono text-xs text-primary hover:text-foreground transition-all duration-300 group/link"
+                    className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors duration-300 hover:text-primary"
                   >
-                    <ExternalLink className="h-4 w-4 transition-transform group-hover/link:scale-110 group-hover/link:rotate-12" />
-                    <span className="underline-animate">{t[language].live}</span>
+                    <GithubIcon className="h-3.5 w-3.5" />
+                    <span className="underline-animate">{t[language].source}</span>
                   </a>
-                )}
+                  {project.homepage && (
+                    <a
+                      href={project.homepage}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-primary transition-colors duration-300 hover:text-foreground"
+                    >
+                      <span className="underline-animate">{t[language].live}</span>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  )}
+                </span>
               </div>
-
-              <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-primary via-primary/80 to-transparent transition-all duration-500 group-hover:w-full" />
             </article>
           ))}
         </div>
