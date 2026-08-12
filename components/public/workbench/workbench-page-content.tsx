@@ -6,6 +6,7 @@ import { ExternalLink, Clock, GitBranch, Activity } from "lucide-react"
 import { GithubIcon } from "../../social-icons"
 import { useLanguage } from "@/components/language-provider"
 import type { WipItem, ActivityItem } from "@/lib/github"
+import { useLiveGithubActivity } from "@/lib/use-live-github-activity"
 
 function formatDate(dateString: string, language: 'en' | 'th') {
   const date = new Date(dateString)
@@ -65,6 +66,7 @@ export function WorkbenchPageContent({
   const { language } = useLanguage()
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
   const [isVisible, setIsVisible] = useState(false)
+  const liveActivity = useLiveGithubActivity(recentActivity)
 
   const t = {
     en: {
@@ -241,7 +243,7 @@ export function WorkbenchPageContent({
                 {t.recentActivity}
               </h3>
               <div className="space-y-3">
-                {recentActivity.map((activity, index) => (
+                {liveActivity.map((activity, index) => (
                   <div key={index} className="flex items-start gap-3 text-xs">
                     <span
                       className={cn(
