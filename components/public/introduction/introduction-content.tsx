@@ -224,9 +224,11 @@ export function IntroductionContent() {
 											{cert.institution}
 										</span>
 										{cert.image && (
-											<div
+											<button
+												type="button"
 												onClick={() => setActiveImage(cert.image)}
-												className="mt-2 w-full h-[120px] overflow-hidden rounded-lg border border-border/50 max-w-[200px] cursor-zoom-in relative group"
+												aria-label={`Expand certificate: ${cert.name}`}
+												className="mt-2 w-full h-[120px] overflow-hidden rounded-lg border border-border/50 max-w-[200px] cursor-zoom-in relative group p-0 text-left"
 											>
 												<Image
 													src={cert.image}
@@ -241,7 +243,7 @@ export function IntroductionContent() {
 														Expand
 													</span>
 												</div>
-											</div>
+											</button>
 										)}
 									</li>
 								))}
@@ -300,9 +302,11 @@ export function IntroductionContent() {
 									</div>
 								</div>
 								{comp.image && (
-									<div
+									<button
+										type="button"
 										onClick={() => setActiveImage(comp.image)}
-										className="overflow-hidden rounded-lg border border-primary/20 cursor-zoom-in relative group w-full h-[180px]"
+										aria-label={`Expand image: ${comp.name}`}
+										className="overflow-hidden rounded-lg border border-primary/20 cursor-zoom-in relative group w-full h-[180px] p-0 text-left"
 									>
 										<Image
 											src={comp.image}
@@ -317,7 +321,7 @@ export function IntroductionContent() {
 												Click to expand
 											</span>
 										</div>
-									</div>
+									</button>
 								)}
 							</div>
 						))}
@@ -372,9 +376,11 @@ export function IntroductionContent() {
 											{item.description}
 										</p>
 										{item.image && (
-											<div
+											<button
+												type="button"
 												onClick={() => setActiveImage(item.image)}
-												className="mt-4 w-full h-[300px] overflow-hidden rounded-xl border border-border/50 max-w-md cursor-zoom-in relative group"
+												aria-label={`Expand image: ${item.title}`}
+												className="mt-4 w-full h-[300px] overflow-hidden rounded-xl border border-border/50 max-w-md cursor-zoom-in relative group p-0 text-left"
 											>
 												<Image
 													src={item.image}
@@ -389,7 +395,7 @@ export function IntroductionContent() {
 														Click to expand
 													</span>
 												</div>
-											</div>
+											</button>
 										)}
 									</div>
 									<div className="space-y-3">
@@ -439,9 +445,11 @@ export function IntroductionContent() {
 										{t.gpaLabel}: {item.gpa}
 									</p>
 									{item.image && (
-										<div
+										<button
+											type="button"
 											onClick={() => setActiveImage(item.image)}
-											className="mt-3 w-full h-[200px] overflow-hidden rounded-xl border border-border/50 max-w-sm cursor-zoom-in relative group"
+											aria-label={`Expand image: ${item.school}`}
+											className="mt-3 w-full h-[200px] overflow-hidden rounded-xl border border-border/50 max-w-sm cursor-zoom-in relative group p-0 text-left"
 										>
 											<Image
 												src={item.image}
@@ -456,7 +464,7 @@ export function IntroductionContent() {
 													Click to expand
 												</span>
 											</div>
-										</div>
+										</button>
 									)}
 								</div>
 							))}
@@ -498,6 +506,9 @@ export function IntroductionContent() {
 			{activeImage && (
 				<div
 					onClick={() => setActiveImage(null)}
+					role="dialog"
+					aria-modal="true"
+					aria-label="Image preview"
 					className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md cursor-zoom-out animate-fade-in"
 				>
 					<div
@@ -514,6 +525,7 @@ export function IntroductionContent() {
 						/>
 						{/* Close Button */}
 						<button
+							autoFocus
 							onClick={() => setActiveImage(null)}
 							className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-border/50 bg-background/80 text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:text-primary hover:scale-110"
 							aria-label="Close modal"

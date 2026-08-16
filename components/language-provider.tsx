@@ -14,8 +14,14 @@ const COOKIE_NAME = "site-language"
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<SiteLanguage>("en")
+export function LanguageProvider({
+  children,
+  initialLanguage = "en",
+}: {
+  children: React.ReactNode
+  initialLanguage?: SiteLanguage
+}) {
+  const [language, setLanguageState] = useState<SiteLanguage>(initialLanguage)
 
   const applyLanguageDocumentState = useCallback((nextLanguage: SiteLanguage) => {
     document.documentElement.lang = nextLanguage
