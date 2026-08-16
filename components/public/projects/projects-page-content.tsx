@@ -109,7 +109,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
                 className={cn(
-                  "rounded-lg border px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98]",
+                  "rounded-lg border px-4 min-h-11 font-mono text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98]",
                   activeFilter === filter
                     ? "border-primary bg-primary/15 text-primary shadow-sm shadow-primary/20"
                     : "border-border text-muted-foreground hover:border-foreground/50 hover:text-foreground hover:bg-secondary/50",
@@ -128,7 +128,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
                 key={tag}
                 onClick={() => toggleTag(tag)}
                 className={cn(
-                  "rounded-md border px-2.5 py-1 font-mono text-xs transition-all duration-200",
+                  "rounded-md border px-3 min-h-11 font-mono text-xs transition-all duration-200",
                   selectedTags.includes(tag)
                     ? "border-primary/50 bg-primary/10 text-primary"
                     : "border-border/60 bg-secondary/40 text-muted-foreground hover:border-primary/30 hover:text-foreground",

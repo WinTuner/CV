@@ -124,7 +124,7 @@ export function GithubContributionGraph({
 						<div className="overflow-x-auto pb-2 scrollbar-hide">
 							<div className="inline-block min-w-full">
 								{/* Month labels */}
-								<div className="mb-1 flex gap-[3px] pl-[30px] font-mono text-[9px] text-muted-foreground">
+								<div className="mb-1 flex gap-[3px] pl-[30px] font-mono text-[8px] sm:text-[9px] text-muted-foreground">
 									{monthRow.map((entry, index) =>
 										entry.kind === "label" ? (
 											<span key={index} className="w-[13px] sm:w-[15px] overflow-visible whitespace-nowrap">
