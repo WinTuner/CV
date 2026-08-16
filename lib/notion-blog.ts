@@ -226,17 +226,22 @@ async function getPostsFromNotionOrFallback(): Promise<BlogPost[]> {
     return globalForNotion.notionPostsCache.data
   }
 
-  const pages = await fetchAllDatabasePages()
+  try {
+    const pages = await fetchAllDatabasePages()
 
-  if (!pages.length) {
+    if (!pages.length) {
+      return blogPosts
+    }
+
+    const mappedPosts = await Promise.all(pages.map((page) => mapNotionPageToPost(page)))
+    const result = mappedPosts.length > 0 ? mappedPosts : blogPosts
+
+    globalForNotion.notionPostsCache = { data: result, timestamp: now }
+    return result
+  } catch (error) {
+    console.error("Notion fetch failed, falling back to static posts:", error)
     return blogPosts
   }
-
-  const mappedPosts = await Promise.all(pages.map((page) => mapNotionPageToPost(page)))
-  const result = mappedPosts.length > 0 ? mappedPosts : blogPosts
-
-  globalForNotion.notionPostsCache = { data: result, timestamp: now }
-  return result
 }
 
 export async function getLocalizedBlogPostsFromBackend(language: BlogLanguage): Promise<BlogPost[]> {
