@@ -2,9 +2,11 @@ import withBundleAnalyzer from "@next/bundle-analyzer"
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Production builds must never write into `.next`, which `next dev` uses
-  // as its live cache. Sharing the directory corrupts dev chunks (ChunkLoadError).
-  distDir: process.env.NODE_ENV === 'production' ? '.next-build' : '.next',
+  // Vercel's Next.js adapter reads the build output from `.next`, so the
+  // stock directory must stay in use there. Everywhere else, production
+  // builds go to `.next-build` so they can never corrupt the `.next`
+  // directory a running `next dev` uses as its live cache (ChunkLoadError).
+  distDir: process.env.VERCEL === '1' ? '.next' : process.env.NODE_ENV === 'production' ? '.next-build' : '.next',
   typescript: {
     ignoreBuildErrors: false,
   },
