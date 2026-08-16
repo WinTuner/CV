@@ -11,7 +11,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="flex h-8 w-8 items-center justify-center">
+      <div className="flex size-11 items-center justify-center">
         <div className="h-4 w-4 animate-pulse rounded bg-muted" />
       </div>
     );
@@ -46,7 +46,7 @@ export function ThemeToggle() {
     <button
       onClick={() => setTheme(nextTheme.value)}
       className={cn(
-        "group relative flex size-8 items-center justify-center rounded",
+        "group relative flex size-11 items-center justify-center rounded",
         "text-muted-foreground transition-all duration-200 hover:text-primary"
       )}
       aria-label={`Switch to ${nextTheme.label} theme`}

@@ -305,7 +305,7 @@ export function BlogPostContent({
 						<article
 							ref={articleRef}
 							className={cn(
-								"prose prose-invert prose-lg max-w-none opacity-0",
+								"prose prose-lg max-w-none dark:prose-invert opacity-0",
 								"prose-headings:font-semibold prose-headings:tracking-tight",
 								"prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:text-gradient",
 								"prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3",
@@ -389,7 +389,7 @@ export function BlogPostContent({
 						<Button
 							variant="outline"
 							size="icon"
-							className="h-9 w-9 rounded-lg border-border/50 bg-transparent"
+							className="h-11 w-11 rounded-lg border-border/50 bg-transparent"
 							onClick={() =>
 								window.open(
 									`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`,
@@ -403,7 +403,7 @@ export function BlogPostContent({
 							variant="outline"
 							size="icon"
 							className={cn(
-								"h-9 w-9 rounded-lg border-border/50",
+								"h-11 w-11 rounded-lg border-border/50",
 								copied && "border-primary/50 bg-primary/10",
 							)}
 							onClick={handleCopyLink}
@@ -413,7 +413,7 @@ export function BlogPostContent({
 						<Button
 							variant="outline"
 							size="icon"
-							className="h-9 w-9 rounded-lg border-border/50 bg-transparent"
+							className="h-11 w-11 rounded-lg border-border/50 bg-transparent"
 						>
 							<Bookmark className="h-4 w-4" />
 						</Button>
