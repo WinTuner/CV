@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider, type SiteLanguage } from "@/components/language-provider";
+import { AnimatedBackground } from "@/components/animated-background";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { BackToTop } from "@/components/back-to-top";
 import { EasterEgg } from "@/components/easter-egg";
@@ -131,6 +132,7 @@ export default async function RootLayout({
 			className={`${geist.variable} ${geistMono.variable} ${fraunces.variable} no-js`}
 		>
 			<body className="font-sans antialiased">
+				<AnimatedBackground />
 				{/*
 					Removes `no-js` as soon as the HTML is parsed. Until then the
 					`html.no-js` CSS override keeps below-the-fold content visible
