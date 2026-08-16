@@ -216,7 +216,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 						<button
 							type="button"
 							onClick={clearSearch}
-							className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+							className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-muted-foreground hover:text-foreground"
 							aria-label="Clear search"
 						>
 							<X className="h-4 w-4" />
@@ -241,7 +241,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 							key={category.slug}
 							onClick={() => handleCategoryClick(category.slug)}
 							className={cn(
-								"flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-300",
+								"flex min-h-11 w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-300",
 								activeCategory === category.slug
 									? "bg-primary/10 text-primary border border-primary/30"
 									: "text-muted-foreground hover:bg-secondary/50 hover:text-foreground border border-transparent",
@@ -286,7 +286,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 								key={tag}
 								onClick={() => handleTagClick(tag)}
 								className={cn(
-									"rounded-lg border px-3 py-1.5 font-mono text-xs transition-all duration-300",
+									"rounded-lg border px-3 min-h-11 font-mono text-xs transition-all duration-300",
 									isActive
 										? "border-primary bg-primary/10 text-primary"
 										: "border-border/50 bg-card/40 text-muted-foreground hover:border-primary/50 hover:bg-primary/10 hover:text-primary",

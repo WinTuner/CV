@@ -150,7 +150,7 @@ export function Header() {
 						<button
 							ref={menuToggleRef}
 							onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-							className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card/50 md:hidden transition-colors hover:bg-secondary"
+							className="flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card/50 md:hidden transition-colors hover:bg-secondary"
 							aria-label="Toggle menu"
 							aria-expanded={isMobileMenuOpen}
 						>
@@ -219,7 +219,7 @@ export function Header() {
 										target="_blank"
 										rel="noopener noreferrer"
 										aria-label={link.label}
-										className="flex h-10 w-10 items-center justify-center rounded-md border border-border/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+										className="flex h-11 w-11 items-center justify-center rounded-md border border-border/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
 									>
 										<link.icon className="icon-spring h-4 w-4" />
 									</a>

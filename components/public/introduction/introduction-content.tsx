@@ -168,7 +168,7 @@ export function IntroductionContent() {
 															{proj.target}
 														</p>
 													</div>
-													<div className="grid grid-cols-2 gap-4 pt-2">
+													<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
 														<div>
 															<span className="block font-mono text-[10px] uppercase text-primary mb-1">
 																{t.problemLabel}
@@ -527,7 +527,7 @@ export function IntroductionContent() {
 						<button
 							autoFocus
 							onClick={() => setActiveImage(null)}
-							className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-border/50 bg-background/80 text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:text-primary hover:scale-110"
+							className="absolute top-4 right-4 flex h-11 w-11 items-center justify-center rounded-full border border-border/50 bg-background/80 text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:text-primary hover:scale-110"
 							aria-label="Close modal"
 						>
 							<svg
