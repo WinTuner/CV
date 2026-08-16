@@ -61,16 +61,20 @@ export function GithubContributionGraph({
 		const monthRow: Array<{ kind: "label"; label: string } | { kind: "spacer" }> = [];
 		let lastMonth = -1;
 		for (const week of weeks) {
-			const middle = week.days[3];
-			const month = middle?.date
-				? new Date(`${middle.date}T12:00:00`).getMonth()
-				: -1;
-			if (month >= 0 && month !== lastMonth) {
-				lastMonth = month;
-				monthRow.push({ kind: "label", label: MONTHS[month] });
-			} else {
-				monthRow.push({ kind: "spacer" });
+			// Label the first week that contains a day of a new month so the
+			// column header lines up with where that month's days actually start.
+			let label: string | undefined;
+			for (const day of week.days) {
+				const month = day?.date
+					? new Date(`${day.date}T12:00:00`).getMonth()
+					: -1;
+				if (month >= 0 && month !== lastMonth) {
+					lastMonth = month;
+					label = MONTHS[month];
+					break;
+				}
 			}
+			monthRow.push(label ? { kind: "label", label } : { kind: "spacer" });
 		}
 		return { weeks, monthRow };
 	}, [contributions]);
@@ -123,11 +127,11 @@ export function GithubContributionGraph({
 								<div className="mb-1 flex gap-[3px] pl-[30px] font-mono text-[9px] text-muted-foreground">
 									{monthRow.map((entry, index) =>
 										entry.kind === "label" ? (
-											<span key={index} className="w-[13px] overflow-visible whitespace-nowrap">
+											<span key={index} className="w-[13px] sm:w-[15px] overflow-visible whitespace-nowrap">
 												{entry.label}
 											</span>
 										) : (
-											<span key={index} className="w-[13px]" />
+											<span key={index} className="w-[13px] sm:w-[15px]" />
 										),
 									)}
 								</div>

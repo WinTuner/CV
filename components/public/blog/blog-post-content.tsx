@@ -513,8 +513,19 @@ function extractHeadings(content: string): Heading[] {
 
 function parseMarkdown(content: string): string {
 	const escaped = escapeHtml(content);
+	// Extract fenced code blocks first so the bold/italic/paragraph passes
+	// cannot mangle their contents, then restore them after everything else.
+	const codeBlocks: string[] = [];
+	const protectedContent = escaped.replace(
+		/```(\w+)?\n([\s\S]*?)```/g,
+		(_, language: string, code: string) => {
+			const placeholder = `\u0000CODEBLOCK${codeBlocks.length}\u0000`;
+			codeBlocks.push(`<pre><code class="language-${language ?? ""}">${code}</code></pre>`);
+			return placeholder;
+		},
+	);
 	return (
-		escaped
+		protectedContent
 			// Headers (with anchors for the table of contents)
 			.replace(/^### (.*)$/gm, (_, title: string) => `<h3 id="${slugify(title)}">${title}</h3>`)
 			.replace(/^## (.*)$/gm, (_, title: string) => `<h2 id="${slugify(title)}">${title}</h2>`)
@@ -523,11 +534,6 @@ function parseMarkdown(content: string): string {
 			.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
 			// Italic
 			.replace(/\*(.*?)\*/g, "<em>$1</em>")
-			// Code blocks
-			.replace(
-				/```(\w+)?\n([\s\S]*?)```/g,
-				'<pre><code class="language-$1">$2</code></pre>',
-			)
 			// Inline code
 			.replace(/`([^`]+)`/g, "<code>$1</code>")
 			// Unordered lists
@@ -547,5 +553,7 @@ function parseMarkdown(content: string): string {
 			.replace(/(<\/pre>)<\/p>/g, "$1")
 			.replace(/<p>(<ul>)/g, "$1")
 			.replace(/(<\/ul>)<\/p>/g, "$1")
+			// Restore code blocks
+			.replace(/\u0000CODEBLOCK(\d+)\u0000/g, (_, index: string) => codeBlocks[Number(index)])
 	);
 }

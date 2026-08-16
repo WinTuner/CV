@@ -1,10 +1,11 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
-import { LanguageProvider } from "@/components/language-provider";
+import { LanguageProvider, type SiteLanguage } from "@/components/language-provider";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { BackToTop } from "@/components/back-to-top";
 import { EasterEgg } from "@/components/easter-egg";
@@ -114,14 +115,18 @@ export const metadata: Metadata = {
 	manifest: "/site.webmanifest",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const cookieStore = await cookies();
+	const cookieLanguage = cookieStore.get("site-language")?.value;
+	const initialLanguage: SiteLanguage = cookieLanguage === "th" ? "th" : "en";
+
 	return (
 		<html
-			lang="en"
+			lang={initialLanguage}
 			suppressHydrationWarning
 			className={`${geist.variable} ${geistMono.variable} ${fraunces.variable} no-js`}
 		>
@@ -150,7 +155,7 @@ export default function RootLayout({
 					enableSystem={true}
 					storageKey="theme-mode"
 				>
-					<LanguageProvider>
+					<LanguageProvider initialLanguage={initialLanguage}>
 						{children}
 						<ScrollProgress />
 						<BackToTop />

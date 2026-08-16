@@ -729,7 +729,7 @@ export function localizePost(post: BlogPost, language: BlogLanguage): BlogPost {
     ...post,
     title: translation.title,
     excerpt: translation.excerpt,
-    content: translation.content,
+    content: translation.content || post.content,
   }
 }
 

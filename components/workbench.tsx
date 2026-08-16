@@ -17,6 +17,7 @@ export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
 		const date = new Date(dateString);
 		if (isNaN(date.getTime())) return dateString;
 		return date.toLocaleDateString(language === "en" ? "en-US" : "th-TH", {
+			timeZone: "UTC",
 			month: "short",
 			day: "numeric",
 		});
