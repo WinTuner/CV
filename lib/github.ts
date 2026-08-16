@@ -649,6 +649,13 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {	const
 					}
 				}
 
+				// Only surface meaningful PR lifecycle events; noise actions like
+				// "reopened"/"edited"/"synchronize" would otherwise render with a
+				// misleading "closed" badge downstream.
+				if (action !== "opened" && action !== "closed" && action !== "merged") {
+					continue;
+				}
+
 				const finalTitle = title || `PR #${prNumber}`;
 
 				activity.push({
