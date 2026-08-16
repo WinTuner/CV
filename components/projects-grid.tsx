@@ -92,7 +92,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 								key={filter}
 								onClick={() => setActiveFilter(filter)}
 								className={cn(
-									"shrink-0 border-b-2 px-3 py-2 font-mono text-xs uppercase tracking-wider transition-colors duration-300",
+									"shrink-0 min-h-11 border-b-2 px-3 py-2 font-mono text-xs uppercase tracking-wider transition-colors duration-300",
 									activeFilter === filter
 										? "border-primary text-primary"
 										: "border-transparent text-muted-foreground hover:border-border hover:text-foreground",

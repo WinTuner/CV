@@ -32,7 +32,7 @@ function LanguageToggleContent() {
         type="button"
         onClick={() => handleLanguageChange("th")}
         className={cn(
-          "rounded-md px-2 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors",
+          "rounded-md min-h-11 min-w-12 px-3 font-mono text-[10px] uppercase tracking-wider transition-colors",
           language === "th"
             ? "bg-primary text-primary-foreground"
             : "text-muted-foreground hover:text-foreground",
@@ -45,7 +45,7 @@ function LanguageToggleContent() {
         type="button"
         onClick={() => handleLanguageChange("en")}
         className={cn(
-          "rounded-md px-2 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors",
+          "rounded-md min-h-11 min-w-12 px-3 font-mono text-[10px] uppercase tracking-wider transition-colors",
           language === "en"
             ? "bg-primary text-primary-foreground"
             : "text-muted-foreground hover:text-foreground",
