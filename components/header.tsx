@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { GithubIcon, LinkedinIcon } from "./social-icons";
 import { ThemeToggle } from "./theme-toggle";
 import { LanguageToggle } from "./language-toggle";
+import { CommandPalette } from "./command-palette";
 import { useLanguage } from "./language-provider";
 import Link from "next/link";
 
@@ -15,6 +16,7 @@ const navItems = [
 	{ label: { en: "Projects", th: "โปรเจกต์" }, href: "/projects" },
 	{ label: { en: "Workbench", th: "เวิร์กเบนช์" }, href: "/workbench" },
 	{ label: { en: "Blog", th: "บล็อก" }, href: "/blog" },
+	{ label: { en: "Guestbook", th: "สมุดเยี่ยม" }, href: "/guestbook" },
 ];
 
 const socialLinks = [
@@ -124,6 +126,7 @@ export function Header() {
 							</Link>
 						))}
 						<div className="ml-2 flex items-center gap-2 border-l border-border/70 pl-4">
+							<CommandPalette />
 							<LanguageToggle />
 							<ThemeToggle />
 						</div>
@@ -210,6 +213,7 @@ export function Header() {
 							))}
 
 							<div className="mt-3 flex items-center gap-2 border-t border-border/60 pt-4 px-3">
+								<CommandPalette />
 								<LanguageToggle />
 								<ThemeToggle />
 								{socialLinks.map((link) => (
