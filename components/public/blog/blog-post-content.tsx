@@ -18,6 +18,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import type { BlogPost, BlogLanguage } from "@/lib/blog-data";
 
+const XIcon = ({ className }: { className?: string }) => (
+	<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+		<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+	</svg>
+);
+
+const BOOKMARK_KEY = "wintuner:bookmarks";
+
 interface BlogPostContentProps {
 	post: BlogPost;
 	language: BlogLanguage;
@@ -43,6 +51,7 @@ export function BlogPostContent({
 }: BlogPostContentProps) {
 	const [isVisible, setIsVisible] = useState(false);
 	const [copied, setCopied] = useState(false);
+	const [bookmarked, setBookmarked] = useState(false);
 	const [activeHeading, setActiveHeading] = useState<string | null>(null);
 	const [readProgress, setReadProgress] = useState(0);
 	const articleRef = useRef<HTMLElement>(null);
@@ -52,8 +61,10 @@ export function BlogPostContent({
 			featured: "featured",
 			share: "share",
 			shareLinkedIn: "Share on LinkedIn",
+			shareX: "Share on X",
 			copy: "Copy link",
 			bookmark: "Bookmark",
+			bookmarked: "Bookmarked",
 			related: "Continue",
 			reading: "Reading",
 			toc: "On this page",
@@ -64,8 +75,10 @@ export function BlogPostContent({
 			featured: "แนะนำ",
 			share: "แชร์",
 			shareLinkedIn: "แชร์ไปยัง LinkedIn",
+			shareX: "แชร์ไปยัง X",
 			copy: "คัดลอกลิงก์",
 			bookmark: "บันทึก",
+			bookmarked: "บันทึกแล้ว",
 			related: "อ่าน",
 			reading: "ต่อ",
 			toc: "ในหน้านี้",
@@ -114,6 +127,40 @@ export function BlogPostContent({
 		navigator.clipboard.writeText(window.location.href);
 		setCopied(true);
 		setTimeout(() => setCopied(false), 2000);
+	};
+
+	useEffect(() => {
+		try {
+			const saved = JSON.parse(localStorage.getItem(BOOKMARK_KEY) ?? "[]");
+			// eslint-disable-next-line react-hooks/set-state-in-effect -- restore bookmark state on mount
+			setBookmarked(Array.isArray(saved) && saved.includes(post.slug));
+		} catch {
+			/* ignore corrupted storage */
+		}
+	}, [post.slug]);
+
+	const toggleBookmark = () => {
+		try {
+			const saved = JSON.parse(localStorage.getItem(BOOKMARK_KEY) ?? "[]");
+			const list = Array.isArray(saved) ? saved : [];
+			const next = bookmarked
+				? list.filter((s: string) => s !== post.slug)
+				: [...list, post.slug];
+			localStorage.setItem(BOOKMARK_KEY, JSON.stringify(next));
+			setBookmarked(!bookmarked);
+		} catch {
+			/* ignore storage errors */
+		}
+	};
+
+	const shareOnX = () => {
+		const url = encodeURIComponent(window.location.href);
+		const text = encodeURIComponent(post.title);
+		window.open(
+			`https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+			"_blank",
+			"noopener,noreferrer",
+		);
 	};
 
 	return (
@@ -220,6 +267,7 @@ export function BlogPostContent({
 							</span>
 							<span className="flex items-center gap-2">
 								<Clock className="h-4 w-4" />
+								{post.readTime}
 							</span>
 						</div>
 					</div>
@@ -353,8 +401,17 @@ export function BlogPostContent({
 								<Button
 									variant="outline"
 									size="icon"
+									className="h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent"
+									onClick={shareOnX}
+								>
+									<XIcon className="h-3.5 w-3.5" />
+									<span className="sr-only">{t.shareX}</span>
+								</Button>
+								<Button
+									variant="outline"
+									size="icon"
 									className={cn(
-										"h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10",
+										"h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent",
 										copied && "border-primary/50 bg-primary/10",
 									)}
 									onClick={handleCopyLink}
@@ -365,9 +422,19 @@ export function BlogPostContent({
 								<Button
 									variant="outline"
 									size="icon"
-									className="h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent"
+									aria-pressed={bookmarked}
+									aria-label={
+										bookmarked ? t.bookmarked : t.bookmark
+									}
+									className={cn(
+										"h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent",
+										bookmarked && "border-primary/50 bg-primary/10 text-primary",
+									)}
+									onClick={toggleBookmark}
 								>
-									<Bookmark className="h-4 w-4" />
+									<Bookmark
+										className={cn("h-4 w-4", bookmarked && "fill-primary")}
+									/>
 									<span className="sr-only">{t.bookmark}</span>
 								</Button>
 							</div>
@@ -402,6 +469,14 @@ export function BlogPostContent({
 						<Button
 							variant="outline"
 							size="icon"
+							className="h-11 w-11 rounded-lg border-border/50 bg-transparent"
+							onClick={shareOnX}
+						>
+							<XIcon className="h-4 w-4" />
+						</Button>
+						<Button
+							variant="outline"
+							size="icon"
 							className={cn(
 								"h-11 w-11 rounded-lg border-border/50",
 								copied && "border-primary/50 bg-primary/10",
@@ -413,9 +488,14 @@ export function BlogPostContent({
 						<Button
 							variant="outline"
 							size="icon"
-							className="h-11 w-11 rounded-lg border-border/50 bg-transparent"
+							aria-pressed={bookmarked}
+							className={cn(
+								"h-11 w-11 rounded-lg border-border/50 bg-transparent",
+								bookmarked && "border-primary/50 bg-primary/10 text-primary",
+							)}
+							onClick={toggleBookmark}
 						>
-							<Bookmark className="h-4 w-4" />
+							<Bookmark className={cn("h-4 w-4", bookmarked && "fill-primary")} />
 						</Button>
 					</div>
 				</div>

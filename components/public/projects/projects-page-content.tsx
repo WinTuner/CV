@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
-import { Star, GitFork, ExternalLink, Search, Filter } from "lucide-react"
+import { Star, GitFork, ExternalLink, Search, Filter, X } from "lucide-react"
 import { GithubIcon } from "../../social-icons"
 import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/components/language-provider"
@@ -10,11 +10,38 @@ import type { Project } from "@/lib/github"
 
 const filters = ["all", "shipped", "in-progress", "archived"]
 
+const sortOptions = ["recent", "stars", "forks", "name", "year"] as const
+
+export type SortKey = (typeof sortOptions)[number]
+
+function sortProjects(projects: Project[], sortBy: SortKey): Project[] {
+  const sorted = [...projects]
+  switch (sortBy) {
+    case "stars":
+      return sorted.sort((a, b) => b.stars - a.stars)
+    case "forks":
+      return sorted.sort((a, b) => b.forks - a.forks)
+    case "name":
+      return sorted.sort((a, b) => a.title.localeCompare(b.title))
+    case "year": {
+      const yearOf = (p: Project) => {
+        const match = /(\d{4})/.exec(p.year)
+        return match ? Number(match[1]) : 0
+      }
+      return sorted.sort((a, b) => yearOf(b) - yearOf(a))
+    }
+    case "recent":
+    default:
+      return sorted
+  }
+}
+
 export function ProjectsPageContent({ projects = [] }: { projects?: Project[] }) {
   const { language } = useLanguage()
   const [activeFilter, setActiveFilter] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [sortBy, setSortBy] = useState<SortKey>("recent")
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -32,11 +59,21 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
       source: "source",
       live: "live",
       noResults: "No projects found matching your criteria.",
+      sortLabel: "sort by",
+      clearFilters: "clear filters",
+      count: (n: number) => `${n} project${n === 1 ? "" : "s"}`,
       filters: {
         all: "all",
         shipped: "shipped",
         "in-progress": "in-progress",
         archived: "archived",
+      },
+      sort: {
+        recent: "recent",
+        stars: "stars",
+        forks: "forks",
+        name: "name",
+        year: "year",
       },
     },
     th: {
@@ -48,11 +85,21 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
       source: "ซอร์สโค้ด",
       live: "เว็บไซต์",
       noResults: "ไม่พบโปรเจกต์ที่ตรงกับเงื่อนไขที่เลือก",
+      sortLabel: "เรียงตาม",
+      clearFilters: "ล้างตัวกรอง",
+      count: (n: number) => `${n} โปรเจกต์`,
       filters: {
         all: "ทั้งหมด",
         shipped: "เผยแพร่แล้ว",
         "in-progress": "กำลังพัฒนา",
         archived: "เก็บถาวร",
+      },
+      sort: {
+        recent: "ล่าสุด",
+        stars: "ดาว",
+        forks: "ฟอร์ก",
+        name: "ชื่อ",
+        year: "ปี",
       },
     },
   } as const
@@ -62,18 +109,30 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
     setIsVisible(true)
   }, [])
 
-  const filteredProjects = projects.filter((p) => {
-    const matchesFilter = activeFilter === "all" || p.status === activeFilter
-    const matchesSearch =
-      searchQuery === "" ||
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesTags = selectedTags.length === 0 || selectedTags.some((tag) => p.tags.includes(tag))
-    return matchesFilter && matchesSearch && matchesTags
-  })
+  const filteredProjects = sortProjects(
+    projects.filter((p) => {
+      const matchesFilter = activeFilter === "all" || p.status === activeFilter
+      const matchesSearch =
+        searchQuery === "" ||
+        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.description.toLowerCase().includes(searchQuery.toLowerCase())
+      const matchesTags = selectedTags.length === 0 || selectedTags.some((tag) => p.tags.includes(tag))
+      return matchesFilter && matchesSearch && matchesTags
+    }),
+    sortBy,
+  )
+
+  const hasActiveFilters = activeFilter !== "all" || searchQuery !== "" || selectedTags.length > 0
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
+  }
+
+  const clearFilters = () => {
+    setActiveFilter("all")
+    setSearchQuery("")
+    setSelectedTags([])
+    setSortBy("recent")
   }
 
   return (
@@ -135,6 +194,42 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
                 )}
               >
                 {tag}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Results meta row */}
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-border/40 pb-4">
+          <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground">
+            <span>{t[language].count(filteredProjects.length)}</span>
+            {hasActiveFilters && (
+              <button
+                onClick={clearFilters}
+                className="inline-flex items-center gap-1.5 text-primary transition-colors hover:text-foreground"
+              >
+                <X className="h-3.5 w-3.5" />
+                {t[language].clearFilters}
+              </button>
+            )}
+          </div>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="mr-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+              {t[language].sortLabel}
+            </span>
+            {sortOptions.map((option) => (
+              <button
+                key={option}
+                onClick={() => setSortBy(option)}
+                aria-pressed={sortBy === option}
+                className={cn(
+                  "rounded-md border px-2.5 py-1.5 font-mono text-[11px] transition-all duration-200",
+                  sortBy === option
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border/60 text-muted-foreground hover:border-primary/30 hover:text-foreground",
+                )}
+              >
+                {t[language].sort[option]}
               </button>
             ))}
           </div>

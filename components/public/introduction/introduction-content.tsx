@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import {
@@ -28,12 +28,14 @@ import {
 } from "@/constants/cv-data";
 import { useLanguage } from "@/components/language-provider";
 import { renderTextWithLinks } from "@/lib/render-text-with-links";
+import { DownloadResumeButton } from "./download-resume-button";
 
 export function IntroductionContent() {
 	const { language } = useLanguage();
 	const t = copy[language];
 	const [activeImage, setActiveImage] = useState<string | null>(null);
 	const searchParams = useSearchParams();
+	const resumeRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		if (searchParams.get("print") === "true") {
@@ -55,7 +57,7 @@ export function IntroductionContent() {
 	}, [activeImage]);
 
 	return (
-		<div className="pb-20">
+		<div ref={resumeRef} className="pb-20">
 			{/* Header Section */}
 			<section className="relative min-h-[50vh] px-4 sm:px-6 pt-28 sm:pt-32 pb-16">
 				<div className="mx-auto max-w-4xl">
@@ -88,15 +90,21 @@ export function IntroductionContent() {
 									+66 91 876 3373
 								</span>
 							</div>
-							<button
-								onClick={() => window.print()}
-								className="group flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 transition-all duration-300 hover:border-primary hover:bg-primary/10 print:hidden cursor-pointer"
-							>
-								<Briefcase className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
-								<span className="text-sm text-primary font-semibold truncate">
-									{language === "th" ? "พิมพ์ / บันทึก PDF" : "Print / Save PDF"}
-								</span>
-							</button>
+							<div className="flex gap-3" data-pdf-ignore>
+								<button
+									onClick={() => window.print()}
+									className="group flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 transition-all duration-300 hover:border-primary hover:bg-primary/10 print:hidden cursor-pointer"
+								>
+									<Briefcase className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
+									<span className="text-sm text-primary font-semibold truncate">
+										{language === "th" ? "พิมพ์ / บันทึก PDF" : "Print / Save PDF"}
+									</span>
+								</button>
+								<DownloadResumeButton
+									targetRef={resumeRef}
+									language={language}
+								/>
+							</div>
 						</div>
 					</div>
 				</div>

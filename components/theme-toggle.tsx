@@ -20,6 +20,7 @@ export function ThemeToggle() {
   const themes = [
     { value: "light", icon: Sun, label: "Light" },
     { value: "dark", icon: Moon, label: "Dark" },
+    { value: "system", icon: Monitor, label: "System" },
   ];
 
   // Handle undefined theme - default to "dark" as per layout.tsx defaultTheme
