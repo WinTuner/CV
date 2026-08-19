@@ -9,7 +9,6 @@ import {
 	FolderGit2,
 	Wrench,
 	Newspaper,
-	MessageSquare,
 	Search,
 	Loader2,
 	CornerDownLeft,
@@ -71,12 +70,6 @@ const pageItems: Array<{
 		icon: Newspaper,
 		label: { en: "Blog", th: "บล็อก" },
 		subtitle: { en: "Writing & notes", th: "บทความและบันทึก" },
-	},
-	{
-		href: "/guestbook",
-		icon: MessageSquare,
-		label: { en: "Guestbook", th: "สมุดเยี่ยม" },
-		subtitle: { en: "Leave a message", th: "ฝากข้อความ" },
 	},
 ];
 
