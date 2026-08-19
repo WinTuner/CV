@@ -16,7 +16,6 @@ const navItems = [
 	{ label: { en: "Projects", th: "โปรเจกต์" }, href: "/projects" },
 	{ label: { en: "Workbench", th: "เวิร์กเบนช์" }, href: "/workbench" },
 	{ label: { en: "Blog", th: "บล็อก" }, href: "/blog" },
-	{ label: { en: "Guestbook", th: "สมุดเยี่ยม" }, href: "/guestbook" },
 ];
 
 const socialLinks = [
