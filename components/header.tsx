@@ -16,11 +16,11 @@ const CommandPalette = dynamic(
 );
 
 const navItems = [
-	{ label: { en: "Home", th: "หน้าแรก" }, href: "/" },
-	{ label: { en: "Resume", th: "เรซูเม่" }, href: "/introduction" },
-	{ label: { en: "Projects", th: "โปรเจกต์" }, href: "/projects" },
-	{ label: { en: "Workbench", th: "เวิร์กเบนช์" }, href: "/workbench" },
-	{ label: { en: "Blog", th: "บล็อก" }, href: "/blog" },
+	{ label: { en: "Home", th: "หน้าแรก", ja: "ホーム", zh: "首页" }, href: "/" },
+	{ label: { en: "Resume", th: "เรซูเม่", ja: "履歴書", zh: "简历" }, href: "/introduction" },
+	{ label: { en: "Projects", th: "โปรเจกต์", ja: "プロジェクト", zh: "项目" }, href: "/projects" },
+	{ label: { en: "Workbench", th: "เวิร์กเบนช์", ja: "ワークベンチ", zh: "工作台" }, href: "/workbench" },
+	{ label: { en: "Blog", th: "บล็อก", ja: "ブログ", zh: "博客" }, href: "/blog" },
 ];
 
 const socialLinks = [

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import type { BlogLanguage } from "@/lib/blog-data";
+import { isSupportedLanguage, DEFAULT_LANGUAGE } from "@/constants/languages";
 import { getGithubRepos } from "@/lib/github";
 import { getLocalizedBlogPostsFromBackend } from "@/lib/notion-blog";
 
@@ -16,7 +17,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
 	const cookieStore = await cookies();
 	const cookieLanguage = cookieStore.get("site-language")?.value;
-	const language: BlogLanguage = cookieLanguage === "th" ? "th" : "en";
+	const language: BlogLanguage = isSupportedLanguage(cookieLanguage) ? (cookieLanguage as BlogLanguage) : DEFAULT_LANGUAGE;
 
 	const [projects, posts] = await Promise.all([
 		getGithubRepos(),

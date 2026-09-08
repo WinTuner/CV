@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { isSupportedLanguage, DEFAULT_LANGUAGE } from "@/constants/languages";
+import type { SupportedLanguageCode } from "@/constants/languages";
 
 export default function Error({
 	error,
@@ -13,16 +15,16 @@ export default function Error({
 	// Root error boundary renders outside LanguageProvider — read the
 	// cookie directly to pick the language. Lazy initializer keeps the
 	// client-only cookie read out of an effect.
-	const [language] = useState<"en" | "th">(() => {
-		if (typeof window === "undefined") return "en";
+	const [language] = useState<SupportedLanguageCode>(() => {
+		if (typeof window === "undefined") return DEFAULT_LANGUAGE;
 		const cookie = document.cookie
 			.split("; ")
 			.find((entry) => entry.startsWith("site-language="))
 			?.split("=")[1];
-		return cookie === "th" ? "th" : "en";
+		return isSupportedLanguage(cookie) ? (cookie as SupportedLanguageCode) : DEFAULT_LANGUAGE;
 	});
 
-	const t = {
+	const _t = {
 		en: {
 			title: "Application Error",
 			desc: "A critical error occurred. We apologize for the inconvenience.",
@@ -35,7 +37,20 @@ export default function Error({
 			retry: "ลองอีกครั้ง",
 			home: "กลับหน้าหลัก",
 		},
-	}[language];
+		ja: {
+			title: "アプリケーションエラー",
+			desc: "重大なエラーが発生しました。ご不便をおかけします。",
+			retry: "再試行",
+			home: "ホームへ",
+		},
+		zh: {
+			title: "应用错误",
+			desc: "发生严重错误，抱歉带来不便。",
+			retry: "重试",
+			home: "返回首页",
+		},
+	} as const;
+	const t = (_t as unknown as Record<string, typeof _t.en>)[language] ?? _t.en;
 
 	useEffect(() => {
 		// Log the error to an error reporting service

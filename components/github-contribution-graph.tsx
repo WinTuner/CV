@@ -54,6 +54,22 @@ export function GithubContributionGraph({
 			less: "น้อย",
 			more: "มาก",
 		},
+	ja: {
+			kicker: "GitHub",
+			title: "Contribution Activity",
+			desc: "My last 365 days of building, experimenting and shipping — straight from the contribution calendar.",
+			total: "contributions in the last year",
+			less: "Less",
+			more: "More",
+		},
+	zh: {
+			kicker: "GitHub",
+			title: "Contribution Activity",
+			desc: "My last 365 days of building, experimenting and shipping — straight from the contribution calendar.",
+			total: "contributions in the last year",
+			less: "Less",
+			more: "More",
+		},
 	}[language];
 
 	const { weeks, monthRow } = useMemo(() => {
@@ -118,7 +134,7 @@ export function GithubContributionGraph({
 
 					{weeks.length === 0 ? (
 						<p className="py-12 text-center font-mono text-xs text-muted-foreground">
-							{language === "th" ? "ยังไม่มีข้อมูล" : "No contribution data yet"}
+							{language === "th" ? "ยังไม่มีข้อมูล" : language === "ja" ? "データがありません" : language === "zh" ? "暂无数据" : "No contribution data yet"}
 						</p>
 					) : (
 						<div className="overflow-x-auto pb-2 scrollbar-hide">

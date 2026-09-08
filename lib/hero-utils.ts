@@ -1,6 +1,7 @@
 import type { ActivityItem } from "./github";
+import type { SupportedLanguageCode } from "@/constants/languages";
 
-export const roles = {
+export const roles: Record<SupportedLanguageCode, readonly string[]> = {
 	en: [
 		"building interfaces",
 		"exploring systems",
@@ -15,9 +16,26 @@ export const roles = {
 		"หลอมรวมไอเดีย",
 		"เขียนโค้ดอย่างประณีต",
 	],
+	ja: [
+		"インターフェースを構築",
+		"システムを探求",
+		"壁を打ち破る",
+		"アイデアを鍛造",
+		"コードを磨く",
+	],
+	zh: [
+		"构建界面",
+		"探索系统",
+		"打破壁垒",
+		"锻造创意",
+		"精雕代码",
+	],
 } as const;
 
-export const heroCopy = {
+export const heroCopy: Record<
+	SupportedLanguageCode,
+	{ kicker: string; intro: string; explore: string; resume: string; scroll: string; location: string; email: string }
+> = {
 	en: {
 		kicker: "Thanatphong Tarin",
 		intro:
@@ -38,15 +56,35 @@ export const heroCopy = {
 		location: "เชียงใหม่ ประเทศไทย",
 		email: "Thanatphong2719@gmail.com",
 	},
+	ja: {
+		kicker: "Thanatphong Tarin",
+		intro:
+			"チェンマイ大学のソフトウェア工学学生、Muanjai 共同創業者兼CTO。Agentic AI、フルスタックWeb、DevOps基盤を構築。",
+		explore: "プロジェクトを見る",
+		resume: "履歴書",
+		scroll: "スクロール",
+		location: "タイ・チェンマイ",
+		email: "Thanatphong2719@gmail.com",
+	},
+	zh: {
+		kicker: "Thanatphong Tarin",
+		intro:
+			"清迈大学软件工程学生，Muanjai 联合创始人兼CTO。构建 Agentic AI、全栈Web与DevOps基础设施。",
+		explore: "查看项目",
+		resume: "简历",
+		scroll: "滚动",
+		location: "泰国·清迈",
+		email: "Thanatphong2719@gmail.com",
+	},
 } as const;
 
-export function formatRelativeTime(dateString: string, language: "en" | "th") {
+export function formatRelativeTime(dateString: string, language: SupportedLanguageCode) {
 	const date = new Date(dateString);
 	const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
 
 	if (isNaN(seconds)) return dateString;
 
-	const intervals = {
+	const intervals: Record<SupportedLanguageCode, { label: string; secs: number }[]> = {
 		en: [
 			{ label: "year", secs: 31536000 },
 			{ label: "month", secs: 2592000 },
@@ -63,27 +101,51 @@ export function formatRelativeTime(dateString: string, language: "en" | "th") {
 			{ label: "นาที", secs: 60 },
 			{ label: "วินาที", secs: 1 },
 		],
+		ja: [
+			{ label: "年", secs: 31536000 },
+			{ label: "か月", secs: 2592000 },
+			{ label: "日", secs: 86400 },
+			{ label: "時間", secs: 3600 },
+			{ label: "分", secs: 60 },
+			{ label: "秒", secs: 1 },
+		],
+		zh: [
+			{ label: "年", secs: 31536000 },
+			{ label: "月", secs: 2592000 },
+			{ label: "天", secs: 86400 },
+			{ label: "小时", secs: 3600 },
+			{ label: "分钟", secs: 60 },
+			{ label: "秒", secs: 1 },
+		],
 	};
 
-	const currentIntervals = intervals[language];
+	const currentIntervals = intervals[language] ?? intervals.en;
 	for (const interval of currentIntervals) {
 		const count = Math.floor(seconds / interval.secs);
 		if (count >= 1) {
 			if (language === "en") {
 				return `${count} ${interval.label}${count > 1 ? "s" : ""} ago`;
-			} else {
+			} else if (language === "th") {
 				return `${count} ${interval.label}ที่แล้ว`;
+			} else if (language === "ja") {
+				return `${count}${interval.label}前`;
+			} else if (language === "zh") {
+				return `${count}${interval.label}前`;
 			}
+			return `${count} ${interval.label} ago`;
 		}
 	}
-	return language === "en" ? "just now" : "เมื่อสักครู่";
+	if (language === "th") return "เมื่อสักครู่";
+	if (language === "ja") return "たった今";
+	if (language === "zh") return "刚刚";
+	return "just now";
 }
 
 export function getMessageText(
 	msg: ActivityItem["message"] | null | undefined,
-	lang: "en" | "th",
+	lang: SupportedLanguageCode,
 ) {
 	if (!msg) return "";
 	if (typeof msg === "string") return msg;
-	return msg[lang] || msg.en || "";
+	return (msg as Record<string, string>)[lang] || (msg as Record<string, string>).en || "";
 }
