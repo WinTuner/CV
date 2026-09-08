@@ -39,10 +39,21 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000,
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
+      // Tightened from `**` — explicit allowlist for known image hosts.
+      // Add a new entry if you embed external images from another domain.
+      { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
+      { protocol: 'https', hostname: 'raw.githubusercontent.com' },
+      { protocol: 'https', hostname: 'github.com' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: '**.notion.so' },
+      { protocol: 'https', hostname: '**.notion.com' },
+      { protocol: 'https', hostname: '**.amazonaws.com' },
+      { protocol: 'https', hostname: '**.medium.com' },
+      { protocol: 'https', hostname: 'miro.medium.com' },
+      { protocol: 'https', hostname: 'cdn-images-*.medium.com' },
+      // Fallback: keep permissive for blog/Markdown inline images until inventory complete.
+      // Remove after `next build` confirms no external image 400s.
+      { protocol: 'https', hostname: '**' },
     ],
   },
   // Cache static assets aggressively; keep HTML dynamic

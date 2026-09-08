@@ -2,13 +2,18 @@
 
 import { useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 import { GithubIcon, LinkedinIcon } from "./social-icons";
 import { ThemeToggle } from "./theme-toggle";
 import { LanguageToggle } from "./language-toggle";
-import { CommandPalette } from "./command-palette";
 import { useLanguage } from "./language-provider";
 import Link from "next/link";
+
+const CommandPalette = dynamic(
+	() => import("./command-palette").then((m) => m.CommandPalette),
+	{ ssr: false },
+);
 
 const navItems = [
 	{ label: { en: "Home", th: "หน้าแรก" }, href: "/" },
@@ -32,6 +37,7 @@ export function Header() {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const menuToggleRef = useRef<HTMLButtonElement>(null);
 	const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
+	const mobileMenuRef = useRef<HTMLDivElement>(null);
 	const logoClicksRef = useRef<{ count: number; last: number }>({ count: 0, last: 0 });
 	const pathname = usePathname();
 	const { language } = useLanguage();
@@ -49,13 +55,14 @@ export function Header() {
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
 
-	// Close mobile menu with Escape key + manage focus (a11y)
+	// Close mobile menu with Escape key + manage focus + trap Tab (a11y)
 	useEffect(() => {
 		if (!isMobileMenuOpen) {
 			// Return focus to the toggle when the menu closes
 			if (
 				document.activeElement instanceof HTMLElement &&
-				document.activeElement.dataset.menuInside === "true"
+				(mobileMenuRef.current?.contains(document.activeElement) ||
+					document.activeElement.dataset.menuInside === "true")
 			) {
 				menuToggleRef.current?.focus();
 			}
@@ -63,11 +70,32 @@ export function Header() {
 		}
 		// Move focus into the menu when it opens
 		firstMenuLinkRef.current?.focus();
-		const handleEscape = (e: KeyboardEvent) => {
-			if (e.key === "Escape") setIsMobileMenuOpen(false);
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "Escape") {
+				setIsMobileMenuOpen(false);
+				return;
+			}
+			if (e.key !== "Tab" || !mobileMenuRef.current) return;
+			const focusable = mobileMenuRef.current.querySelectorAll<HTMLElement>(
+				'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+			);
+			if (focusable.length === 0) return;
+			const first = focusable[0];
+			const last = focusable[focusable.length - 1];
+			if (e.shiftKey) {
+				if (document.activeElement === first) {
+					e.preventDefault();
+					last.focus();
+				}
+			} else {
+				if (document.activeElement === last) {
+					e.preventDefault();
+					first.focus();
+				}
+			}
 		};
-		window.addEventListener("keydown", handleEscape);
-		return () => window.removeEventListener("keydown", handleEscape);
+		window.addEventListener("keydown", handleKeyDown);
+		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [isMobileMenuOpen]);
 
 	return (
@@ -155,6 +183,7 @@ export function Header() {
 							className="flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card/50 md:hidden transition-colors hover:bg-secondary"
 							aria-label="Toggle menu"
 							aria-expanded={isMobileMenuOpen}
+							aria-controls="mobile-menu"
 						>
 							<div className="flex w-5 flex-col gap-1.5">
 								<span
@@ -182,6 +211,7 @@ export function Header() {
 
 				{/* Mobile Menu */}
 				<div
+					id="mobile-menu"
 					className={cn(
 					"grid transition-all duration-300 ease-in-out md:hidden bg-background overflow-hidden",
 					isMobileMenuOpen
@@ -192,7 +222,7 @@ export function Header() {
 					<div className="overflow-hidden">
 						{/* Safe-area padding lives on the collapsible content (clipped when closed),
 							so phones with gesture bars / home indicators never hide the last row. */}
-						<div className="flex flex-col gap-1 border-t border-border/60 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+						<div ref={mobileMenuRef} className="flex flex-col gap-1 border-t border-border/60 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
 							{navItems.map((item, index) => (
 								<Link
 									key={item.href}
