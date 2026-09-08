@@ -12,7 +12,7 @@ export default function Error({
 	reset: () => void;
 }) {
 	const { language } = useLanguage();
-	const t = {
+	const _t = {
 		en: {
 			title: "Something went wrong!",
 			desc: "An unexpected error occurred while loading this page.",
@@ -25,7 +25,20 @@ export default function Error({
 			retry: "ลองอีกครั้ง",
 			home: "กลับหน้าหลัก",
 		},
-	}[language];
+		ja: {
+			title: "エラーが発生しました！",
+			desc: "ページの読み込み中に予期せぬエラーが発生しました。",
+			retry: "再試行",
+			home: "ホームへ",
+		},
+		zh: {
+			title: "出错了！",
+			desc: "加载此页面时发生意外错误。",
+			retry: "重试",
+			home: "返回首页",
+		},
+	} as const;
+	const t = (_t as unknown as Record<string, typeof _t.en>)[language] ?? _t.en;
 
 	useEffect(() => {
 		// Log the error to an error reporting service

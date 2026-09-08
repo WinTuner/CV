@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import type { BlogLanguage } from "@/lib/blog-data";
+import { isSupportedLanguage, DEFAULT_LANGUAGE } from "@/constants/languages";
 import { BlogPostContent } from "@/components/public/blog/blog-post-content";
 import { generateBlogPostStructuredData } from "@/lib/structured-data";
 import type { Metadata } from "next";
@@ -32,17 +33,17 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
   const { lang } = await searchParams;
   const cookieStore = await cookies();
   const cookieLanguage = cookieStore.get("site-language")?.value;
-  const language: BlogLanguage = lang === "th" ? "th" : cookieLanguage === "th" ? "th" : "en";
+  const language: BlogLanguage = isSupportedLanguage(lang) ? (lang as BlogLanguage) : isSupportedLanguage(cookieLanguage) ? (cookieLanguage as BlogLanguage) : DEFAULT_LANGUAGE;
   const post = await getLocalizedPostBySlugFromBackend(postSlug, language);
 
   if (!post) {
     return {
-      title: language === "th" ? "ไม่พบบทความ" : "Post Not Found",
+      title: language === "th" ? "ไม่พบบทความ" : language === "ja" ? "記事が見つかりません" : language === "zh" ? "未找到文章" : "Post Not Found",
     };
   }
 
   const baseUrl = SITE_URL;
-  const postUrl = `${baseUrl}/blog/${post.slug}${language === "th" ? "?lang=th" : ""}`;
+  const postUrl = `${baseUrl}/blog/${post.slug}${language !== "en" ? `?lang=${language}` : ""}`;
   const ogImageUrl = `${baseUrl}/og-images/${post.slug}.png`;
 
   return {
@@ -78,7 +79,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
   const { lang } = await searchParams;
   const cookieStore = await cookies();
   const cookieLanguage = cookieStore.get("site-language")?.value;
-  const language: BlogLanguage = lang === "th" ? "th" : cookieLanguage === "th" ? "th" : "en";
+  const language: BlogLanguage = isSupportedLanguage(lang) ? (lang as BlogLanguage) : isSupportedLanguage(cookieLanguage) ? (cookieLanguage as BlogLanguage) : DEFAULT_LANGUAGE;
   const post = await getLocalizedPostBySlugFromBackend(postSlug, language);
 
   if (!post) {
@@ -86,7 +87,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
   }
 
   const baseUrl = SITE_URL;
-  const postUrl = `${baseUrl}/blog/${post.slug}${language === "th" ? "?lang=th" : ""}`;
+  const postUrl = `${baseUrl}/blog/${post.slug}${language !== "en" ? `?lang=${language}` : ""}`;
   const structuredData = generateBlogPostStructuredData(post, baseUrl, postUrl);
   const relatedPosts = await getLocalizedRelatedPostsFromBackend(post.slug, language)
 

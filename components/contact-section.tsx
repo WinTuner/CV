@@ -18,7 +18,7 @@ export function ContactSection() {
 		threshold: 0.1,
 	});
 
-	const t = {
+	const translations = {
 		en: {
 			kicker: "Contact",
 			title: "Get in Touch",
@@ -56,7 +56,46 @@ export function ContactSection() {
 			errorNetwork: "เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่",
 			sentThanks: "ขอบคุณสำหรับการติดต่อ ผมจะรีบตอบกลับโดยเร็วที่สุดครับ",
 		},
-	}[language];
+		ja: {
+			kicker: "お問い合わせ",
+			title: "お気軽にご連絡ください",
+			desc: "新しい機会やコラボレーションをお待ちしています。メッセージをどうぞ。",
+			name: "お名前",
+			email: "your@email.com",
+			message: "どのようにお手伝いできますか？",
+			send: "メッセージを送信",
+			sending: "送信中...",
+			sent: "送信完了",
+			footer: "Direct: Thanatphong2719@gmail.com",
+			directEmail: "メール",
+			socialHub: "ソーシャル",
+			sendAnother: "別のメッセージを送る",
+			errorGeneric: "エラーが発生しました。再試行してください。",
+			errorNetwork: "ネットワークエラー。再試行してください。",
+			sentThanks:
+				"お問い合わせありがとうございます — できるだけ早く返信いたします。",
+		},
+		zh: {
+			kicker: "联系",
+			title: "取得联系",
+			desc: "期待新的机会与合作。发送消息或打个招呼吧。",
+			name: "你的姓名",
+			email: "your@email.com",
+			message: "需要什么帮助？",
+			send: "发送消息",
+			sending: "发送中...",
+			sent: "已发送",
+			footer: "直达: Thanatphong2719@gmail.com",
+			directEmail: "邮箱",
+			socialHub: "社交",
+			sendAnother: "再发一条",
+			errorGeneric: "出错了，请重试。",
+			errorNetwork: "网络错误，请重试。",
+			sentThanks:
+				"感谢来信 — 我会尽快回复。",
+		},
+	};
+	const t = (translations as Record<string, typeof translations.en>)[language] ?? translations.en;
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();

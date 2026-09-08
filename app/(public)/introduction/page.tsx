@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { SITE_URL } from "@/lib/site";
+import { isSupportedLanguage } from "@/constants/languages";
 
 const baseUrl = SITE_URL;
 
@@ -32,15 +33,22 @@ export const metadata: Metadata = {
 
 export default async function IntroductionPage() {
 	const cookieStore = await cookies();
-	const isThai = cookieStore.get("site-language")?.value === "th";
+	const rawLang = cookieStore.get("site-language")?.value;
+	const lang = isSupportedLanguage(rawLang) ? rawLang : "en";
+	const loadingText =
+		lang === "th"
+			? "กำลังโหลดข้อมูลเรซูเม่..."
+			: lang === "ja"
+				? "履歴書を読み込み中..."
+				: lang === "zh"
+					? "正在加载简历..."
+					: "Loading resume context...";
 	return (
 		<div id="main" className="pt-24">
 			<Suspense
 				fallback={
 					<div className="min-h-[60vh] flex flex-col items-center justify-center font-mono text-xs text-muted-foreground animate-pulse">
-						<span>
-							{isThai ? "กำลังโหลดข้อมูลเรซูเม่..." : "Loading resume context..."}
-						</span>
+						<span>{loadingText}</span>
 					</div>
 				}
 			>

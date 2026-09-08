@@ -50,6 +50,50 @@ const STATS = {
 			href: "/introduction",
 		},
 	],
+	ja: [
+		{
+			value: "Co-Founder & CTO",
+			label: "Muanjai — AI compliance helper bot (LINE OA)",
+			href: "/introduction",
+		},
+		{
+			value: "240+ tests",
+			label: "Automated tests guarding the CI pipeline",
+			href: "https://github.com/WinTuner",
+		},
+		{
+			value: "GPA 3.97",
+			label: "Software Engineering program, Chiang Rai (2019–2025)",
+			href: "/introduction",
+		},
+		{
+			value: "CMU — DII",
+			label: "B.Sc. Digital Industry Integration, Chiang Mai (current)",
+			href: "/introduction",
+		},
+	],
+	zh: [
+		{
+			value: "Co-Founder & CTO",
+			label: "Muanjai — AI compliance helper bot (LINE OA)",
+			href: "/introduction",
+		},
+		{
+			value: "240+ tests",
+			label: "Automated tests guarding the CI pipeline",
+			href: "https://github.com/WinTuner",
+		},
+		{
+			value: "GPA 3.97",
+			label: "Software Engineering program, Chiang Rai (2019–2025)",
+			href: "/introduction",
+		},
+		{
+			value: "CMU — DII",
+			label: "B.Sc. Digital Industry Integration, Chiang Mai (current)",
+			href: "/introduction",
+		},
+	],
 } as const;
 
 /* Pastel accents, cycling through the five palette colors (theme-aware). */
