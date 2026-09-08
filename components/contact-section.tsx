@@ -149,7 +149,11 @@ export function ContactSection() {
 
 					<div className={cn("border border-border/70 bg-card p-6 sm:p-10 opacity-0", isInView && "animate-fade-in-up stagger-3")}>
 						{isSent ? (
-							<div className="flex flex-col items-center justify-center py-14 text-center animate-fade-in">
+							<div
+								role="status"
+								aria-live="polite"
+								className="flex flex-col items-center justify-center py-14 text-center animate-fade-in"
+							>
 								<div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full border border-primary/40 bg-primary/10">
 									<CheckCircle2 className="h-7 w-7 text-primary" />
 								</div>
@@ -157,13 +161,13 @@ export function ContactSection() {
 								<p className="max-w-sm text-sm text-muted-foreground">{t.sentThanks}</p>
 								<button
 									onClick={() => setIsSent(false)}
-									className="mt-8 text-xs font-mono text-primary underline underline-offset-4 hover:text-foreground"
+									className="mt-8 min-h-[44px] text-xs font-mono text-primary underline underline-offset-4 hover:text-foreground"
 								>
 									{t.sendAnother}
 								</button>
 							</div>
 						) : (
-							<form onSubmit={handleSubmit} className="space-y-6">
+							<form onSubmit={handleSubmit} noValidate className="space-y-6" aria-label="Contact form">
 								<div className="grid gap-6 sm:grid-cols-2">
 									<div className="space-y-2">
 										<label
@@ -176,8 +180,11 @@ export function ContactSection() {
 											id="contact-name"
 											required
 											type="text"
+											autoComplete="name"
 											value={name}
 											onChange={(e) => setName(e.target.value)}
+											aria-invalid={error ? "true" : undefined}
+											aria-describedby={error ? "contact-error" : undefined}
 											className="w-full border-b border-border bg-transparent px-1 py-2.5 text-base md:text-sm transition-colors focus:border-primary outline-none"
 										/>
 									</div>
@@ -192,8 +199,11 @@ export function ContactSection() {
 											id="contact-email"
 											required
 											type="email"
+											autoComplete="email"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
+											aria-invalid={error ? "true" : undefined}
+											aria-describedby={error ? "contact-error" : undefined}
 											className="w-full border-b border-border bg-transparent px-1 py-2.5 text-base md:text-sm transition-colors focus:border-primary outline-none"
 										/>
 									</div>
@@ -211,12 +221,21 @@ export function ContactSection() {
 										rows={5}
 										value={message}
 										onChange={(e) => setMessage(e.target.value)}
+										aria-invalid={error ? "true" : undefined}
+										aria-describedby={error ? "contact-error" : undefined}
 										className="w-full resize-none border-b border-border bg-transparent px-1 py-2.5 text-base md:text-sm transition-colors focus:border-primary outline-none"
 									/>
 								</div>
 
 								{error && (
-									<p className="text-xs text-destructive leading-snug">{error}</p>
+									<p
+										id="contact-error"
+										role="alert"
+										aria-live="assertive"
+										className="text-xs text-destructive leading-snug"
+									>
+										{error}
+									</p>
 								)}
 
 								<button
