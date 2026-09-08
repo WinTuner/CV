@@ -19,6 +19,20 @@ export function BlogHero() {
       desc:
         "บทความเชิงเทคนิค งานทดลอง และบทเรียน สำรวจโค้ด ระบบ และศิลปะของการสร้างซอฟต์แวร์",
     },
+	ja: {
+      kicker: "Journal",
+      title: "Blog &",
+      accent: "Insights",
+      desc:
+        "Technical deep-dives, experiments, and lessons learned. Exploring code, systems, and the craft of building software.",
+    },
+	zh: {
+      kicker: "Journal",
+      title: "Blog &",
+      accent: "Insights",
+      desc:
+        "Technical deep-dives, experiments, and lessons learned. Exploring code, systems, and the craft of building software.",
+    },
   }[language];
 
   return (

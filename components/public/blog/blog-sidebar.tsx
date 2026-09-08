@@ -123,6 +123,32 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 			subscribed: "ติดตามสำเร็จ! คุณอยู่ในรายการแล้ว",
 			rss: "ติดตามผ่าน RSS",
 		},
+	ja: {
+			search: "Search articles...",
+			categories: "Categories",
+			tags: "Popular Tags",
+			newsletter: "Newsletter",
+			newsletterDesc:
+				"Get notified about new articles and experiments. No spam, unsubscribe anytime.",
+			email: "your@email.com",
+			subscribe: "Subscribe",
+			sending: "Subscribing...",
+			subscribed: "Subscribed! You're on the list.",
+			rss: "Subscribe via RSS",
+		},
+	zh: {
+			search: "Search articles...",
+			categories: "Categories",
+			tags: "Popular Tags",
+			newsletter: "Newsletter",
+			newsletterDesc:
+				"Get notified about new articles and experiments. No spam, unsubscribe anytime.",
+			email: "your@email.com",
+			subscribe: "Subscribe",
+			sending: "Subscribing...",
+			subscribed: "Subscribed! You're on the list.",
+			rss: "Subscribe via RSS",
+		},
 	}[language];
 
 	const handleCategoryClick = (categorySlug: string) => {

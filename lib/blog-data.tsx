@@ -700,59 +700,147 @@ Start with a simple launch implementation, add grade passback when needed, and e
   },
 ]
 
-export type BlogLanguage = "en" | "th"
+import type { SupportedLanguageCode } from "@/constants/languages";
 
-type BlogTranslation = Pick<BlogPost, "title" | "excerpt" | "content">
+export type BlogLanguage = SupportedLanguageCode;
 
-const blogTranslations: Record<string, BlogTranslation> = {
+type BlogTranslation = Pick<BlogPost, "title" | "excerpt" | "content">;
+
+const blogTranslations: Record<string, Partial<Record<BlogLanguage, BlogTranslation>>> = {
   "mcp-protocol-llm-applications": {
-    title: "โปรโตคอล MCP ในแอปพลิเคชัน LLM",
-    excerpt:
-      "การนำ Model Context Protocol มาใช้เพื่อให้โมเดล AI ทำงานร่วมกับเวกเตอร์ดาต้าเบสในแอป RAG ได้ลื่นไหลขึ้น สร้างระบบสนทนาที่ฉลาดกว่าเดิม",
-    content: ``,
+    th: {
+      title: "โปรโตคอล MCP ในแอปพลิเคชัน LLM",
+      excerpt:
+        "การนำ Model Context Protocol มาใช้เพื่อให้โมเดล AI ทำงานร่วมกับเวกเตอร์ดาต้าเบสในแอป RAG ได้ลื่นไหลขึ้น สร้างระบบสนทนาที่ฉลาดกว่าเดิม",
+      content: ``,
+    },
+    ja: {
+      title: "LLMアプリケーションにおけるMCPプロトコル",
+      excerpt:
+        "RAGアプリケーションでベクトルDBとシームレスに連携する Model Context Protocol の実装 — より賢い会話システムを構築する。",
+      content: ``,
+    },
+    zh: {
+      title: "LLM 应用中的 MCP 协议",
+      excerpt:
+        "在 RAG 应用中实现 Model Context Protocol，让 AI 模型与向量数据库无缝协作，构建更智能的对话系统。",
+      content: ``,
+    },
   },
   "nextjs-16-tailwind-v4-migration": {
-    title: "คู่มือย้ายไป Next.js 16 + Tailwind CSS v4",
-    excerpt:
-      "สำรวจฟีเจอร์ใหม่ของ Next.js 16 และการย้ายไปใช้ระบบคอนฟิกแบบ CSS-first ของ Tailwind v4 พร้อมแนวทางปฏิบัติจริง",
-    content: ``,
+    th: {
+      title: "คู่มือย้ายไป Next.js 16 + Tailwind CSS v4",
+      excerpt:
+        "สำรวจฟีเจอร์ใหม่ของ Next.js 16 และการย้ายไปใช้ระบบคอนฟิกแบบ CSS-first ของ Tailwind v4 พร้อมแนวทางปฏิบัติจริง",
+      content: ``,
+    },
+    ja: {
+      title: "Next.js 16 + Tailwind CSS v4 移行ガイド",
+      excerpt:
+        "Next.js 16 の新機能と Tailwind v4 の CSS-first 設定への移行を実践的に解説。モダンフロントエンドのガイド。",
+      content: ``,
+    },
+    zh: {
+      title: "Next.js 16 + Tailwind CSS v4 迁移指南",
+      excerpt:
+        "探索 Next.js 16 新特性与 Tailwind v4 CSS-first 配置迁移的实践指南，面向现代前端工具链。",
+      content: ``,
+    },
   },
   "self-hosting-llms-fastapi": {
-    title: "โฮสต์ LLM เองด้วย FastAPI",
-    excerpt:
-      "รัน Llama 2 แบบโลคอลและสร้าง API แชตบอทส่วนตัวสำหรับงานภาษา — ตั้งแต่ตั้งค่าโมเดลจนถึง deploy โปรดักชัน",
-    content: ``,
+    th: {
+      title: "โฮสต์ LLM เองด้วย FastAPI",
+      excerpt:
+        "รัน Llama 2 แบบโลคอลและสร้าง API แชตบอทส่วนตัวสำหรับงานภาษา — ตั้งแต่ตั้งค่าโมเดลจนถึง deploy โปรดักชัน",
+      content: ``,
+    },
+    ja: {
+      title: "FastAPIでLLMをセルフホストする",
+      excerpt:
+        "Llama 2 をローカルで実行し、自然言語処理のためのパーソナルチャットボットAPIを構築 — モデル構築から本番デプロイまで完全ガイド。",
+      content: ``,
+    },
+    zh: {
+      title: "使用 FastAPI 自托管 LLM",
+      excerpt:
+        "本地运行 Llama 2 并构建面向自然语言任务的个人聊天机器人 API — 从模型搭建到生产部署的完整指南。",
+      content: ``,
+    },
   },
   "rust-wasm-performance": {
-    title: "เจาะลึกประสิทธิภาพ Rust + WebAssembly",
-    excerpt:
-      "วัดเบนช์มาร์ก Rust ที่คอมไพล์เป็น WASM เทียบกับ JavaScript — เมื่อไหร่ WASM ชนะและเมื่อไหร่ควรใช้ JS",
-    content: ``,
+    th: {
+      title: "เจาะลึกประสิทธิภาพ Rust + WebAssembly",
+      excerpt:
+        "วัดเบนช์มาร์ก Rust ที่คอมไพล์เป็น WASM เทียบกับ JavaScript — เมื่อไหร่ WASM ชนะและเมื่อไหร่ควรใช้ JS",
+      content: ``,
+    },
+    ja: {
+      title: "Rust + WebAssembly パフォーマンス深掘り",
+      excerpt:
+        "WASM にコンパイルした Rust と JavaScript のベンチマーク比較 — WASM が輝く場面と JS が適する場面とは。",
+      content: ``,
+    },
+    zh: {
+      title: "Rust + WebAssembly 性能深度解析",
+      excerpt:
+        "对比编译为 WASM 的 Rust 与原生 JavaScript 的基准测试 — WASM 何时更胜一筹，何时坚持使用 JS。",
+      content: ``,
+    },
   },
   "design-tokens-system": {
-    title: "สร้างระบบ Design Token ที่สเกลได้",
-    excerpt:
-      "สถาปัตยกรรมโทเคน 3 ชั้นที่ทำงานข้ามแพลตฟอร์ม — จาก CSS variables ถึง Figma Tokens",
-    content: ``,
+    th: {
+      title: "สร้างระบบ Design Token ที่สเกลได้",
+      excerpt:
+        "สถาปัตยกรรมโทเคน 3 ชั้นที่ทำงานข้ามแพลตฟอร์ม — จาก CSS variables ถึง Figma Tokens",
+      content: ``,
+    },
+    ja: {
+      title: "スケーラブルなデザイントークンシステム構築",
+      excerpt:
+        "プラットフォームを跨ぐデザイントークンアーキテクチャ — CSS変数からFigmaトークンまで一貫性を保つ方法。",
+      content: ``,
+    },
+    zh: {
+      title: "构建可扩展的设计令牌系统",
+      excerpt:
+        "跨平台的设计令牌架构 — 从 CSS 变量到 Figma 令牌，打造一致的设计系统。",
+      content: ``,
+    },
   },
   "lti-learning-platforms-integration": {
-    title: "เข้าใจ LTI: เชื่อมเครื่องมือการเรียนรู้กับแพลตฟอร์มการศึกษา",
-    excerpt:
-      "คู่มือ LTI 1.3 ฉบับครบ — มาตรฐานที่เชื่อม Canvas/Moodle/Blackboard กับเครื่องมือภายนอกด้วย OAuth2 + JWT",
-    content: ``,
+    th: {
+      title: "เข้าใจ LTI: เชื่อมเครื่องมือการเรียนรู้กับแพลตฟอร์มการศึกษา",
+      excerpt:
+        "คู่มือ LTI 1.3 ฉบับครบ — มาตรฐานที่เชื่อม Canvas/Moodle/Blackboard กับเครื่องมือภายนอกด้วย OAuth2 + JWT",
+      content: ``,
+    },
+    ja: {
+      title: "LTIを理解する：学習ツールと教育プラットフォームの連携",
+      excerpt:
+        "LTI 1.3 完全ガイド — Canvas/Moodle/Blackboard と外部教育ツールを OAuth2 + JWT で安全に連携する標準規格。",
+      content: ``,
+    },
+    zh: {
+      title: "理解 LTI：学习工具与教育平台集成",
+      excerpt:
+        "LTI 1.3 全面指南 — 通过 OAuth2 + JWT 将 Canvas/Moodle/Blackboard 与外部教育工具无缝集成的标准协议。",
+      content: ``,
+    },
   },
 }
 
 export function localizePost(post: BlogPost, language: BlogLanguage): BlogPost {
-  if (language === "en") return post
-  const translation = blogTranslations[post.slug]
-  if (!translation) return post
+  if (language === "en") return post;
+  const bySlug = blogTranslations[post.slug];
+  if (!bySlug) return post;
+  const translation = bySlug[language];
+  if (!translation) return post;
   return {
     ...post,
     title: translation.title,
     excerpt: translation.excerpt,
     content: translation.content || post.content,
-  }
+  };
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {

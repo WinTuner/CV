@@ -35,6 +35,16 @@ export function BlogList({ posts, language }: BlogListProps) {
 			readArticle: "อ่านบทความ",
 			srRead: "อ่าน",
 		},
+	ja: {
+			featured: "featured",
+			readArticle: "read article",
+			srRead: "Read",
+		},
+	zh: {
+			featured: "featured",
+			readArticle: "read article",
+			srRead: "Read",
+		},
 	}[language];
 
 	return (

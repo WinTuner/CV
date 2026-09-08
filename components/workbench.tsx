@@ -33,6 +33,16 @@ export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
 			title: "Workbench",
 			desc: "พื้นที่ทดลองและต้นแบบที่กำลังพัฒนา สิ่งที่กำลังถูกสร้าง พัง และสร้างใหม่",
 		},
+	ja: {
+			kicker: "In Progress",
+			title: "Workbench",
+			desc: "Active experiments and prototypes. Things that are being built, broken, and rebuilt.",
+		},
+	zh: {
+			kicker: "In Progress",
+			title: "Workbench",
+			desc: "Active experiments and prototypes. Things that are being built, broken, and rebuilt.",
+		},
 	}[language];
 
 	return (

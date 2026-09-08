@@ -102,6 +102,60 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
         year: "ปี",
       },
     },
+	ja: {
+      kicker: "Selected Work",
+      title: "Open Source Projects",
+      desc:
+        "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
+      search: "Search projects...",
+      featured: "Featured",
+      source: "source",
+      live: "live",
+      noResults: "No projects found matching your criteria.",
+      sortLabel: "sort by",
+      clearFilters: "clear filters",
+      count: (n: number) => `${n} project${n === 1 ? "" : "s"}`,
+      filters: {
+        all: "all",
+        shipped: "shipped",
+        "in-progress": "in-progress",
+        archived: "archived",
+      },
+      sort: {
+        recent: "recent",
+        stars: "stars",
+        forks: "forks",
+        name: "name",
+        year: "year",
+      },
+    },
+	zh: {
+      kicker: "Selected Work",
+      title: "Open Source Projects",
+      desc:
+        "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
+      search: "Search projects...",
+      featured: "Featured",
+      source: "source",
+      live: "live",
+      noResults: "No projects found matching your criteria.",
+      sortLabel: "sort by",
+      clearFilters: "clear filters",
+      count: (n: number) => `${n} project${n === 1 ? "" : "s"}`,
+      filters: {
+        all: "all",
+        shipped: "shipped",
+        "in-progress": "in-progress",
+        archived: "archived",
+      },
+      sort: {
+        recent: "recent",
+        stars: "stars",
+        forks: "forks",
+        name: "name",
+        year: "year",
+      },
+    },
   } as const
 
   useEffect(() => {

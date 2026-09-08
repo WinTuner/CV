@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import { isSupportedLanguage, DEFAULT_LANGUAGE } from "@/constants/languages";
+import type { SupportedLanguageCode } from "@/constants/languages";
 
 export default async function NotFound() {
 	const cookieStore = await cookies();
-	const language =
-		cookieStore.get("site-language")?.value === "th" ? "th" : "en";
+	const rawLang = cookieStore.get("site-language")?.value;
+	const language: SupportedLanguageCode = isSupportedLanguage(rawLang) ? (rawLang as SupportedLanguageCode) : DEFAULT_LANGUAGE;
 	const t = {
 		en: {
 			title: "Page Not Found",
@@ -22,7 +24,30 @@ export default async function NotFound() {
 			blog: "ดูบล็อก",
 			projects: "ดูโปรเจกต์",
 		},
-	}[language];
+		ja: {
+			title: "ページが見つかりません",
+			desc: "お探しのページは存在しないか、移動されました。",
+			track: "正しい軌道に戻りましょう。",
+			home: "ホームへ",
+			blog: "ブログを見る",
+			projects: "プロジェクトを見る",
+		},
+		zh: {
+			title: "页面未找到",
+			desc: "您寻找的页面不存在或已被移动。",
+			track: "让我们带您回到正轨。",
+			home: "返回首页",
+			blog: "查看博客",
+			projects: "查看项目",
+		},
+	}[language] ?? {
+			title: "Page Not Found",
+			desc: "The page you're looking for doesn't exist or has been moved.",
+			track: "Let's get you back on track.",
+			home: "Go Home",
+			blog: "Browse Blog",
+			projects: "View Projects",
+		};
 
 	return (
 		<div className="min-h-screen flex items-center justify-center px-4">

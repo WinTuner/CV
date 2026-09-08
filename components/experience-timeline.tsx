@@ -17,6 +17,16 @@ const t = {
 		title: "ประสบการณ์",
 		desc: "เส้นทางและสิ่งที่ได้สร้างมา — ไทม์ไลน์ของบทบาท โปรเจกต์ และบทเรียนที่ได้เรียนรู้",
 	},
+	ja: {
+		kicker: "Journey",
+		title: "Experience",
+		desc: "Where I've been and what I've been building — a timeline of roles, projects, and the lessons that came with them.",
+	},
+	zh: {
+		kicker: "Journey",
+		title: "Experience",
+		desc: "Where I've been and what I've been building — a timeline of roles, projects, and the lessons that came with them.",
+	},
 } as const;
 
 /* Pastel accents, cycling through the five palette colors (theme-aware). */

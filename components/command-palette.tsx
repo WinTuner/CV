@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useLanguage } from "./language-provider";
 import { fuzzySearch } from "@/lib/fuzzy";
+import type { SupportedLanguageCode } from "@/constants/languages";
 
 import type { Project } from "@/lib/github";
 import type { BlogPost } from "@/lib/blog-data";
@@ -38,38 +39,38 @@ type SearchResult = {
 const pageItems: Array<{
 	href: string;
 	icon: typeof Home;
-	label: { en: string; th: string };
-	subtitle: { en: string; th: string };
+	label: Record<SupportedLanguageCode, string>;
+	subtitle: Record<SupportedLanguageCode, string>;
 }> = [
 	{
 		href: "/",
 		icon: Home,
-		label: { en: "Home", th: "หน้าแรก" },
-		subtitle: { en: "Landing page", th: "หน้าหลัก" },
+		label: { en: "Home", th: "หน้าแรก", ja: "ホーム", zh: "首页" },
+		subtitle: { en: "Landing page", th: "หน้าหลัก", ja: "ランディング", zh: "首页" },
 	},
 	{
 		href: "/introduction",
 		icon: FileText,
-		label: { en: "Resume", th: "เรซูเม่" },
-		subtitle: { en: "CV, education & experience", th: "ประวัติ การศึกษา และประสบการณ์" },
+		label: { en: "Resume", th: "เรซูเม่", ja: "履歴書", zh: "简历" },
+		subtitle: { en: "CV, education & experience", th: "ประวัติ การศึกษา และประสบการณ์", ja: "履歴書・学歴・経験", zh: "简历、教育与经历" },
 	},
 	{
 		href: "/projects",
 		icon: FolderGit2,
-		label: { en: "Projects", th: "โปรเจกต์" },
-		subtitle: { en: "Open source work", th: "งานโอเพนซอร์ส" },
+		label: { en: "Projects", th: "โปรเจกต์", ja: "プロジェクト", zh: "项目" },
+		subtitle: { en: "Open source work", th: "งานโอเพนซอร์ส", ja: "オープンソース", zh: "开源作品" },
 	},
 	{
 		href: "/workbench",
 		icon: Wrench,
-		label: { en: "Workbench", th: "เวิร์กเบนช์" },
-		subtitle: { en: "Tools in progress", th: "เครื่องมือที่กำลังพัฒนา" },
+		label: { en: "Workbench", th: "เวิร์กเบนช์", ja: "ワークベンチ", zh: "工作台" },
+		subtitle: { en: "Tools in progress", th: "เครื่องมือที่กำลังพัฒนา", ja: "開発中のツール", zh: "开发中的工具" },
 	},
 	{
 		href: "/blog",
 		icon: Newspaper,
-		label: { en: "Blog", th: "บล็อก" },
-		subtitle: { en: "Writing & notes", th: "บทความและบันทึก" },
+		label: { en: "Blog", th: "บล็อก", ja: "ブログ", zh: "博客" },
+		subtitle: { en: "Writing & notes", th: "บทความและบันทึก", ja: "記事とメモ", zh: "文章与笔记" },
 	},
 ];
 
@@ -132,9 +133,9 @@ export function CommandPalette() {
 	};
 
 	const flatItems = useMemo<PaletteItem[]>(() => {
-		const sectionPages = language === "th" ? "หน้า" : "Pages";
-		const sectionProjects = language === "th" ? "โปรเจกต์" : "Projects";
-		const sectionPosts = language === "th" ? "บทความ" : "Posts";
+		const sectionPages = language === "th" ? "หน้า" : language === "ja" ? "ページ" : language === "zh" ? "页面" : "Pages";
+		const sectionProjects = language === "th" ? "โปรเจกต์" : language === "ja" ? "プロジェクト" : language === "zh" ? "项目" : "Projects";
+		const sectionPosts = language === "th" ? "บทความ" : language === "ja" ? "記事" : language === "zh" ? "文章" : "Posts";
 
 		const pages: PaletteItem[] = pageItems.map((item) => ({
 			id: `page:${item.href}`,
@@ -259,6 +260,18 @@ export function CommandPalette() {
 			empty: "ไม่พบผลการค้นหา",
 			close: "ปิด",
 		},
+	ja: {
+			placeholder: "Search pages, projects, posts…",
+			hint: "Type to search the site",
+			empty: "No results found.",
+			close: "Close",
+		},
+	zh: {
+			placeholder: "Search pages, projects, posts…",
+			hint: "Type to search the site",
+			empty: "No results found.",
+			close: "Close",
+		},
 	}[language];
 
 	return (
@@ -365,8 +378,8 @@ export function CommandPalette() {
 
 						<div className="flex items-center justify-between border-t border-border/60 px-5 py-2.5">
 							<p className="font-mono text-[10px] text-muted-foreground">
-								↑↓ {language === "th" ? "เลือก" : "navigate"} · ↵{" "}
-								{language === "th" ? "เปิด" : "open"}
+								↑↓ {language === "th" ? "เลือก" : language === "ja" ? "選択" : language === "zh" ? "选择" : "navigate"} · ↵{" "}
+								{language === "th" ? "เปิด" : language === "ja" ? "開く" : language === "zh" ? "打开" : "open"}
 							</p>
 							<Dialog.Close asChild>
 								<button

@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { FileDown, Loader2 } from "lucide-react";
+import type { SupportedLanguageCode } from "@/constants/languages";
 
 interface DownloadResumeButtonProps {
 	targetRef: { current: HTMLDivElement | null };
-	language: "en" | "th";
+	language: SupportedLanguageCode;
 }
 
 /**
@@ -99,7 +100,13 @@ export function DownloadResumeButton({
 				<FileDown className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
 			)}
 			<span className="text-sm text-muted-foreground font-semibold group-hover:text-foreground truncate">
-				{language === "th" ? "ดาวน์โหลด PDF" : "Download PDF"}
+				{language === "th"
+					? "ดาวน์โหลด PDF"
+					: language === "ja"
+						? "PDFをダウンロード"
+						: language === "zh"
+							? "下载 PDF"
+							: "Download PDF"}
 			</span>
 		</button>
 	);

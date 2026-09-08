@@ -97,7 +97,13 @@ export function IntroductionContent() {
 								>
 									<Briefcase className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
 									<span className="text-sm text-primary font-semibold truncate">
-										{language === "th" ? "พิมพ์ / บันทึก PDF" : "Print / Save PDF"}
+										{language === "th"
+											? "พิมพ์ / บันทึก PDF"
+											: language === "ja"
+												? "印刷 / PDF保存"
+												: language === "zh"
+													? "打印 / 保存 PDF"
+													: "Print / Save PDF"}
 									</span>
 								</button>
 								<DownloadResumeButton
