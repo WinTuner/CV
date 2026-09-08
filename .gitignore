@@ -52,3 +52,8 @@ Desktop.ini
 # --- Coverage & archives ---
 coverage/
 *.tgz
+
+# --- Portfolio source (ห้ามอัพ docx) ---
+*.docx
+*.doc
+682110174_word.docx
