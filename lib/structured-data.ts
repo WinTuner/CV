@@ -61,17 +61,43 @@ export function generatePersonStructuredData() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Thanatphong Tarin',
-    url: 'https://thanatphong.vercel.app',
+    alternateName: 'ธณัฐพงค์ ทะรินทร์',
+    url: SITE_URL,
     image: `${SITE_URL}/developer-portrait-v3.png`,
     sameAs: [
       'https://github.com/WinTuner',
       'https://x.com/nut89189886',
       'https://www.linkedin.com/in/thanatphong-tarin-1b6619385/',
     ],
-    jobTitle: 'Software Engineer',
-    worksFor: {
-      '@type': 'Organization',
-      name: 'WinTuner',
+    jobTitle: 'Co-Founder & CTO',
+    worksFor: [
+      {
+        '@type': 'Organization',
+        name: 'Muanjai',
+        url: 'https://line.me/R/ti/p/%40636owbhl',
+      },
+      {
+        '@type': 'Organization',
+        name: 'WinTuner',
+      },
+    ],
+    alumniOf: [
+      {
+        '@type': 'CollegeOrUniversity',
+        name: 'Chiang Mai University',
+        department: 'College of Arts, Media and Technology (CAMT) — Digital Industry Integration (DII)',
+      },
+      {
+        '@type': 'HighSchool',
+        name: 'Chiang Rai Provincial Administrative Organization School',
+      },
+    ],
+    knowsAbout: ['Agentic AI', 'RAG', 'LINE Messaging API', 'Next.js', 'Full-Stack Web', 'DevOps', 'PromptPay'],
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Chiang Mai',
+      addressCountry: 'TH',
     },
+    email: 'mailto:Thanatphong2719@gmail.com',
   }
 }

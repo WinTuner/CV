@@ -365,10 +365,10 @@ export const experiences = {
 
 export const copy = {
 	en: {
-		pageLabel: "Resume / CV",
+		pageLabel: "Resume / CV — CAMT DII, CMU · Sec 1",
 		name: "Thanatphong Tarin",
 		intro:
-			"Software engineering student and Co-Founder & CTO of Muanjai. Passionate about building Agentic AI systems, full-stack web applications, and digital industry integrations.",
+			"Year-2 DII student at CAMT, Chiang Mai University (GPA 3.40; high-school Software Program 3.97) and Co-Founder & CTO of Muanjai. Building Thai RAG systems on Pathumma LLM + ThaiSC, LINE OA compliance bots with PromptPay verification, and full-stack web platforms — from OOP/Java foundations to production DevOps (240+ tests).",
 		sectionProf: "Professional Experience",
 		sectionSelf: "Self-Development",
 		sectionAwards: "Awards & Achievements",
@@ -393,10 +393,10 @@ export const copy = {
 		},
 	},
 	th: {
-		pageLabel: "เรซูเม่ / ประวัติย่อ",
+		pageLabel: "เรซูเม่ / ประวัติย่อ — CAMT DII มช. Sec 1",
 		name: "ธณัฐพงค์ ทะรินทร์",
 		intro:
-			"นักศึกษาสายวิศวกรรมซอฟต์แวร์ ผู้ร่วมก่อตั้งและ CTO ของ Muanjai มุ่งเน้นการพัฒนาระบบ Agentic AI, เว็บแอปพลิเคชันแบบ Full-Stack และการบูรณาการเทคโนโลยีดิจิทัลในภาคอุตสาหกรรม",
+			"นักศึกษาชั้นปีที่ 2 สาขาการบูรณาการอุตสาหกรรมดิจิทัล (DII) วิทยาลัยศิลปะ สื่อ และเทคโนโลยี มหาวิทยาลัยเชียงใหม่ (GPA 3.40; มัธยมแผนวิศวกรรมซอฟต์แวร์ 3.97) และผู้ร่วมก่อตั้ง & CTO ของ Muanjai — พัฒนาระบบ RAG ภาษาไทยบน Pathumma LLM/ThaiSC, บอท LINE OA ด้าน compliance พร้อมตรวจ PromptPay และเว็บ Full-Stack ตั้งแต่ฐาน OOP/Java สู่ Production DevOps (เทสต์ 240+)",
 		sectionProf: "ประสบการณ์ระดับมืออาชีพ",
 		sectionSelf: "การพัฒนาตนเอง",
 		sectionAwards: "รางวัลและความสำเร็จ",
