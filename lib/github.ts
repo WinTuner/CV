@@ -281,12 +281,16 @@ export async function getGithubRepos(): Promise<Project[]> {
 	}
 
 	try {
+		const headers: Record<string, string> = {
+			Accept: "application/vnd.github.v3+json",
+			"User-Agent": "WinTuner-Portfolio",
+		};
+		if (process.env.GITHUB_TOKEN) {
+			headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
+		}
 		const response = await fetch(API_URL, {
 			next: { revalidate: 3600 }, // Cache on edge/server for 1 hour
-			headers: {
-				Accept: "application/vnd.github.v3+json",
-				"User-Agent": "WinTuner-Portfolio",
-			},
+			headers,
 		});
 
 		if (!response.ok) {
@@ -434,12 +438,16 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
 	}
 
 	try {
+		const wipHeaders: Record<string, string> = {
+			Accept: "application/vnd.github.v3+json",
+			"User-Agent": "WinTuner-Portfolio",
+		};
+		if (process.env.GITHUB_TOKEN) {
+			wipHeaders.Authorization = `token ${process.env.GITHUB_TOKEN}`;
+		}
 		const response = await fetch(API_URL, {
 			next: { revalidate: 3600 },
-			headers: {
-				Accept: "application/vnd.github.v3+json",
-				"User-Agent": "WinTuner-Portfolio",
-			},
+			headers: wipHeaders,
 		});
 
 		if (!response.ok) {
