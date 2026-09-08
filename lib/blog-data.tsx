@@ -709,15 +709,37 @@ const blogTranslations: Record<string, BlogTranslation> = {
     title: "โปรโตคอล MCP ในแอปพลิเคชัน LLM",
     excerpt:
       "การนำ Model Context Protocol มาใช้เพื่อให้โมเดล AI ทำงานร่วมกับเวกเตอร์ดาต้าเบสในแอป RAG ได้ลื่นไหลขึ้น สร้างระบบสนทนาที่ฉลาดกว่าเดิม",
-    content: `
-   `,
+    content: ``,
   },
   "nextjs-16-tailwind-v4-migration": {
     title: "คู่มือย้ายไป Next.js 16 + Tailwind CSS v4",
     excerpt:
       "สำรวจฟีเจอร์ใหม่ของ Next.js 16 และการย้ายไปใช้ระบบคอนฟิกแบบ CSS-first ของ Tailwind v4 พร้อมแนวทางปฏิบัติจริง",
-    content: `
-    `,
+    content: ``,
+  },
+  "self-hosting-llms-fastapi": {
+    title: "โฮสต์ LLM เองด้วย FastAPI",
+    excerpt:
+      "รัน Llama 2 แบบโลคอลและสร้าง API แชตบอทส่วนตัวสำหรับงานภาษา — ตั้งแต่ตั้งค่าโมเดลจนถึง deploy โปรดักชัน",
+    content: ``,
+  },
+  "rust-wasm-performance": {
+    title: "เจาะลึกประสิทธิภาพ Rust + WebAssembly",
+    excerpt:
+      "วัดเบนช์มาร์ก Rust ที่คอมไพล์เป็น WASM เทียบกับ JavaScript — เมื่อไหร่ WASM ชนะและเมื่อไหร่ควรใช้ JS",
+    content: ``,
+  },
+  "design-tokens-system": {
+    title: "สร้างระบบ Design Token ที่สเกลได้",
+    excerpt:
+      "สถาปัตยกรรมโทเคน 3 ชั้นที่ทำงานข้ามแพลตฟอร์ม — จาก CSS variables ถึง Figma Tokens",
+    content: ``,
+  },
+  "lti-learning-platforms-integration": {
+    title: "เข้าใจ LTI: เชื่อมเครื่องมือการเรียนรู้กับแพลตฟอร์มการศึกษา",
+    excerpt:
+      "คู่มือ LTI 1.3 ฉบับครบ — มาตรฐานที่เชื่อม Canvas/Moodle/Blackboard กับเครื่องมือภายนอกด้วย OAuth2 + JWT",
+    content: ``,
   },
 }
 

@@ -315,7 +315,7 @@ export const experiences = {
 	en: [
 		{
 			title: "Muanjai (ม่วนใจ๋) - Co-Founder & Chief Technology Officer (CTO)",
-			period: "June 2026 - Present",
+			period: "June 2025 - Present",
 			points: [
 				"Co-founded and engineered Muanjai, an AI-powered compliance helper bot that helps hotels, homestays, and individuals track licenses and document expiry via [LINE OA](https://line.me/R/ti/p/%40636owbhl) and a [Web Client](https://muanjai-ai.up.railway.app/chat/).",
 				"Designed the core AI architecture, integrating NECTEC's Pathumma LLM leveraging ThaiSC's supercomputing infrastructure for RAG-based document Q&A in Thai.",
@@ -340,7 +340,7 @@ export const experiences = {
 		{
 			title:
 				"Muanjai (ม่วนใจ๋) - ผู้ร่วมก่อตั้งและประธานเจ้าหน้าที่ฝ่ายเทคโนโลยี (Co-Founder & CTO)",
-			period: "มิถุนายน 2569 - ปัจจุบัน",
+			period: "มิถุนายน 2568 - ปัจจุบัน",
 			points: [
 				"ร่วมก่อตั้งและพัฒนา Muanjai บอทช่วยดูแลด้านการปฏิบัติตามข้อกำหนด (Compliance Helper Bot) ด้วย AI สำหรับโรงแรม โฮมสเตย์ และบุคคลทั่วไป ในการติดตามใบอนุญาตและวันหมดอายุเอกสาร ผ่าน [LINE OA](https://line.me/R/ti/p/%40636owbhl) และ [Web Client](https://muanjai-ai.up.railway.app/chat/)",
 				"ออกแบบโครงสร้างระบบ AI ผสานการใช้ Pathumma LLM ของ NECTEC บนโครงสร้างพื้นฐานซูเปอร์คอมพิวเตอร์ ThaiSC สำหรับระบบถาม-ตอบเอกสาร (RAG) เป็นภาษาไทย",
