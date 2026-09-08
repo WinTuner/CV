@@ -29,9 +29,9 @@ export const heroCopy = {
 		email: "Thanatphong2719@gmail.com",
 	},
 	th: {
-		kicker: "ธนัทพงษ์ ตาเรือน",
+		kicker: "ธณัฐพงค์ ทะรินทร์",
 		intro:
-			"นักศึกษาสายวิศวกรรมซอฟต์แวร์ มหาวิทยาลัยเชียงใหม่ ผู้ร่วมก่อตั้งและ CTO ของ Muanjai มุ่งมั่นพัฒนาระบบ Agentic AI, เว็บแอปพลิเคชันแบบ Full-Stack และโครงสร้างพื้นฐาน DevOps",
+			"นักศึกษาชั้นปีที่ 2 วิทยาลัยศิลปะ สื่อ และเทคโนโลยี มหาวิทยาลัยเชียงใหม่ (CAMT • DII) และ Co-Founder & CTO ของ Muanjai — พัฒนาระบบ Agentic AI / RAG ภาษาไทย, เว็บ Full-Stack และ DevOps บน ThaiSC",
 		explore: "ดูโปรเจกต์",
 		resume: "เรซูเม่",
 		scroll: "เลื่อนลง",
