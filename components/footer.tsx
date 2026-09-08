@@ -32,18 +32,19 @@ export function Footer() {
 	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
 		threshold: 0.15,
 	});
-	const t = {
+	const translations = {
 		en: {
 			connect: "Contact",
 			togetherA: "Let's build something",
 			togetherB: "together",
 			desc: "Always interested in collaborations, interesting problems, and conversations about code, design, and everything in between.",
 			sendSignal: "say hello",
-			findElsewhere: "Find me elsewhere",							forged: "Built with",
-							code: "& code",
-							rights: "All rights reserved",
-							template: "Based on the EinCode template by",
-							templateAuthor: "Ehsan Ghaffar",
+			findElsewhere: "Find me elsewhere",
+			forged: "Built with",
+			code: "& code",
+			rights: "All rights reserved",
+			template: "Based on the EinCode template by",
+			templateAuthor: "Ehsan Ghaffar",
 		},
 		th: {
 			connect: "ติดต่อ",
@@ -51,13 +52,41 @@ export function Footer() {
 			togetherB: "ด้วยกัน",
 			desc: "สนใจงานร่วมมือ โจทย์ที่น่าสนใจ และบทสนทนาเกี่ยวกับโค้ด ดีไซน์ และทุกอย่างที่อยู่ระหว่างกลางเสมอ",
 			sendSignal: "ทักทายกัน",
-			findElsewhere: "ตามหาผมได้ที่อื่น",							forged: "สร้างด้วย",
-							code: "และโค้ด",
-							rights: "สงวนลิขสิทธิ์",
-							template: "สร้างจากเทมเพลต EinCode โดย",
-							templateAuthor: "Ehsan Ghaffar",
+			findElsewhere: "ตามหาผมได้ที่อื่น",
+			forged: "สร้างด้วย",
+			code: "และโค้ด",
+			rights: "สงวนลิขสิทธิ์",
+			template: "สร้างจากเทมเพลต EinCode โดย",
+			templateAuthor: "Ehsan Ghaffar",
 		},
-	}[language];
+		ja: {
+			connect: "お問い合わせ",
+			togetherA: "一緒に何かを",
+			togetherB: "作りましょう",
+			desc: "コラボレーション、面白い課題、そしてコードやデザインにまつわる対話に常に関心があります。",
+			sendSignal: "連絡する",
+			findElsewhere: "他で見つける",
+			forged: "Built with",
+			code: "& code",
+			rights: "All rights reserved",
+			template: "Based on the EinCode template by",
+			templateAuthor: "Ehsan Ghaffar",
+		},
+		zh: {
+			connect: "联系",
+			togetherA: "一起创造",
+			togetherB: "些什么",
+			desc: "始终期待合作、有趣的难题，以及关于代码、设计等一切话题的交流。",
+			sendSignal: "打个招呼",
+			findElsewhere: "在别处找到我",
+			forged: "构建于",
+			code: "与代码",
+			rights: "版权所有",
+			template: "基于 EinCode 模板",
+			templateAuthor: "Ehsan Ghaffar",
+		},
+	};
+	const t = (translations as Record<string, typeof translations.en>)[language] ?? translations.en;
 
 	return (
 		<footer

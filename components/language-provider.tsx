@@ -1,8 +1,13 @@
 "use client"
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
+import {
+	isSupportedLanguage,
+	type SupportedLanguageCode,
+	DEFAULT_LANGUAGE,
+} from "@/constants/languages"
 
-export type SiteLanguage = "en" | "th"
+export type SiteLanguage = SupportedLanguageCode
 
 type LanguageContextValue = {
   language: SiteLanguage
@@ -30,7 +35,7 @@ export function LanguageProvider({
 
   useEffect(() => {
     const urlLanguage = new URLSearchParams(window.location.search).get("lang") as SiteLanguage | null
-    if (urlLanguage === "th" || urlLanguage === "en") {
+    if (urlLanguage && isSupportedLanguage(urlLanguage)) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional init from URL param
       setLanguageState(urlLanguage)
       applyLanguageDocumentState(urlLanguage)
@@ -43,7 +48,7 @@ export function LanguageProvider({
       .find((entry) => entry.startsWith(`${COOKIE_NAME}=`))
       ?.split("=")[1] as SiteLanguage | undefined
 
-    if (cookieLanguage === "th" || cookieLanguage === "en") {
+    if (cookieLanguage && isSupportedLanguage(cookieLanguage)) {
       setLanguageState(cookieLanguage)
       applyLanguageDocumentState(cookieLanguage)
       localStorage.setItem(STORAGE_KEY, cookieLanguage)
@@ -51,12 +56,12 @@ export function LanguageProvider({
     }
 
     const savedLanguage = localStorage.getItem(STORAGE_KEY) as SiteLanguage | null
-    if (savedLanguage === "th" || savedLanguage === "en") {
+    if (savedLanguage && isSupportedLanguage(savedLanguage)) {
       setLanguageState(savedLanguage)
       applyLanguageDocumentState(savedLanguage)
       return
     }
-    applyLanguageDocumentState("en")
+    applyLanguageDocumentState(DEFAULT_LANGUAGE)
   }, [applyLanguageDocumentState])
 
   const setLanguage = useCallback((nextLanguage: SiteLanguage) => {

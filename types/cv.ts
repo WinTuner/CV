@@ -1,4 +1,6 @@
-export type CVLanguage = "en" | "th"
+import type { SupportedLanguageCode } from "@/constants/languages";
+
+export type CVLanguage = SupportedLanguageCode;
 
 export type CVCategory = "production" | "competition" | "academic" | "personal" | "openSource"
 

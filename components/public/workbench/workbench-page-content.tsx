@@ -9,10 +9,11 @@ import type { WipItem, ActivityItem } from "@/lib/github";
 import { useLiveGithubActivity } from "@/lib/use-live-github-activity";
 import { formatRelativeTime } from "@/lib/hero-utils";
 
-function formatDate(dateString: string, language: "en" | "th") {
+function formatDate(dateString: string, language: import("@/constants/languages").SupportedLanguageCode) {
   const date = new Date(dateString);
   if (isNaN(date.getTime())) return dateString;
-  return date.toLocaleDateString(language === "en" ? "en-US" : "th-TH", {
+  const locale = language === "th" ? "th-TH" : language === "ja" ? "ja-JP" : language === "zh" ? "zh-CN" : "en-US";
+  return date.toLocaleDateString(locale, {
     timeZone: "UTC",
     month: "short",
     day: "numeric",
@@ -51,6 +52,28 @@ export function WorkbenchPageContent({
       active: "กำลังทำ",
       avgProgress: "ความคืบหน้าเฉลี่ย",
       recentActivity: "กิจกรรมล่าสุด",
+    },
+	ja: {
+      kicker: "In Progress",
+      title: "Workbench",
+      desc:
+        "Active experiments and prototypes. Things that are being built, broken, and rebuilt. Real-time progress on ongoing projects.",
+      commits: "commits",
+      stats: "Stats",
+      active: "Active",
+      avgProgress: "Avg Progress",
+      recentActivity: "Recent Activity",
+    },
+	zh: {
+      kicker: "In Progress",
+      title: "Workbench",
+      desc:
+        "Active experiments and prototypes. Things that are being built, broken, and rebuilt. Real-time progress on ongoing projects.",
+      commits: "commits",
+      stats: "Stats",
+      active: "Active",
+      avgProgress: "Avg Progress",
+      recentActivity: "Recent Activity",
     },
   }[language];
 
@@ -183,15 +206,15 @@ export function WorkbenchPageContent({
                               activity.prAction === "closed" && "border-border text-muted-foreground",
                             )}
                           >
-                            {activity.prAction === "opened" ? (language === "th" ? "เปิด" : "OPENED") :
-                             activity.prAction === "merged" ? (language === "th" ? "รวม" : "MERGED") :
-                             (language === "th" ? "ปิด" : "CLOSED")}
+                            {activity.prAction === "opened" ? (language === "th" ? "เปิด" : language === "ja" ? "オープン" : language === "zh" ? "已打开" : "OPENED") :
+                             activity.prAction === "merged" ? (language === "th" ? "รวม" : language === "ja" ? "マージ" : language === "zh" ? "已合并" : "MERGED") :
+                             (language === "th" ? "ปิด" : language === "ja" ? "クローズ" : language === "zh" ? "已关闭" : "CLOSED")}
                           </span>
                           <span className="flex-1 truncate">{activity.prTitle}</span>
                         </div>
                       ) : (
                         <p className="truncate text-foreground">
-                          {typeof activity.message === "object" ? activity.message[language] : activity.message}
+                          {typeof activity.message === "object" ? ((activity.message as Record<string, string>)[language] ?? (activity.message as Record<string,string>).en ?? "") : activity.message}
                         </p>
                       )}
                       <p className="mt-1 flex items-center gap-1 text-muted-foreground">

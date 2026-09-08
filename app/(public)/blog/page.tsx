@@ -4,6 +4,7 @@ import { BlogSidebar } from "@/components/public/blog/blog-sidebar";
 import { cookies } from "next/headers";
 import type { BlogLanguage } from "@/lib/blog-data";
 import { getLocalizedBlogPostsFromBackend } from "@/lib/notion-blog";
+import { isSupportedLanguage, DEFAULT_LANGUAGE } from "@/constants/languages";
 import mediumBlogApi from "@/lib/medium-blog";
 import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/site"
@@ -44,7 +45,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const { category, tag, q } = await searchParams
   const cookieStore = await cookies()
   const cookieLanguage = cookieStore.get("site-language")?.value
-  const language: BlogLanguage = cookieLanguage === "th" ? "th" : "en"
+  const language: BlogLanguage = isSupportedLanguage(cookieLanguage) ? (cookieLanguage as BlogLanguage) : DEFAULT_LANGUAGE
 
   // Fetch both Notion/Local and Medium posts in parallel
   const [localPosts, mediumPosts] = await Promise.all([

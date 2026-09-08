@@ -56,6 +56,36 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 				openSource: "โอเพนซอร์ส",
 			},
 		},
+	ja: {
+			kicker: "Selected Work",
+			title: "Projects",
+			featured: "Featured",
+			source: "source",
+			live: "live",
+			filters: {
+				all: "all",
+				production: "production",
+				competition: "competition",
+				academic: "academic",
+				personal: "personal",
+				openSource: "open source",
+			},
+		},
+	zh: {
+			kicker: "Selected Work",
+			title: "Projects",
+			featured: "Featured",
+			source: "source",
+			live: "live",
+			filters: {
+				all: "all",
+				production: "production",
+				competition: "competition",
+				academic: "academic",
+				personal: "personal",
+				openSource: "open source",
+			},
+		},
 	} as const;
 
 	const t = copy[language];

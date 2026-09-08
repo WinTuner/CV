@@ -67,6 +67,68 @@ const skills = {
 			],
 		},
 	],
+	ja: [
+		{
+			category: "Frontend",
+			items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Java (OOP)"],
+		},
+		{
+			category: "Backend & AI",
+			items: ["Node.js", "Express", "PostgreSQL", "Supabase", "RAG · Pathumma LLM", "LINE Messaging API", "PromptPay Verify"],
+		},
+		{
+			category: "Infrastructure",
+			items: [
+				"Docker",
+				"CI/CD (240+ tests)",
+				"Vercel · Railway",
+				"Nginx",
+				"ThaiSC Supercomputer",
+				"WireGuard VPN",
+			],
+		},
+		{
+			category: "Tools & Workflow",
+			items: [
+				"Git · GitHub Actions",
+				"Excel · Google Sheets",
+				"Canva",
+				"Postman",
+				"Agile · UX/UI",
+			],
+		},
+	],
+	zh: [
+		{
+			category: "Frontend",
+			items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Java (OOP)"],
+		},
+		{
+			category: "Backend & AI",
+			items: ["Node.js", "Express", "PostgreSQL", "Supabase", "RAG · Pathumma LLM", "LINE Messaging API", "PromptPay Verify"],
+		},
+		{
+			category: "Infrastructure",
+			items: [
+				"Docker",
+				"CI/CD (240+ tests)",
+				"Vercel · Railway",
+				"Nginx",
+				"ThaiSC Supercomputer",
+				"WireGuard VPN",
+			],
+		},
+		{
+			category: "Tools & Workflow",
+			items: [
+				"Git · GitHub Actions",
+				"Excel · Google Sheets",
+				"Canva",
+				"Postman",
+				"Agile · UX/UI",
+			],
+		},
+	],
 } as const;
 
 /* Pastel accents, cycling through the five palette colors (theme-aware). */
@@ -103,7 +165,7 @@ export function SkillsMatrix() {
 	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
 		threshold: 0.08,
 	});
-	const t = {
+	const _t = {
 		en: {
 			kicker: "Expertise",
 			title: "Technical Stack",
@@ -114,7 +176,18 @@ export function SkillsMatrix() {
 			title: "ทักษะทางเทคนิค",
 			desc: "เทคโนโลยีสมัยใหม่และเครื่องมือมาตรฐานสากลที่ใช้ในการออกแบบ พัฒนา และปล่อยซอฟต์แวร์",
 		},
-	}[language];
+		ja: {
+			kicker: "専門性",
+			title: "技術スタック",
+			desc: "ソフトウェアの設計・構築・リリースに使用するモダンな技術と業界標準ツール。",
+		},
+		zh: {
+			kicker: "专业",
+			title: "技术栈",
+			desc: "用于设计、构建和发布软件的现代技术与行业标准工具。",
+		},
+	};
+	const t = (_t as unknown as Record<string, typeof _t.en>)[language] ?? _t.en;
 
 	return (
 		<section

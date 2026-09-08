@@ -41,6 +41,38 @@ export const education = {
 			image: "/cmu-education.png",
 		},
 	],
+	ja: [
+		{
+			school: "チェンライ県行政学校",
+			period: "2019 - 2025",
+			detail: "ソフトウェア工学プログラム",
+			gpa: "3.97",
+			image: "/crapao-school.png",
+		},
+		{
+			school: "チェンマイ大学",
+			period: "2025 - 現在",
+			detail: "CAMT デジタル産業統合学士課程",
+			gpa: "3.40",
+			image: "/cmu-education.png",
+		},
+	],
+	zh: [
+		{
+			school: "清莱府行政学校",
+			period: "2019 - 2025",
+			detail: "软件工程项目",
+			gpa: "3.97",
+			image: "/crapao-school.png",
+		},
+		{
+			school: "清迈大学",
+			period: "2025 - 至今",
+			detail: "CAMT 数字产业整合学士",
+			gpa: "3.40",
+			image: "/cmu-education.png",
+		},
+	],
 } satisfies EducationMap;
 
 export const professionalExperience = {
@@ -205,6 +237,176 @@ export const professionalExperience = {
 			},
 		],
 	},
+	ja: {
+		production: [
+			{
+				name: "Muanjai (ม่วนใจ๋)",
+				role: "共同創業者兼最高技術責任者 (Co-Founder & CTO)",
+				description:
+					"ホテル・民泊・個人向けにライセンスや証明書の有効期限を LINE OA と Web クライアントで管理する AI コンプライアンス支援ボット。",
+				target:
+					"ライセンスや証明書の期限管理が必要なホテル・民泊・個人。",
+				problem:
+					"有効期限が紙やスプレッドシートに分散し、見逃しやすく罰金やコンプライアンスリスクにつながる。",
+				learned:
+					"タイ語LLM（Pathumma LLM / ThaiSC）によるRAG文書QA、有効期限リマインダー、PromptPay 検証、Webhook の信頼性向上（リトライ重複排除、返信期限ガード、オペレーター通知）、セキュリティ（SESSION_SECRET 必須、CORS 固定）を構築 — CI は 240+ テストで保護。",
+				url: "https://line.me/R/ti/p/%40636owbhl",
+			},
+			{
+				name: "Municipality Web Application - Phlu Ta Luang",
+				role: "バックエンド開発者（メンバー）",
+				description:
+					"自治体業務とサービス管理を効率化するWebアプリケーション。",
+				target: "自治体職員と地域住民。",
+				problem: "手作業の書類と分散したデータ管理。",
+				learned:
+					"自治体職員との協働と実務Webアプリのワークフロー。",
+				url: "https://github.com/farpinta/ProjectPruta",
+			},
+		],
+		competition: [
+			{
+				name: "HYLIFE Hackathon 2025",
+				role: "開発者 & プレゼンター",
+				description: "スマート農業と食品サプライチェーン向けソリューション。",
+				target: "農家とサプライチェーンマネージャー。",
+				problem:
+					"農産物の品質追跡とサプライチェーンの透明性の非効率。",
+				learned:
+					"迅速なプロトタイピング、ピッチ準備、プレッシャー下での協働。",
+			},
+		],
+		academic: [
+			{
+				name: "OOP Lab Project 2026",
+				role: "リード開発者",
+				description:
+					"オブジェクト指向原理を実装した Java アプリケーション。",
+				target: "CS 学生 / 教員。",
+				problem: "OOP パターンの実践的な実装が必要。",
+				learned:
+					"高度な Java 概念、デザインパターン、クリーンコード原則。",
+			},
+			{
+				name: "DII Design - CAMT Open House 2025",
+				role: "プレゼンテーション & UX デザイナー",
+				description:
+					"開発職を探索するためのインタラクティブなプレゼンテーション。",
+				target: "入学希望者。",
+				problem:
+					"初心者にとって異なる技術職を理解するのが複雑。",
+				learned: "ユーザー中心設計と効果的な技術コミュニケーション。",
+			},
+		],
+		personal: [
+			{
+				name: "AIM4 Mod",
+				role: "クリエーター",
+				description:
+					"AIM4 のための改造プロジェクト、静的コンテンツ配信に焦点。",
+				target: "Mod コミュニティ。",
+				problem: "プラットフォーム向けの軽量で更新されたコンテンツの不足。",
+				learned: "Web レイアウトの基礎とコミュニティフィードバック統合。",
+			},
+		],
+		openSource: [
+			{
+				name: "ProjectPruta Contributions",
+				role: "コントリビューター",
+				description:
+					"オープンソースの自治体テンプレートの保守とバグ修正。",
+				target: "オープンソース開発者。",
+				problem: "コアテンプレートの未解決の問題。",
+				learned:
+					"Git ワークフロー、コードレビュー、コミュニティプロジェクトへの貢献。",
+			},
+		],
+	},
+	zh: {
+		production: [
+			{
+				name: "Muanjai (ม่วนใจ๋)",
+				role: "联合创始人兼首席技术官 (Co-Founder & CTO)",
+				description:
+					"为酒店、民宿与个人提供通过 LINE OA 与网页客户端管理许可证、证书及到期提醒的 AI 合规助手。",
+				target:
+					"需要跟踪许可证与到期期限的酒店、民宿及个人。",
+				problem:
+					"许可证到期日分散在纸质文件与表格中，容易遗漏，导致罚款与合规风险。",
+				learned:
+					"基于泰语大模型（Pathumma LLM / ThaiSC）构建 RAG 文档问答，设计到期提醒、PromptPay 实时核验、加固 Webhook 可靠性（去重、回复窗口、运营告警）与安全实践（SESSION_SECRET 强校验、CORS 固定），CI 守护 240+ 测试。",
+				url: "https://line.me/R/ti/p/%40636owbhl",
+			},
+			{
+				name: "Municipality Web Application - Phlu Ta Luang",
+				role: "后端开发者（成员）",
+				description:
+					"用于优化市政运营与服务管理的网页应用。",
+				target: "政府工作人员与当地居民。",
+				problem: "手工文书与分散的数据管理。",
+				learned:
+					"真实的 Web 应用工作流及与市政人员协作。",
+				url: "https://github.com/farpinta/ProjectPruta",
+			},
+		],
+		competition: [
+			{
+				name: "HYLIFE Hackathon 2025",
+				role: "开发者与演示者",
+				description: "面向智慧农业与食品供应链的解决方案。",
+				target: "农民与供应链管理者。",
+				problem:
+					"农产品质量追踪与供应链透明度效率低下。",
+				learned:
+					"快速原型、路演准备与高压协作。",
+			},
+		],
+		academic: [
+			{
+				name: "OOP Lab Project 2026",
+				role: "主程",
+				description:
+					"基于 Java 实现面向对象原则的应用程序。",
+				target: "CS 学生 / 教师。",
+				problem: "需要对 OOP 模式的实践性实现。",
+				learned:
+					"高级 Java 概念、设计模式与整洁代码原则。",
+			},
+			{
+				name: "DII Design - CAMT Open House 2025",
+				role: "演示与 UX 设计师",
+				description:
+					"用于探索开发角色的互动演示。",
+				target: "潜在学生。",
+				problem:
+					"初学者难以理解不同技术角色的复杂性。",
+				learned: "以用户为中心的设计与有效的技术沟通。",
+			},
+		],
+		personal: [
+			{
+				name: "AIM4 Mod",
+				role: "创作者",
+				description:
+					"面向 AIM4 的改造项目，专注于静态内容分发。",
+				target: "Mod 社区。",
+				problem: "平台缺乏轻量且更新的内容。",
+				learned: "网页布局基础与社区反馈整合。",
+			},
+		],
+		openSource: [
+			{
+				name: "ProjectPruta Contributions",
+				role: "贡献者",
+				description:
+					"开源市政模板的维护与缺陷修复。",
+				target: "开源开发者。",
+				problem: "核心模板中未解决的问题。",
+				learned:
+					"Git 工作流、代码评审与社区项目贡献。",
+			},
+		],
+	},
 } satisfies ProfessionalExperienceMap;
 
 export const selfDevelopment = {
@@ -240,6 +442,40 @@ export const selfDevelopment = {
 				name: "สัมมนาการพัฒนาแบบ Agile",
 				institution: "วิทยาลัยศิลปะ สื่อ และเทคโนโลยี",
 			},
+		],
+	},
+	ja: {
+		certifications: [
+			{
+				name: "UX/UI 基礎プログラム 2025",
+				institution: "T.C.C. Technology Co., Ltd.",
+				image: "/tcc-uxui.png",
+			},
+			{ name: "Google データアナリティクス", institution: "Coursera（進行中）" },
+		],
+		workshops: [
+			{
+				name: "モダンWebインフラワークショップ",
+				institution: "Tech Community",
+			},
+			{ name: "アジャイル開発セミナー", institution: "CAMT" },
+		],
+	},
+	zh: {
+		certifications: [
+			{
+				name: "UX/UI 基础项目 2025",
+				institution: "T.C.C. Technology Co., Ltd.",
+				image: "/tcc-uxui.png",
+			},
+			{ name: "Google 数据分析", institution: "Coursera（进行中）" },
+		],
+		workshops: [
+			{
+				name: "现代 Web 基础设施研讨会",
+				institution: "Tech Community",
+			},
+			{ name: "敏捷开发研讨会", institution: "CAMT" },
 		],
 	},
 } satisfies SelfDevelopmentMap;
@@ -279,6 +515,40 @@ export const awards = {
 			},
 		],
 	},
+	ja: {
+		competitions: [
+			{
+				name: "HYLIFE Hackathon 2025",
+				rank: "第3位入賞",
+				theme: "スマート農業",
+				image: "/hylife-hackathon.png",
+			},
+		],
+		honors: [
+			{
+				name: "学業優秀賞",
+				institution: "高校3年",
+					detail: "ソフトウェアプログラムで最高GPA",
+			},
+		],
+	},
+	zh: {
+		competitions: [
+			{
+				name: "HYLIFE Hackathon 2025",
+				rank: "季军",
+				theme: "智慧农业",
+				image: "/hylife-hackathon.png",
+			},
+		],
+		honors: [
+			{
+				name: "学业优秀奖",
+				institution: "高三",
+					detail: "软件项目最高 GPA",
+			},
+		],
+	},
 } satisfies AwardMap;
 
 export const leadership = {
@@ -306,6 +576,32 @@ export const leadership = {
 				"ได้รับการคัดเลือกเป็นตัวแทนของโรงเรียน ในโครงการส่งเสริมประสบการณ์การเรียนรู้ภาษาและวัฒนธรรมต่างประเทศ (ประเทศญี่ปุ่น) ณ Shizuoka Seiko Academy, จังหวัดชิซึโอกะ ประเทศญี่ปุ่น ระหว่างวันที่ 12 - 26 เมษายน ๒๕๖๖",
 			softSkills: ["การสื่อสารต่างวัฒนธรรม", "การปรับตัว", "มนุษยสัมพันธ์"],
 			period: "12 - 26 เมษายน 2566",
+			image: "/IMG_0809.jpg",
+		},
+	],
+	ja: [
+		{
+			title: "学校代表 - 日本文化交流",
+			role: "生徒代表",
+			description:
+				"静岡県の静岡聖光学院における言語・文化交流プログラムの学校代表に選出。",
+			softSkills: [
+				"異文化コミュニケーション",
+				"適応力",
+				"対人スキル",
+			],
+			period: "2023年4月12日 - 26日",
+			image: "/IMG_0809.jpg",
+		},
+	],
+	zh: [
+		{
+			title: "学校代表 - 日本文化交流",
+			role: "学生代表",
+			description:
+				"被选为学校代表参加在日本静冈县静冈圣光学院举行的语言与文化交流项目。",
+			softSkills: ["跨文化沟通", "适应能力", "人际交往"],
+			period: "2023年4月12日 - 26日",
 			image: "/IMG_0809.jpg",
 		},
 	],
@@ -358,6 +654,54 @@ export const experiences = {
 				"บันทึกและดูแลข้อมูลด้วย Excel และ Google Sheets",
 				"ช่วยจัดระเบียบและอัปเดตเอกสารงานธุรการ",
 				"ออกแบบประกาศและเอกสารด้วย Canva",
+			],
+		},
+	],
+	ja: [
+		{
+			title: "Muanjai (ม่วนใจ๋) - 共同創業者兼最高技術責任者 (CTO)",
+			period: "2025年6月 - 現在",
+			points: [
+				"Muanjai を共同創業・開発。ホテル・民泊・個人向けにライセンスや書類の期限を [LINE OA](https://line.me/R/ti/p/%40636owbhl) と [Webクライアント](https://muanjai-ai.up.railway.app/chat/) で追跡する AI コンプライアンス支援ボット。",
+				"NECTEC の Pathumma LLM と ThaiSC スーパーコンピューティング基盤を統合した RAG 文書QAの中核 AI アーキテクチャを設計。",
+				"有効期限リマインダー、書類アップロードとステータス要約、PromptPay リアルタイム決済検証を構築。",
+				"LINE Webhook パイプラインを強化：リトライ冪等性台帳、返信期限ガード、同時実行上限で LINE の 30 秒トークンウィンドウ内に必ず返信。",
+				"重大エラー（例：Webhook エラー率急増）を管理者 LINE アカウントへプッシュするオペレーターアラートを追加、レート制限で通知氾濫を防止。",
+				"クラウドデプロイ、CI/CD 自動化、厳格なセキュリティ基準を含む DevOps プラクティスを確立 — CI は lint、型チェック、240+ テストを強制。",
+			],
+		},
+		{
+			title: "P'CAT HOUSE - パートタイム事務アシスタント",
+			period: "2022年3月 - 現在",
+			points: [
+				"入居者の個人情報や光熱費を含むテナント記録を管理。",
+				"Excel と Google スプレッドシートで支払いデータを記録。",
+				"事務文書を整理。",
+				"Canva で通知をデザイン。",
+			],
+		},
+	],
+	zh: [
+		{
+			title: "Muanjai (ม่วนใจ๋) - 联合创始人兼首席技术官 (CTO)",
+			period: "2025年6月 - 至今",
+			points: [
+				"联合创立并开发 Muanjai — 为酒店、民宿与个人通过 [LINE OA](https://line.me/R/ti/p/%40636owbhl) 与 [网页客户端](https://muanjai-ai.up.railway.app/chat/) 跟踪许可证与到期日的 AI 合规助手。",
+				"设计核心 AI 架构，集成 NECTEC Pathumma LLM 并依托 ThaiSC 超算基础设施实现泰语 RAG 文档问答。",
+				"构建到期提醒、文档上传与状态汇总，以及安全的 PromptPay 实时支付核验。",
+				"加固 LINE Webhook 链路：重试幂等台账、回复窗口截止保护与并发上限，确保在 LINE 30 秒令牌窗口内必达回复。",
+				"新增运营告警，将严重错误（如 Webhook 错误率激增）推送至管理员 LINE 账号，并限流避免告警风暴。",
+				"建立包含云部署、CI/CD 自动化与严格安全标准的 DevOps 实践 — CI 强制 lint、类型检查与 240+ 测试。",
+			],
+		},
+		{
+			title: "P'CAT HOUSE - 兼职行政助理",
+			period: "2022年3月 - 至今",
+			points: [
+				"管理租客记录，包括个人信息与水电费跟踪。",
+				"在 Excel 与 Google Sheets 中记录付款数据。",
+				"整理行政文档。",
+				"使用 Canva 设计通知。",
 			],
 		},
 	],
@@ -418,6 +762,62 @@ export const copy = {
 			academic: "Academic Project",
 			personal: "Personal Project",
 			openSource: "Open Source / Contributions",
+		},
+	},
+	ja: {
+		pageLabel: "履歴書 / CV — CAMT DII, CMU · Sec 1",
+		name: "Thanatphong Tarin",
+		intro:
+			"CAMT チェンマイ大学 DII 2年（GPA 3.40；高校ソフトウェア学科 3.97）、Muanjai 共同創業者兼CTO。Pathumma LLM + ThaiSC によるタイ語 RAG、PromptPay 検証付き LINE OA コンプライアンスボット、フルスタックWeb — OOP/Java 基礎から本番 DevOps（240+ テスト）まで。",
+		sectionProf: "職務経験",
+		sectionSelf: "自己研鑽",
+		sectionAwards: "受賞・成果",
+		sectionLead: "リーダーシップ・ボランティア",
+		sectionEd: "学歴",
+		roleLabel: "役割",
+		targetLabel: "対象 / オーディエンス",
+		problemLabel: "解決した課題",
+		learnedLabel: "学んだこと",
+		certLabel: "認定",
+		workshopLabel: "ワークショップ・セミナー",
+		compLabel: "コンペティション",
+		honorLabel: "表彰",
+		skillLabel: "ソフトスキル",
+		gpaLabel: "GPA",
+		categories: {
+			production: "プロダクション",
+			competition: "コンペティション",
+			academic: "アカデミック",
+			personal: "パーソナル",
+			openSource: "オープンソース",
+		},
+	},
+	zh: {
+		pageLabel: "简历 / CV — CAMT DII, CMU · Sec 1",
+		name: "Thanatphong Tarin",
+		intro:
+			"清迈大学 CAMT DII 大二学生（GPA 3.40；高中软件工程 3.97），Muanjai 联合创始人兼CTO。基于 Pathumma LLM + ThaiSC 构建泰语 RAG，LINE OA 合规机器人含 PromptPay 核验，以及全栈网页平台 — 从 OOP/Java 基础到生产级 DevOps（240+ 测试）。",
+		sectionProf: "专业经历",
+		sectionSelf: "自我提升",
+		sectionAwards: "奖项与成就",
+		sectionLead: "领导力与志愿",
+		sectionEd: "教育背景",
+		roleLabel: "角色",
+		targetLabel: "目标 / 受众",
+		problemLabel: "解决的问题",
+		learnedLabel: "收获",
+		certLabel: "证书",
+		workshopLabel: "研讨会",
+		compLabel: "竞赛",
+		honorLabel: "荣誉奖项",
+		skillLabel: "软技能",
+		gpaLabel: "GPA",
+		categories: {
+			production: "生产项目",
+			competition: "竞赛项目",
+			academic: "学术项目",
+			personal: "个人项目",
+			openSource: "开源贡献",
 		},
 	},
 } satisfies CVCopyMap;

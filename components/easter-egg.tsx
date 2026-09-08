@@ -138,10 +138,10 @@ export function EasterEgg() {
 				<div className="absolute inset-0 flex items-center justify-center">
 					<div className="animate-scale-in border border-primary/50 bg-card px-10 py-8 text-center shadow-xl">
 						<p className="font-mono text-xs uppercase tracking-[0.35em] text-primary">
-							{language === "th" ? "ปลดล็อกความลับ" : "secret unlocked"}
+							{language === "th" ? "ปลดล็อกความลับ" : language === "ja" ? "秘密を解除" : language === "zh" ? "秘密解锁" : "secret unlocked"}
 						</p>
 						<p className="mt-3 font-serif text-3xl font-medium tracking-tight text-primary">
-							{language === "th" ? "โหมดปาร์ตี้!" : "PARTY MODE!"}
+							{language === "th" ? "โหมดปาร์ตี้!" : language === "ja" ? "パーティーモード！" : language === "zh" ? "派对模式！" : "PARTY MODE!"}
 						</p>
 						<p className="mt-2 font-mono text-xs text-muted-foreground">
 							{language === "th"

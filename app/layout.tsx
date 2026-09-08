@@ -5,7 +5,9 @@ import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
-import { LanguageProvider, type SiteLanguage } from "@/components/language-provider";
+import { LanguageProvider } from "@/components/language-provider";
+import { isSupportedLanguage, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/constants/languages";
+import type { SupportedLanguageCode } from "@/constants/languages";
 import { AnimatedBackground } from "@/components/animated-background";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { BackToTop } from "@/components/back-to-top";
@@ -53,6 +55,9 @@ export const metadata: Metadata = {
 		types: {
 			"application/rss+xml": `${SITE_URL}/feed.xml`,
 		},
+		languages: Object.fromEntries(
+			SUPPORTED_LANGUAGES.map((l) => [l.hreflang, `${SITE_URL}${l.code === "en" ? "/" : `/?lang=${l.code}`}`]),
+		),
 	},
 	keywords: [
 		"Software Engineering",
@@ -123,7 +128,9 @@ export default async function RootLayout({
 }>) {
 	const cookieStore = await cookies();
 	const cookieLanguage = cookieStore.get("site-language")?.value;
-	const initialLanguage: SiteLanguage = cookieLanguage === "th" ? "th" : "en";
+	const initialLanguage: SupportedLanguageCode = isSupportedLanguage(cookieLanguage)
+		? (cookieLanguage as SupportedLanguageCode)
+		: DEFAULT_LANGUAGE;
 
 	return (
 		<html
