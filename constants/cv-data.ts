@@ -150,6 +150,17 @@ export const professionalExperience = {
 		],
 		openSource: [
 			{
+				name: "AutoOS",
+				role: "Contributor",
+				description:
+					"Native AOT WinUI 3 application that automates migrating to a new Windows installation on a separate partition — a cleaner, faster system tuned for gaming and productivity.",
+				target: "Windows power users and gamers.",
+				problem: "Manual Windows reinstalls are slow and leave behind bloat.",
+				learned:
+					"WinUI 3, Native AOT publishing, partition management, and upstream open-source collaboration.",
+				url: "https://github.com/WinTuner/AutoOS",
+			},
+			{
 				name: "ProjectPruta Contributions",
 				role: "Contributor",
 				description:
@@ -227,6 +238,17 @@ export const professionalExperience = {
 			},
 		],
 		openSource: [
+			{
+				name: "AutoOS",
+				role: "ผู้ร่วมพัฒนา",
+				description:
+					"แอปพลิเคชัน WinUI 3 แบบ Native AOT ที่ช่วยย้ายการติดตั้ง Windows ใหม่ไปยังพาร์ติชันแยกอัตโนมัติ — ได้ระบบที่สะอาดและเร็วขึ้น เหมาะสำหรับเกมและงานทั่วไป",
+				target: "ผู้ใช้ Windows ขั้นสูงและเกมเมอร์",
+				problem: "การลง Windows ใหม่ด้วยตนเองช้าและทิ้งโปรแกรมไม่จำเป็นไว้",
+				learned:
+					"WinUI 3, การเผยแพร่แบบ Native AOT, การจัดการพาร์ติชัน และการร่วมงานกับโอเพนซอร์สต้นน้ำ",
+				url: "https://github.com/WinTuner/AutoOS",
+			},
 			{
 				name: "การช่วยพัฒนา ProjectPruta",
 				role: "ผู้ร่วมพัฒนา",
@@ -310,6 +332,17 @@ export const professionalExperience = {
 			},
 		],
 		openSource: [
+			{
+				name: "AutoOS",
+				role: "コントリビューター",
+				description:
+					"新しい Windows インストールへの移行を別パーティションに自動化する Native AOT WinUI 3 アプリ — ゲームと生産性向けにクリーンで高速なシステムを構築。",
+				target: "Windows パワーユーザーとゲーマー。",
+				problem: "手動の再インストールは遅く、ブロートウェアが残る。",
+				learned:
+					"WinUI 3、Native AOT 公開、パーティション管理、上流オープンソースとの協働。",
+				url: "https://github.com/WinTuner/AutoOS",
+			},
 			{
 				name: "ProjectPruta Contributions",
 				role: "コントリビューター",
@@ -395,6 +428,17 @@ export const professionalExperience = {
 			},
 		],
 		openSource: [
+			{
+				name: "AutoOS",
+				role: "贡献者",
+				description:
+					"将全新 Windows 安装自动迁移到独立分区的 Native AOT WinUI 3 应用 — 打造为游戏与生产力优化的干净高速系统。",
+				target: "Windows 高级用户与玩家。",
+				problem: "手动重装缓慢且残留臃肿软件。",
+				learned:
+					"WinUI 3、Native AOT 发布、分区管理与上游开源协作。",
+				url: "https://github.com/WinTuner/AutoOS",
+			},
 			{
 				name: "ProjectPruta Contributions",
 				role: "贡献者",
