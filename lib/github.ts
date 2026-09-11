@@ -83,6 +83,9 @@ const globalForGithub = globalThis as unknown as {
 
 const CACHE_DURATION = 120 * 1000; // 2 minutes in-memory cache
 
+// Owner's fork of upstream tinodin/AutoOS — single source for all AutoOS links.
+const AUTOOS_URL = "https://github.com/WinTuner/AutoOS";
+
 const fallbackProjects: Project[] = [
 	{
 		id: 1305752375,
@@ -95,7 +98,7 @@ const fallbackProjects: Project[] = [
 		year: "2026",
 		stars: 0,
 		forks: 0,
-		url: "https://github.com/tinodin/AutoOS",
+		url: AUTOOS_URL,
 		featured: true,
 		highlight: true,
 	},
@@ -222,7 +225,7 @@ const fallbackWipItems: WipItem[] = [
 			"AutoOS is a Native AOT WinUI 3 application that automates migrating to a new Windows installation on a separate partition. With minimal user effort, it seamlessly configures a cleaner and faster system optimized for gaming performance and productivity while preserving all system compatibility.",
 		progress: 65,
 		lastUpdated: "2026-07-21T07:40:26Z",
-		url: "https://github.com/tinodin/AutoOS",
+		url: AUTOOS_URL,
 		branch: "master",
 		commits: 42,
 	},
@@ -410,11 +413,11 @@ export async function getGithubRepos(): Promise<Project[]> {
 				year,
 				stars: repo.stargazers_count,
 				forks: repo.forks_count,
-				url:
-					repo.name === "AutoOS"
-						? "https://github.com/tinodin/AutoOS"
-						: repo.html_url,
-				homepage: repo.homepage || undefined,
+			url:
+				repo.name === "AutoOS"
+					? AUTOOS_URL
+					: repo.html_url,
+			homepage: repo.homepage || undefined,
 				featured,
 				highlight,
 			};
@@ -546,11 +549,11 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
 				description,
 				progress,
 				lastUpdated: repo.pushed_at, // ISO timestamp
-				url:
-					repo.name === "AutoOS"
-						? "https://github.com/tinodin/AutoOS"
-						: repo.html_url,
-				branch,
+			url:
+				repo.name === "AutoOS"
+					? AUTOOS_URL
+					: repo.html_url,
+			branch,
 				commits,
 			};
 		});
