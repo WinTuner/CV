@@ -99,7 +99,7 @@ const fallbackProjects: Project[] = [
 		title: "AutoOS",
 		description:
 			"AutoOS is a Native AOT WinUI 3 application that automates migrating to a new Windows installation on a separate partition. With minimal user effort, it seamlessly configures a cleaner and faster system optimized for gaming performance and productivity while preserving all system compatibility.",
-		tags: ["C#", "WinUI 3", "Windows"],
+		tags: ["C#", ".NET 10", "WinUI 3", "Windows"],
 		status: "in-progress",
 		category: "openSource",
 		year: "2026",
@@ -171,7 +171,7 @@ const fallbackProjects: Project[] = [
 		title: "sample-boot-3tier",
 		description:
 			"Day 4 starting skeleton for Backend Programming (MFU): the library app split into three tiers, ready for the DTO + MapStruct session.",
-		tags: ["Java", "Spring Boot", "Academic"],
+		tags: ["Java", "Spring Boot", "MapStruct", "Academic"],
 		status: "in-progress",
 		category: "academic",
 		year: "2026",
@@ -185,7 +185,7 @@ const fallbackProjects: Project[] = [
 		title: "sample-boot-microservice",
 		description:
 			"Backend Programming (MFU) microservice session: the library app split into two programs that talk over HTTP.",
-		tags: ["Java", "Spring Boot", "Microservices"],
+		tags: ["Java", "Spring Boot", "Spring Cloud", "Microservices"],
 		status: "in-progress",
 		category: "academic",
 		year: "2026",
