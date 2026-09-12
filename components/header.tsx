@@ -9,6 +9,7 @@ import { ThemeToggle } from "./theme-toggle";
 import { LanguageToggle } from "./language-toggle";
 import { useLanguage } from "./language-provider";
 import Link from "next/link";
+import { SOCIAL_LINKS } from "@/lib/site";
 
 const CommandPalette = dynamic(
 	() => import("./command-palette").then((m) => m.CommandPalette),
@@ -24,10 +25,10 @@ const navItems = [
 ];
 
 const socialLinks = [
-	{ label: "GitHub", href: "https://github.com/WinTuner", icon: GithubIcon },
+	{ label: "GitHub", href: SOCIAL_LINKS.github, icon: GithubIcon },
 	{
 		label: "LinkedIn",
-		href: "https://www.linkedin.com/in/thanatphong-tarin-1b6619385/",
+		href: SOCIAL_LINKS.linkedin,
 		icon: LinkedinIcon,
 	},
 ];
