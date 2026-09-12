@@ -12,6 +12,7 @@ import {
 } from "@/lib/notion-blog";
 import { Suspense } from "react";
 import { SITE_URL } from "@/lib/site"
+import { toSafeJsonLd } from "@/lib/security"
 
 export const revalidate = 3600
 
@@ -95,7 +96,7 @@ return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{ __html: toSafeJsonLd(structuredData) }}
       />
       <div id="main">
         {/* 2. ครอบด้วย Suspense ตรงนี้ครับ */}

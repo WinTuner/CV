@@ -5,6 +5,7 @@ import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
 import { Mail, MessageSquare, CheckCircle2, ArrowRight } from "lucide-react";
+import { CONTACT_EMAIL, CONTACT_MAILTO, SOCIAL_LINKS } from "@/lib/site";
 
 export function ContactSection() {
 	const { language } = useLanguage();
@@ -29,7 +30,7 @@ export function ContactSection() {
 			send: "Send Message",
 			sending: "Sending...",
 			sent: "Message Sent",
-			footer: "Direct: Thanatphong2719@gmail.com",
+			footer: `Direct: ${CONTACT_EMAIL}`,
 			directEmail: "Direct Email",
 			socialHub: "Social Hub",
 			sendAnother: "Send another message",
@@ -48,7 +49,7 @@ export function ContactSection() {
 			send: "ส่งข้อความ",
 			sending: "กำลังส่ง...",
 			sent: "ส่งข้อความสำเร็จ",
-			footer: "ติดต่อโดยตรง: Thanatphong2719@gmail.com",
+			footer: `ติดต่อโดยตรง: ${CONTACT_EMAIL}`,
 			directEmail: "อีเมลโดยตรง",
 			socialHub: "โซเชียลมีเดีย",
 			sendAnother: "ส่งข้อความอีกครั้ง",
@@ -66,7 +67,7 @@ export function ContactSection() {
 			send: "メッセージを送信",
 			sending: "送信中...",
 			sent: "送信完了",
-			footer: "Direct: Thanatphong2719@gmail.com",
+			footer: `Direct: ${CONTACT_EMAIL}`,
 			directEmail: "メール",
 			socialHub: "ソーシャル",
 			sendAnother: "別のメッセージを送る",
@@ -85,7 +86,7 @@ export function ContactSection() {
 			send: "发送消息",
 			sending: "发送中...",
 			sent: "已发送",
-			footer: "直达: Thanatphong2719@gmail.com",
+			footer: `直达: ${CONTACT_EMAIL}`,
 			directEmail: "邮箱",
 			socialHub: "社交",
 			sendAnother: "再发一条",
@@ -150,7 +151,7 @@ export function ContactSection() {
 
 						<div className={cn("space-y-5 opacity-0", isInView && "animate-fade-in-up stagger-2")}>
 							<a
-								href="mailto:Thanatphong2719@gmail.com"
+								href={CONTACT_MAILTO}
 								className="group flex items-center gap-4"
 							>
 								<div className="flex h-11 w-11 items-center justify-center border border-border/70 bg-card transition-colors duration-300 group-hover:border-primary/50">
@@ -160,13 +161,13 @@ export function ContactSection() {
 									<p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
 										{t.directEmail}
 									</p>
-									<p className="text-sm font-medium transition-colors group-hover:text-primary">
-										Thanatphong2719@gmail.com
-									</p>
+								<p className="text-sm font-medium transition-colors group-hover:text-primary">
+									{CONTACT_EMAIL}
+								</p>
 								</div>
 							</a>
-							<a
-								href="https://github.com/WinTuner"
+						<a
+							href={SOCIAL_LINKS.github}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="group flex items-center gap-4"

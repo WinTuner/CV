@@ -43,4 +43,13 @@ describe("renderTextWithLinks", () => {
 	it("renders an empty string", () => {
 		expect(renderTextWithLinks("")).toBe("");
 	});
+
+	it("does not render javascript: or data: URLs as anchors", () => {
+		const { container } = render(
+			<>{renderTextWithLinks("[x](javascript:alert(1)) and [y](data:text/html,<h1>hi</h1>)")}</>,
+		);
+		expect(container.querySelectorAll("a")).toHaveLength(0);
+		expect(container.textContent).toContain("x");
+		expect(container.textContent).toContain("y");
+	});
 });

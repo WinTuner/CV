@@ -68,6 +68,21 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // Baseline hardening headers for every route. No CSP here on
+        // purpose: inline scripts + Vercel Analytics need one crafted
+        // separately; these headers are breakage-free.
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
     ]
   },
 }
