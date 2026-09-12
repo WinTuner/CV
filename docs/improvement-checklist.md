@@ -30,12 +30,13 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
 
 ## 🔴 High Value (short term)
 
-1. **Case-study content for Muanjai** — a dedicated deep-dive page (or blog
-   post) covering the RAG-on-Thai-LLM work, PromptPay verification, and
-   webhook hardening. Strongest recruiting asset on the site.
-2. **Recruiter-facing project numbers** — surface concrete metrics
-   (240+ CI tests, tech stack, "why") in `/projects` cards rather than
-   GitHub auto-descriptions only.
+1. **Case-study content for Muanjai** — ✅ `/case-study/muanjai` (EN+TH,
+    JA/ZH fall back to EN via `pickTranslation`): RAG-on-Thai-LLM work,
+    PromptPay verification, webhook hardening, 240+ tests. Linked from
+    home highlights, command palette, and sitemap.
+2. **Recruiter-facing project numbers** — ✅ status pills on home +
+    `/projects` cards; concrete Muanjai metrics (240+ tests, 30s SLA,
+    idempotency, 24/7 reminders) on the case-study page.
 3. **Vercel Speed Insights** — ✅ installed (`@vercel/speed-insights/next` in
    `app/layout.tsx`) to collect real-user Core Web Vitals alongside Analytics.
 4. **Lighthouse CI** — ✅ `treosh/lighthouse-ci-action` in CI with
@@ -81,7 +82,7 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
 | SEO baseline | ✅ done |
 | Testing | unit ✅ / E2E ⬜ |
 | Docs | ✅ rewritten Aug 2026 |
-| Content (case studies) | ⬜ next |
+| Content (case studies) | ✅ done (`/case-study/muanjai`) |
 | Analytics | page views ✅ / speed ✅ |
 | Lighthouse CI + budgets | ✅ done |
 | Bundle analysis + lazy palette | ✅ done |

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
+import { SOCIAL_LINKS } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const STATS = {
@@ -10,12 +11,12 @@ const STATS = {
 		{
 			value: "Co-Founder & CTO",
 			label: "Muanjai — AI compliance helper bot (LINE OA)",
-			href: "/introduction",
+			href: "/case-study/muanjai",
 		},
 		{
 			value: "240+ tests",
 			label: "Automated tests guarding the CI pipeline",
-			href: "https://github.com/WinTuner",
+			href: SOCIAL_LINKS.github,
 		},
 		{
 			value: "GPA 3.97",
@@ -32,12 +33,12 @@ const STATS = {
 		{
 			value: "Co-Founder & CTO",
 			label: "Muanjai — บอทช่วยดูแล compliance ด้วย AI (LINE OA)",
-			href: "/introduction",
+			href: "/case-study/muanjai",
 		},
 		{
 			value: "240+ เทสต์",
 			label: "ชุดทดสอบอัตโนมัติใน CI Pipeline",
-			href: "https://github.com/WinTuner",
+			href: SOCIAL_LINKS.github,
 		},
 		{
 			value: "GPA 3.97",
@@ -54,12 +55,12 @@ const STATS = {
 		{
 			value: "Co-Founder & CTO",
 			label: "Muanjai — AI compliance helper bot (LINE OA)",
-			href: "/introduction",
+			href: "/case-study/muanjai",
 		},
 		{
 			value: "240+ tests",
 			label: "Automated tests guarding the CI pipeline",
-			href: "https://github.com/WinTuner",
+			href: SOCIAL_LINKS.github,
 		},
 		{
 			value: "GPA 3.97",
@@ -76,12 +77,12 @@ const STATS = {
 		{
 			value: "Co-Founder & CTO",
 			label: "Muanjai — AI compliance helper bot (LINE OA)",
-			href: "/introduction",
+			href: "/case-study/muanjai",
 		},
 		{
 			value: "240+ tests",
 			label: "Automated tests guarding the CI pipeline",
-			href: "https://github.com/WinTuner",
+			href: SOCIAL_LINKS.github,
 		},
 		{
 			value: "GPA 3.97",
