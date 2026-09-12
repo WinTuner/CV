@@ -1,3 +1,5 @@
+import { AUTHOR_AVATAR } from "./site"
+
 export interface BlogPost {
   id: number
   slug: string
@@ -85,7 +87,7 @@ MCP provides the structure needed to build production-grade RAG applications. As
     tags: ["llm", "rag", "mcp"],
     author: {
       name: "Thanatphong Tarin",
-      avatar: "/developer-portrait-v3.png",
+      avatar: AUTHOR_AVATAR,
       role: "Software Engineer",
     },
     featured: false,
@@ -182,7 +184,7 @@ The migration takes effort but the improved DX and performance are worth it. Sta
     tags: ["nextjs", "tailwind", "react"],
     author: {
       name: "Thanatphong Tarin",
-      avatar: "/developer-portrait-v3.png",
+      avatar: AUTHOR_AVATAR,
       role: "Software Engineer",
     },
     featured: true,
@@ -270,7 +272,7 @@ You now have a private, scalable LLM API. Consider adding rate limiting, authent
     tags: ["llm", "python", "fastapi"],
     author: {
       name: "Thanatphong Tarin",
-      avatar: "/developer-portrait-v3.png",
+      avatar: AUTHOR_AVATAR,
       role: "Software Engineer",
     },
     featured: false,
@@ -353,7 +355,7 @@ WASM isn't a silver bullet. The overhead of crossing the JS-WASM boundary can ne
     tags: ["rust", "wasm", "performance"],
     author: {
       name: "Thanatphong Tarin",
-      avatar: "/developer-portrait-v3.png",
+      avatar: AUTHOR_AVATAR,
       role: "Software Engineer",
     },
     featured: false,
@@ -442,7 +444,7 @@ Design tokens bridge the gap between design and development. Invest in the found
     tags: ["design-systems", "css", "tokens"],
     author: {
       name: "Thanatphong Tarin",
-      avatar: "/developer-portrait-v3.png",
+      avatar: AUTHOR_AVATAR,
       role: "Software Engineer",
     },
     featured: false,
@@ -692,7 +694,7 @@ Start with a simple launch implementation, add grade passback when needed, and e
     tags: ["lti", "education", "integration", "oauth", "jwt"],
     author: {
       name: "Thanatphong Tarin",
-      avatar: "/developer-portrait-v3.png",
+      avatar: AUTHOR_AVATAR,
       role: "Software Engineer",
     },
     featured: true,

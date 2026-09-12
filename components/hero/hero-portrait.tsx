@@ -4,10 +4,11 @@ import Image from "next/image";
 import { useState } from "react";
 import { useLanguage } from "../language-provider";
 import { heroCopy } from "@/lib/hero-utils";
+import { AUTHOR_AVATAR } from "@/lib/site";
 
 export function HeroPortrait() {
 	const { language } = useLanguage();
-	const [portraitSrc, setPortraitSrc] = useState("/developer-portrait-v3.png");
+	const [portraitSrc, setPortraitSrc] = useState(AUTHOR_AVATAR);
 	const t = heroCopy[language];
 
 	return (

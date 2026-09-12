@@ -8,7 +8,6 @@ import {
 	ExternalLink,
 	GraduationCap,
 	Mail,
-	Phone,
 	Trophy,
 	BookOpen,
 	Award,
@@ -28,6 +27,7 @@ import {
 } from "@/constants/cv-data";
 import { useLanguage } from "@/components/language-provider";
 import { renderTextWithLinks } from "@/lib/render-text-with-links";
+import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/site";
 import { DownloadResumeButton } from "./download-resume-button";
 
 export function IntroductionContent() {
@@ -74,22 +74,16 @@ export function IntroductionContent() {
 							</p>
 						</div>
 
-						<div className="grid gap-3 sm:grid-cols-3">
+						<div className="grid gap-3 sm:grid-cols-2">
 							<a
-								href="mailto:Thanatphong2719@gmail.com"
+								href={CONTACT_MAILTO}
 								className="group flex items-center gap-3 rounded-lg border border-border/50 bg-card/50 px-4 py-3 transition-all duration-300 hover:border-primary/50 hover:bg-card"
 							>
 								<Mail className="h-4 w-4 text-primary" />
 								<span className="text-sm text-muted-foreground group-hover:text-foreground truncate">
-									Thanatphong2719@gmail.com
+									{CONTACT_EMAIL}
 								</span>
 							</a>
-							<div className="flex items-center gap-3 rounded-lg border border-border/50 bg-card/50 px-4 py-3">
-								<Phone className="h-4 w-4 text-primary" />
-								<span className="text-sm text-muted-foreground">
-									
-								</span>
-							</div>
 							<div className="flex gap-3" data-pdf-ignore>
 								<button
 									onClick={() => window.print()}
