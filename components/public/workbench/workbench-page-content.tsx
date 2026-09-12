@@ -29,7 +29,7 @@ export function WorkbenchPageContent({
 }) {
   const { language } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
-  const liveActivity = useLiveGithubActivity(recentActivity);
+  const { activity: liveActivity, updatedAt, isLive } = useLiveGithubActivity(recentActivity);
 
   const t = {
     en: {
@@ -42,6 +42,7 @@ export function WorkbenchPageContent({
       active: "Active",
       avgProgress: "Avg Progress",
       recentActivity: "Recent Activity",
+      live: "live",
     },
     th: {
       kicker: "กำลังพัฒนา",
@@ -52,6 +53,7 @@ export function WorkbenchPageContent({
       active: "กำลังทำ",
       avgProgress: "ความคืบหน้าเฉลี่ย",
       recentActivity: "กิจกรรมล่าสุด",
+      live: "สด",
     },
 	ja: {
       kicker: "In Progress",
@@ -63,6 +65,7 @@ export function WorkbenchPageContent({
       active: "Active",
       avgProgress: "Avg Progress",
       recentActivity: "Recent Activity",
+      live: "live",
     },
 	zh: {
       kicker: "In Progress",
@@ -74,6 +77,7 @@ export function WorkbenchPageContent({
       active: "Active",
       avgProgress: "Avg Progress",
       recentActivity: "Recent Activity",
+      live: "live",
     },
   }[language];
 
@@ -181,6 +185,20 @@ export function WorkbenchPageContent({
               <h3 className="mb-5 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-primary">
                 <Activity className="h-3.5 w-3.5" />
                 {t.recentActivity}
+                <span
+                  className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[10px] normal-case tracking-normal"
+                  role="status"
+                  aria-live="off"
+                  title={`Updated ${new Date(updatedAt).toISOString()}`}
+                >
+                  <span className="relative flex h-1.5 w-1.5">
+                    {isLive && (
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+                    )}
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+                  </span>
+                  {t.live} · {formatRelativeTime(new Date(updatedAt).toISOString(), language)}
+                </span>
               </h3>
               <div className="space-y-4">
                 {liveActivity.map((activity, index) => (
