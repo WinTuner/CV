@@ -1,3 +1,5 @@
+import { AUTHOR_AVATAR, AUTHOR_NAME, MEDIUM_FEED_URL as FEED_URL } from "./site"
+
 interface MediumPost {
   id: number
   slug: string
@@ -17,8 +19,6 @@ interface MediumPost {
   }
   image?: string
 }
-
-const FEED_URL = "https://medium.com/feed/@thanatphong2719"
 
 export function extractFirstImage(content: string): string {
   const images = content.match(/<img[^>]+src=["']([^"']+)["']/gi) ?? []
@@ -114,8 +114,8 @@ async function getMediumPosts(limit = 12): Promise<MediumPost[]> {
       color: "from-primary/20 to-accent/20",
       externalUrl: link,
       author: {
-        name: "Thanatphong Tarin",
-        avatar: "/developer-portrait-v3.png",
+        name: AUTHOR_NAME,
+        avatar: AUTHOR_AVATAR,
         role: "Writer",
       },
       image: extractFirstImage(content),

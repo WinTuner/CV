@@ -1,5 +1,6 @@
 import type { ActivityItem } from "./github";
 import type { SupportedLanguageCode } from "@/constants/languages";
+import { CONTACT_EMAIL } from "./site";
 
 export const roles: Record<SupportedLanguageCode, readonly string[]> = {
 	en: [
@@ -44,7 +45,7 @@ export const heroCopy: Record<
 		resume: "Resume",
 		scroll: "scroll",
 		location: "Chiang Mai, Thailand",
-		email: "Thanatphong2719@gmail.com",
+		email: CONTACT_EMAIL,
 	},
 	th: {
 		kicker: "ธณัฐพงค์ ทะรินทร์",
@@ -54,7 +55,7 @@ export const heroCopy: Record<
 		resume: "เรซูเม่",
 		scroll: "เลื่อนลง",
 		location: "เชียงใหม่ ประเทศไทย",
-		email: "Thanatphong2719@gmail.com",
+		email: CONTACT_EMAIL,
 	},
 	ja: {
 		kicker: "Thanatphong Tarin",
@@ -64,7 +65,7 @@ export const heroCopy: Record<
 		resume: "履歴書",
 		scroll: "スクロール",
 		location: "タイ・チェンマイ",
-		email: "Thanatphong2719@gmail.com",
+		email: CONTACT_EMAIL,
 	},
 	zh: {
 		kicker: "Thanatphong Tarin",
@@ -74,7 +75,7 @@ export const heroCopy: Record<
 		resume: "简历",
 		scroll: "滚动",
 		location: "泰国·清迈",
-		email: "Thanatphong2719@gmail.com",
+		email: CONTACT_EMAIL,
 	},
 } as const;
 

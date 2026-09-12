@@ -46,6 +46,9 @@ scratch/
 *.swo
 *~
 
+# --- Agent / local tooling (never commit) ---
+.serena/
+
 # --- OS ---
 Thumbs.db
 Desktop.ini
@@ -68,4 +71,3 @@ lighthouse-reports/
 # --- Portfolio source (ห้ามอัพ docx) ---
 *.docx
 *.doc
-redacted_word.docx

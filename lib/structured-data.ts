@@ -1,5 +1,5 @@
 import type { BlogPost } from './blog-data'
-import { SITE_URL } from './site'
+import { AUTHOR_AVATAR, AUTHOR_NAME, CONTACT_MAILTO, GITHUB_USERNAME, SITE_URL, SOCIAL_LINKS } from './site'
 
 export function generateBlogPostStructuredData(post: BlogPost, siteUrl: string, pageUrl?: string) {
   const resolvedPageUrl = pageUrl ?? `${siteUrl}/blog/${post.slug}`
@@ -16,11 +16,11 @@ export function generateBlogPostStructuredData(post: BlogPost, siteUrl: string, 
     author: {
       '@type': 'Person',
       name: post.author.name,
-      url: 'https://github.com/WinTuner',
+      url: SOCIAL_LINKS.github,
     },
     publisher: {
       '@type': 'Person',
-      name: 'Thanatphong Tarin',
+      name: AUTHOR_NAME,
       url: SITE_URL,
     },
     mainEntityOfPage: {
@@ -37,13 +37,13 @@ export function generateWebsiteStructuredData(url: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'WinTuner',
-    description: "A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by Thanatphong Tarin.",
+    name: GITHUB_USERNAME,
+    description: `A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by ${AUTHOR_NAME}.`,
     url: url,
     author: {
       '@type': 'Person',
-      name: 'Thanatphong Tarin',
-      url: 'https://github.com/WinTuner',
+      name: AUTHOR_NAME,
+      url: SOCIAL_LINKS.github,
     },
     potentialAction: {
       '@type': 'SearchAction',
@@ -60,25 +60,25 @@ export function generatePersonStructuredData() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: 'Thanatphong Tarin',
+    name: AUTHOR_NAME,
     alternateName: 'ธณัฐพงค์ ทะรินทร์',
     url: SITE_URL,
-    image: `${SITE_URL}/developer-portrait-v3.png`,
+    image: `${SITE_URL}${AUTHOR_AVATAR}`,
     sameAs: [
-      'https://github.com/WinTuner',
-      'https://x.com/nut89189886',
-      'https://www.linkedin.com/in/thanatphong-tarin-1b6619385/',
+      SOCIAL_LINKS.github,
+      SOCIAL_LINKS.x,
+      SOCIAL_LINKS.linkedin,
     ],
     jobTitle: 'Co-Founder & CTO',
     worksFor: [
       {
         '@type': 'Organization',
         name: 'Muanjai',
-        url: 'https://line.me/R/ti/p/%40636owbhl',
+        url: SOCIAL_LINKS.lineOa,
       },
       {
         '@type': 'Organization',
-        name: 'WinTuner',
+        name: GITHUB_USERNAME,
       },
     ],
     alumniOf: [
@@ -98,6 +98,6 @@ export function generatePersonStructuredData() {
       addressLocality: 'Chiang Mai',
       addressCountry: 'TH',
     },
-    email: 'mailto:Thanatphong2719@gmail.com',
+    email: CONTACT_MAILTO,
   }
 }

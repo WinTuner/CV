@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { checkRateLimit, getClientKey } from "@/lib/security";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -28,6 +29,14 @@ function isSafeWebhookUrl(raw: string): boolean {
  * Returns 501 when neither backend is configured.
  */
 export async function POST(request: Request) {
+	const { allowed, retryAfterSec } = checkRateLimit(getClientKey(request), 5);
+	if (!allowed) {
+		return NextResponse.json(
+			{ error: "Too many requests. Please try again later." },
+			{ status: 429, headers: { "Retry-After": String(retryAfterSec) } },
+		);
+	}
+
 	let body: { email?: string };
 	try {
 		body = await request.json();

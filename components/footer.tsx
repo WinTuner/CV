@@ -5,24 +5,25 @@ import { GithubIcon, LinkedinIcon } from "./social-icons";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
+import { CONTACT_EMAIL, CONTACT_MAILTO, GITHUB_USERNAME, SOCIAL_LINKS } from "@/lib/site";
 
 const socialLinks = [
 	{
 		label: "GitHub",
-		href: "https://github.com/WinTuner",
-		handle: "@WinTuner",
+		href: SOCIAL_LINKS.github,
+		handle: `@${GITHUB_USERNAME}`,
 		icon: GithubIcon,
 	},
 	{
 		label: "LinkedIn",
-		href: "https://www.linkedin.com/in/thanatphong-tarin-1b6619385/",
+		href: SOCIAL_LINKS.linkedin,
 		handle: "/in/thanatphong-tarin-1b6619385",
 		icon: LinkedinIcon,
 	},
 	{
 		label: "Email",
-		href: "mailto:Thanatphong2719@gmail.com",
-		handle: "Thanatphong2719@gmail.com",
+		href: CONTACT_MAILTO,
+		handle: CONTACT_EMAIL,
 		icon: Mail,
 	},
 ];
@@ -111,7 +112,7 @@ export function Footer() {
 						</p>
 
 						<a
-							href="mailto:Thanatphong2719@gmail.com"
+							href={CONTACT_MAILTO}
 							className="btn-cyan-shadow group inline-flex w-full items-center justify-center gap-2.5 px-8 py-4 text-sm font-medium text-primary-foreground sm:w-auto"
 						>
 							{t.sendSignal}
@@ -156,7 +157,7 @@ export function Footer() {
 							{t.forged} <span className="text-primary">♥</span> {t.code}
 						</p>
 						<p className="font-mono text-xs text-muted-foreground">
-							© {new Date().getFullYear()} WinTuner — {t.rights}
+							© {new Date().getFullYear()} {GITHUB_USERNAME} — {t.rights}
 						</p>
 					</div>
 					<p className="text-center font-mono text-[11px] text-muted-foreground/70">

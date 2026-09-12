@@ -18,6 +18,7 @@ import {
 	generateWebsiteStructuredData,
 	generatePersonStructuredData,
 } from "@/lib/structured-data";
+import { toSafeJsonLd } from "@/lib/security";
 import { SITE_URL } from "@/lib/site";
 
 /*
@@ -115,13 +116,13 @@ export default async function Home() {
 			<script
 				type="application/ld+json"
 				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(websiteStructuredData),
+					__html: toSafeJsonLd(websiteStructuredData),
 				}}
 			/>
 			<script
 				type="application/ld+json"
 				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(personStructuredData),
+					__html: toSafeJsonLd(personStructuredData),
 				}}
 			/>
 			<main id="main" className="relative min-h-screen">

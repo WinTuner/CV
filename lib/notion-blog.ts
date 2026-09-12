@@ -1,4 +1,5 @@
 import { blogPosts, localizePost, type BlogLanguage, type BlogPost, getPostBySlug } from "@/lib/blog-data"
+import { AUTHOR_AVATAR, AUTHOR_NAME } from "@/lib/site"
 
 type NotionProperty = {
   type: string
@@ -194,8 +195,8 @@ function mapNotionPageToPost(page: NotionPage): Promise<BlogPost> | BlogPost {
   const tags = getMultiSelectValues(page.properties.Tags).length > 0 ? getMultiSelectValues(page.properties.Tags) : fallbackPost?.tags || []
   const featured = getBooleanValue(page.properties.Featured) || fallbackPost?.featured || false
   const color = getTextValue(page.properties.Color) || fallbackPost?.color || "from-primary/20 to-accent/20"
-  const authorName = getTextValue(page.properties["Author Name"]) || getTextValue(page.properties.Author) || fallbackPost?.author.name || "Thanatphong Tarin"
-  const authorAvatar = getTextValue(page.properties.Avatar) || fallbackPost?.author.avatar || "/developer-portrait-v3.png"
+  const authorName = getTextValue(page.properties["Author Name"]) || getTextValue(page.properties.Author) || fallbackPost?.author.name || AUTHOR_NAME
+  const authorAvatar = getTextValue(page.properties.Avatar) || fallbackPost?.author.avatar || AUTHOR_AVATAR
   const authorRole = getTextValue(page.properties.Role) || fallbackPost?.author.role || "Writer"
 
   const contentFromProperty = getTextValue(page.properties.Content)

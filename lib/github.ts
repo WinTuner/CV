@@ -1,3 +1,11 @@
+import {
+	GITHUB_API_BASE,
+	GITHUB_GRAPHQL_URL,
+	GITHUB_USERNAME,
+	GITHUB_USER_AGENT,
+	githubRepoUrl,
+} from "./site";
+
 export interface Project {
 	id: number;
 	title: string;
@@ -72,8 +80,7 @@ interface GitHubPullRequest {
 	merged: boolean;
 }
 
-const GITHUB_USERNAME = "WinTuner";
-const API_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100`;
+const API_URL = `${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100`;
 
 const globalForGithub = globalThis as unknown as {
 	githubReposCache?: { data: Project[]; timestamp: number };
@@ -84,7 +91,7 @@ const globalForGithub = globalThis as unknown as {
 const CACHE_DURATION = 120 * 1000; // 2 minutes in-memory cache
 
 // Owner's fork of upstream tinodin/AutoOS — single source for all AutoOS links.
-const AUTOOS_URL = "https://github.com/WinTuner/AutoOS";
+const AUTOOS_URL = githubRepoUrl("AutoOS");
 
 const fallbackProjects: Project[] = [
 	{
@@ -113,7 +120,7 @@ const fallbackProjects: Project[] = [
 		year: "2026",
 		stars: 0,
 		forks: 0,
-		url: "https://github.com/WinTuner/DotDoctor",
+		url: githubRepoUrl("DotDoctor"),
 		featured: true,
 		highlight: false,
 	},
@@ -128,7 +135,7 @@ const fallbackProjects: Project[] = [
 		year: "2026",
 		stars: 0,
 		forks: 0,
-		url: "https://github.com/WinTuner/aim4-mod",
+		url: githubRepoUrl("aim4-mod"),
 		featured: true,
 	},
 	{
@@ -142,7 +149,7 @@ const fallbackProjects: Project[] = [
 		year: "2026",
 		stars: 0,
 		forks: 0,
-		url: "https://github.com/WinTuner/AEGIS-1-Terminal-Twine-game",
+		url: githubRepoUrl("AEGIS-1-Terminal-Twine-game"),
 		featured: false,
 	},
 	{
@@ -156,7 +163,7 @@ const fallbackProjects: Project[] = [
 		year: "2026",
 		stars: 0,
 		forks: 0,
-		url: "https://github.com/WinTuner/linux-vs-windows-latency",
+		url: githubRepoUrl("linux-vs-windows-latency"),
 		featured: false,
 	},
 	{
@@ -170,7 +177,7 @@ const fallbackProjects: Project[] = [
 		year: "2026",
 		stars: 0,
 		forks: 0,
-		url: "https://github.com/WinTuner/sample-boot-3tier",
+		url: githubRepoUrl("sample-boot-3tier"),
 		featured: false,
 	},
 	{
@@ -184,7 +191,7 @@ const fallbackProjects: Project[] = [
 		year: "2026",
 		stars: 0,
 		forks: 0,
-		url: "https://github.com/WinTuner/sample-boot-microservice",
+		url: githubRepoUrl("sample-boot-microservice"),
 		featured: false,
 	},
 	{
@@ -198,7 +205,7 @@ const fallbackProjects: Project[] = [
 		year: "2026",
 		stars: 0,
 		forks: 0,
-		url: "https://github.com/WinTuner/sample-boot-pubsub",
+		url: githubRepoUrl("sample-boot-pubsub"),
 		featured: false,
 	},
 	{
@@ -212,7 +219,7 @@ const fallbackProjects: Project[] = [
 		year: "2026",
 		stars: 0,
 		forks: 0,
-		url: "https://github.com/WinTuner/asg-backend-682110174",
+		url: githubRepoUrl("asg-backend-682110174"),
 		featured: false,
 	},
 ];
@@ -236,7 +243,7 @@ const fallbackWipItems: WipItem[] = [
 			"🩺 The ultimate config doctor & dependency checker for Hyprland and modular dotfiles.",
 		progress: 57,
 		lastUpdated: "2026-06-26T18:00:00Z",
-		url: "https://github.com/WinTuner/DotDoctor",
+		url: githubRepoUrl("DotDoctor"),
 		branch: "main",
 		commits: 34,
 	},
@@ -247,7 +254,7 @@ const fallbackWipItems: WipItem[] = [
 			"A modified version of the Autonomous Intersection Management (AIM4) micro-simulator for autonomous vehicle traffic control.",
 		progress: 80,
 		lastUpdated: "2026-06-23T12:00:00Z",
-		url: "https://github.com/WinTuner/aim4-mod",
+		url: githubRepoUrl("aim4-mod"),
 		branch: "main",
 		commits: 100,
 	},
@@ -286,7 +293,7 @@ export async function getGithubRepos(): Promise<Project[]> {
 	try {
 		const headers: Record<string, string> = {
 			Accept: "application/vnd.github.v3+json",
-			"User-Agent": "WinTuner-Portfolio",
+			"User-Agent": GITHUB_USER_AGENT,
 		};
 		if (process.env.GITHUB_TOKEN) {
 			headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
@@ -443,7 +450,7 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
 	try {
 		const wipHeaders: Record<string, string> = {
 			Accept: "application/vnd.github.v3+json",
-			"User-Agent": "WinTuner-Portfolio",
+			"User-Agent": GITHUB_USER_AGENT,
 		};
 		if (process.env.GITHUB_TOKEN) {
 			wipHeaders.Authorization = `token ${process.env.GITHUB_TOKEN}`;
@@ -574,10 +581,10 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {	const
 		return globalForGithub.githubActivityCache.data;
 	}
 
-	const EVENTS_URL = `https://api.github.com/users/${GITHUB_USERNAME}/events?per_page=30`;
+	const EVENTS_URL = `${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/events?per_page=30`;
 	const headers: Record<string, string> = {
 		Accept: "application/vnd.github.v3+json",
-		"User-Agent": "WinTuner-Portfolio",
+		"User-Agent": GITHUB_USER_AGENT,
 	};
 	if (process.env.GITHUB_TOKEN) {
 		headers.Authorization = `token ${process.env.GITHUB_TOKEN}`;
@@ -632,7 +639,7 @@ export async function getGithubRecentActivity(): Promise<ActivityItem[]> {	const
 
 						if (!prDetails) {
 							const prResponse = await fetch(
-								`https://api.github.com/repos/WinTuner/${project}/pulls/${prNumber}`,
+								`${GITHUB_API_BASE}/repos/${GITHUB_USERNAME}/${project}/pulls/${prNumber}`,
 								{
 									next: { revalidate: 3600 },
 									headers,
@@ -724,8 +731,6 @@ interface GraphQLCalendarResponse {
 	};
 }
 
-const GITHUB_GRAPHQL_URL = "https://api.github.com/graphql";
-
 function mapGitHubLevel(level: string): 0 | 1 | 2 | 3 | 4 {
 	switch (level) {
 		case "FIRST_QUARTER":
@@ -794,7 +799,7 @@ function generateFallbackContributions(): Contributions {
 			const date = new Date(start);
 			date.setDate(start.getDate() + weekIndex * 7 + dayIndex);
 			const iso = toIso(date);
-			const random = mulberry32(hashString(`WinTuner:${iso}`))();
+			const random = mulberry32(hashString(`${GITHUB_USERNAME}:${iso}`))();
 
 			const weekday = date.getDay();
 			const isWeekend = weekday === 0 || weekday === 6;
@@ -856,7 +861,7 @@ export async function getGithubContributions(): Promise<Contributions> {
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${token}`,
-				"User-Agent": "WinTuner-Portfolio",
+				"User-Agent": GITHUB_USER_AGENT,
 			},
 			body: JSON.stringify({ query, variables: { login: GITHUB_USERNAME } }),
 			next: { revalidate: 3600 },
