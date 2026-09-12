@@ -51,9 +51,6 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.medium.com' },
       { protocol: 'https', hostname: 'miro.medium.com' },
       { protocol: 'https', hostname: 'cdn-images-*.medium.com' },
-      // Fallback: keep permissive for blog/Markdown inline images until inventory complete.
-      // Remove after `next build` confirms no external image 400s.
-      { protocol: 'https', hostname: '**' },
     ],
   },
   // Cache static assets aggressively; keep HTML dynamic
@@ -69,9 +66,8 @@ const nextConfig = {
         ],
       },
       {
-        // Baseline hardening headers for every route. No CSP here on
-        // purpose: inline scripts + Vercel Analytics need one crafted
-        // separately; these headers are breakage-free.
+        // Baseline hardening headers for every route. CSP ships as
+        // report-only first: watch console noise, then flip to enforce.
         source: '/:path*',
         headers: [
           { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -80,6 +76,21 @@ const nextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
+          },
+          {
+            key: 'Content-Security-Policy-Report-Only',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: https:",
+              "font-src 'self' data:",
+              "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+            ].join('; '),
           },
         ],
       },

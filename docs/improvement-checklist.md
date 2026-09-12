@@ -93,6 +93,8 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
 | Analytics | page views ✅ / speed ✅ |
 | Lighthouse CI + budgets | ✅ done |
 | Bundle analysis + lazy palette | ✅ done |
+| Phase C hygiene (Sep 2026) | ✅ safe dep bumps (Next 16.3.5, lucide 1.45), `**` image fallback removed after host inventory, report-only CSP (zero violations in E2E), security-header specs |
+| Realtime freshness | ✅ `useLiveGithubActivity` returns `{activity, updatedAt, isLive}`; workbench shows live pill with relative update time |
 
 **Recommended next phase**: items 1–2 (content case studies + project
 metrics) — the highest return for a student-focused portfolio.

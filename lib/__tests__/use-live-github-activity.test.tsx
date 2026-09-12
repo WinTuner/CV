@@ -58,7 +58,9 @@ describe("useLiveGithubActivity", () => {
 
 		expect(fetch).toHaveBeenCalledWith("/api/activity");
 		await flush();
-		expect(result.current).toEqual(fresh);
+		expect(result.current.activity).toEqual(fresh);
+		expect(result.current.isLive).toBe(true);
+		expect(typeof result.current.updatedAt).toBe("number");
 	});
 
 	it("keeps the current list when the response is empty or fails", async () => {
@@ -66,7 +68,7 @@ describe("useLiveGithubActivity", () => {
 		const { result } = renderHook(() => useLiveGithubActivity(seed));
 
 		await flush();
-		expect(result.current).toEqual(seed); // empty array is ignored
+		expect(result.current.activity).toEqual(seed); // empty array is ignored
 	});
 
 	it("does not fetch while disabled", async () => {
@@ -80,7 +82,8 @@ describe("useLiveGithubActivity", () => {
 		expect(fetch).not.toHaveBeenCalled();
 		vi.advanceTimersByTime(60_000);
 		expect(fetch).not.toHaveBeenCalled();
-		expect(result.current).toEqual(seed);
+		expect(result.current.activity).toEqual(seed);
+		expect(result.current.isLive).toBe(false);
 	});
 
 	it("fetches immediately when enabled flips to true", async () => {
@@ -95,7 +98,9 @@ describe("useLiveGithubActivity", () => {
 		await flush();
 
 		expect(fetch).toHaveBeenCalledTimes(1);
-		expect(result.current).toEqual(fresh);
+		expect(result.current.activity).toEqual(fresh);
+		expect(result.current.isLive).toBe(true);
+		expect(typeof result.current.updatedAt).toBe("number");
 	});
 
 	it("polls for fresh data every 30 seconds", async () => {
