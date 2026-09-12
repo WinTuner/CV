@@ -341,7 +341,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 				<p className="text-sm text-muted-foreground mb-4">{t.newsletterDesc}</p>
 				{subscribeState === "success" ? (
 					<div className="space-y-2">
-						<div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2.5 text-xs text-emerald-400 font-mono">
+						<div role="status" aria-live="polite" className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2.5 text-xs text-emerald-400 font-mono">
 							{t.subscribed}
 						</div>
 						<a
@@ -370,7 +370,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 							{subscribeState === "sending" ? t.sending : t.subscribe}
 						</Button>
 						{subscribeState === "error" && (
-							<p className="text-[10px] text-rose-400 leading-snug">
+							<p role="alert" className="text-[10px] text-rose-400 leading-snug">
 								{subscribeError}
 							</p>
 						)}
@@ -383,7 +383,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 				className={cn("opacity-0", isVisible && "animate-fade-in-up stagger-4")}
 			>
 				<a
-					href="/rss.xml"
+					href="/feed.xml"
 					className="flex items-center justify-center gap-2 rounded-lg border border-border/50 bg-card/40 px-4 py-3 font-mono text-xs text-muted-foreground transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:text-primary"
 				>
 					<Rss className="h-4 w-4" />

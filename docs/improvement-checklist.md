@@ -50,13 +50,20 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
 
 ## 🟡 Medium (when time allows)
 
-6. **Playwright E2E** — smoke tests for the language toggle, project filters,
-   and the print flow.
-7. **Accessibility sweep** — axe-core audit; contrast fixes for the green
-   accent palette; `aria-live` for form feedback; touch targets ≥44px.
-8. **Search indexing** — per-post Article JSON-LD already exists in
-   `app/(public)/blog/[postSlug]/page.tsx`; verify posts are actually being
-   indexed and that the RSS feed doesn't duplicate canonical URLs.
+6. **Playwright E2E** — ✅ `playwright.config.ts` + `e2e/` smoke specs
+    (language toggle, project filters/search, print flow, blog RSS +
+    JSON-LD) and axe scans on 5 routes; separate `e2e` CI job with
+    trace artifacts on failure.
+7. **Accessibility sweep** — ✅ axe-core clean on `/`, `/projects`,
+    `/introduction`, `/blog`, `/case-study/muanjai`. Fixed: icon-only
+    project links got `aria-label`s, two sub-contrast opacities
+    (`muted/70`, `primary/80`) raised to full. Contact + newsletter
+    feedback already had `role=status/alert` + `aria-invalid`;
+    interactive targets already ≥44px.
+8. **Search indexing** — ✅ verified: feed URLs match EN canonicals,
+    per-post JSON-LD `resolvedPageUrl` matches canonical, robots
+    allows `/` and points at sitemap. Fixed dead `/rss.xml` link in
+    the blog sidebar (route is `/feed.xml`).
 
 ---
 
@@ -80,7 +87,7 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
 | Performance baseline | ✅ done |
 | Accessibility baseline | ✅ done (sweep open) |
 | SEO baseline | ✅ done |
-| Testing | unit ✅ / E2E ⬜ |
+| Testing | unit ✅ / E2E ✅ |
 | Docs | ✅ rewritten Aug 2026 |
 | Content (case studies) | ✅ done (`/case-study/muanjai`) |
 | Analytics | page views ✅ / speed ✅ |

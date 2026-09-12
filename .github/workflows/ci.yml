@@ -50,3 +50,35 @@ jobs:
           temporaryPublicStorage: true
           uploadArtifacts: true
           artifactName: lighthouse-reports
+
+  e2e:
+    name: E2E + axe
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright (smoke + axe)
+        run: npx playwright test --project=chromium
+
+      - name: Upload trace artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@b4c38b227cc5057d46d5a24414b6b0b0992df41e5f # v4.6.0
+        with:
+          name: playwright-traces
+          path: test-results/
+          retention-days: 7

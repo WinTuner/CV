@@ -154,6 +154,7 @@ export function IntroductionContent() {
 															href={(proj as { url?: string }).url}
 															target="_blank"
 															rel="noopener noreferrer"
+															aria-label={`Open ${proj.name} in a new tab`}
 															className="text-muted-foreground hover:text-primary transition-colors"
 														>
 															<ExternalLink className="h-4 w-4" />
@@ -346,7 +347,7 @@ export function IntroductionContent() {
 									<p className="text-sm text-muted-foreground">
 										{hon.institution}
 									</p>
-									<p className="text-xs italic text-muted-foreground/70">
+									<p className="text-xs italic text-muted-foreground">
 										{hon.detail}
 									</p>
 								</div>
@@ -378,7 +379,7 @@ export function IntroductionContent() {
 												{item.period}
 											</span>
 											<h3 className="text-xl font-bold">{item.title}</h3>
-											<p className="font-medium text-primary/80">{item.role}</p>
+											<p className="font-medium text-primary">{item.role}</p>
 										</div>
 										<p className="text-muted-foreground leading-relaxed">
 											{item.description}
