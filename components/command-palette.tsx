@@ -61,6 +61,12 @@ const pageItems: Array<{
 		subtitle: { en: "Open source work", th: "งานโอเพนซอร์ส", ja: "オープンソース", zh: "开源作品" },
 	},
 	{
+		href: "/case-study/muanjai",
+		icon: FileText,
+		label: { en: "Muanjai case study", th: "กรณีศึกษา Muanjai", ja: "Muanjai ケーススタディ", zh: "Muanjai 案例研究" },
+		subtitle: { en: "Thai RAG, PromptPay & webhooks", th: "RAG ภาษาไทย PromptPay และ webhook", ja: "タイ語RAG・PromptPay・Webhook", zh: "泰语RAG、PromptPay与Webhook" },
+	},
+	{
 		href: "/workbench",
 		icon: Wrench,
 		label: { en: "Workbench", th: "เวิร์กเบนช์", ja: "ワークベンチ", zh: "工作台" },

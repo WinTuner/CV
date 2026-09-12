@@ -32,6 +32,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 			featured: "Featured",
 			source: "source",
 			live: "live",
+			status: { "in-progress": "in progress", shipped: "shipped", archived: "archived" },
 			filters: {
 				all: "all",
 				production: "production",
@@ -47,6 +48,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 			featured: "แนะนำ",
 			source: "ซอร์สโค้ด",
 			live: "เว็บไซต์",
+			status: { "in-progress": "กำลังพัฒนา", shipped: "เผยแพร่แล้ว", archived: "เก็บแล้ว" },
 			filters: {
 				all: "ทั้งหมด",
 				production: "งานจริง",
@@ -62,6 +64,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 			featured: "Featured",
 			source: "source",
 			live: "live",
+			status: { "in-progress": "in progress", shipped: "shipped", archived: "archived" },
 			filters: {
 				all: "all",
 				production: "production",
@@ -77,6 +80,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 			featured: "Featured",
 			source: "source",
 			live: "live",
+			status: { "in-progress": "in progress", shipped: "shipped", archived: "archived" },
 			filters: {
 				all: "all",
 				production: "production",
@@ -156,9 +160,26 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 								</div>
 							)}
 
-							<div className="mb-4 font-mono text-xs text-muted-foreground">
-								{project.year}
-							</div>
+						<div className="mb-4 flex items-center justify-between font-mono text-xs">
+							<span className="text-muted-foreground">{project.year}</span>
+							<span
+								className={cn(
+									"inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] uppercase tracking-widest",
+									project.status === "in-progress"
+										? "border-primary/40 bg-primary/10 text-primary"
+										: "border-border/70 text-muted-foreground",
+								)}
+							>
+								<span
+									aria-hidden="true"
+									className={cn(
+										"h-1.5 w-1.5 rounded-full",
+										project.status === "in-progress" ? "bg-primary" : "bg-muted-foreground/60",
+									)}
+								/>
+								{t.status[project.status]}
+							</span>
+						</div>
 
 							<h3 className="mb-3 font-serif text-xl sm:text-2xl font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
 								{project.title}
