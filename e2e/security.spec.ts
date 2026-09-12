@@ -21,6 +21,14 @@ test.describe("security headers", () => {
 			if (msg.type() === "error" && /content security policy/i.test(msg.text())) {
 				violations.push(msg.text());
 			}
+		});
+		for (const route of ["/", "/projects", "/introduction", "/blog"]) {
+			await page.goto(route);
+			await page.waitForTimeout(500);
+		}
+		expect(violations).toEqual([]);
+	});
+
 	test("theme-aware favicons resolve for light and dark schemes", async ({ page, request }) => {
 		await page.goto("/");
 		for (const media of ["(prefers-color-scheme: light)", "(prefers-color-scheme: dark)"]) {
@@ -29,12 +37,5 @@ test.describe("security headers", () => {
 			const response = await request.get(href as string);
 			expect(response.ok()).toBeTruthy();
 		}
-	});
-});
-		for (const route of ["/", "/projects", "/introduction", "/blog"]) {
-			await page.goto(route);
-			await page.waitForTimeout(500);
-		}
-		expect(violations).toEqual([]);
 	});
 });
