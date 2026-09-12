@@ -12,12 +12,16 @@ import type { ActivityItem } from "./github";
  * @param initial Server-rendered activity to show before the first poll.
  * @param enabled When false, the widget keeps its current data and skips
  *   polling (e.g. the terminal only polls while a live tab is active).
+ * @returns The activity list plus freshness metadata: `updatedAt` is the
+ *   timestamp of the last successful refresh (or mount), `isLive` mirrors
+ *   `enabled` so widgets can render an honest live/stale indicator.
  */
 export function useLiveGithubActivity(
 	initial: ActivityItem[],
 	enabled = true,
-): ActivityItem[] {
+): { activity: ActivityItem[]; updatedAt: number; isLive: boolean } {
 	const [activity, setActivity] = useState<ActivityItem[]>(initial);
+	const [updatedAt, setUpdatedAt] = useState<number>(() => Date.now());
 
 	useEffect(() => {
 		if (!enabled) return;
@@ -31,6 +35,7 @@ export function useLiveGithubActivity(
 				.then((parsed) => {
 					if (Array.isArray(parsed) && parsed.length > 0) {
 						setActivity(parsed);
+						setUpdatedAt(Date.now());
 					}
 				})
 				.catch((err) =>
@@ -46,5 +51,5 @@ export function useLiveGithubActivity(
 		return () => clearInterval(interval);
 	}, [enabled]);
 
-	return activity;
+	return { activity, updatedAt, isLive: enabled };
 }
