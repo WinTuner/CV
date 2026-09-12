@@ -8,18 +8,18 @@ const skills = {
 	en: [
 		{
 			category: "Frontend",
-			items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Java (OOP)"],
+			items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vite", "Java (OOP)"],
 		},
 		{
 			category: "Backend & AI",
-			items: ["Node.js", "Express", "PostgreSQL", "Supabase", "RAG · Pathumma LLM", "LINE Messaging API", "PromptPay Verify"],
+			items: ["Node.js", "Express", "Python · FastAPI", "Java · Spring Boot", "C# · .NET 10", "PostgreSQL · pgvector", "Supabase", "RAG · Pathumma LLM", "LINE Messaging API", "PromptPay Verify"],
 		},
 		{
 			category: "Infrastructure",
 			items: [
 				"Docker",
 				"CI/CD (240+ tests)",
-				"Vercel · Railway",
+				"Vercel · Railway · Fly.io",
 				"Nginx",
 				"ThaiSC Supercomputer",
 				"WireGuard VPN",
@@ -39,18 +39,18 @@ const skills = {
 	th: [
 		{
 			category: "ฟรอนต์เอนด์",
-			items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Java (OOP)"],
+			items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vite", "Java (OOP)"],
 		},
 		{
 			category: "แบ็กเอนด์ & AI",
-			items: ["Node.js", "Express", "PostgreSQL", "Supabase", "RAG · Pathumma LLM", "LINE Messaging API", "PromptPay Verify"],
+			items: ["Node.js", "Express", "Python · FastAPI", "Java · Spring Boot", "C# · .NET 10", "PostgreSQL · pgvector", "Supabase", "RAG · Pathumma LLM", "LINE Messaging API", "PromptPay Verify"],
 		},
 		{
 			category: "อินฟราสตรัคเจอร์",
 			items: [
 				"Docker",
 				"CI/CD (240+ tests)",
-				"Vercel · Railway",
+				"Vercel · Railway · Fly.io",
 				"Nginx",
 				"ThaiSC Supercomputer",
 				"WireGuard VPN",
@@ -70,18 +70,18 @@ const skills = {
 	ja: [
 		{
 			category: "Frontend",
-			items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Java (OOP)"],
+			items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vite", "Java (OOP)"],
 		},
 		{
 			category: "Backend & AI",
-			items: ["Node.js", "Express", "PostgreSQL", "Supabase", "RAG · Pathumma LLM", "LINE Messaging API", "PromptPay Verify"],
+			items: ["Node.js", "Express", "Python · FastAPI", "Java · Spring Boot", "C# · .NET 10", "PostgreSQL · pgvector", "Supabase", "RAG · Pathumma LLM", "LINE Messaging API", "PromptPay Verify"],
 		},
 		{
 			category: "Infrastructure",
 			items: [
 				"Docker",
 				"CI/CD (240+ tests)",
-				"Vercel · Railway",
+				"Vercel · Railway · Fly.io",
 				"Nginx",
 				"ThaiSC Supercomputer",
 				"WireGuard VPN",
@@ -101,18 +101,18 @@ const skills = {
 	zh: [
 		{
 			category: "Frontend",
-			items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Java (OOP)"],
+			items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vite", "Java (OOP)"],
 		},
 		{
 			category: "Backend & AI",
-			items: ["Node.js", "Express", "PostgreSQL", "Supabase", "RAG · Pathumma LLM", "LINE Messaging API", "PromptPay Verify"],
+			items: ["Node.js", "Express", "Python · FastAPI", "Java · Spring Boot", "C# · .NET 10", "PostgreSQL · pgvector", "Supabase", "RAG · Pathumma LLM", "LINE Messaging API", "PromptPay Verify"],
 		},
 		{
 			category: "Infrastructure",
 			items: [
 				"Docker",
 				"CI/CD (240+ tests)",
-				"Vercel · Railway",
+				"Vercel · Railway · Fly.io",
 				"Nginx",
 				"ThaiSC Supercomputer",
 				"WireGuard VPN",
