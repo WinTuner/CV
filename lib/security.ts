@@ -23,6 +23,22 @@ export function toSafeJsonLd(data: unknown): string {
 	return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
+export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
+ * Outbound webhook URLs must be absolute HTTPS URLs. Shared by the
+ * contact / subscribe routes — both a sanity check on deployer config
+ * and a guard against SSRF-style values pointing at internal addresses.
+ */
+export function isSafeWebhookUrl(raw: string): boolean {
+	try {
+		const url = new URL(raw);
+		return url.protocol === "https:" && url.hostname.length > 0;
+	} catch {
+		return false;
+	}
+}
+
 export function checkRateLimit(
 	key: string,
 	limit = 5,

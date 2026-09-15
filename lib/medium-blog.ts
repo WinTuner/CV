@@ -60,13 +60,12 @@ function extractFirst(text: string, regex: RegExp): string {
   return match?.[1]?.trim() ?? ""
 }
 
-function buildExcerpt(content: string) {
-  const plain = stripHtml(content)
+function buildExcerptFromPlain(plain: string) {
   return plain.length > 180 ? `${plain.slice(0, 177)}...` : plain
 }
 
-function estimateReadTime(content: string) {
-  const words = stripHtml(content).split(/\s+/).filter(Boolean).length
+function estimateReadTimeFromPlain(plain: string) {
+  const words = plain.split(/\s+/).filter(Boolean).length
   const minutes = Math.max(1, Math.round(words / 200))
   return `${minutes} min read`
 }
@@ -100,14 +99,15 @@ async function getMediumPosts(limit = 12): Promise<MediumPost[]> {
       extractFirst(item, /<content:encoded><!\[CDATA\[([\s\S]*?)\]\]><\/content:encoded>/),
     )
     const categories = [...item.matchAll(/<category><!\[CDATA\[([\s\S]*?)\]\]><\/category>/g)].map((m) => m[1])
+    const plain = stripHtml(content)
 
     return {
       id: index + 1,
       slug: slugFromLink(link, index + 1),
       title: decodeHtml(title),
-      excerpt: buildExcerpt(content),
+      excerpt: buildExcerptFromPlain(plain),
       date: formatDate(pubDate),
-      readTime: estimateReadTime(content),
+      readTime: estimateReadTimeFromPlain(plain),
       category: "medium",
       tags: categories.slice(0, 5),
       featured: index === 0,

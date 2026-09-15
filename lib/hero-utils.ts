@@ -79,67 +79,78 @@ export const heroCopy: Record<
 	},
 } as const;
 
+type RelativeInterval = { label: string; secs: number };
+
+const RELATIVE_TIME_INTERVALS: Record<SupportedLanguageCode, RelativeInterval[]> = {
+	en: [
+		{ label: "year", secs: 31536000 },
+		{ label: "month", secs: 2592000 },
+		{ label: "day", secs: 86400 },
+		{ label: "hour", secs: 3600 },
+		{ label: "minute", secs: 60 },
+		{ label: "second", secs: 1 },
+	],
+	th: [
+		{ label: "ปี", secs: 31536000 },
+		{ label: "เดือน", secs: 2592000 },
+		{ label: "วัน", secs: 86400 },
+		{ label: "ชั่วโมง", secs: 3600 },
+		{ label: "นาที", secs: 60 },
+		{ label: "วินาที", secs: 1 },
+	],
+	ja: [
+		{ label: "年", secs: 31536000 },
+		{ label: "か月", secs: 2592000 },
+		{ label: "日", secs: 86400 },
+		{ label: "時間", secs: 3600 },
+		{ label: "分", secs: 60 },
+		{ label: "秒", secs: 1 },
+	],
+	zh: [
+		{ label: "年", secs: 31536000 },
+		{ label: "月", secs: 2592000 },
+		{ label: "天", secs: 86400 },
+		{ label: "小时", secs: 3600 },
+		{ label: "分钟", secs: 60 },
+		{ label: "秒", secs: 1 },
+	],
+};
+
+const JUST_NOW_BY_LANG: Record<SupportedLanguageCode, string> = {
+	en: "just now",
+	th: "เมื่อสักครู่",
+	ja: "たった今",
+	zh: "刚刚",
+};
+
+function formatCount(count: number, label: string, language: SupportedLanguageCode): string {
+	switch (language) {
+		case "en":
+			return `${count} ${label}${count > 1 ? "s" : ""} ago`;
+		case "th":
+			return `${count} ${label}ที่แล้ว`;
+		case "ja":
+		case "zh":
+			return `${count}${label}前`;
+		default:
+			return `${count} ${label} ago`;
+	}
+}
+
 export function formatRelativeTime(dateString: string, language: SupportedLanguageCode) {
 	const date = new Date(dateString);
 	const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
 
 	if (isNaN(seconds)) return dateString;
 
-	const intervals: Record<SupportedLanguageCode, { label: string; secs: number }[]> = {
-		en: [
-			{ label: "year", secs: 31536000 },
-			{ label: "month", secs: 2592000 },
-			{ label: "day", secs: 86400 },
-			{ label: "hour", secs: 3600 },
-			{ label: "minute", secs: 60 },
-			{ label: "second", secs: 1 },
-		],
-		th: [
-			{ label: "ปี", secs: 31536000 },
-			{ label: "เดือน", secs: 2592000 },
-			{ label: "วัน", secs: 86400 },
-			{ label: "ชั่วโมง", secs: 3600 },
-			{ label: "นาที", secs: 60 },
-			{ label: "วินาที", secs: 1 },
-		],
-		ja: [
-			{ label: "年", secs: 31536000 },
-			{ label: "か月", secs: 2592000 },
-			{ label: "日", secs: 86400 },
-			{ label: "時間", secs: 3600 },
-			{ label: "分", secs: 60 },
-			{ label: "秒", secs: 1 },
-		],
-		zh: [
-			{ label: "年", secs: 31536000 },
-			{ label: "月", secs: 2592000 },
-			{ label: "天", secs: 86400 },
-			{ label: "小时", secs: 3600 },
-			{ label: "分钟", secs: 60 },
-			{ label: "秒", secs: 1 },
-		],
-	};
-
-	const currentIntervals = intervals[language] ?? intervals.en;
+	const currentIntervals = RELATIVE_TIME_INTERVALS[language] ?? RELATIVE_TIME_INTERVALS.en;
 	for (const interval of currentIntervals) {
 		const count = Math.floor(seconds / interval.secs);
 		if (count >= 1) {
-			if (language === "en") {
-				return `${count} ${interval.label}${count > 1 ? "s" : ""} ago`;
-			} else if (language === "th") {
-				return `${count} ${interval.label}ที่แล้ว`;
-			} else if (language === "ja") {
-				return `${count}${interval.label}前`;
-			} else if (language === "zh") {
-				return `${count}${interval.label}前`;
-			}
-			return `${count} ${interval.label} ago`;
+			return formatCount(count, interval.label, language);
 		}
 	}
-	if (language === "th") return "เมื่อสักครู่";
-	if (language === "ja") return "たった今";
-	if (language === "zh") return "刚刚";
-	return "just now";
+	return JUST_NOW_BY_LANG[language] ?? JUST_NOW_BY_LANG.en;
 }
 
 export function getMessageText(

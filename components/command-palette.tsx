@@ -80,6 +80,78 @@ const pageItems: Array<{
 	},
 ];
 
+const SECTION_LABELS: Record<string, Record<SupportedLanguageCode, string>> = {
+	pages: { en: "Pages", th: "หน้า", ja: "ページ", zh: "页面" },
+	projects: { en: "Projects", th: "โปรเจกต์", ja: "プロジェクト", zh: "项目" },
+	posts: { en: "Posts", th: "บทความ", ja: "記事", zh: "文章" },
+};
+
+const UI_TEXT = {
+	en: {
+		placeholder: "Search pages, projects, posts…",
+		hint: "Type to search the site",
+		empty: "No results found.",
+		close: "Close",
+	},
+	th: {
+		placeholder: "ค้นหาหน้า โปรเจกต์ บทความ…",
+		hint: "พิมพ์เพื่อค้นหาในเว็บไซต์",
+		empty: "ไม่พบผลการค้นหา",
+		close: "ปิด",
+	},
+} as const;
+
+function getUiText(language: SupportedLanguageCode) {
+	return UI_TEXT[language as keyof typeof UI_TEXT] ?? UI_TEXT.en;
+}
+
+function buildPageItems(language: SupportedLanguageCode): PaletteItem[] {
+	return pageItems.map((item) => ({
+		id: `page:${item.href}`,
+		section: SECTION_LABELS.pages[language],
+		title: item.label[language],
+		subtitle: item.subtitle[language],
+		url: item.href,
+		icon: item.icon,
+	}));
+}
+
+function buildProjectItems(
+	projects: Project[],
+	query: string,
+	section: string,
+): PaletteItem[] {
+	const matches = query
+		? fuzzySearch(query, projects, (p) => `${p.title} ${p.description} ${p.tags.join(" ")}`).slice(0, 6)
+		: projects.slice(0, 4).map((item) => ({ item }));
+	return matches.map(({ item }) => ({
+		id: `project:${item.id}`,
+		section,
+		title: item.title,
+		subtitle: item.description,
+		url: item.url,
+		icon: FolderGit2,
+	}));
+}
+
+function buildPostItems(
+	posts: BlogPost[],
+	query: string,
+	section: string,
+	language: SupportedLanguageCode,
+): PaletteItem[] {
+	const matches = query
+		? fuzzySearch(query, posts, (p) => `${p.title} ${p.excerpt} ${p.tags.join(" ")}`).slice(0, 6)
+		: posts.slice(0, 4).map((item) => ({ item }));
+	return matches.map(({ item }) => ({
+		id: `post:${item.id}`,
+		section,
+		title: item.title,
+		subtitle: item.excerpt,
+		url: `/blog/${item.slug}?lang=${language}`,
+		icon: FileText,
+	}));
+}
 export function CommandPalette() {
 	const { language } = useLanguage();
 	const router = useRouter();
@@ -139,92 +211,18 @@ export function CommandPalette() {
 	};
 
 	const flatItems = useMemo<PaletteItem[]>(() => {
-		const sectionPages = language === "th" ? "หน้า" : language === "ja" ? "ページ" : language === "zh" ? "页面" : "Pages";
-		const sectionProjects = language === "th" ? "โปรเจกต์" : language === "ja" ? "プロジェクト" : language === "zh" ? "项目" : "Projects";
-		const sectionPosts = language === "th" ? "บทความ" : language === "ja" ? "記事" : language === "zh" ? "文章" : "Posts";
-
-		const pages: PaletteItem[] = pageItems.map((item) => ({
-			id: `page:${item.href}`,
-			section: sectionPages,
-			title: item.label[language],
-			subtitle: item.subtitle[language],
-			url: item.href,
-			icon: item.icon,
-		}));
-
+		const pages = buildPageItems(language);
 		if (!results) return pages;
 
-		const q = query.trim().toLowerCase();
-
-		const getProjectText = (p: Project) => `${p.title} ${p.description} ${p.tags.join(" ")}`;
-		const getPostText = (p: BlogPost) => `${p.title} ${p.excerpt} ${p.tags.join(" ")}`;
-
-		const projects: PaletteItem[] = q
-			? fuzzySearch(query, results.projects, getProjectText)
-					.slice(0, 6)
-					.map(({ item }) => ({
-						id: `project:${item.id}`,
-						section: sectionProjects,
-						title: item.title,
-						subtitle: item.description,
-						url: item.url,
-						icon: FolderGit2,
-					}))
-			: results.projects.slice(0, 4).map((item) => ({
-					id: `project:${item.id}`,
-					section: sectionProjects,
-					title: item.title,
-					subtitle: item.description,
-					url: item.url,
-					icon: FolderGit2,
-				}));
-
-		const posts: PaletteItem[] = q
-			? fuzzySearch(query, results.posts, getPostText)
-					.slice(0, 6)
-					.map(({ item }) => ({
-						id: `post:${item.id}`,
-						section: sectionPosts,
-						title: item.title,
-						subtitle: item.excerpt,
-						url: `/blog/${item.slug}?lang=${language}`,
-						icon: FileText,
-					}))
-			: results.posts
-					.slice(0, 4)
-					.map((item) => ({
-						id: `post:${item.id}`,
-						section: sectionPosts,
-						title: item.title,
-						subtitle: item.excerpt,
-						url: `/blog/${item.slug}?lang=${language}`,
-						icon: FileText,
-					}));
-
-		return [...pages, ...projects, ...posts];
+		const q = query.trim();
+		return [
+			...pages,
+			...buildProjectItems(results.projects, q, SECTION_LABELS.projects[language]),
+			...buildPostItems(results.posts, q, SECTION_LABELS.posts[language], language),
+		];
 	}, [language, results, query]);
 
 	const hasQuery = query.trim().length > 0;
-
-	const handleKeyDown = (e: React.KeyboardEvent) => {
-		if (e.key === "ArrowDown") {
-			e.preventDefault();
-			setActiveIndex((i) => Math.min(i + 1, flatItems.length - 1));
-		} else if (e.key === "ArrowUp") {
-			e.preventDefault();
-			setActiveIndex((i) => Math.max(i - 1, 0));
-		} else if (e.key === "Enter") {
-			e.preventDefault();
-			const item = flatItems[activeIndex];
-			if (item) selectItem(item);
-		} else if (e.key === "Home") {
-			e.preventDefault();
-			setActiveIndex(0);
-		} else if (e.key === "End") {
-			e.preventDefault();
-			setActiveIndex(flatItems.length - 1);
-		}
-	};
 
 	const selectItem = (item: PaletteItem) => {
 		setOpen(false);
@@ -232,6 +230,24 @@ export function CommandPalette() {
 			window.open(item.url, "_blank", "noopener,noreferrer");
 		} else {
 			router.push(item.url);
+		}
+	};
+
+	const handleKeyDown = (e: React.KeyboardEvent) => {
+		const keyActions: Record<string, () => void> = {
+			ArrowDown: () => setActiveIndex((i) => Math.min(i + 1, flatItems.length - 1)),
+			ArrowUp: () => setActiveIndex((i) => Math.max(i - 1, 0)),
+			Home: () => setActiveIndex(0),
+			End: () => setActiveIndex(flatItems.length - 1),
+			Enter: () => {
+				const item = flatItems[activeIndex];
+				if (item) selectItem(item);
+			},
+		};
+		const action = keyActions[e.key];
+		if (action) {
+			e.preventDefault();
+			action();
 		}
 	};
 
@@ -253,32 +269,7 @@ export function CommandPalette() {
 		active?.scrollIntoView({ block: "nearest" });
 	}, [activeIndex]);
 
-	const t = {
-		en: {
-			placeholder: "Search pages, projects, posts…",
-			hint: "Type to search the site",
-			empty: "No results found.",
-			close: "Close",
-		},
-		th: {
-			placeholder: "ค้นหาหน้า โปรเจกต์ บทความ…",
-			hint: "พิมพ์เพื่อค้นหาในเว็บไซต์",
-			empty: "ไม่พบผลการค้นหา",
-			close: "ปิด",
-		},
-	ja: {
-			placeholder: "Search pages, projects, posts…",
-			hint: "Type to search the site",
-			empty: "No results found.",
-			close: "Close",
-		},
-	zh: {
-			placeholder: "Search pages, projects, posts…",
-			hint: "Type to search the site",
-			empty: "No results found.",
-			close: "Close",
-		},
-	}[language];
+	const t = getUiText(language);
 
 	return (
 		<>
