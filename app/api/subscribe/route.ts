@@ -1,21 +1,10 @@
 import { NextResponse } from "next/server";
-import { checkRateLimit, getClientKey } from "@/lib/security";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-/**
- * Outbound webhook URLs must be absolute HTTPS URLs. This is both a
- * sanity check on the deployer-configured env var and a guard against
- * SSRF-style values (e.g. pointing at internal addresses).
- */
-function isSafeWebhookUrl(raw: string): boolean {
-	try {
-		const url = new URL(raw);
-		return url.protocol === "https:" && url.hostname.length > 0;
-	} catch {
-		return false;
-	}
-}
+import {
+	checkRateLimit,
+	getClientKey,
+	isSafeWebhookUrl,
+	EMAIL_RE,
+} from "@/lib/security";
 
 /**
  * Newsletter subscription endpoint.

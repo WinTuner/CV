@@ -1,5 +1,6 @@
 import { blogPosts, localizePost, type BlogLanguage, type BlogPost, getPostBySlug } from "@/lib/blog-data"
 import { AUTHOR_AVATAR, AUTHOR_NAME } from "@/lib/site"
+import { slugify } from "@/lib/fuzzy"
 
 type NotionProperty = {
   type: string
@@ -72,11 +73,7 @@ function getMultiSelectValues(property?: NotionProperty): string[] {
 }
 
 function toSlug(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\u0E00-\u0E7F]+/g, "-")
-    .replace(/^-+|-+$/g, "") || "untitled-post"
+  return slugify(value) || "untitled-post"
 }
 
 async function notionFetch(path: string, init?: RequestInit) {
@@ -119,10 +116,49 @@ async function fetchAllDatabasePages(): Promise<NotionPage[]> {
   return pages
 }
 
+type NotionBlock = { id: string; type: string; has_children?: boolean; [key: string]: unknown }
+
+function getBlockText(block: NotionBlock): { text: string; language: string } {
+  const payload = (block[block.type] as { rich_text?: Array<{ plain_text?: string }>; text?: Array<{ plain_text?: string }>; language?: string } | undefined) ?? {}
+  const text = (payload.rich_text ?? payload.text ?? []).map((item) => item.plain_text ?? "").join("")
+  const language = typeof payload.language === "string" ? payload.language : "text"
+  return { text, language }
+}
+
+const HEADING_PREFIX: Record<string, string> = {
+  heading_1: "#",
+  heading_2: "##",
+  heading_3: "###",
+}
+
+function blockToMarkdown(block: NotionBlock): string | null {
+  const { text, language } = getBlockText(block)
+
+  if (block.type in HEADING_PREFIX) {
+    return text ? `${HEADING_PREFIX[block.type]} ${text}` : null
+  }
+
+  switch (block.type) {
+    case "paragraph":
+      return text || null
+    case "bulleted_list_item":
+      return text ? `- ${text}` : null
+    case "numbered_list_item":
+      return text ? `1. ${text}` : null
+    case "quote":
+      return text ? `> ${text}` : null
+    case "code":
+      return `\`\`\`${language}\n${text}\n\`\`\``
+    case "divider":
+      return "---"
+    default:
+      return null
+  }
+}
+
 async function fetchPageBlocks(pageId: string): Promise<string> {
   if (!hasNotionConfig()) return ""
 
-  type NotionBlock = { id: string; type: string; has_children?: boolean; [key: string]: unknown }
   const blocks: NotionBlock[] = []
   let cursor: string | undefined
 
@@ -134,91 +170,44 @@ async function fetchPageBlocks(pageId: string): Promise<string> {
   } while (cursor)
 
   const lines: string[] = []
-
   for (const block of blocks) {
-    const richText = (block[block.type] as { rich_text?: Array<{ plain_text?: string }>; text?: Array<{ plain_text?: string }>; language?: string } | undefined) ?? {}
-    const text = (richText.rich_text ?? richText.text ?? []).map((item) => item.plain_text ?? "").join("")
-
-    if (block.type.startsWith("heading_")) {
-      const level = block.type === "heading_1" ? "#" : block.type === "heading_2" ? "##" : "###"
-      if (text) lines.push(`${level} ${text}`)
-      continue
-    }
-
-    if (block.type === "paragraph") {
-      if (text) lines.push(text)
-      continue
-    }
-
-    if (block.type === "bulleted_list_item") {
-      if (text) lines.push(`- ${text}`)
-      continue
-    }
-
-    if (block.type === "numbered_list_item") {
-      if (text) lines.push(`1. ${text}`)
-      continue
-    }
-
-    if (block.type === "quote") {
-      if (text) lines.push(`> ${text}`)
-      continue
-    }
-
-    if (block.type === "code") {
-      const language = typeof richText.language === "string" ? richText.language : "text"
-      lines.push(`\`\`\`${language}`)
-      if (text) lines.push(text)
-      lines.push("\`\`\`")
-      continue
-    }
-
-    if (block.type === "divider") {
-      lines.push("---")
-    }
+    const line = blockToMarkdown(block)
+    if (line) lines.push(line)
   }
 
   return lines.join("\n\n")
 }
 
-function mapNotionPageToPost(page: NotionPage): Promise<BlogPost> | BlogPost {
-  const fallbackPost = getPostBySlug(
-    getTextValue(page.properties.Slug) || toSlug(getTextValue(page.properties.Title) || getTextValue(page.properties.Name) || page.id),
-  )
+async function mapNotionPageToPost(page: NotionPage): Promise<BlogPost> {
+  const props = page.properties
+  const titleText = getTextValue(props.Title) || getTextValue(props.Name)
+  const slugText = getTextValue(props.Slug)
+  const fallbackPost = getPostBySlug(slugText || toSlug(titleText || page.id))
 
-  const slug = getTextValue(page.properties.Slug) || fallbackPost?.slug || toSlug(getTextValue(page.properties.Title) || getTextValue(page.properties.Name) || page.id)
-  const title = getTextValue(page.properties.Title) || getTextValue(page.properties.Name) || fallbackPost?.title || slug
-  const excerpt = getTextValue(page.properties.Excerpt) || fallbackPost?.excerpt || ""
-  const date = getTextValue(page.properties.Date) || fallbackPost?.date || new Date().toISOString()
-  const readTime = getTextValue(page.properties["Read Time"]) || fallbackPost?.readTime || "5 min read"
-  const category = getTextValue(page.properties.Category) || fallbackPost?.category || "general"
-  const tags = getMultiSelectValues(page.properties.Tags).length > 0 ? getMultiSelectValues(page.properties.Tags) : fallbackPost?.tags || []
-  const featured = getBooleanValue(page.properties.Featured) || fallbackPost?.featured || false
-  const color = getTextValue(page.properties.Color) || fallbackPost?.color || "from-primary/20 to-accent/20"
-  const authorName = getTextValue(page.properties["Author Name"]) || getTextValue(page.properties.Author) || fallbackPost?.author.name || AUTHOR_NAME
-  const authorAvatar = getTextValue(page.properties.Avatar) || fallbackPost?.author.avatar || AUTHOR_AVATAR
-  const authorRole = getTextValue(page.properties.Role) || fallbackPost?.author.role || "Writer"
+  const slug = slugText || fallbackPost?.slug || toSlug(titleText || page.id)
+  const tags = getMultiSelectValues(props.Tags)
 
-  const contentFromProperty = getTextValue(page.properties.Content)
+  const contentFromProperty = getTextValue(props.Content)
+  const contentFromBlocks = await fetchPageBlocks(page.id)
 
-  return Promise.resolve(fetchPageBlocks(page.id)).then((contentFromBlocks) => ({
+  return {
     id: Number.parseInt(page.id.replace(/\D/g, "").slice(0, 6) || "0", 10) || Date.now(),
     slug,
-    title,
-    excerpt,
+    title: titleText || fallbackPost?.title || slug,
+    excerpt: getTextValue(props.Excerpt) || fallbackPost?.excerpt || "",
     content: contentFromBlocks || contentFromProperty || fallbackPost?.content || "",
-    date,
-    readTime,
-    category,
-    tags,
+    date: getTextValue(props.Date) || fallbackPost?.date || new Date().toISOString(),
+    readTime: getTextValue(props["Read Time"]) || fallbackPost?.readTime || "5 min read",
+    category: getTextValue(props.Category) || fallbackPost?.category || "general",
+    tags: tags.length > 0 ? tags : fallbackPost?.tags || [],
     author: {
-      name: authorName,
-      avatar: authorAvatar,
-      role: authorRole,
+      name: getTextValue(props["Author Name"]) || getTextValue(props.Author) || fallbackPost?.author.name || AUTHOR_NAME,
+      avatar: getTextValue(props.Avatar) || fallbackPost?.author.avatar || AUTHOR_AVATAR,
+      role: getTextValue(props.Role) || fallbackPost?.author.role || "Writer",
     },
-    featured,
-    color,
-  }))
+    featured: getBooleanValue(props.Featured) || fallbackPost?.featured || false,
+    color: getTextValue(props.Color) || fallbackPost?.color || "from-primary/20 to-accent/20",
+  }
 }
 
 async function getPostsFromNotionOrFallback(): Promise<BlogPost[]> {

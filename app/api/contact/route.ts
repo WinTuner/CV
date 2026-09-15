@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
-import { checkRateLimit, getClientKey } from "@/lib/security";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import {
+	checkRateLimit,
+	getClientKey,
+	isSafeWebhookUrl,
+	EMAIL_RE,
+} from "@/lib/security";
 
 /**
  * Contact form endpoint.
@@ -10,14 +13,6 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * service accepting a JSON POST of { name, email, message } (Formspree,
  * Zapier, Make, a Slack/Telegram bot, ...). Returns 501 when unset.
  */
-function isSafeWebhookUrl(raw: string): boolean {
-	try {
-		const url = new URL(raw);
-		return url.protocol === "https:" && url.hostname.length > 0;
-	} catch {
-		return false;
-	}
-}
 
 export async function POST(request: Request) {
 	const { allowed, retryAfterSec } = checkRateLimit(getClientKey(request), 5);
