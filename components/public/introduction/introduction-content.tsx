@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import {
 	Briefcase,
 	ExternalLink,
@@ -34,17 +33,7 @@ export function IntroductionContent() {
 	const { language } = useLanguage();
 	const t = copy[language];
 	const [activeImage, setActiveImage] = useState<string | null>(null);
-	const searchParams = useSearchParams();
 	const resumeRef = useRef<HTMLDivElement>(null);
-
-	useEffect(() => {
-		if (searchParams.get("print") === "true") {
-			const timer = setTimeout(() => {
-				window.print();
-			}, 500);
-			return () => clearTimeout(timer);
-		}
-	}, [searchParams]);
 
 	// Close the lightbox with Escape
 	useEffect(() => {
@@ -112,7 +101,7 @@ export function IntroductionContent() {
 
 			<div className="mx-auto max-w-5xl px-4 space-y-24">
 				{/* 1. Professional Experience */}
-				<section id="experience" className="space-y-12">
+				<section id="experience" className="space-y-12 content-visibility-auto">
 					<div className="space-y-3 text-center sm:text-left">
 						<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
 							{t.sectionProf}
@@ -206,7 +195,7 @@ export function IntroductionContent() {
 				</section>
 
 				{/* 2. Self-Development */}
-				<section className="space-y-12">
+				<section className="space-y-12 content-visibility-auto">
 					<div className="space-y-3">
 						<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
 							{t.sectionSelf}
@@ -281,7 +270,7 @@ export function IntroductionContent() {
 				</section>
 
 				{/* 3. Awards */}
-				<section className="space-y-12">
+				<section className="space-y-12 content-visibility-auto">
 					<div className="space-y-3">
 						<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
 							{t.sectionAwards}
@@ -357,7 +346,7 @@ export function IntroductionContent() {
 				</section>
 
 				{/* 4. Leadership & Volunteer */}
-				<section className="space-y-12">
+				<section className="space-y-12 content-visibility-auto">
 					<div className="space-y-3">
 						<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
 							{t.sectionLead}
@@ -431,7 +420,7 @@ export function IntroductionContent() {
 				</section>
 
 				{/* Education & Other */}
-				<section className="pt-12 grid gap-12 md:grid-cols-2 border-t border-border/30">
+				<section className="pt-12 grid gap-12 md:grid-cols-2 border-t border-border/30 content-visibility-auto">
 					<div className="space-y-8">
 						<h3 className="text-2xl font-bold flex items-center gap-3">
 							<GraduationCap className="h-6 w-6 text-primary" />
