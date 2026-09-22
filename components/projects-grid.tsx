@@ -152,33 +152,32 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 							)}
 							style={{ animationDelay: `${(index % 6) * 80 + 200}ms` }}
 						>
-							{project.highlight && (
-								<div className="absolute right-6 top-6">
+						<div className="mb-4 flex items-center justify-between gap-3 font-mono text-xs">
+							<span className="text-muted-foreground">{project.year}</span>
+							<div className="flex shrink-0 items-center gap-2">
+								{project.highlight && (
 									<span className="font-mono text-[10px] uppercase tracking-widest text-primary">
 										★ {t.featured}
 									</span>
-								</div>
-							)}
-
-						<div className="mb-4 flex items-center justify-between font-mono text-xs">
-							<span className="text-muted-foreground">{project.year}</span>
-							<span
-								className={cn(
-									"inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] uppercase tracking-widest",
-									project.status === "in-progress"
-										? "border-primary/40 bg-primary/10 text-primary"
-										: "border-border/70 text-muted-foreground",
 								)}
-							>
 								<span
-									aria-hidden="true"
 									className={cn(
-										"h-1.5 w-1.5 rounded-full",
-										project.status === "in-progress" ? "bg-primary" : "bg-muted-foreground/60",
+										"inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] uppercase tracking-widest",
+										project.status === "in-progress"
+											? "border-primary/40 bg-primary/10 text-primary"
+											: "border-border/70 text-muted-foreground",
 									)}
-								/>
-								{t.status[project.status]}
-							</span>
+								>
+									<span
+										aria-hidden="true"
+										className={cn(
+											"h-1.5 w-1.5 rounded-full",
+											project.status === "in-progress" ? "bg-primary" : "bg-muted-foreground/60",
+										)}
+									/>
+									{t.status[project.status]}
+								</span>
+							</div>
 						</div>
 
 							<h3 className="mb-3 font-serif text-xl sm:text-2xl font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
