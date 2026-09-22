@@ -307,20 +307,12 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
             >
-              {"highlight" in project && project.highlight && (
-                <div className="absolute right-6 top-6">
+              <div className="absolute right-6 top-6 flex shrink-0 items-center gap-3">
+                {"highlight" in project && project.highlight && (
                   <span className="font-mono text-[10px] uppercase tracking-widest text-primary">
                     ★ {t[language].featured}
                   </span>
-                </div>
-              )}
-
-              <div
-                className={cn(
-                  "absolute right-6 top-6",
-                  "highlight" in project && project.highlight && "top-6",
                 )}
-              >
                 <span className="font-mono text-xs text-muted-foreground">
                   {t[language].filters[project.status as keyof typeof t.en.filters]}
                 </span>
