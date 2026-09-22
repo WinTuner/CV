@@ -3,6 +3,8 @@
 import { useMemo } from "react";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
+import { useLiveGithubContributions } from "@/lib/use-live-github-contributions";
+import { formatRelativeTime } from "@/lib/hero-utils";
 import { cn } from "@/lib/utils";
 import type { Contributions } from "@/lib/github";
 
@@ -30,12 +32,14 @@ interface GithubContributionGraphProps {
 }
 
 export function GithubContributionGraph({
-	contributions,
+	contributions: initialContributions,
 }: GithubContributionGraphProps) {
 	const { language } = useLanguage();
 	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
 		threshold: 0.05,
 	});
+	const { contributions, updatedAt, isLive } =
+		useLiveGithubContributions(initialContributions);
 
 	const t = {
 		en: {
@@ -45,6 +49,7 @@ export function GithubContributionGraph({
 			total: "contributions in the last year",
 			less: "Less",
 			more: "More",
+			live: "live",
 		},
 		th: {
 			kicker: "GitHub",
@@ -53,6 +58,7 @@ export function GithubContributionGraph({
 			total: "คอมมิตในรอบปีที่ผ่านมา",
 			less: "น้อย",
 			more: "มาก",
+			live: "สด",
 		},
 	ja: {
 			kicker: "GitHub",
@@ -61,6 +67,7 @@ export function GithubContributionGraph({
 			total: "contributions in the last year",
 			less: "Less",
 			more: "More",
+			live: "live",
 		},
 	zh: {
 			kicker: "GitHub",
@@ -69,6 +76,7 @@ export function GithubContributionGraph({
 			total: "contributions in the last year",
 			less: "Less",
 			more: "More",
+			live: "live",
 		},
 	}[language];
 
@@ -123,12 +131,28 @@ export function GithubContributionGraph({
 							</span>{" "}
 							{t.total}
 						</p>
-						<div className="flex items-center gap-2 font-mono text-[10px] text-muted-foreground">
-							<span>{t.less}</span>
-							{LEVEL_CLASSES.map((cls, index) => (
-								<span key={index} className={cn("h-[11px] w-[11px] rounded-[3px]", cls)} />
-							))}
-							<span>{t.more}</span>
+						<div className="flex flex-wrap items-center gap-3">
+							<span
+								className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-mono text-[10px] text-primary"
+								role="status"
+								aria-live="off"
+								title={`Updated ${new Date(updatedAt).toISOString()}`}
+							>
+								<span className="relative flex h-1.5 w-1.5">
+									{isLive && (
+										<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+									)}
+									<span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+								</span>
+								{t.live} · {formatRelativeTime(new Date(updatedAt).toISOString(), language)}
+							</span>
+							<div className="flex items-center gap-2 font-mono text-[10px] text-muted-foreground">
+								<span>{t.less}</span>
+								{LEVEL_CLASSES.map((cls, index) => (
+									<span key={index} className={cn("h-[11px] w-[11px] rounded-[3px]", cls)} />
+								))}
+								<span>{t.more}</span>
+							</div>
 						</div>
 					</div>
 
