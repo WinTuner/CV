@@ -146,6 +146,7 @@ export const professionalExperience = {
 				target: "Modding community.",
 				problem: "Lack of lightweight and updated content for the platform.",
 				learned: "Web layout fundamentals and community feedback integration.",
+				url: "https://github.com/WinTuner/aim4-mod",
 			},
 		],
 		openSource: [
@@ -159,6 +160,7 @@ export const professionalExperience = {
 				learned:
 					"WinUI 3, Native AOT publishing, partition management, and upstream open-source collaboration.",
 				url: "https://github.com/WinTuner/AutoOS",
+				image: "/autoos-hero.png",
 			},
 			{
 				name: "ProjectPruta Contributions",
@@ -169,6 +171,7 @@ export const professionalExperience = {
 				problem: "Unresolved issues in the core template.",
 				learned:
 					"Git workflow, code review processes, and contributing to community projects.",
+				url: "https://github.com/farpinta/ProjectPruta",
 			},
 		],
 	},
@@ -235,6 +238,7 @@ export const professionalExperience = {
 				target: "กลุ่มผู้ใช้งาน Mod",
 				problem: "ขาดแพลตฟอร์มที่เบาและทันสมัยสำหรับข้อมูล Mod",
 				learned: "พื้นฐานการจัดเลย์เอาต์เว็บและการรับฟีดแบ็กจากผู้ใช้",
+				url: "https://github.com/WinTuner/aim4-mod",
 			},
 		],
 		openSource: [
@@ -248,6 +252,7 @@ export const professionalExperience = {
 				learned:
 					"WinUI 3, การเผยแพร่แบบ Native AOT, การจัดการพาร์ติชัน และการร่วมงานกับโอเพนซอร์สต้นน้ำ",
 				url: "https://github.com/WinTuner/AutoOS",
+				image: "/autoos-hero.png",
 			},
 			{
 				name: "การช่วยพัฒนา ProjectPruta",
@@ -256,6 +261,7 @@ export const professionalExperience = {
 				target: "นักพัฒนาโอเพนซอร์ส",
 				problem: "ต้องการการซ่อมแซม Bug ในตัวเทมเพลตหลัก",
 				learned: "กระบวนการ Git Workflow และการตรวจสอบโค้ดร่วมกับผู้อื่น",
+				url: "https://github.com/farpinta/ProjectPruta",
 			},
 		],
 	},
@@ -329,6 +335,7 @@ export const professionalExperience = {
 				target: "Mod コミュニティ。",
 				problem: "プラットフォーム向けの軽量で更新されたコンテンツの不足。",
 				learned: "Web レイアウトの基礎とコミュニティフィードバック統合。",
+				url: "https://github.com/WinTuner/aim4-mod",
 			},
 		],
 		openSource: [
@@ -342,6 +349,7 @@ export const professionalExperience = {
 				learned:
 					"WinUI 3、Native AOT 公開、パーティション管理、上流オープンソースとの協働。",
 				url: "https://github.com/WinTuner/AutoOS",
+				image: "/autoos-hero.png",
 			},
 			{
 				name: "ProjectPruta Contributions",
@@ -352,6 +360,7 @@ export const professionalExperience = {
 				problem: "コアテンプレートの未解決の問題。",
 				learned:
 					"Git ワークフロー、コードレビュー、コミュニティプロジェクトへの貢献。",
+				url: "https://github.com/farpinta/ProjectPruta",
 			},
 		],
 	},
@@ -425,6 +434,7 @@ export const professionalExperience = {
 				target: "Mod 社区。",
 				problem: "平台缺乏轻量且更新的内容。",
 				learned: "网页布局基础与社区反馈整合。",
+				url: "https://github.com/WinTuner/aim4-mod",
 			},
 		],
 		openSource: [
@@ -438,6 +448,7 @@ export const professionalExperience = {
 				learned:
 					"WinUI 3、Native AOT 发布、分区管理与上游开源协作。",
 				url: "https://github.com/WinTuner/AutoOS",
+				image: "/autoos-hero.png",
 			},
 			{
 				name: "ProjectPruta Contributions",
@@ -448,6 +459,7 @@ export const professionalExperience = {
 				problem: "核心模板中未解决的问题。",
 				learned:
 					"Git 工作流、代码评审与社区项目贡献。",
+				url: "https://github.com/farpinta/ProjectPruta",
 			},
 		],
 	},

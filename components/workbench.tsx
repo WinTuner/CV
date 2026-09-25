@@ -5,14 +5,17 @@ import { ArrowUpRight } from "lucide-react";
 import { GithubIcon } from "./social-icons";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
+import { useLiveGithubWip } from "@/lib/use-live-github-wip";
+import { LivePill } from "./live-pill";
 
 import type { WipItem } from "@/lib/github";
 
-export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
+export function Workbench({ wipItems: initialWipItems = [] }: { wipItems?: WipItem[] }) {
 	const { language } = useLanguage();
 	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
 		threshold: 0.08,
 	});
+	const { wipItems, updatedAt, isLive } = useLiveGithubWip(initialWipItems, isInView);
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString);
 		if (isNaN(date.getTime())) return dateString;
@@ -27,21 +30,25 @@ export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
 			kicker: "In Progress",
 			title: "Workbench",
 			desc: "Active experiments and prototypes. Things that are being built, broken, and rebuilt.",
+			live: "live",
 		},
 		th: {
 			kicker: "กำลังพัฒนา",
 			title: "Workbench",
 			desc: "พื้นที่ทดลองและต้นแบบที่กำลังพัฒนา สิ่งที่กำลังถูกสร้าง พัง และสร้างใหม่",
+			live: "สด",
 		},
 	ja: {
 			kicker: "In Progress",
 			title: "Workbench",
 			desc: "Active experiments and prototypes. Things that are being built, broken, and rebuilt.",
+			live: "live",
 		},
 	zh: {
 			kicker: "In Progress",
 			title: "Workbench",
 			desc: "Active experiments and prototypes. Things that are being built, broken, and rebuilt.",
+			live: "live",
 		},
 	}[language];
 
@@ -52,8 +59,9 @@ export function Workbench({ wipItems = [] }: { wipItems?: WipItem[] }) {
 		>
 			<div ref={sectionRef} className="mx-auto max-w-7xl">
 				<div className={cn("mb-10 sm:mb-14 space-y-4 opacity-0", isInView && "animate-fade-in-up")}>
-					<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+					<p className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
 						{t.kicker}
+						<LivePill updatedAt={updatedAt} isLive={isLive} label={t.live} language={language} />
 					</p>
 					<h2 className="font-serif text-4xl sm:text-5xl font-medium tracking-tight">
 						{t.title}

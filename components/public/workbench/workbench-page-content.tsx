@@ -7,6 +7,8 @@ import { GithubIcon } from "../../social-icons";
 import { useLanguage } from "@/components/language-provider";
 import type { WipItem, ActivityItem } from "@/lib/github";
 import { useLiveGithubActivity } from "@/lib/use-live-github-activity";
+import { useLiveGithubWip } from "@/lib/use-live-github-wip";
+import { LivePill } from "@/components/live-pill";
 import { formatRelativeTime } from "@/lib/hero-utils";
 
 function formatDate(dateString: string, language: import("@/constants/languages").SupportedLanguageCode) {
@@ -21,7 +23,7 @@ function formatDate(dateString: string, language: import("@/constants/languages"
 }
 
 export function WorkbenchPageContent({
-  wipItems = [],
+  wipItems: initialWipItems = [],
   recentActivity = [],
 }: {
   wipItems?: WipItem[];
@@ -30,6 +32,7 @@ export function WorkbenchPageContent({
   const { language } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const { activity: liveActivity, updatedAt, isLive } = useLiveGithubActivity(recentActivity);
+  const { wipItems: wipItems, updatedAt: wipUpdatedAt, isLive: isWipLive } = useLiveGithubWip(initialWipItems);
 
   const t = {
     en: {
@@ -90,7 +93,10 @@ export function WorkbenchPageContent({
     <section className="px-4 sm:px-6 py-12 sm:py-20">
       <div className="mx-auto max-w-7xl">
         <div className={cn("mb-12 sm:mb-16 space-y-4 opacity-0", isVisible && "animate-fade-in-up")}>
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">{t.kicker}</p>
+          <p className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
+            {t.kicker}
+            <LivePill updatedAt={wipUpdatedAt} isLive={isWipLive} label={t.live} language={language} />
+          </p>
           <h1 className="font-serif text-5xl sm:text-6xl font-medium tracking-tight">{t.title}</h1>
           <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">{t.desc}</p>
         </div>
@@ -185,19 +191,8 @@ export function WorkbenchPageContent({
               <h3 className="mb-5 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-primary">
                 <Activity className="h-3.5 w-3.5" />
                 {t.recentActivity}
-                <span
-                  className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[10px] normal-case tracking-normal"
-                  role="status"
-                  aria-live="off"
-                  title={`Updated ${new Date(updatedAt).toISOString()}`}
-                >
-                  <span className="relative flex h-1.5 w-1.5">
-                    {isLive && (
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-                    )}
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-                  </span>
-                  {t.live} · {formatRelativeTime(new Date(updatedAt).toISOString(), language)}
+                <span className="ml-auto">
+                  <LivePill updatedAt={updatedAt} isLive={isLive} label={t.live} language={language} />
                 </span>
               </h3>
               <div className="space-y-4">

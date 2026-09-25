@@ -6,6 +6,8 @@ import { useInView } from "@/lib/use-in-view";
 import { GithubIcon } from "./social-icons";
 import { Star, GitFork, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "./language-provider";
+import { useLiveGithubRepos } from "@/lib/use-live-github-repos";
+import { LivePill } from "./live-pill";
 
 import type { Project } from "@/lib/github";
 
@@ -18,12 +20,13 @@ const filters = [
 	"openSource",
 ];
 
-export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
+export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Project[] }) {
 	const { language } = useLanguage();
 	const [activeFilter, setActiveFilter] = useState("all");
 	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
 		threshold: 0.05,
 	});
+	const { repos: projects, updatedAt, isLive } = useLiveGithubRepos(initialProjects, isInView);
 
 	const copy = {
 		en: {
@@ -32,6 +35,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 			featured: "Featured",
 			source: "source",
 			live: "live",
+			liveBadge: "live",
 			status: { "in-progress": "in progress", shipped: "shipped", archived: "archived" },
 			filters: {
 				all: "all",
@@ -48,6 +52,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 			featured: "แนะนำ",
 			source: "ซอร์สโค้ด",
 			live: "เว็บไซต์",
+			liveBadge: "สด",
 			status: { "in-progress": "กำลังพัฒนา", shipped: "เผยแพร่แล้ว", archived: "เก็บแล้ว" },
 			filters: {
 				all: "ทั้งหมด",
@@ -64,6 +69,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 			featured: "Featured",
 			source: "source",
 			live: "live",
+			liveBadge: "live",
 			status: { "in-progress": "in progress", shipped: "shipped", archived: "archived" },
 			filters: {
 				all: "all",
@@ -80,6 +86,7 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 			featured: "Featured",
 			source: "source",
 			live: "live",
+			liveBadge: "live",
 			status: { "in-progress": "in progress", shipped: "shipped", archived: "archived" },
 			filters: {
 				all: "all",
@@ -107,8 +114,9 @@ export function ProjectsGrid({ projects = [] }: { projects?: Project[] }) {
 			<div ref={sectionRef} className="mx-auto max-w-7xl">
 				<div className="mb-10 sm:mb-14 flex flex-col gap-6 sm:gap-8 sm:flex-row sm:items-end sm:justify-between">
 					<div className={cn("space-y-4 opacity-0", isInView && "animate-fade-in-up")}>
-						<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+						<p className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
 							{t.kicker}
+							<LivePill updatedAt={updatedAt} isLive={isLive} label={t.liveBadge} language={language} />
 						</p>
 						<h2 className="font-serif text-4xl sm:text-5xl font-medium tracking-tight">
 							{t.title}

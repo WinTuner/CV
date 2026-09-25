@@ -25,6 +25,7 @@ import {
 	selfDevelopment,
 } from "@/constants/cv-data";
 import { useLanguage } from "@/components/language-provider";
+import { GithubIcon } from "../../social-icons";
 import { renderTextWithLinks } from "@/lib/render-text-with-links";
 import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/site";
 import { DownloadResumeButton } from "./download-resume-button";
@@ -138,18 +139,45 @@ export function IntroductionContent() {
 													<h4 className="text-lg font-bold group-hover:text-primary transition-colors">
 														{proj.name}
 													</h4>
-													{"url" in proj && (
-														<a
-															href={(proj as { url?: string }).url}
-															target="_blank"
-															rel="noopener noreferrer"
-															aria-label={`Open ${proj.name} in a new tab`}
-															className="text-muted-foreground hover:text-primary transition-colors"
-														>
+												{"url" in proj && (proj as { url?: string }).url && (
+													<a
+														href={(proj as { url?: string }).url}
+														target="_blank"
+														rel="noopener noreferrer"
+														aria-label={`Open ${proj.name} in a new tab`}
+														className="text-muted-foreground hover:text-primary transition-colors"
+													>
+														{(proj as { url?: string }).url!.includes("github.com") ? (
+															<GithubIcon className="h-4 w-4" />
+														) : (
 															<ExternalLink className="h-4 w-4" />
-														</a>
-													)}
+														)}
+													</a>
+												)}
 												</div>
+
+												{"image" in proj && proj.image && (
+													<button
+														type="button"
+														onClick={() => setActiveImage((proj as { image?: string }).image!)}
+														aria-label={`Expand image: ${proj.name}`}
+														className="w-full h-[160px] overflow-hidden rounded-lg border border-border/50 cursor-zoom-in relative group p-0 text-left"
+													>
+														<Image
+															src={(proj as { image?: string }).image!}
+															alt={proj.name}
+															fill
+															sizes="(max-width: 768px) 100vw, 400px"
+															className="object-cover transition-transform duration-500 group-hover:scale-105"
+														/>
+														<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+															<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
+																<span className="w-1.5 h-1.5 rounded-full bg-primary" />
+																Click to expand
+															</span>
+														</div>
+													</button>
+												)}
 
 												<div className="space-y-3 text-sm">
 													<div>
