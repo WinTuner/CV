@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
 import { useLiveGithubContributions } from "@/lib/use-live-github-contributions";
-import { formatRelativeTime } from "@/lib/hero-utils";
+import { LivePill } from "./live-pill";
 import { cn } from "@/lib/utils";
 import type { Contributions } from "@/lib/github";
 
@@ -132,20 +132,7 @@ export function GithubContributionGraph({
 							{t.total}
 						</p>
 						<div className="flex flex-wrap items-center gap-3">
-							<span
-								className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-mono text-[10px] text-primary"
-								role="status"
-								aria-live="off"
-								title={`Updated ${new Date(updatedAt).toISOString()}`}
-							>
-								<span className="relative flex h-1.5 w-1.5">
-									{isLive && (
-										<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-									)}
-									<span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-								</span>
-								{t.live} · {formatRelativeTime(new Date(updatedAt).toISOString(), language)}
-							</span>
+							<LivePill updatedAt={updatedAt} isLive={isLive} label={t.live} language={language} />
 							<div className="flex items-center gap-2 font-mono text-[10px] text-muted-foreground">
 								<span>{t.less}</span>
 								{LEVEL_CLASSES.map((cls, index) => (

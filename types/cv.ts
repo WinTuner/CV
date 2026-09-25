@@ -30,6 +30,7 @@ export interface ProjectItem {
   problem: string
   learned: string
   url?: string
+  image?: string
 }
 
 export interface SelfDevelopmentItem {
