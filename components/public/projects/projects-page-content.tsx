@@ -6,6 +6,8 @@ import { Star, GitFork, ExternalLink, Search, Filter, X } from "lucide-react"
 import { GithubIcon } from "../../social-icons"
 import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/components/language-provider"
+import { useLiveGithubRepos } from "@/lib/use-live-github-repos"
+import { LivePill } from "@/components/live-pill"
 import type { Project } from "@/lib/github"
 
 const filters = ["all", "shipped", "in-progress", "archived"]
@@ -36,7 +38,7 @@ function sortProjects(projects: Project[], sortBy: SortKey): Project[] {
   }
 }
 
-export function ProjectsPageContent({ projects = [] }: { projects?: Project[] }) {
+export function ProjectsPageContent({ projects: initialProjects = [] }: { projects?: Project[] }) {
   const { language } = useLanguage()
   const [activeFilter, setActiveFilter] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
@@ -44,6 +46,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
   const [sortBy, setSortBy] = useState<SortKey>("recent")
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
   const [isVisible, setIsVisible] = useState(false)
+  const { repos: projects, updatedAt, isLive } = useLiveGithubRepos(initialProjects)
 
   const allTags = [...new Set(projects.flatMap((p) => p.tags))]
   const sectionRef = useRef<HTMLElement>(null)
@@ -58,6 +61,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
       featured: "Featured",
       source: "source",
       live: "live",
+      liveBadge: "live",
       noResults: "No projects found matching your criteria.",
       sortLabel: "sort by",
       clearFilters: "clear filters",
@@ -84,6 +88,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
       featured: "แนะนำ",
       source: "ซอร์สโค้ด",
       live: "เว็บไซต์",
+      liveBadge: "สด",
       noResults: "ไม่พบโปรเจกต์ที่ตรงกับเงื่อนไขที่เลือก",
       sortLabel: "เรียงตาม",
       clearFilters: "ล้างตัวกรอง",
@@ -111,6 +116,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
       featured: "Featured",
       source: "source",
       live: "live",
+      liveBadge: "live",
       noResults: "No projects found matching your criteria.",
       sortLabel: "sort by",
       clearFilters: "clear filters",
@@ -138,6 +144,7 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
       featured: "Featured",
       source: "source",
       live: "live",
+      liveBadge: "live",
       noResults: "No projects found matching your criteria.",
       sortLabel: "sort by",
       clearFilters: "clear filters",
@@ -194,7 +201,10 @@ export function ProjectsPageContent({ projects = [] }: { projects?: Project[] })
       <div className="mx-auto max-w-7xl">
         {/* Hero */}
         <div className={cn("mb-12 sm:mb-16 space-y-4 opacity-0", isVisible && "animate-fade-in-up")}>
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">{t[language].kicker}</p>
+          <p className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
+            {t[language].kicker}
+            <LivePill updatedAt={updatedAt} isLive={isLive} label={t[language].liveBadge} language={language} />
+          </p>
           <h1 className="font-serif text-5xl sm:text-6xl font-medium tracking-tight">{t[language].title}</h1>
           <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
             {t[language].desc}

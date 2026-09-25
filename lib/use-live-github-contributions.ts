@@ -22,10 +22,17 @@ export function useLiveGithubContributions(
 	enabled = true,
 ): { contributions: Contributions; updatedAt: number; isLive: boolean } {
 	const [contributions, setContributions] = useState<Contributions>(initial);
-	const [updatedAt, setUpdatedAt] = useState<number>(() => Date.now());
+	// Hydration-safe: initial 0 renders the static label on both server
+	// and hydration HTML (`LivePill` hides the time while `updatedAt <= 0`).
+	// The real timestamp is set in the effect below, which only runs on
+	// the client after hydration — so the first paint always matches.
+	const [updatedAt, setUpdatedAt] = useState<number>(0);
 
 	useEffect(() => {
 		if (!enabled) return;
+
+		// eslint-disable-next-line react-hooks/set-state-in-effect -- post-hydration freshness stamp, not render input
+		setUpdatedAt(Date.now());
 
 		const refresh = () => {
 			fetch("/api/contributions")

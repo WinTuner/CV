@@ -1,5 +1,6 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { cookies } from "next/headers";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
@@ -146,12 +147,12 @@ export default async function RootLayout({
 					instead of gated behind `opacity-0` entrance animations, so a slow
 					mobile connection never shows blank sections before hydration.
 				*/}
-				<script
-					dangerouslySetInnerHTML={{
-						__html:
-							"document.documentElement.classList.remove('no-js');",
-					}}
-				/>
+				<Script
+					id="remove-no-js"
+					strategy="beforeInteractive"
+				>
+					{`document.documentElement.classList.remove('no-js');`}
+				</Script>
 				<a
 					href="#main"
 					className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:font-mono focus:text-sm focus:text-primary-foreground focus:shadow-lg"
