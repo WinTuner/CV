@@ -112,12 +112,12 @@ export const metadata: Metadata = {
 				url: "/icon-dark-32x32.png",
 				media: "(prefers-color-scheme: dark)",
 			},
-			{
-				url: "/icon.svg",
-				type: "image/svg+xml",
-			},
 		],
-		apple: "/apple-icon.png",
+		shortcut: "/favicon.ico",
+		apple: [
+			{ url: "/apple-icon.png", sizes: "180x180" },
+			{ url: "/apple-touch-icon.png", sizes: "180x180" },
+		],
 	},
 	manifest: "/site.webmanifest",
 };
