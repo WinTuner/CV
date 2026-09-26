@@ -10,7 +10,7 @@
  *  - CV images           2.1MB / 1.8MB PNG    -> 800px compressed PNG
  *
  * After running, delete app/favicon.ico (1.7MB) — the layout metadata
- * already declares icon-light/dark + icon.svg, so the .ico is redundant.
+ * already declares icon-light/dark PNGs, so the .ico is redundant.
  */
 import sharp from "sharp";
 import { statSync, renameSync } from "node:fs";
