@@ -53,18 +53,29 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cdn-images-*.medium.com' },
     ],
   },
-  // Cache static assets aggressively; keep HTML dynamic
+  // Cache static assets aggressively; keep HTML dynamic.
+  // NOTE: the immutable rule is production-only. In `next dev`, Turbopack
+  // chunk URLs can stay stable across edits — serving them as `immutable`
+  // makes browsers reuse stale client JS from disk cache on reload, which
+  // surfaces as hydration mismatches and phantom warnings for code that
+  // no longer exists (e.g. removed `fill` images, old icon branches).
   async headers() {
+    const cacheHeaders =
+      process.env.NODE_ENV === 'production'
+        ? [
+            {
+              source: '/:all*(svg|jpg|jpeg|png|webp|avif|css|js|woff|woff2)',
+              headers: [
+                {
+                  key: 'Cache-Control',
+                  value: 'public, max-age=31536000, immutable',
+                },
+              ],
+            },
+          ]
+        : [];
     return [
-      {
-        source: '/:all*(svg|jpg|jpeg|png|webp|avif|css|js|woff|woff2)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
+      ...cacheHeaders,
       {
         // Baseline hardening headers for every route. CSP ships as
         // report-only first: watch console noise, then flip to enforce.
