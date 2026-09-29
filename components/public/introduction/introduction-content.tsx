@@ -26,6 +26,7 @@ import {
 } from "@/constants/cv-data";
 import { useLanguage } from "@/components/language-provider";
 import { GithubIcon } from "../../social-icons";
+import { UpstreamContributors } from "@/components/contributors-row";
 import { renderTextWithLinks } from "@/lib/render-text-with-links";
 import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/site";
 import { DownloadResumeButton } from "./download-resume-button";
@@ -214,6 +215,7 @@ export function IntroductionContent() {
 														</div>
 													</div>
 												</div>
+												<UpstreamContributors name={proj.name} />
 											</div>
 										</article>
 									))}
