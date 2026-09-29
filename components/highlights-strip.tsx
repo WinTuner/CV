@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
-import { SOCIAL_LINKS } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const STATS = {
@@ -14,18 +13,18 @@ const STATS = {
 			href: "/case-study/muanjai",
 		},
 		{
-			value: "240+ tests",
-			label: "Automated tests guarding the CI pipeline",
-			href: SOCIAL_LINKS.github,
+			value: "AutoOS",
+			label: "Open-source Windows migration tool (WinUI 3, Native AOT)",
+			href: "https://github.com/tinodin/AutoOS",
 		},
 		{
-			value: "GPA 3.97",
-			label: "Software Engineering program, Chiang Rai (2019–2025)",
-			href: "/introduction",
+			value: "SynToolkit",
+			label: "Post-install control panel for SynergyOS",
+			href: "https://github.com/Synergy-Tweaks/SynToolkit",
 		},
 		{
-			value: "CMU — DII",
-			label: "B.Sc. Digital Industry Integration, Chiang Mai (current)",
+			value: "GPA 3.40",
+			label: "B.Sc. Digital Industry Integration, CMU (current)",
 			href: "/introduction",
 		},
 	],
@@ -36,18 +35,18 @@ const STATS = {
 			href: "/case-study/muanjai",
 		},
 		{
-			value: "240+ เทสต์",
-			label: "ชุดทดสอบอัตโนมัติใน CI Pipeline",
-			href: SOCIAL_LINKS.github,
+			value: "AutoOS",
+			label: "เครื่องมือย้าย Windows แบบโอเพนซอร์ส (WinUI 3, Native AOT)",
+			href: "https://github.com/tinodin/AutoOS",
 		},
 		{
-			value: "GPA 3.97",
-			label: "แผนการเรียนวิศวกรรมซอฟต์แวร์ เชียงราย (2019–2025)",
-			href: "/introduction",
+			value: "SynToolkit",
+			label: "แผงควบคุมหลังติดตั้งสำหรับ SynergyOS",
+			href: "https://github.com/Synergy-Tweaks/SynToolkit",
 		},
 		{
-			value: "มช. — DII",
-			label: "วท.บ. การบูรณาการอุตสาหกรรมดิจิทัล เชียงใหม่ (ปัจจุบัน)",
+			value: "GPA 3.40",
+			label: "วท.บ. การบูรณาการอุตสาหกรรมดิจิทัล มช. (ปัจจุบัน)",
 			href: "/introduction",
 		},
 	],
@@ -58,18 +57,18 @@ const STATS = {
 			href: "/case-study/muanjai",
 		},
 		{
-			value: "240+ テスト",
-			label: "CIパイプラインを守る自動テスト",
-			href: SOCIAL_LINKS.github,
+			value: "AutoOS",
+			label: "オープンソースWindows移行ツール (WinUI 3、Native AOT)",
+			href: "https://github.com/tinodin/AutoOS",
 		},
 		{
-			value: "GPA 3.97",
-			label: "ソフトウェア工学プログラム、チェンライ (2019–2025)",
-			href: "/introduction",
+			value: "SynToolkit",
+			label: "SynergyOS向けポストインストール・コントロールパネル",
+			href: "https://github.com/Synergy-Tweaks/SynToolkit",
 		},
 		{
-			value: "チェンマイ大学 — DII",
-			label: "デジタル産業統合学士課程、チェンマイ (現在)",
+			value: "GPA 3.40",
+			label: "デジタル産業統合学士課程、チェンマイ大学 (現在)",
 			href: "/introduction",
 		},
 	],
@@ -80,18 +79,18 @@ const STATS = {
 			href: "/case-study/muanjai",
 		},
 		{
-			value: "240+ 测试",
-			label: "守护CI流水线的自动化测试",
-			href: SOCIAL_LINKS.github,
+			value: "AutoOS",
+			label: "开源Windows迁移工具 (WinUI 3, Native AOT)",
+			href: "https://github.com/tinodin/AutoOS",
 		},
 		{
-			value: "GPA 3.97",
-			label: "软件工程项目，清莱 (2019–2025)",
-			href: "/introduction",
+			value: "SynToolkit",
+			label: "面向SynergyOS的安装后控制面板",
+			href: "https://github.com/Synergy-Tweaks/SynToolkit",
 		},
 		{
-			value: "清迈大学 — DII",
-			label: "数字产业整合学士，清迈 (至今)",
+			value: "GPA 3.40",
+			label: "数字产业整合学士，清迈大学 (至今)",
 			href: "/introduction",
 		},
 	],
