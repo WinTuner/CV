@@ -8,6 +8,7 @@ import { Star, GitFork, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "./language-provider";
 import { useLiveGithubRepos } from "@/lib/use-live-github-repos";
 import { LivePill } from "./live-pill";
+import { UpstreamContributors } from "./contributors-row";
 
 import type { Project } from "@/lib/github";
 
@@ -211,6 +212,8 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 									</span>
 								))}
 							</div>
+
+							<UpstreamContributors name={project.title} />
 
 							<div className="mt-auto flex items-center justify-between border-t border-border/50 pt-4">
 								<div className="flex items-center gap-4">

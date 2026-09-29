@@ -47,7 +47,6 @@ export interface ContributionDay {
 	count: number;
 	level: 0 | 1 | 2 | 3 | 4;
 }
-
 export interface ContributionWeek {
 	days: ContributionDay[];
 }
@@ -56,6 +55,23 @@ export interface Contributions {
 	weeks: ContributionWeek[];
 	total: number;
 }
+
+export interface Contributor {
+	login: string;
+	avatarUrl: string;
+	profileUrl: string;
+	contributions: number;
+}
+
+/**
+ * Upstream repos the owner contributes to (not owned by GITHUB_USERNAME).
+ * Keyed by display title so introduction cards and project grids can look
+ * up where to fetch the contributor list from.
+ */
+export const CONTRIBUTOR_UPSTREAMS: Record<string, { owner: string; repo: string }> = {
+	AutoOS: { owner: "tinodin", repo: "AutoOS" },
+	SynToolkit: { owner: "Synergy-Tweaks", repo: "SynToolkit" },
+};
 
 interface GitHubRepo {
 	id: number;
@@ -86,12 +102,13 @@ const globalForGithub = globalThis as unknown as {
 	githubReposCache?: { data: Project[]; timestamp: number };
 	githubWipCache?: { data: WipItem[]; timestamp: number };
 	githubActivityCache?: { data: ActivityItem[]; timestamp: number };
+	githubContributorsCache?: Record<string, { data: Contributor[]; timestamp: number }>;
 };
 
 const CACHE_DURATION = 120 * 1000; // 2 minutes in-memory cache
 
-// Owner's fork of upstream tinodin/AutoOS — single source for all AutoOS links.
-const AUTOOS_URL = githubRepoUrl("AutoOS");
+// Upstream main repo for AutoOS — link to tinodin/AutoOS, not the owner's fork.
+const AUTOOS_URL = "https://github.com/tinodin/AutoOS";
 
 const REPO_DESCRIPTIONS: Record<string, string> = {
 	AutoOS: "AutoOS is a Native AOT WinUI 3 application that automates migrating to a new Windows installation on a separate partition. With minimal user effort, it seamlessly configures a cleaner and faster system optimized for gaming performance and productivity while preserving all system compatibility.",
@@ -410,6 +427,70 @@ const fallbackActivities: ActivityItem[] = [
 		time: "2026-06-23T12:00:00Z",
 	},
 ];
+
+interface GitHubContributor {
+	login?: string;
+	avatar_url?: string;
+	html_url?: string;
+	contributions?: number;
+	type?: string;
+}
+
+const CONTRIBUTOR_NAME_PATTERN = /^[A-Za-z0-9_.-]{1,100}$/;
+
+/**
+ * Live contributor list for an upstream repo (e.g. tinodin/AutoOS).
+ *
+ * Same caching shape as the other GitHub helpers: 2-minute in-memory +
+ * 1-hour ISR. Bots are filtered out. Returns [] when GitHub is
+ * unreachable so callers can render nothing instead of failing.
+ */
+export async function getRepoContributors(
+	owner: string,
+	repo: string,
+): Promise<Contributor[]> {
+	if (!CONTRIBUTOR_NAME_PATTERN.test(owner) || !CONTRIBUTOR_NAME_PATTERN.test(repo)) {
+		return [];
+	}
+	const cacheKey = `${owner}/${repo}`.toLowerCase();
+	const now = Date.now();
+	const cached = globalForGithub.githubContributorsCache?.[cacheKey];
+	if (cached && now - cached.timestamp < CACHE_DURATION) {
+		return cached.data;
+	}
+
+	try {
+		const response = await fetch(
+			`${GITHUB_API_BASE}/repos/${owner}/${repo}/contributors?per_page=24`,
+			{ next: { revalidate: 3600 }, headers: githubHeaders() },
+		);
+		if (!response.ok) {
+			console.error(
+				`Failed to fetch contributors for ${owner}/${repo}: ${response.status} ${response.statusText}`,
+			);
+			return cached?.data ?? [];
+		}
+		const raw = (await response.json()) as unknown;
+		if (!Array.isArray(raw)) return cached?.data ?? [];
+
+		const result = (raw as GitHubContributor[])
+			.filter((c) => c?.login && c.type !== "Bot" && !c.login.endsWith("[bot]"))
+			.map((c) => ({
+				login: c.login as string,
+				avatarUrl: c.avatar_url ?? "",
+				profileUrl: c.html_url ?? `https://github.com/${c.login}`,
+				contributions: c.contributions ?? 0,
+			}));
+		globalForGithub.githubContributorsCache = {
+			...globalForGithub.githubContributorsCache,
+			[cacheKey]: { data: result, timestamp: now },
+		};
+		return result;
+	} catch (error) {
+		console.error(`Error fetching contributors for ${owner}/${repo}:`, error);
+		return cached?.data ?? [];
+	}
+}
 
 export async function getGithubRepos(): Promise<Project[]> {
 	const now = Date.now();
