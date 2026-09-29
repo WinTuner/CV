@@ -166,9 +166,10 @@ export function IntroductionContent() {
 														<Image
 															src={(proj as { image?: string }).image!}
 															alt={proj.name}
-															fill
+															width={800}
+															height={450}
 															sizes="(max-width: 768px) 100vw, 400px"
-															className="object-cover transition-transform duration-500 group-hover:scale-105"
+															className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
 														/>
 														<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 															<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
@@ -259,9 +260,10 @@ export function IntroductionContent() {
 												<Image
 													src={cert.image}
 													alt={cert.name}
-													fill
+													width={400}
+													height={240}
 													sizes="200px"
-													className="object-cover transition-transform duration-500 group-hover:scale-105"
+													className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
 												/>
 												<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 													<span className="bg-background/85 text-[8px] font-mono px-2 py-1 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1 animate-scale-in">
@@ -337,7 +339,8 @@ export function IntroductionContent() {
 										<Image
 											src={comp.image}
 											alt={comp.name}
-											fill
+											width={800}
+											height={450}
 											sizes="(max-width: 768px) 100vw, 500px"
 											className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
 										/>
@@ -411,9 +414,10 @@ export function IntroductionContent() {
 												<Image
 													src={item.image}
 													alt={item.title}
-													fill
+													width={896}
+													height={600}
 													sizes="(max-width: 768px) 100vw, 448px"
-													className="object-cover transition-transform duration-500 group-hover:scale-105"
+													className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
 												/>
 												<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 													<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
@@ -480,9 +484,10 @@ export function IntroductionContent() {
 											<Image
 												src={item.image}
 												alt={item.school}
-												fill
+												width={768}
+												height={432}
 												sizes="(max-width: 768px) 100vw, 384px"
-												className="object-cover transition-transform duration-500 group-hover:scale-105"
+												className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
 											/>
 											<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 												<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">

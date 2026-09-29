@@ -159,8 +159,20 @@ export const professionalExperience = {
 				problem: "Manual Windows reinstalls are slow and leave behind bloat.",
 				learned:
 					"WinUI 3, Native AOT publishing, partition management, and upstream open-source collaboration.",
-				url: "https://github.com/WinTuner/AutoOS",
+				url: "https://github.com/tinodin/AutoOS",
 				image: "/autoos-hero.png",
+			},
+			{
+				name: "SynToolkit",
+				role: "Contributor",
+				description:
+					"Post-install control panel for SynergyOS — apply tweaks, save profiles, adjust personal settings, and manage maintenance tasks from a single modern interface.",
+				target: "SynergyOS users and power users.",
+				problem: "Post-install tuning scattered across scripts and tools.",
+				learned:
+					"C#, WinUI 3 / Windows App SDK, WinGet integration, and upstream open-source collaboration.",
+				url: "https://github.com/Synergy-Tweaks/SynToolkit",
+				image: "/syntoolkit-hero.png",
 			},
 			{
 				name: "ProjectPruta Contributions",
@@ -251,8 +263,20 @@ export const professionalExperience = {
 				problem: "การลง Windows ใหม่ด้วยตนเองช้าและทิ้งโปรแกรมไม่จำเป็นไว้",
 				learned:
 					"WinUI 3, การเผยแพร่แบบ Native AOT, การจัดการพาร์ติชัน และการร่วมงานกับโอเพนซอร์สต้นน้ำ",
-				url: "https://github.com/WinTuner/AutoOS",
+				url: "https://github.com/tinodin/AutoOS",
 				image: "/autoos-hero.png",
+			},
+			{
+				name: "SynToolkit",
+				role: "ผู้ร่วมพัฒนา",
+				description:
+					"แผงควบคุมหลังติดตั้งสำหรับ SynergyOS — ปรับแต่งระบบ บันทึกโปรไฟล์ ตั้งค่าส่วนตัว และดูแลงานบำรุงรักษาจากอินเทอร์เฟซเดียวที่ทันสมัย",
+				target: "ผู้ใช้ SynergyOS และผู้ใช้ขั้นสูง",
+				problem: "การปรับแต่งหลังติดตั้งกระจายอยู่ตามสคริปต์และเครื่องมือต่างๆ",
+				learned:
+					"C#, WinUI 3 / Windows App SDK, การผสาน WinGet และการร่วมงานกับโอเพนซอร์สต้นน้ำ",
+				url: "https://github.com/Synergy-Tweaks/SynToolkit",
+				image: "/syntoolkit-hero.png",
 			},
 			{
 				name: "การช่วยพัฒนา ProjectPruta",
@@ -348,8 +372,20 @@ export const professionalExperience = {
 				problem: "手動の再インストールは遅く、ブロートウェアが残る。",
 				learned:
 					"WinUI 3、Native AOT 公開、パーティション管理、上流オープンソースとの協働。",
-				url: "https://github.com/WinTuner/AutoOS",
+				url: "https://github.com/tinodin/AutoOS",
 				image: "/autoos-hero.png",
+			},
+			{
+				name: "SynToolkit",
+				role: "コントリビューター",
+				description:
+					"SynergyOS 向けポストインストール・コントロールパネル — 微調整の適用、プロファイル保存、個人設定、メンテナンス管理を単一のモダンなインターフェースに集約。",
+				target: "SynergyOS ユーザーとパワーユーザー。",
+				problem: "インストール後の調整がスクリプトやツールに分散。",
+				learned:
+					"C#、WinUI 3 / Windows App SDK、WinGet 連携、上流オープンソースとの協働。",
+				url: "https://github.com/Synergy-Tweaks/SynToolkit",
+				image: "/syntoolkit-hero.png",
 			},
 			{
 				name: "ProjectPruta Contributions",
@@ -447,8 +483,20 @@ export const professionalExperience = {
 				problem: "手动重装缓慢且残留臃肿软件。",
 				learned:
 					"WinUI 3、Native AOT 发布、分区管理与上游开源协作。",
-				url: "https://github.com/WinTuner/AutoOS",
+				url: "https://github.com/tinodin/AutoOS",
 				image: "/autoos-hero.png",
+			},
+			{
+				name: "SynToolkit",
+				role: "贡献者",
+				description:
+					"面向 SynergyOS 的安装后控制面板 — 在单个现代化界面中应用优化、保存配置、调整个人设置并管理维护任务。",
+				target: "SynergyOS 用户与高级用户。",
+				problem: "安装后调优分散在各个脚本与工具中。",
+				learned:
+					"C#、WinUI 3 / Windows App SDK、WinGet 集成与上游开源协作。",
+				url: "https://github.com/Synergy-Tweaks/SynToolkit",
+				image: "/syntoolkit-hero.png",
 			},
 			{
 				name: "ProjectPruta Contributions",
