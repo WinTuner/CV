@@ -54,44 +54,44 @@ const STATS = {
 	ja: [
 		{
 			value: "Co-Founder & CTO",
-			label: "Muanjai — AI compliance helper bot (LINE OA)",
+			label: "Muanjai — AIコンプライアンス支援ボット (LINE OA)",
 			href: "/case-study/muanjai",
 		},
 		{
-			value: "240+ tests",
-			label: "Automated tests guarding the CI pipeline",
+			value: "240+ テスト",
+			label: "CIパイプラインを守る自動テスト",
 			href: SOCIAL_LINKS.github,
 		},
 		{
 			value: "GPA 3.97",
-			label: "Software Engineering program, Chiang Rai (2019–2025)",
+			label: "ソフトウェア工学プログラム、チェンライ (2019–2025)",
 			href: "/introduction",
 		},
 		{
-			value: "CMU — DII",
-			label: "B.Sc. Digital Industry Integration, Chiang Mai (current)",
+			value: "チェンマイ大学 — DII",
+			label: "デジタル産業統合学士課程、チェンマイ (現在)",
 			href: "/introduction",
 		},
 	],
 	zh: [
 		{
 			value: "Co-Founder & CTO",
-			label: "Muanjai — AI compliance helper bot (LINE OA)",
+			label: "Muanjai — AI合规助手 (LINE OA)",
 			href: "/case-study/muanjai",
 		},
 		{
-			value: "240+ tests",
-			label: "Automated tests guarding the CI pipeline",
+			value: "240+ 测试",
+			label: "守护CI流水线的自动化测试",
 			href: SOCIAL_LINKS.github,
 		},
 		{
 			value: "GPA 3.97",
-			label: "Software Engineering program, Chiang Rai (2019–2025)",
+			label: "软件工程项目，清莱 (2019–2025)",
 			href: "/introduction",
 		},
 		{
-			value: "CMU — DII",
-			label: "B.Sc. Digital Industry Integration, Chiang Mai (current)",
+			value: "清迈大学 — DII",
+			label: "数字产业整合学士，清迈 (至今)",
 			href: "/introduction",
 		},
 	],
