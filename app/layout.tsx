@@ -1,4 +1,5 @@
 import type React from "react";
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { cookies } from "next/headers";
@@ -10,6 +11,8 @@ import { LanguageProvider } from "@/components/language-provider";
 import { isSupportedLanguage, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/constants/languages";
 import type { SupportedLanguageCode } from "@/constants/languages";
 import { AnimatedBackground } from "@/components/animated-background";
+import { SiteLoader } from "@/components/site-loader";
+import { RouteProgress } from "@/components/route-progress";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { BackToTop } from "@/components/back-to-top";
 import { EasterEgg } from "@/components/easter-egg";
@@ -166,6 +169,10 @@ export default async function RootLayout({
 					storageKey="theme-mode"
 				>
 					<LanguageProvider initialLanguage={initialLanguage}>
+						<SiteLoader />
+						<Suspense fallback={null}>
+							<RouteProgress />
+						</Suspense>
 						{children}
 						<ScrollProgress />
 						<BackToTop />
