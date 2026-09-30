@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
-import { CONTRIBUTOR_UPSTREAMS, type Contributor } from "@/lib/github";
+import { resolveContributorSource, type Contributor } from "@/lib/github";
 
 const LABEL: Record<string, string> = {
 	en: "Contributors",
@@ -16,13 +16,14 @@ const LABEL: Record<string, string> = {
 const MAX_AVATARS = 7;
 
 /**
- * Looks up the upstream repo for a display title (AutoOS, SynToolkit) and
- * renders its contributor row — null for anything else.
+ * Looks up the contributor source for any project card — upstream mapping
+ * first (AutoOS, SynToolkit), otherwise the card's GitHub URL — and renders
+ * its contributor row. Null for non-GitHub links.
  */
-export function UpstreamContributors({ name }: { name: string }) {
-	const upstream = CONTRIBUTOR_UPSTREAMS[name];
-	if (!upstream) return null;
-	return <ContributorsRow owner={upstream.owner} repo={upstream.repo} />;
+export function UpstreamContributors({ name, url }: { name: string; url?: string }) {
+	const source = resolveContributorSource(name, url);
+	if (!source) return null;
+	return <ContributorsRow owner={source.owner} repo={source.repo} />;
 }
 
 /**
