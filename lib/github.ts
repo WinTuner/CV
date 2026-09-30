@@ -20,6 +20,7 @@ export interface Project {
 	homepage?: string;
 	featured?: boolean;
 	highlight?: boolean;
+	fork?: boolean;
 }
 
 export interface WipItem {
@@ -72,6 +73,51 @@ export const CONTRIBUTOR_UPSTREAMS: Record<string, { owner: string; repo: string
 	AutoOS: { owner: "tinodin", repo: "AutoOS" },
 	SynToolkit: { owner: "Synergy-Tweaks", repo: "SynToolkit" },
 };
+
+/**
+ * Parse a `https://github.com/<owner>/<repo>` URL into its parts.
+ * Returns null for non-GitHub URLs, short URLs, or extra path segments
+ * beyond owner/repo (e.g. `/owner/repo/tree/main` still resolves to
+ * owner/repo — only the first two segments matter).
+ */
+export function parseGithubRepoUrl(url: string | undefined): {
+	owner: string;
+	repo: string;
+} | null {
+	if (!url) return null;
+	try {
+		const parsed = new URL(url.trim());
+		if (parsed.hostname.toLowerCase() !== "github.com") return null;
+		const [owner, repoRaw] = parsed.pathname.split("/").filter(Boolean);
+		if (!owner || !repoRaw) return null;
+		// Strip `.git` suffix (`…/repo.git`) if present.
+		const repo = repoRaw.replace(/\.git$/, "");
+		if (!CONTRIBUTOR_NAME_PATTERN.test(owner) || !CONTRIBUTOR_NAME_PATTERN.test(repo)) {
+			return null;
+		}
+		return { owner, repo };
+	} catch {
+		return null;
+	}
+}
+
+/**
+ * Resolve where to fetch the contributor list from for any project card.
+ *
+ * 1. Explicit upstream mapping wins (AutoOS → tinodin/AutoOS, so forks
+ *    still show the upstream community).
+ * 2. Otherwise parse `url` — every `Project.url` from GitHub is a
+ *    `github.com/<owner>/<repo>` link, so every project resolves.
+ * 3. Otherwise null → caller renders nothing (non-GitHub links like LINE).
+ */
+export function resolveContributorSource(
+	name: string,
+	url?: string,
+): { owner: string; repo: string } | null {
+	const upstream = CONTRIBUTOR_UPSTREAMS[name];
+	if (upstream) return upstream;
+	return parseGithubRepoUrl(url);
+}
 
 interface GitHubRepo {
 	id: number;
@@ -213,6 +259,7 @@ function mapRepoToProject(repo: GitHubRepo, index: number): Project {
 		homepage: repo.homepage || undefined,
 		featured: index === 0 || repo.stargazers_count > 0,
 		highlight: index === 0,
+		fork: repo.fork,
 	};
 }
 
@@ -255,6 +302,7 @@ const fallbackProjects: Project[] = [
 		url: AUTOOS_URL,
 		featured: true,
 		highlight: true,
+		fork: true,
 	},
 	{
 		id: 100,
@@ -268,6 +316,7 @@ const fallbackProjects: Project[] = [
 		stars: 0,
 		forks: 0,
 		url: githubRepoUrl("DotDoctor"),
+		fork: false,
 		featured: true,
 		highlight: false,
 	},
@@ -283,6 +332,7 @@ const fallbackProjects: Project[] = [
 		stars: 0,
 		forks: 0,
 		url: githubRepoUrl("aim4-mod"),
+		fork: false,
 		featured: true,
 	},
 	{
@@ -297,6 +347,7 @@ const fallbackProjects: Project[] = [
 		stars: 0,
 		forks: 0,
 		url: githubRepoUrl("AEGIS-1-Terminal-Twine-game"),
+		fork: false,
 		featured: false,
 	},
 	{
@@ -311,6 +362,7 @@ const fallbackProjects: Project[] = [
 		stars: 0,
 		forks: 0,
 		url: githubRepoUrl("linux-vs-windows-latency"),
+		fork: false,
 		featured: false,
 	},
 	{
@@ -325,6 +377,7 @@ const fallbackProjects: Project[] = [
 		stars: 0,
 		forks: 0,
 		url: githubRepoUrl("sample-boot-3tier"),
+		fork: false,
 		featured: false,
 	},
 	{
@@ -339,6 +392,7 @@ const fallbackProjects: Project[] = [
 		stars: 0,
 		forks: 0,
 		url: githubRepoUrl("sample-boot-microservice"),
+		fork: false,
 		featured: false,
 	},
 	{
@@ -353,6 +407,7 @@ const fallbackProjects: Project[] = [
 		stars: 0,
 		forks: 0,
 		url: githubRepoUrl("sample-boot-pubsub"),
+		fork: false,
 		featured: false,
 	},
 	{
@@ -367,6 +422,7 @@ const fallbackProjects: Project[] = [
 		stars: 0,
 		forks: 0,
 		url: githubRepoUrl("asg-backend-682110174"),
+		fork: false,
 		featured: false,
 	},
 ];
