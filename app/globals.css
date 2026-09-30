@@ -276,6 +276,50 @@
   contain-intrinsic-size: auto 720px;
 }
 
+/* ─── Site loading animations (minimal editorial) ─── */
+@keyframes site-loader-bar {
+  0% {
+    transform: scaleX(0.08);
+  }
+  55% {
+    transform: scaleX(0.62);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes route-progress {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  60% {
+    transform: scaleX(0.7);
+    transform-origin: left;
+  }
+  100% {
+    transform: scaleX(1);
+    transform-origin: left;
+    opacity: 0.85;
+  }
+}
+
+.animate-site-loader-bar {
+  animation: site-loader-bar 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-route-progress {
+  animation: route-progress 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-site-loader-bar,
+  .animate-route-progress {
+    animation: none;
+  }
+}
+
 /* Before hydration (or with JS disabled), don't gate content behind the
    `opacity-0` + `useInView` entrance animations: an inline script in the root
    layout removes `no-js` from <html> as soon as the HTML is parsed, and then
