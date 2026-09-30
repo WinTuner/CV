@@ -34,6 +34,7 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 			kicker: "Selected Work",
 			title: "Projects",
 			featured: "Featured",
+			fork: "Fork",
 			source: "source",
 			live: "live",
 			liveBadge: "live",
@@ -51,6 +52,7 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 			kicker: "ผลงานที่คัดสรร",
 			title: "โปรเจกต์",
 			featured: "แนะนำ",
+			fork: "ฟอร์ก",
 			source: "ซอร์สโค้ด",
 			live: "เว็บไซต์",
 			liveBadge: "สด",
@@ -68,6 +70,7 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 			kicker: "Selected Work",
 			title: "Projects",
 			featured: "Featured",
+			fork: "Fork",
 			source: "source",
 			live: "live",
 			liveBadge: "live",
@@ -85,6 +88,7 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 			kicker: "Selected Work",
 			title: "Projects",
 			featured: "Featured",
+			fork: "Fork",
 			source: "source",
 			live: "live",
 			liveBadge: "live",
@@ -162,7 +166,17 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 							style={{ animationDelay: `${(index % 6) * 80 + 200}ms` }}
 						>
 						<div className="mb-4 flex items-center justify-between gap-3 font-mono text-xs">
-							<span className="text-muted-foreground">{project.year}</span>
+							<span className="flex items-center gap-2 text-muted-foreground">
+								{project.year}
+								{project.fork && (
+									<span
+										title="Forked repository"
+										className="inline-flex items-center gap-1 rounded-full border border-border/70 px-2 py-0.5 text-[10px] uppercase tracking-widest"
+									>
+										<GitFork className="h-3 w-3" /> {t.fork}
+									</span>
+								)}
+							</span>
 							<div className="flex shrink-0 items-center gap-2">
 								{project.highlight && (
 									<span className="font-mono text-[10px] uppercase tracking-widest text-primary">
@@ -213,7 +227,7 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 								))}
 							</div>
 
-							<UpstreamContributors name={project.title} />
+							<UpstreamContributors name={project.title} url={project.url} />
 
 							<div className="mt-auto flex items-center justify-between border-t border-border/50 pt-4">
 								<div className="flex items-center gap-4">
