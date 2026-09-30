@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/components/language-provider"
 import { useLiveGithubRepos } from "@/lib/use-live-github-repos"
 import { LivePill } from "@/components/live-pill"
+import { UpstreamContributors } from "@/components/contributors-row"
 import type { Project } from "@/lib/github"
 
 const filters = ["all", "shipped", "in-progress", "archived"]
@@ -59,6 +60,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
         "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
       search: "Search projects...",
       featured: "Featured",
+      fork: "Fork",
       source: "source",
       live: "live",
       liveBadge: "live",
@@ -86,6 +88,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
       desc: "รวมเครื่องมือ งานทดลอง และผลงานที่แบ่งปันให้ชุมชนโอเพนซอร์ส สร้างด้วยความตั้งใจ ดูแลต่อเนื่อง",
       search: "ค้นหาโปรเจกต์...",
       featured: "แนะนำ",
+      fork: "ฟอร์ก",
       source: "ซอร์สโค้ด",
       live: "เว็บไซต์",
       liveBadge: "สด",
@@ -114,6 +117,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
         "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
       search: "Search projects...",
       featured: "Featured",
+      fork: "Fork",
       source: "source",
       live: "live",
       liveBadge: "live",
@@ -142,6 +146,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
         "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
       search: "Search projects...",
       featured: "Featured",
+      fork: "Fork",
       source: "source",
       live: "live",
       liveBadge: "live",
@@ -330,11 +335,19 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
 
               <div
                 className={cn(
-                  "mb-5 font-mono text-xs text-muted-foreground",
+                  "mb-5 flex items-center gap-2 font-mono text-xs text-muted-foreground",
                   "highlight" in project && project.highlight && "mt-10",
                 )}
               >
                 {project.year}
+                {project.fork && (
+                  <span
+                    title="Forked repository"
+                    className="inline-flex items-center gap-1 rounded-full border border-border/70 px-2 py-0.5 text-[10px] uppercase tracking-widest"
+                  >
+                    <GitFork className="h-3 w-3" /> {t[language].fork}
+                  </span>
+                )}
               </div>
 
               <h3
@@ -364,6 +377,10 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
                     {tag}
                   </span>
                 ))}
+              </div>
+
+              <div className="mb-5">
+                <UpstreamContributors name={project.title} url={project.url} />
               </div>
 
               <div className="mt-auto flex items-center gap-5 border-t border-border/50 pt-4 font-mono text-xs text-muted-foreground">
