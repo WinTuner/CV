@@ -215,7 +215,10 @@ export function IntroductionContent() {
 														</div>
 													</div>
 												</div>
-												<UpstreamContributors name={proj.name} />
+												<UpstreamContributors
+													name={proj.name}
+													url={"url" in proj ? (proj as { url?: string }).url : undefined}
+												/>
 											</div>
 										</article>
 									))}
