@@ -35,17 +35,21 @@ The codebase has already adopted the baseline optimizations:
 ## Bundle Size (measured August 2026)
 
 First-load JS (uncompressed) per route, from `.next/diagnostics/route-bundle-stats.json`
-(after the CommandPalette lazy-mount optimization):
+(after the CommandPalette lazy-mount optimization; re-measured
+September 2026 after the 16.3.6 patch round — down ~20–40KB per route;
+re-measured October 2026 after adding Lenis smooth-scroll — up ~25KB):
 
 | Route | First-load JS |
 | --- | --- |
-| `/` (home) | ~680KB |
-| `/introduction` | ~648KB |
-| `/blog` | ~631KB |
+| `/` (home) | ~674KB |
+| `/introduction` | ~650KB |
+| `/blog` | ~613KB |
 
 Notes:
 - The bulk (~370KB) is the Next.js 16 + React 19 framework runtime that every
   App Router page pays for — not directly reducible.
+- Lenis (~25KB uncompressed) powers the inertial smooth-scroll; all routes
+  stay under the 800KiB script budget.
 - The command palette and Spotify player were removed in the editorial
   redesign, which also cut the terminal widget's ~71KB and its tab components.
 - Re-check after any dependency change: `npx next build`, then inspect
@@ -89,4 +93,4 @@ Notes:
 
 ---
 
-**Last updated**: August 2026
+**Last updated**: October 2026
