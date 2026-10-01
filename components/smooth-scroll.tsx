@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import Lenis from "lenis";
+import type Lenis from "lenis";
 
 declare global {
 	interface Window {
@@ -12,9 +12,12 @@ declare global {
 /**
  * Buttery inertial smooth-scroll for the whole site (Lenis).
  *
- * - `autoRaf: true` drives its own rAF loop — no manual loop needed.
- * - `lerp: 0.15` glides without lagging behind the wheel (0.1 felt buttery
- *   but sluggish).
+ * Loaded lazily and started idle so it never taxes first paint: Lenis ships
+ * in its own chunk (dynamic `import`, off the first-load bundle) and boots
+ * on `requestIdleCallback`. Before it arrives, anchor jumps and BackToTop
+ * fall back to native CSS `scroll-behavior: smooth` — same feel, zero cost.
+ *
+ * - `lerp: 0.15` glides without lagging behind the wheel.
  * - `anchors: { offset: -88 }` keeps `#projects` / `#experience` jumps clear
  *   of the fixed header, same offset as the CSS `scroll-margin-top`.
  * - Skipped entirely for `prefers-reduced-motion` users and before hydration.
@@ -26,21 +29,43 @@ export function SmoothScroll() {
 		if (typeof window === "undefined") return;
 		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-		const lenis = new Lenis({
-			autoRaf: true,
-			// 0.15 tracks the wheel tightly (snappy) while keeping the glide.
-			// 0.1 felt buttery but laggy — the "smooth but slow" complaint.
-			lerp: 0.15,
-			smoothWheel: true,
-			anchors: {
-				offset: -88,
-			},
-		});
-		window.__lenis = lenis;
+		const idleWindow = window as unknown as Window & {
+			requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+			cancelIdleCallback?: (id: number) => void;
+		};
+
+		let lenis: Lenis | undefined;
+		let cancelled = false;
+
+		const init = () => {
+			import("lenis").then(({ default: LenisClass }) => {
+				if (cancelled) return;
+				lenis = new LenisClass({
+					autoRaf: true,
+					lerp: 0.15,
+					smoothWheel: true,
+					anchors: {
+						offset: -88,
+					},
+				});
+				window.__lenis = lenis;
+			});
+		};
+
+		let cancelIdle: (() => void) | undefined;
+		if (typeof idleWindow.requestIdleCallback === "function") {
+			const id = idleWindow.requestIdleCallback(init, { timeout: 1200 });
+			cancelIdle = () => idleWindow.cancelIdleCallback?.(id);
+		} else {
+			const id = window.setTimeout(init, 250);
+			cancelIdle = () => window.clearTimeout(id);
+		}
 
 		return () => {
+			cancelled = true;
+			cancelIdle?.();
 			window.__lenis = undefined;
-			lenis.destroy();
+			lenis?.destroy();
 		};
 	}, []);
 
