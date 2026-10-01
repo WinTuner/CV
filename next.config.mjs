@@ -17,6 +17,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: [
       'lucide-react',
+      'lenis',
       '@radix-ui/react-avatar',
       '@radix-ui/react-dialog',
       '@radix-ui/react-slot',
