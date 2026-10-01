@@ -12,9 +12,12 @@ const VISITED_KEY = "wintuner:visited";
  * Initial site splash — minimal editorial loader.
  *
  * Full-screen `bg-background` overlay with a serif wordmark and a thin
- * progress line. Fades out once the page finishes loading (or after a
- * bounded timeout so a slow asset never traps the visitor). Renders nothing
- * after the fade, and skips the delay for reduced-motion users.
+ * progress line. Shows only while the page is still loading (then fades out,
+ * or after a bounded timeout so a slow asset never traps the visitor). When
+ * hydration lands after everything already painted — fast loads and lab
+ * audits — it dismisses immediately instead of holding a covering overlay
+ * over the LCP. Renders nothing after the fade, and skips the delay for
+ * reduced-motion users.
  */
 export function SiteLoader() {
 	const [visible, setVisible] = useState(true);
@@ -57,10 +60,13 @@ export function SiteLoader() {
 		};
 
 		if (document.readyState === "complete") {
-			scheduleFinish();
-		} else {
-			window.addEventListener("load", scheduleFinish, { once: true });
+			// Hydrated after the page (and its LCP) already painted — dismiss
+			// at once instead of covering content for MIN_DISPLAY_MS.
+			 
+			setVisible(false);
+			return undefined;
 		}
+		window.addEventListener("load", scheduleFinish, { once: true });
 
 		return () => {
 			window.removeEventListener("load", scheduleFinish);
