@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-const MIN_DISPLAY_MS = 900;
-const MAX_WAIT_MS = 2600;
-const FADE_MS = 450;
+const MIN_DISPLAY_MS = 350;
+const MAX_WAIT_MS = 1800;
+const FADE_MS = 350;
+const VISITED_KEY = "wintuner:visited";
 
 /**
  * Initial site splash — minimal editorial loader.
@@ -20,13 +21,31 @@ export function SiteLoader() {
 	const [leaving, setLeaving] = useState(false);
 
 	useEffect(() => {
+		try {
+			// Repeat views in the same tab skip the splash — the reference
+			// site paints instantly on every navigation, and so should we.
+			if (sessionStorage.getItem(VISITED_KEY)) {
+				// eslint-disable-next-line react-hooks/set-state-in-effect -- intentional one-shot dismiss after mount
+				setVisible(false);
+				return undefined;
+			}
+		} catch {
+			// Private mode without storage — fall through to the normal splash.
+		}
 		const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 		if (reduced) {
-			// eslint-disable-next-line react-hooks/set-state-in-effect -- intentional one-shot dismiss after mount
+			 
 			setVisible(false);
 			return undefined;
 		}
-		const finish = () => setLeaving(true);
+		const finish = () => {
+			try {
+				sessionStorage.setItem(VISITED_KEY, "1");
+			} catch {
+				// Ignore storage failures (private mode).
+			}
+			setLeaving(true);
+		};
 		let minTimer: ReturnType<typeof setTimeout> | undefined;
 		const maxTimer: ReturnType<typeof setTimeout> = setTimeout(finish, MAX_WAIT_MS);
 
@@ -63,7 +82,7 @@ export function SiteLoader() {
 			role="status"
 			aria-label="Loading site"
 			className={cn(
-				"fixed inset-0 z-[90] flex flex-col items-center justify-center gap-5 bg-background transition-opacity duration-500",
+				"fixed inset-0 z-[90] flex flex-col items-center justify-center gap-5 bg-background transition-opacity duration-300",
 				leaving && "pointer-events-none opacity-0",
 			)}
 		>
