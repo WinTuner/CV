@@ -33,6 +33,7 @@ export function HeroPortrait() {
 								);
 							}}
 							priority
+							fetchPriority="high"
 						/>
 						{/* Editorial frame accent — soft cyan */}
 						<div className="absolute inset-0 border border-primary/25 pointer-events-none" />

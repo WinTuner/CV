@@ -31,7 +31,7 @@ export function HeroSection() {
 							<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
 								{t.kicker}
 							</p>
-							<h1 className="font-serif text-[2.7rem] font-medium leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl text-balance">
+							<h1 className="font-serif text-[2.7rem] font-medium leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
 								Forging digital
 								<br />
 								<HeroTypewriter />
