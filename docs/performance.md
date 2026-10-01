@@ -37,19 +37,23 @@ The codebase has already adopted the baseline optimizations:
 First-load JS (uncompressed) per route, from `.next/diagnostics/route-bundle-stats.json`
 (after the CommandPalette lazy-mount optimization; re-measured
 September 2026 after the 16.3.6 patch round — down ~20–40KB per route;
-re-measured October 2026 after adding Lenis smooth-scroll — up ~25KB):
+re-measured October 2026 after adding Lenis smooth-scroll — lazy chunk,
+off the first-load bundle):
 
 | Route | First-load JS |
 | --- | --- |
-| `/` (home) | ~674KB |
-| `/introduction` | ~650KB |
-| `/blog` | ~613KB |
+| `/` (home) | ~656KB |
+| `/introduction` | ~633KB |
+| `/blog` | ~595KB |
 
 Notes:
 - The bulk (~370KB) is the Next.js 16 + React 19 framework runtime that every
   App Router page pays for — not directly reducible.
-- Lenis (~25KB uncompressed) powers the inertial smooth-scroll; all routes
-  stay under the 800KiB script budget.
+- Lenis (~25KB uncompressed) ships as a lazy chunk booted on
+  `requestIdleCallback`, so it costs nothing at first paint; all routes
+  stay well under the 800KiB script budget.
+- Reveal/transition keyframes animate transform + opacity only (no `filter`
+  or `will-change` layers) to keep the Lighthouse performance score green.
 - The command palette and Spotify player were removed in the editorial
   redesign, which also cut the terminal widget's ~71KB and its tab components.
 - Re-check after any dependency change: `npx next build`, then inspect
