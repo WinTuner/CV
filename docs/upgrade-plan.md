@@ -1,7 +1,7 @@
 # Upgrade Plan — WinTuner CV (Full)
 
 > Generated Sep 2026. Covers toolchain, content, perf, a11y, testing, infra.
-> Baseline: Next 16.3.4, React 19.2.3, Tailwind v4.3.3, Node 22. See `package.json:32` deps.
+> Baseline: Next 16.3.5, React 19.3.0, Tailwind v4.3.3, Node 22. See `package.json:32` deps.
 
 ## Goals
 
@@ -21,7 +21,7 @@
 
 ## Phase 0 — Audit (done)
 
-- `npm outdated` (Sep 2026): radix-avatar 1.1.2→1.2.6, radix-slot 1.1.1→1.3.3, analytics 1.6.1→2.0.1, eslint 9.39.5→10.10.0, lucide 0.454→1.42, react 19.2.3→19.2.8, tailwind-merge 2.6.1→3.6.0, tw-animate 1.3.3→1.4, TS 5.9.3→7.0, vitest 4.1.11→5.0
+- `npm outdated` (Sep 2026): next 16.3.5→16.3.6, eslint-config-next 16.3.5→16.3.6, bundle-analyzer 16.3.5→16.3.6, jsdom 30.0.1→30.1.1, lucide 1.45→1.48, tailwind-merge 3.6.0→3.7.0, html2canvas-pro 2.4.2→2.4.5; majors deferred (eslint 9→10, analytics 1.6→2.0, TS 5.9→7, vitest 4→5, @types/node 22→26)
 - `npm audit` clean (0 vuln).
 - `depcheck` false-positives for `@tailwindcss/typography`, `tailwindcss`, `postcss`, `tw-animate-css` (used via CSS import, keep).
 - Bundle `~680KB` home (`docs/performance.md:37`), `jspdf`+`html2canvas-pro` already lazy `components/public/introduction/download-resume-button.tsx:28`, `CommandPalette` eager `components/header.tsx:9`.
