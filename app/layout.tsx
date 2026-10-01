@@ -13,6 +13,8 @@ import type { SupportedLanguageCode } from "@/constants/languages";
 import { AnimatedBackground } from "@/components/animated-background";
 import { SiteLoader } from "@/components/site-loader";
 import { RouteProgress } from "@/components/route-progress";
+import { SmoothScroll } from "@/components/smooth-scroll";
+import { PageTransition } from "@/components/page-transition";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { BackToTop } from "@/components/back-to-top";
 import { EasterEgg } from "@/components/easter-egg";
@@ -140,6 +142,7 @@ export default async function RootLayout({
 		<html
 			lang={initialLanguage}
 			suppressHydrationWarning
+			data-scroll-behavior="smooth"
 			className={`${geist.variable} ${geistMono.variable} ${fraunces.variable} no-js`}
 		>
 			<body className="font-sans antialiased">
@@ -169,11 +172,12 @@ export default async function RootLayout({
 					storageKey="theme-mode"
 				>
 					<LanguageProvider initialLanguage={initialLanguage}>
+						<SmoothScroll />
 						<SiteLoader />
 						<Suspense fallback={null}>
 							<RouteProgress />
 						</Suspense>
-						{children}
+						<PageTransition>{children}</PageTransition>
 						<ScrollProgress />
 						<BackToTop />
 						<EasterEgg />
