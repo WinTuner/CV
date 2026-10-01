@@ -36,8 +36,6 @@ const socialLinks = [
 export function Header() {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
-	const [isHidden, setIsHidden] = useState(false);
-	const lastYRef = useRef(0);
 	const menuToggleRef = useRef<HTMLButtonElement>(null);
 	const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
 	const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -54,14 +52,7 @@ export function Header() {
 		let frame = 0;
 		const update = () => {
 			frame = 0;
-			const y = window.scrollY;
-			setIsScrolled(y > 20);
-			// Hide on scroll-down past the hero, reveal on scroll-up — the
-			// reference site's sticky header behaves the same way, which is
-			// why long pages feel faster to read. The open mobile menu forces
-			// visibility so navigation never disappears mid-tap.
-			setIsHidden(y > lastYRef.current && y > 320 && !isMobileMenuOpen);
-			lastYRef.current = y;
+			setIsScrolled(window.scrollY > 20);
 		};
 		const onScroll = () => {
 			if (!frame) frame = requestAnimationFrame(update);
@@ -71,7 +62,7 @@ export function Header() {
 			if (frame) cancelAnimationFrame(frame);
 			window.removeEventListener("scroll", onScroll);
 		};
-	}, [isMobileMenuOpen]);
+	}, []);
 
 	// Close mobile menu with Escape key + manage focus + trap Tab (a11y)
 	useEffect(() => {
@@ -119,8 +110,7 @@ export function Header() {
 	return (
 		<header
 			className={cn(
-				"fixed top-0 left-0 right-0 z-50 transition-[transform,background-color,border-color] duration-300 ease-out will-change-transform",
-				isHidden && !isMobileMenuOpen ? "-translate-y-full" : "translate-y-0",
+				"fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color] duration-300 ease-out",
 				isScrolled
 					? "border-b border-border/60 bg-background/90 backdrop-blur-md"
 					: "bg-transparent",
