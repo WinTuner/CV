@@ -14,7 +14,6 @@ import { AnimatedBackground } from "@/components/animated-background";
 import { SiteLoader } from "@/components/site-loader";
 import { RouteProgress } from "@/components/route-progress";
 import { SmoothScroll } from "@/components/smooth-scroll";
-import { PageTransition } from "@/components/page-transition";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { BackToTop } from "@/components/back-to-top";
 import { EasterEgg } from "@/components/easter-egg";
@@ -177,7 +176,9 @@ export default async function RootLayout({
 						<Suspense fallback={null}>
 							<RouteProgress />
 						</Suspense>
-						<PageTransition>{children}</PageTransition>
+						{/* No route-fade wrapper here by design: an opacity-0-start
+							animation on this tree delayed LCP by ~740ms in lab. */}
+						{children}
 						<ScrollProgress />
 						<BackToTop />
 						<EasterEgg />
