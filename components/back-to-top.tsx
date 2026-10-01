@@ -35,7 +35,16 @@ export function BackToTop() {
 	return (
 		<button
 			type="button"
-			onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+			onClick={() => {
+				// Glide through Lenis when active so the trip back up feels
+				// like the rest of the page; otherwise fall back to native.
+				const lenis = window.__lenis;
+				if (lenis) {
+					lenis.scrollTo(0, { duration: 0.9 });
+				} else {
+					window.scrollTo({ top: 0, behavior: "smooth" });
+				}
+			}}
 			aria-label={language === "th" ? "กลับขึ้นด้านบน" : language === "ja" ? "トップに戻る" : language === "zh" ? "返回顶部" : "Back to top"}
 			className={cn(
 				"fixed right-4 z-50 flex h-11 w-11 items-center justify-center border border-border/70 bg-card text-muted-foreground shadow-sm transition-all duration-300 hover:border-primary/50 hover:text-primary sm:right-8",

@@ -43,7 +43,8 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
    score assertions (perf ≥0.85, a11y ≥0.95, BP ≥0.9, SEO ≥0.9) across 4
    routes; resource budgets in `budgets.json` (scripts ≤800KiB).
 5. **Bundle analysis** — ✅ measured via `.next/diagnostics/route-bundle-stats.json`;
-   the redesign removed the command palette and terminal widget (~90KB); see
+   the redesign removed the terminal widget (~90KB); the command palette
+   is back as a lazy-mounted dynamic import (`components/header.tsx:14`); see
    `docs/performance.md`.
 
 ---

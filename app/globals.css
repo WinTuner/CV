@@ -128,6 +128,12 @@
     /* Keep iOS from rescaling text on rotation/zoom, and kill the grey flash on tap */
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
+    /* Buttery anchor jumps (#projects, #experience) with clearance for the
+       fixed header. Lenis overrides this with `auto` while smoothing wheel
+       input (see .lenis rules below); this remains the no-JS / reduced-motion
+       fallback so in-page links never jump abruptly. */
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
   }
   body {
     @apply bg-background text-foreground;
@@ -148,11 +154,16 @@
   }
 }
 
+/* Anchored sections clear the fixed header (matches Lenis anchors offset). */
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
 /* ─── Editorial reveal animations (subtle) ─── */
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;
@@ -203,7 +214,7 @@
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: fade-in-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .animate-fade-in-down {
@@ -313,10 +324,51 @@
   animation: route-progress 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+/* ─── Route change transition (reference-style quick fade) ─── */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-page-in {
+  animation: page-in 0.22s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ─── Lenis smooth-scroll base styles (required) ─── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   .animate-site-loader-bar,
-  .animate-route-progress {
+  .animate-route-progress,
+  .animate-page-in {
     animation: none;
+  }
+  .animate-fade-in-up {
+    animation-duration: 0.01ms;
   }
 }
 
