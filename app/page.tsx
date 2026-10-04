@@ -1,25 +1,61 @@
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
-import { SkillsMatrix } from "@/components/skills-matrix";
-import { ExperienceTimeline } from "@/components/experience-timeline";
-import { ProjectsGrid } from "@/components/projects-grid";
-import { Workbench } from "@/components/workbench";
-import { GithubContributionGraph } from "@/components/github-contribution-graph";
 import {
 	getGithubRepos,
 	getGithubWipItems,
 	getGithubContributions,
 } from "@/lib/github";
-import { ContactSection } from "@/components/contact-section";
-import { Footer } from "@/components/footer";
-import { HighlightsStrip } from "@/components/highlights-strip";
 import {
 	generateWebsiteStructuredData,
 	generatePersonStructuredData,
 } from "@/lib/structured-data";
 import { toSafeJsonLd } from "@/lib/security";
 import { SITE_URL } from "@/lib/site";
+
+/*
+ * Below-fold sections ship as separate chunks via `next/dynamic` (ssr: true).
+ * Server HTML is unchanged — SEO and first paint are identical — but the
+ * client JS for these sections downloads and parses *after* hydration
+ * instead of competing with the hero LCP image for bandwidth and main-thread
+ * time on throttled connections (lab: LCP == TTI at ~4.4s on Moto-G4
+ * throttling). Header + hero stay eager: they own the LCP.
+ */
+const HighlightsStrip = dynamic(
+	() => import("@/components/highlights-strip").then((m) => m.HighlightsStrip),
+	{ ssr: true },
+);
+const SkillsMatrix = dynamic(
+	() => import("@/components/skills-matrix").then((m) => m.SkillsMatrix),
+	{ ssr: true },
+);
+const ExperienceTimeline = dynamic(
+	() => import("@/components/experience-timeline").then((m) => m.ExperienceTimeline),
+	{ ssr: true },
+);
+const GithubContributionGraph = dynamic(
+	() =>
+		import("@/components/github-contribution-graph").then(
+			(m) => m.GithubContributionGraph,
+		),
+	{ ssr: true, loading: () => <GithubContributionsSkeleton /> },
+);
+const ProjectsGrid = dynamic(
+	() => import("@/components/projects-grid").then((m) => m.ProjectsGrid),
+	{ ssr: true, loading: () => <ProjectsSkeleton /> },
+);
+const Workbench = dynamic(
+	() => import("@/components/workbench").then((m) => m.Workbench),
+	{ ssr: true, loading: () => <WorkbenchSkeleton /> },
+);
+const ContactSection = dynamic(
+	() => import("@/components/contact-section").then((m) => m.ContactSection),
+	{ ssr: true },
+);
+const Footer = dynamic(() => import("@/components/footer").then((m) => m.Footer), {
+	ssr: true,
+});
 
 /*
  * The route is rendered on demand (streaming), so there is no route-level
