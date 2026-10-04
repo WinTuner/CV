@@ -140,4 +140,10 @@ Rollback per `docs/deployment.md:67` Vercel instant or `git checkout <sha> && np
 ---
 
 **Last updated:** Sep 2026
+**Oct 2026 round:** WS1–WS6 executed — Next 16.3.8, lucide 1.51,
+html2canvas-pro 2.5.0, sharp 0.35.5, @types/node 22.20.5; bundles flat
+(/ ~657KB); unit tests 51→75 (`fuzzy`, `blog-data`, `github-urls`);
+E2E 18/18 incl. CSP zero-violations (report-only kept — needs prod soak
+before enforce). Deferred: eslint 10, analytics 2.0, TS 7, vitest 5,
+@types/node 26; `braces` audit chain needs breaking eslint-config-next downgrade.
 **Source:** `docs/upgrade-plan.md` replaces ad-hoc checklist for this upgrade.
