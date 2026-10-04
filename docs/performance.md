@@ -38,13 +38,15 @@ First-load JS (uncompressed) per route, from `.next/diagnostics/route-bundle-sta
 (after the CommandPalette lazy-mount optimization; re-measured
 September 2026 after the 16.3.6 patch round — down ~20–40KB per route;
 re-measured October 2026 after adding Lenis smooth-scroll — lazy chunk,
-off the first-load bundle):
+off the first-load bundle; re-measured Oct 2026 after the 16.3.8 patch
+round — no regression, within ~1KB per route, budgets stay at 800KiB):
 
 | Route | First-load JS |
 | --- | --- |
-| `/` (home) | ~656KB |
+| `/` (home) | ~657KB |
 | `/introduction` | ~633KB |
 | `/blog` | ~595KB |
+| `/projects` | ~588KB |
 
 Notes:
 - The bulk (~370KB) is the Next.js 16 + React 19 framework runtime that every
