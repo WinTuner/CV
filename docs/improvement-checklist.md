@@ -96,7 +96,7 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
 | Bundle analysis + lazy palette | ✅ done |
 | Phase C hygiene (Sep 2026) | ✅ safe dep bumps (Next 16.3.5, lucide 1.45), `**` image fallback removed after host inventory, report-only CSP (zero violations in E2E), security-header specs |
 | Realtime freshness | ✅ `useLiveGithubActivity` returns `{activity, updatedAt, isLive}`; workbench shows live pill with relative update time |
-| Oct 2026 upgrade round | ✅ Next 16.3.8 + lucide 1.51 + html2canvas-pro 2.5.0 (bundles flat: / ~657KB), unit coverage for `fuzzy`/`blog-data`/`github-urls` (51→75 tests), E2E 18/18 green incl. CSP zero-violations; majors deferred (eslint 10, analytics 2.0, TS 7, vitest 5) |
+| Oct 2026 upgrade round | ✅ Next 16.3.8 + lucide 1.51 + html2canvas-pro 2.5.0; home below-fold sections code-split via `next/dynamic` (ssr:true, same SSR HTML) after LH perf gate tripped at 0.82 — lab mobile sim 0.80→0.86+ (LCP 4.4s→~3.4s); unit coverage for `fuzzy`/`blog-data`/`github-urls` (51→75 tests), E2E 18/18 green incl. CSP zero-violations; majors deferred (eslint 10, analytics 2.0, TS 7, vitest 5) |
 
 **Recommended next phase**: items 1–2 (content case studies + project
 metrics) — the highest return for a student-focused portfolio.
