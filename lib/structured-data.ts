@@ -1,4 +1,5 @@
 import type { BlogPost } from './blog-data'
+import { absoluteImg } from './images'
 import { AUTHOR_AVATAR, AUTHOR_NAME, CONTACT_MAILTO, GITHUB_USERNAME, SITE_URL, SOCIAL_LINKS } from './site'
 
 export function generateBlogPostStructuredData(post: BlogPost, siteUrl: string, pageUrl?: string) {
@@ -10,7 +11,7 @@ export function generateBlogPostStructuredData(post: BlogPost, siteUrl: string, 
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.excerpt,
-    image: `${siteUrl}/og-images/${post.slug}.png`,
+    image: absoluteImg(`/og-images/${post.slug}.png`, siteUrl),
     datePublished: publishedIso,
     dateModified: publishedIso,
     author: {
@@ -63,7 +64,7 @@ export function generatePersonStructuredData() {
     name: AUTHOR_NAME,
     alternateName: 'ธณัฐพงค์ ทะรินทร์',
     url: SITE_URL,
-    image: `${SITE_URL}${AUTHOR_AVATAR}`,
+    image: AUTHOR_AVATAR.startsWith("http") ? AUTHOR_AVATAR : `${SITE_URL}${AUTHOR_AVATAR}`,
     sameAs: [
       SOCIAL_LINKS.github,
       SOCIAL_LINKS.x,

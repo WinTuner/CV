@@ -19,6 +19,7 @@ import { BackToTop } from "@/components/back-to-top";
 import { EasterEgg } from "@/components/easter-egg";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
+import { absoluteImg } from "@/lib/images";
 
 // Configure fonts with proper options
 const geist = Geist({
@@ -88,7 +89,7 @@ export const metadata: Metadata = {
 		siteName: "WinTuner",
 		images: [
 			{
-				url: "/og-image.png",
+				url: absoluteImg("/og-image.png", SITE_URL),
 				width: 1200,
 				height: 630,
 				alt: "WinTuner — Thanatphong Tarin's Digital Laboratory",

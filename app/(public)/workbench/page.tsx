@@ -3,6 +3,7 @@ import { getGithubWipItems, getGithubRecentActivity } from "@/lib/github";
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/site"
+import { absoluteImg } from "@/lib/images"
 
 export const revalidate = 900
 
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${baseUrl}/og-image-workbench.png`,
+        url: absoluteImg("/og-image-workbench.png", baseUrl),
         width: 1200,
         height: 630,
         alt: "WinTuner Workbench",

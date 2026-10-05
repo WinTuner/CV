@@ -1,6 +1,7 @@
 import { MuanjaiContent } from "@/components/public/case-study/muanjai-content";
 import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/site";
+import { absoluteImg } from "@/lib/images";
 import { toSafeJsonLd } from "@/lib/security";
 
 const baseUrl = SITE_URL;
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 		type: "article",
 		images: [
 			{
-				url: `${baseUrl}/og-image-projects.png`,
+				url: absoluteImg("/og-image-projects.png", baseUrl),
 				width: 1200,
 				height: 630,
 				alt: "Muanjai case study",

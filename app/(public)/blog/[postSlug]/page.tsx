@@ -12,6 +12,7 @@ import {
 } from "@/lib/notion-blog";
 import { Suspense } from "react";
 import { SITE_URL } from "@/lib/site"
+import { absoluteImg } from "@/lib/images"
 import { toSafeJsonLd } from "@/lib/security"
 
 export const revalidate = 3600
@@ -45,7 +46,7 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
 
   const baseUrl = SITE_URL;
   const postUrl = `${baseUrl}/blog/${post.slug}${language !== "en" ? `?lang=${language}` : ""}`;
-  const ogImageUrl = `${baseUrl}/og-images/${post.slug}.png`;
+  const ogImageUrl = absoluteImg(`/og-images/${post.slug}.png`, baseUrl);
 
   return {
     title: post.title,

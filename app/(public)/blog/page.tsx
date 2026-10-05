@@ -8,6 +8,7 @@ import { isSupportedLanguage, DEFAULT_LANGUAGE } from "@/constants/languages";
 import mediumBlogApi from "@/lib/medium-blog";
 import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/site"
+import { absoluteImg } from "@/lib/images"
 
 const baseUrl = SITE_URL;
 
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${baseUrl}/og-image-blog.png`,
+        url: absoluteImg("/og-image-blog.png", baseUrl),
         width: 1200,
         height: 630,
         alt: "WinTuner Blog",

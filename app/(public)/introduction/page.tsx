@@ -3,6 +3,7 @@ import { PrintTrigger } from "@/components/public/introduction/print-trigger";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { SITE_URL } from "@/lib/site";
+import { absoluteImg } from "@/lib/images";
 
 const baseUrl = SITE_URL;
 
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 		type: "profile",
 		images: [
 			{
-				url: `${baseUrl}/og-image.png`,
+				url: absoluteImg("/og-image.png", baseUrl),
 				width: 1200,
 				height: 630,
 				alt: "Thanatphong Tarin profile page",

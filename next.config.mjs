@@ -52,6 +52,7 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.medium.com' },
       { protocol: 'https', hostname: 'miro.medium.com' },
       { protocol: 'https', hostname: 'cdn-images-*.medium.com' },
+      { protocol: 'https', hostname: 'res.cloudinary.com' },
     ],
   },
   // Cache static assets aggressively; keep HTML dynamic.

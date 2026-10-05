@@ -1,3 +1,4 @@
+import { img } from "@/lib/images";
 import type {
 	AwardMap,
 	CVCopyMap,
@@ -15,14 +16,14 @@ export const education = {
 			period: "2019 - 2025",
 			detail: "Software Engineer Program",
 			gpa: "3.97",
-			image: "/crapao-school.png",
+			image: img("/crapao-school.png"),
 		},
 		{
 			school: "Chiang Mai University",
 			period: "2025 - Present",
 			detail: "CAMT, Bachelor of Science in Digital Industry Integration",
 			gpa: "3.40",
-			image: "/cmu-education.png",
+			image: img("/cmu-education.png"),
 		},
 	],
 	th: [
@@ -31,14 +32,14 @@ export const education = {
 			period: "2019 - 2025",
 			detail: "แผนการเรียนวิศวกรรมซอฟต์แวร์",
 			gpa: "3.97",
-			image: "/crapao-school.png",
+			image: img("/crapao-school.png"),
 		},
 		{
 			school: "มหาวิทยาลัยเชียงใหม่",
 			period: "2025 - ปัจจุบัน",
 			detail: "CAMT, วท.บ. สาขาการบูรณาการอุตสาหกรรมดิจิทัล",
 			gpa: "3.40",
-			image: "/cmu-education.png",
+			image: img("/cmu-education.png"),
 		},
 	],
 	ja: [
@@ -47,14 +48,14 @@ export const education = {
 			period: "2019 - 2025",
 			detail: "ソフトウェア工学プログラム",
 			gpa: "3.97",
-			image: "/crapao-school.png",
+			image: img("/crapao-school.png"),
 		},
 		{
 			school: "チェンマイ大学",
 			period: "2025 - 現在",
 			detail: "CAMT デジタル産業統合学士課程",
 			gpa: "3.40",
-			image: "/cmu-education.png",
+			image: img("/cmu-education.png"),
 		},
 	],
 	zh: [
@@ -63,14 +64,14 @@ export const education = {
 			period: "2019 - 2025",
 			detail: "软件工程项目",
 			gpa: "3.97",
-			image: "/crapao-school.png",
+			image: img("/crapao-school.png"),
 		},
 		{
 			school: "清迈大学",
 			period: "2025 - 至今",
 			detail: "CAMT 数字产业整合学士",
 			gpa: "3.40",
-			image: "/cmu-education.png",
+			image: img("/cmu-education.png"),
 		},
 	],
 } satisfies EducationMap;
@@ -160,7 +161,7 @@ export const professionalExperience = {
 				learned:
 					"WinUI 3, Native AOT publishing, partition management, and upstream open-source collaboration.",
 				url: "https://github.com/tinodin/AutoOS",
-				image: "/autoos-hero.png",
+				image: img("/autoos-hero.png"),
 			},
 			{
 				name: "SynToolkit",
@@ -172,7 +173,7 @@ export const professionalExperience = {
 				learned:
 					"C#, WinUI 3 / Windows App SDK, WinGet integration, and upstream open-source collaboration.",
 				url: "https://github.com/Synergy-Tweaks/SynToolkit",
-				image: "/syntoolkit-hero.png",
+				image: img("/syntoolkit-hero.png"),
 			},
 			{
 				name: "ProjectPruta Contributions",
@@ -264,7 +265,7 @@ export const professionalExperience = {
 				learned:
 					"WinUI 3, การเผยแพร่แบบ Native AOT, การจัดการพาร์ติชัน และการร่วมงานกับโอเพนซอร์สต้นน้ำ",
 				url: "https://github.com/tinodin/AutoOS",
-				image: "/autoos-hero.png",
+				image: img("/autoos-hero.png"),
 			},
 			{
 				name: "SynToolkit",
@@ -276,7 +277,7 @@ export const professionalExperience = {
 				learned:
 					"C#, WinUI 3 / Windows App SDK, การผสาน WinGet และการร่วมงานกับโอเพนซอร์สต้นน้ำ",
 				url: "https://github.com/Synergy-Tweaks/SynToolkit",
-				image: "/syntoolkit-hero.png",
+				image: img("/syntoolkit-hero.png"),
 			},
 			{
 				name: "การช่วยพัฒนา ProjectPruta",
@@ -373,7 +374,7 @@ export const professionalExperience = {
 				learned:
 					"WinUI 3、Native AOT 公開、パーティション管理、上流オープンソースとの協働。",
 				url: "https://github.com/tinodin/AutoOS",
-				image: "/autoos-hero.png",
+				image: img("/autoos-hero.png"),
 			},
 			{
 				name: "SynToolkit",
@@ -385,7 +386,7 @@ export const professionalExperience = {
 				learned:
 					"C#、WinUI 3 / Windows App SDK、WinGet 連携、上流オープンソースとの協働。",
 				url: "https://github.com/Synergy-Tweaks/SynToolkit",
-				image: "/syntoolkit-hero.png",
+				image: img("/syntoolkit-hero.png"),
 			},
 			{
 				name: "ProjectPruta Contributions",
@@ -484,7 +485,7 @@ export const professionalExperience = {
 				learned:
 					"WinUI 3、Native AOT 发布、分区管理与上游开源协作。",
 				url: "https://github.com/tinodin/AutoOS",
-				image: "/autoos-hero.png",
+				image: img("/autoos-hero.png"),
 			},
 			{
 				name: "SynToolkit",
@@ -496,7 +497,7 @@ export const professionalExperience = {
 				learned:
 					"C#、WinUI 3 / Windows App SDK、WinGet 集成与上游开源协作。",
 				url: "https://github.com/Synergy-Tweaks/SynToolkit",
-				image: "/syntoolkit-hero.png",
+				image: img("/syntoolkit-hero.png"),
 			},
 			{
 				name: "ProjectPruta Contributions",
@@ -519,7 +520,7 @@ export const selfDevelopment = {
 			{
 				name: "UX/UI Foundation Program 2025",
 				institution: "T.C.C. Technology Co., Ltd.",
-				image: "/tcc-uxui.png",
+				image: img("/tcc-uxui.png"),
 			},
 		],
 		workshops: [
@@ -535,7 +536,7 @@ export const selfDevelopment = {
 			{
 				name: "โครงการพื้นฐาน UX/UI 2025",
 				institution: "บริษัท ที.ซี.ซี. เทคโนโลยี จำกัด",
-				image: "/tcc-uxui.png",
+				image: img("/tcc-uxui.png"),
 			},
 		],
 		workshops: [
@@ -551,7 +552,7 @@ export const selfDevelopment = {
 			{
 				name: "UX/UI 基礎プログラム 2025",
 				institution: "T.C.C. Technology Co., Ltd.",
-				image: "/tcc-uxui.png",
+				image: img("/tcc-uxui.png"),
 			},
 		],
 		workshops: [
@@ -567,7 +568,7 @@ export const selfDevelopment = {
 			{
 				name: "UX/UI 基础项目 2025",
 				institution: "T.C.C. Technology Co., Ltd.",
-				image: "/tcc-uxui.png",
+				image: img("/tcc-uxui.png"),
 			},
 		],
 		workshops: [
@@ -587,7 +588,7 @@ export const awards = {
 				name: "HYLIFE Hackathon 2025",
 				rank: "3rd Place Winner",
 				theme: "Smart Agriculture",
-				image: "/hylife-hackathon.png",
+				image: img("/hylife-hackathon.png"),
 			},
 		],
 		honors: [
@@ -604,7 +605,7 @@ export const awards = {
 				name: "HYLIFE Hackathon 2025",
 				rank: "รางวัลชนะเลิศอันดับ 3",
 				theme: "Smart Agriculture",
-				image: "/hylife-hackathon.png",
+				image: img("/hylife-hackathon.png"),
 			},
 		],
 		honors: [
@@ -621,7 +622,7 @@ export const awards = {
 				name: "HYLIFE Hackathon 2025",
 				rank: "第3位入賞",
 				theme: "スマート農業",
-				image: "/hylife-hackathon.png",
+				image: img("/hylife-hackathon.png"),
 			},
 		],
 		honors: [
@@ -638,7 +639,7 @@ export const awards = {
 				name: "HYLIFE Hackathon 2025",
 				rank: "季军",
 				theme: "智慧农业",
-				image: "/hylife-hackathon.png",
+				image: img("/hylife-hackathon.png"),
 			},
 		],
 		honors: [
@@ -664,7 +665,7 @@ export const leadership = {
 				"Interpersonal Skills",
 			],
 			period: "April 12 - 26, 2023",
-			image: "/IMG_0809.jpg",
+			image: img("/IMG_0809.jpg"),
 		},
 	],
 	th: [
@@ -676,7 +677,7 @@ export const leadership = {
 				"ได้รับการคัดเลือกเป็นตัวแทนของโรงเรียน ในโครงการส่งเสริมประสบการณ์การเรียนรู้ภาษาและวัฒนธรรมต่างประเทศ (ประเทศญี่ปุ่น) ณ Shizuoka Seiko Academy, จังหวัดชิซึโอกะ ประเทศญี่ปุ่น ระหว่างวันที่ 12 - 26 เมษายน ๒๕๖๖",
 			softSkills: ["การสื่อสารต่างวัฒนธรรม", "การปรับตัว", "มนุษยสัมพันธ์"],
 			period: "12 - 26 เมษายน 2566",
-			image: "/IMG_0809.jpg",
+			image: img("/IMG_0809.jpg"),
 		},
 	],
 	ja: [
@@ -691,7 +692,7 @@ export const leadership = {
 				"対人スキル",
 			],
 			period: "2023年4月12日 - 26日",
-			image: "/IMG_0809.jpg",
+			image: img("/IMG_0809.jpg"),
 		},
 	],
 	zh: [
@@ -702,7 +703,7 @@ export const leadership = {
 				"被选为学校代表参加在日本静冈县静冈圣光学院举行的语言与文化交流项目。",
 			softSkills: ["跨文化沟通", "适应能力", "人际交往"],
 			period: "2023年4月12日 - 26日",
-			image: "/IMG_0809.jpg",
+			image: img("/IMG_0809.jpg"),
 		},
 	],
 } satisfies LeadershipMap;

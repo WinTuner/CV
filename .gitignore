@@ -77,3 +77,16 @@ playwright/.cache
 # --- Portfolio source (ห้ามอัพ docx) ---
 *.docx
 *.doc
+
+# --- Photos OFF GitHub (served via Cloudinary, see lib/images.ts) ---
+# Keep tiny PWA icons in git; ignore everything else under /public.
+public/*.png
+public/*.jpg
+public/*.jpeg
+public/*.webp
+public/*.avif
+!public/icon-*.png
+!public/apple-*.png
+!public/placeholder.svg
+public/og-images/*.png
+!public/og-images/README.md

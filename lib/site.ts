@@ -36,8 +36,10 @@ export const MEDIUM_FEED_URL =
 export const AUTHOR_NAME =
 	process.env.NEXT_PUBLIC_AUTHOR_NAME || "Thanatphong Tarin";
 
+import { img } from "./images";
+
 export const AUTHOR_AVATAR =
-	process.env.NEXT_PUBLIC_AUTHOR_AVATAR || "/developer-portrait-v3.png";
+	process.env.NEXT_PUBLIC_AUTHOR_AVATAR || img("/developer-portrait-v3.png");
 
 export const CONTACT_EMAIL =
 	process.env.NEXT_PUBLIC_CONTACT_EMAIL || "Thanatphong2719@gmail.com";
