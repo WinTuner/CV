@@ -51,7 +51,7 @@ jobs:
       - name: Run Lighthouse CI (performance, a11y, best practices, SEO)
         uses: treosh/lighthouse-ci-action@v12
         with:
-          configPath: ./lighthouserc.json
+          configPath: ./config/lighthouserc.json
           temporaryPublicStorage: true
           uploadArtifacts: true
           artifactName: lighthouse-reports

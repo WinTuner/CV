@@ -66,7 +66,7 @@ Notes:
 - **Lighthouse CI** — `.github/workflows/ci.yml` runs `treosh/lighthouse-ci-action`
   after each build (scores: performance ≥0.85, accessibility ≥0.95,
   best-practices ≥0.9, SEO ≥0.9) across `/`, `/introduction`, `/projects`, `/blog`.
-- **Resource budgets** — `budgets.json` fails the build if scripts exceed
+- **Resource budgets** — `config/budgets.json` fails the build if scripts exceed
   800KiB or the total page weight exceeds 2500KiB on any audited URL.
 - **Vercel Speed Insights** — ✅ installed (`@vercel/speed-insights/next`)
   alongside `@vercel/analytics` in `app/layout.tsx`; real-user Core Web

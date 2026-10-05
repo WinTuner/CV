@@ -7,8 +7,8 @@
 
 - Keep stack current without breaking ISR/SSG.
 - Close recruiter-facing content gaps (`docs/improvement-checklist.md:33`).
-- Cut first-load JS from ~680KB (`docs/performance.md:37`) toward budgets `budgets.json:7` 800KiB script.
-- Pass axe + Lighthouse `lighthouserc.json:22` perf≥0.85, a11y≥0.9.
+- Cut first-load JS from ~680KB (`docs/performance.md:37`) toward budgets `config/budgets.json:7` 800KiB script.
+- Pass axe + Lighthouse `config/lighthouserc.json:22` perf≥0.85, a11y≥0.9.
 - Harden CI (`tsc`+lint+test+build already in `.github/workflows/ci.yml:41`).
 
 ## Non-Goals
@@ -55,7 +55,7 @@
 1. `components/header.tsx:9` `CommandPalette` eager → `next/dynamic` `ssr:false` + loading `null`. Two mount points `header.tsx:128` + `215` share same dynamic.
 2. Already done: `download-resume-button.tsx:28` lazy — no change.
 3. Optional: `github-contribution-graph.tsx`, `skills-matrix.tsx`, `projects-grid.tsx` behind `dynamic` if Lighthouse perf <0.85 on mobile after Phase 1. Measure first.
-4. Re-measure `ANALYZE=true npm run build` vs `docs/performance.md:37` table. Tighten `budgets.json:7` 800→750 if gain >30KB.
+4. Re-measure `ANALYZE=true npm run build` vs `docs/performance.md:37` table. Tighten `config/budgets.json:7` 800→750 if gain >30KB.
 
 Verify: `npx lighthouse http://localhost:3000 --view` home + `/introduction`, `/projects`, `/blog`.
 
@@ -123,7 +123,7 @@ npx lighthouse http://localhost:3000 --view
 npx @axe-core/cli http://localhost:3000
 ```
 
-CI mirrors `.github/workflows/ci.yml:22` Node 22 + `treosh/lighthouse-ci-action@v12` + `budgets.json`.
+CI mirrors `.github/workflows/ci.yml:22` Node 22 + `treosh/lighthouse-ci-action@v12` + `config/budgets.json`.
 
 ## Execution Order
 

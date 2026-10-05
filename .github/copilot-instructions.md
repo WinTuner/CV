@@ -69,9 +69,9 @@ CI (`.github/workflows/ci.yml`) runs on every push/PR to `main`:
 2. `npm run lint`
 3. `npm test`
 4. `npm run build`
-5. Lighthouse CI (`treosh/lighthouse-ci-action@v12`) against `lighthouserc.json`
+5. Lighthouse CI (`treosh/lighthouse-ci-action@v12`) against `config/lighthouserc.json`
    — performance ≥ 0.85, accessibility ≥ 0.9, best-practices ≥ 0.9, SEO ≥ 0.9,
-   plus `budgets.json` resource budgets.
+   plus `config/budgets.json` resource budgets.
 
 There **are** automated tests in this repo (currently ~48). When you add or
 change behavior, add or update tests in `lib/__tests__/` (or

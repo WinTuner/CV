@@ -15,7 +15,7 @@
         "chromeFlags": "--no-sandbox --headless --disable-gpu",
         "onlyCategories": ["performance", "accessibility", "best-practices", "seo"]
       },
-      "budgetsPath": "./budgets.json"
+      "budgetsPath": "./config/budgets.json"
     },
     "assert": {
       "assertions": {
