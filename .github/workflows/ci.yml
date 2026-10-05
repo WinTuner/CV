@@ -18,6 +18,10 @@ jobs:
       # public env or images 404 and Lighthouse measures a broken page.
       NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: asfwanaw
       NEXT_PUBLIC_CLOUDINARY_FOLDER: cv
+      # Authenticated GitHub API (5k req/h instead of 60) so live data
+      # resolves fast and stable during measurement. Set GH_TOKEN repo
+      # secret to a PAT (no scopes needed for public data).
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -62,6 +66,7 @@ jobs:
     env:
       NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: asfwanaw
       NEXT_PUBLIC_CLOUDINARY_FOLDER: cv
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
