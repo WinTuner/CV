@@ -1,7 +1,6 @@
 /**
- * Root loading fallback — same minimal editorial language as the
- * `SiteLoader` splash (serif mark + thin progress line), rendered inline
- * while a route segment streams in.
+ * Root loading fallback — minimal editorial language (serif mark + thin
+ * progress line), rendered inline while a route segment streams in.
  */
 export default function Loading() {
 	return (

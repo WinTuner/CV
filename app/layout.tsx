@@ -11,7 +11,6 @@ import { LanguageProvider } from "@/components/language-provider";
 import { isSupportedLanguage, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/constants/languages";
 import type { SupportedLanguageCode } from "@/constants/languages";
 import { AnimatedBackground } from "@/components/animated-background";
-import { SiteLoader } from "@/components/site-loader";
 import { RouteProgress } from "@/components/route-progress";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { ScrollProgress } from "@/components/scroll-progress";
@@ -179,7 +178,6 @@ export default async function RootLayout({
 				>
 					<LanguageProvider initialLanguage={initialLanguage}>
 						<SmoothScroll />
-						<SiteLoader />
 						<Suspense fallback={null}>
 							<RouteProgress />
 						</Suspense>

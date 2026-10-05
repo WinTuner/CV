@@ -11,8 +11,7 @@ const COMPLETE_MS = 500;
  *
  * App Router has no router events, so this starts the bar on clicks to
  * internal links and completes it when `pathname` settles. Purely
- * decorative (`aria-hidden`) — the `SiteLoader` splash owns the
- * screen-reader announcement for the initial load.
+ * decorative (`aria-hidden`) — it never announces to screen readers.
  */
 export function RouteProgress() {
 	const pathname = usePathname();
