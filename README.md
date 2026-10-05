@@ -83,8 +83,8 @@ optional:
 | `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` | Server-only credentials for `npm run upload:images` |
 | `GITHUB_TOKEN` | Raise GitHub API rate limits during builds |
 | `NOTION_API_KEY` / `NOTION_DATABASE_ID` | Blog via Notion; falls back to bundled posts |
-| `NEWSLETTER_WEBHOOK_URL` / `UPSTASH_*` | Newsletter endpoint (Formspree, Buttondown, Zapier, Upstash Redis…) |
-| `CONTACT_WEBHOOK_URL` | Contact form endpoint |
+| `NEWSLETTER_WEBHOOK_URL` / `UPSTASH_*` | Newsletter endpoint (FormSubmit, Formspree, Buttondown, Zapier, Upstash Redis…) |
+| `CONTACT_WEBHOOK_URL` | Contact form endpoint (FormSubmit, Formspree, Zapier, Make…) |
 
 When a service is not configured, its API route returns `501` and the UI shows
 a graceful fallback.
