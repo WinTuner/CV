@@ -62,16 +62,33 @@ const KEEP = new Set([
 	"site.webmanifest",
 ]);
 
-const files = readdirSync(pubDir).filter((f) => {
-	if (KEEP.has(f)) return false;
-	const ext = extname(f).toLowerCase();
-	if (![".png", ".jpg", ".jpeg", ".webp", ".avif"].includes(ext)) return false;
+const IMG_EXTS = [".png", ".jpg", ".jpeg", ".webp", ".avif"];
+
+function collect(dir, prefix = "") {
+	let out = [];
+	let entries = [];
 	try {
-		return statSync(join(pubDir, f)).isFile();
+		entries = readdirSync(dir);
 	} catch {
-		return false;
+		return out;
 	}
-});
+	for (const f of entries) {
+		const full = join(dir, f);
+		try {
+			if (!statSync(full).isFile()) continue;
+		} catch {
+			continue;
+		}
+		if (prefix === "" && KEEP.has(f)) continue;
+		if (f === "README.md") continue;
+		if (!IMG_EXTS.includes(extname(f).toLowerCase())) continue;
+		out.push(prefix + f);
+	}
+	return out;
+}
+
+// public/* photos + public/og-images/<slug>.png (matches lib/images.ts public_ids).
+const files = [...collect(pubDir), ...collect(join(pubDir, "og-images"), "og-images/")];
 
 if (files.length === 0) {
 	console.log("Nothing to upload.");

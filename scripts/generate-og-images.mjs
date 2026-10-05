@@ -52,10 +52,70 @@ function svg(kicker, title) {
 </svg>`;
 }
 
+const posts = [
+	{ slug: "mcp-protocol-llm-applications", title: "MCP Protocol in LLM Applications" },
+	{ slug: "nextjs-16-tailwind-v4-migration", title: "Next.js 16 + Tailwind CSS v4 Migration Guide" },
+	{ slug: "self-hosting-llms-fastapi", title: "Self-Hosting LLMs with FastAPI" },
+	{ slug: "rust-wasm-performance", title: "Rust + WebAssembly Performance Deep Dive" },
+	{ slug: "design-tokens-system", title: "Building a Design Token System" },
+	{
+		slug: "lti-learning-platforms-integration",
+		title: "Understanding LTI: Integrating Learning Tools with Educational Platforms",
+	},
+];
+
+function wrap(title, max = 26) {
+	const lines = [""];
+	for (const w of title.split(" ")) {
+		const cur = lines[lines.length - 1];
+		if (cur && `${cur} ${w}`.length > max) lines.push(w);
+		else lines[lines.length - 1] = cur ? `${cur} ${w}` : w;
+	}
+	const shown = lines.slice(0, 3);
+	if (lines.length > 3) shown[2] += "…";
+	return shown;
+}
+
+function postSvg(title) {
+	const esc = (s) =>
+		s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	const shown = wrap(title);
+	const size = shown.some((l) => l.length > 20) ? 52 : 64;
+	const texts = shown
+		.map(
+			(l, i) =>
+				`<text x="120" y="${300 + i * 72}" font-family="system-ui, sans-serif" font-size="${size}" font-weight="bold" fill="#ffffff">${esc(l)}</text>`,
+		)
+		.join("\n  ");
+	return `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="55%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="rgba(9,9,11,0.45)"/>
+  <rect x="80" y="80" width="1040" height="470" rx="24" fill="rgba(9,9,11,0.35)" stroke="rgba(255,255,255,0.18)"/>
+  <text x="120" y="190" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="28" letter-spacing="4" fill="#7dd3fc">WinTuner · Blog</text>
+  ${texts}
+  <text x="120" y="500" font-family="ui-monospace, monospace" font-size="24" fill="#e2e8f0">&gt; thanatphong.vercel.app</text>
+</svg>`;
+}
+
 for (const page of pages) {
 	await sharp(Buffer.from(svg(page.kicker, page.title)))
 		.resize(1200, 630)
 		.png({ compressionLevel: 9 })
 		.toFile(resolve(root, "public", page.file));
 	console.log(`generated public/${page.file}`);
+}
+
+for (const post of posts) {
+	await sharp(Buffer.from(postSvg(post.title)))
+		.resize(1200, 630)
+		.png({ compressionLevel: 9 })
+		.toFile(resolve(root, "public", "og-images", `${post.slug}.png`));
+	console.log(`generated public/og-images/${post.slug}.png`);
 }
