@@ -6,8 +6,8 @@ curated look at the tools and work behind the build.
 
 Designed with a clean, editorial, light-first aesthetic (warm paper, ink,
 serif display type). Built with Next.js 16 (App Router), React 19,
-TypeScript, Tailwind CSS v4 and Radix UI primitives. Fully bilingual (EN/TH)
-via a client-side language provider.
+TypeScript, Tailwind CSS v4 and Radix UI primitives. Fully multilingual
+(EN/TH/JA/ZH) via a client-side language provider.
 
 ## Pages
 
@@ -46,26 +46,29 @@ Open <http://localhost:3000>.
 | `npm run lint` | ESLint (`eslint .`) |
 | `npm test` | Vitest unit/component tests |
 | `npm run analyze` | Bundle analysis via `ANALYZE=true next build` (`@next/bundle-analyzer`); also inspect `.next/diagnostics/route-bundle-stats.json` |
+| `npm run upload:images` | Upload `public/` photos to Cloudinary (needs `CLOUDINARY_*` env, see below) |
 
 ## Project layout
 
 - `app/` — App Router pages, layouts, API routes (`/api/contact`, `/api/subscribe`), `sitemap.ts`, `robots.ts`, `feed.xml`
 - `components/` — UI primitives (`ui/`), hero portrait + typewriter (`hero/`), and per-page feature components (`public/`)
-- `lib/` — data fetching (`github.ts`, `notion-blog.ts`, `medium-blog.ts`), content (`blog-data.tsx`, `cv-data.ts`), and small hooks
-- `constants/` `types/` — shared config and TypeScript types
-- `scripts/` — one-off tooling (image optimization, OG image generation)
+- `lib/` — data fetching (`github.ts`, `notion-blog.ts`, `medium-blog.ts`), content (`blog-data.tsx`), image URL resolver (`images.ts`), and small hooks
+- `constants/` `types/` — shared config, CV content (`cv-data.ts`), and TypeScript types
+- `config/` — Lighthouse CI (`lighthouserc.json`) and resource budgets (`budgets.json`)
+- `scripts/` — one-off tooling (image optimization, OG image generation, Cloudinary upload)
 - `docs/` — architecture, performance, accessibility, deployment notes
-- `public/` — static assets (icons, OG images, project screenshots)
+- `public/` — tiny PWA icons only; photos/OG images are served from Cloudinary (see Configuration) with local `public/` fallback
 
 ## Features
 
-- **Bilingual (EN/TH)** — persisted language choice, all pages translated
+- **Multilingual (EN/TH/JA/ZH)** — persisted language choice, all pages translated
 - **Live GitHub presence** — repos, contribution activity, and events with ISR caching; the workbench refreshes activity every 30s via `/api/activity`
 - **Blog** — Notion CMS integration with local fallback, Medium merge, tag/category/search, RSS feed (`/feed.xml`)
 - **Newsletter + contact forms** — webhook-driven API routes (Formspree/Zapier/Make/Upstash), safe-by-default 501s when unconfigured
 - **SEO** — dynamic sitemap, robots.txt, Open Graph images, JSON-LD structured data
 - **Accessibility** — skip link, focus-managed mobile menu, reduced-motion support, ARIA labels on icon buttons
-- **Performance** — ISR revalidation, deferred heavy widgets, memoized markdown parsing, content-visibility for below-the-fold sections
+- **Performance** — ISR revalidation, deferred heavy widgets, memoized markdown parsing, content-visibility for below-the-fold sections, CDN-served images with preconnect
+- **Images** — photos live on Cloudinary (`lib/images.ts` resolves URLs, local `public/` fallback when unconfigured); the LCP portrait loads straight from the CDN
 - **Security** — sanitized blog HTML rendering, validated webhook URLs (SSRF guard), rate-limit-friendly data fetching
 
 ## Configuration
@@ -76,6 +79,8 @@ optional:
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL (defaults to production URL) |
+| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` / `NEXT_PUBLIC_CLOUDINARY_FOLDER` | Serve photos from Cloudinary instead of `public/` (required on hosts without the image files, e.g. Vercel/CI) |
+| `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` | Server-only credentials for `npm run upload:images` |
 | `GITHUB_TOKEN` | Raise GitHub API rate limits during builds |
 | `NOTION_API_KEY` / `NOTION_DATABASE_ID` | Blog via Notion; falls back to bundled posts |
 | `NEWSLETTER_WEBHOOK_URL` / `UPSTASH_*` | Newsletter endpoint (Formspree, Buttondown, Zapier, Upstash Redis…) |
@@ -92,8 +97,9 @@ npm run lint    # eslint .
 npx tsc --noEmit
 ```
 
-CI (`.github/workflows/ci.yml`) runs type check, lint, tests, and a production
-build on every push/PR to `main`.
+CI (`.github/workflows/ci.yml`) runs type check, lint, tests, a production
+build, Lighthouse CI (perf ≥0.85, a11y/BP/SEO ≥0.9), and Playwright + axe e2e
+on every push/PR to `main`.
 
 ## Deployment
 
