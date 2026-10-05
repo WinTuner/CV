@@ -19,7 +19,7 @@ import { BackToTop } from "@/components/back-to-top";
 import { EasterEgg } from "@/components/easter-egg";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
-import { absoluteImg } from "@/lib/images";
+import { absoluteImg, CLOUDINARY_CLOUD_NAME } from "@/lib/images";
 
 // Configure fonts with proper options
 const geist = Geist({
@@ -146,6 +146,12 @@ export default async function RootLayout({
 			className={`${geist.variable} ${geistMono.variable} ${fraunces.variable} no-js`}
 		>
 			<body className="font-sans antialiased">
+				{/* Photos load straight from the Cloudinary CDN (see
+					hero-portrait `unoptimized`), so warm up the connection
+					early to protect LCP. Skipped when serving local files. */}
+				{CLOUDINARY_CLOUD_NAME ? (
+					<link rel="preconnect" href="https://res.cloudinary.com" />
+				) : null}
 				<AnimatedBackground />
 				{/*
 					Removes `no-js` as soon as the HTML is parsed. Until then the

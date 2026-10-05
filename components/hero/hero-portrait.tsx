@@ -24,6 +24,10 @@ export function HeroPortrait() {
 						<Image
 							src={portraitSrc}
 							alt="Portrait of Thanatphong Tarin"
+							// Remote portraits are already optimized by Cloudinary
+							// (f_auto,q_auto); skipping /_next/image avoids a slow
+							// server-side origin fetch on cold cache (LCP).
+							unoptimized={portraitSrc.startsWith("http")}
 							fill
 							sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
 							className="h-full w-full object-cover grayscale-[0.15] contrast-[1.02] transition-all duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"

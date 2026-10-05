@@ -13,6 +13,11 @@ jobs:
   verify:
     name: Lint, Test, Build & Lighthouse
     runs-on: ubuntu-latest
+    env:
+      # Photos live on Cloudinary, not in git — CI builds need the same
+      # public env or images 404 and Lighthouse measures a broken page.
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: asfwanaw
+      NEXT_PUBLIC_CLOUDINARY_FOLDER: cv
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -54,6 +59,9 @@ jobs:
   e2e:
     name: E2E + axe
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: asfwanaw
+      NEXT_PUBLIC_CLOUDINARY_FOLDER: cv
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
