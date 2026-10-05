@@ -87,9 +87,9 @@ export function Workbench({ wipItems: initialWipItems = [] }: { wipItems?: WipIt
 							>
 								<div className="flex-1 space-y-2 min-w-0">
 									<div className="flex items-center gap-3">
-										<h4 className="font-serif text-lg font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary truncate">
+										<h3 className="font-serif text-lg font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary truncate">
 											{item.name}
-										</h4>
+										</h3>
 										<div className="flex shrink-0 items-center gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
 											<GithubIcon className="h-3.5 w-3.5 text-muted-foreground" />
 											<ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground" />

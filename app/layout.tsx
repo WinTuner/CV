@@ -189,8 +189,15 @@ export default async function RootLayout({
 						<EasterEgg />
 					</LanguageProvider>
 				</ThemeProvider>
-				<Analytics />
-				<SpeedInsights />
+				{/* These scripts are served by Vercel's edge — anywhere else
+					they 404 (`/_vercel/*`), spamming console errors and
+					failing best-practices audits in lab/CI. */}
+				{process.env.VERCEL === "1" ? (
+					<>
+						<Analytics />
+						<SpeedInsights />
+					</>
+				) : null}
 			</body>
 		</html>
 	);
