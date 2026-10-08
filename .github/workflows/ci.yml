@@ -12,7 +12,8 @@ permissions:
 jobs:
   verify:
     name: Lint, Test, Build & Lighthouse
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest migrates to 26 on 2026-10-19, stay on 24 until vetted.
+    runs-on: ubuntu-24.04
     env:
       # Photos live on Cloudinary, not in git — CI builds need the same
       # public env or images 404 and Lighthouse measures a broken page.
@@ -24,12 +25,12 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           persist-credentials: false
 
       - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: npm
@@ -62,7 +63,8 @@ jobs:
 
   e2e:
     name: E2E + axe
-    runs-on: ubuntu-latest
+    # Pinned: see verify job.
+    runs-on: ubuntu-24.04
     # Fail fast instead of burning 6h when the runner's apt mirror hangs.
     timeout-minutes: 20
     env:
@@ -71,12 +73,12 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           persist-credentials: false
 
       - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: npm
@@ -104,7 +106,7 @@ jobs:
 
       - name: Upload trace artifacts on failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: playwright-traces
           path: test-results/
