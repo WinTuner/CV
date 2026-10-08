@@ -63,6 +63,8 @@ jobs:
   e2e:
     name: E2E + axe
     runs-on: ubuntu-latest
+    # Fail fast instead of burning 6h when the runner's apt mirror hangs.
+    timeout-minutes: 20
     env:
       NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: asfwanaw
       NEXT_PUBLIC_CLOUDINARY_FOLDER: cv
@@ -83,7 +85,19 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        # --with-deps runs apt-get under the hood; the runner's Azure
+        # mirror flakes occasionally, so retry instead of failing the job.
+        run: |
+          for attempt in 1 2 3; do
+            echo "Attempt $attempt: installing Playwright chromium..."
+            if npx playwright install --with-deps chromium; then
+              exit 0
+            fi
+            echo "Attempt $attempt failed, waiting 20s before retry..."
+            sleep 20
+          done
+          echo "Playwright install failed after 3 attempts"
+          exit 1
 
       - name: Run Playwright (smoke + axe)
         run: npx playwright test --project=chromium
