@@ -76,8 +76,9 @@ this reflects the current codebase. ✅ = already done, ⬜ = open.
     needed today).
 11. **More WOW** — 3D/canvas hero effects, embedded project demos, or a
     "wall of experiments" grid.
-12. **i18n depth** — currently EN/TH; adding a third language means extending
-    `constants/cv-data.ts` maps and every component copy object.
+12. **i18n depth** — ✅ EN/TH/JA/ZH live (`constants/languages.ts`,
+    `constants/cv-data.ts` maps + per-component copy objects); adding a fifth
+    language means extending the same maps.
 
 ---
 
