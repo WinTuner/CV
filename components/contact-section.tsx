@@ -6,6 +6,7 @@ import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
 import { Mail, MessageSquare, CheckCircle2, ArrowRight } from "lucide-react";
 import { CONTACT_EMAIL, CONTACT_MAILTO, SOCIAL_LINKS } from "@/lib/site";
+import { CopyEmailButton } from "./copy-email-button";
 
 export function ContactSection() {
 	const { language } = useLanguage();
@@ -32,6 +33,8 @@ export function ContactSection() {
 			sent: "Message Sent",
 			footer: `Direct: ${CONTACT_EMAIL}`,
 			directEmail: "Direct Email",
+			copyEmail: "Copy email",
+			emailCopied: "Email copied!",
 			socialHub: "Social Hub",
 			sendAnother: "Send another message",
 			errorGeneric: "Something went wrong. Please try again.",
@@ -51,6 +54,8 @@ export function ContactSection() {
 			sent: "ส่งข้อความสำเร็จ",
 			footer: `ติดต่อโดยตรง: ${CONTACT_EMAIL}`,
 			directEmail: "อีเมลโดยตรง",
+			copyEmail: "คัดลอกอีเมล",
+			emailCopied: "คัดลอกอีเมลแล้ว!",
 			socialHub: "โซเชียลมีเดีย",
 			sendAnother: "ส่งข้อความอีกครั้ง",
 			errorGeneric: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
@@ -69,6 +74,8 @@ export function ContactSection() {
 			sent: "送信完了",
 			footer: `Direct: ${CONTACT_EMAIL}`,
 			directEmail: "メール",
+			copyEmail: "メールをコピー",
+			emailCopied: "コピーしました!",
 			socialHub: "ソーシャル",
 			sendAnother: "別のメッセージを送る",
 			errorGeneric: "エラーが発生しました。再試行してください。",
@@ -88,6 +95,8 @@ export function ContactSection() {
 			sent: "已发送",
 			footer: `直达: ${CONTACT_EMAIL}`,
 			directEmail: "邮箱",
+			copyEmail: "复制邮箱",
+			emailCopied: "已复制!",
 			socialHub: "社交",
 			sendAnother: "再发一条",
 			errorGeneric: "出错了，请重试。",
@@ -150,9 +159,10 @@ export function ContactSection() {
 						</div>
 
 						<div className={cn("space-y-5 opacity-0", isInView && "animate-fade-in-up stagger-2")}>
+						<div className="flex items-center gap-1">
 							<a
 								href={CONTACT_MAILTO}
-								className="group flex items-center gap-4"
+								className="group flex flex-1 items-center gap-4"
 							>
 								<div className="flex h-11 w-11 items-center justify-center border border-border/70 bg-card transition-colors duration-300 group-hover:border-primary/50">
 									<Mail className="icon-spring h-4 w-4 text-primary" />
@@ -166,6 +176,13 @@ export function ContactSection() {
 								</p>
 								</div>
 							</a>
+							<CopyEmailButton
+								email={CONTACT_EMAIL}
+								copyLabel={t.copyEmail}
+								copiedLabel={t.emailCopied}
+								className="h-9 w-9 shrink-0 border border-border/70 bg-card hover:border-primary/50"
+							/>
+						</div>
 						<a
 							href={SOCIAL_LINKS.github}
 								target="_blank"

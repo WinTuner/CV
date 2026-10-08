@@ -6,6 +6,7 @@ import { useLanguage } from "./language-provider";
 import { heroCopy } from "@/lib/hero-utils";
 import { HeroTypewriter } from "./hero/hero-typewriter";
 import { HeroPortrait } from "./hero/hero-portrait";
+import { CopyEmailButton } from "./copy-email-button";
 
 export function HeroSection() {
 	const { language } = useLanguage();
@@ -71,6 +72,13 @@ export function HeroSection() {
 							<Mail className="h-3.5 w-3.5 text-primary" />
 							{t.email}
 						</a>
+						<CopyEmailButton
+							email={t.email}
+							copyLabel={t.copyEmail}
+							copiedLabel={t.emailCopied}
+							iconClassName="h-3.5 w-3.5"
+							className="h-6 w-6"
+						/>
 						</div>
 					</div>
 

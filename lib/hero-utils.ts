@@ -35,7 +35,7 @@ export const roles: Record<SupportedLanguageCode, readonly string[]> = {
 
 export const heroCopy: Record<
 	SupportedLanguageCode,
-	{ kicker: string; intro: string; explore: string; resume: string; scroll: string; location: string; email: string }
+	{ kicker: string; intro: string; explore: string; resume: string; scroll: string; location: string; email: string; copyEmail: string; emailCopied: string }
 > = {
 	en: {
 		kicker: "Thanatphong Tarin",
@@ -46,6 +46,8 @@ export const heroCopy: Record<
 		scroll: "scroll",
 		location: "Chiang Mai, Thailand",
 		email: CONTACT_EMAIL,
+		copyEmail: "Copy email",
+		emailCopied: "Email copied!",
 	},
 	th: {
 		kicker: "ธณัฐพงค์ ทะรินทร์",
@@ -56,6 +58,8 @@ export const heroCopy: Record<
 		scroll: "เลื่อนลง",
 		location: "เชียงใหม่ ประเทศไทย",
 		email: CONTACT_EMAIL,
+		copyEmail: "คัดลอกอีเมล",
+		emailCopied: "คัดลอกอีเมลแล้ว!",
 	},
 	ja: {
 		kicker: "Thanatphong Tarin",
@@ -66,6 +70,8 @@ export const heroCopy: Record<
 		scroll: "スクロール",
 		location: "タイ・チェンマイ",
 		email: CONTACT_EMAIL,
+		copyEmail: "メールをコピー",
+		emailCopied: "コピーしました!",
 	},
 	zh: {
 		kicker: "Thanatphong Tarin",
@@ -76,6 +82,8 @@ export const heroCopy: Record<
 		scroll: "滚动",
 		location: "泰国·清迈",
 		email: CONTACT_EMAIL,
+		copyEmail: "复制邮箱",
+		emailCopied: "已复制!",
 	},
 } as const;
 
