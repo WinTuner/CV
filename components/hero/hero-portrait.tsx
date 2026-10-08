@@ -1,25 +1,70 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../language-provider";
 import { heroCopy } from "@/lib/hero-utils";
 import { AUTHOR_AVATAR } from "@/lib/site";
+
+const TILT_MAX_DEG = 6;
 
 export function HeroPortrait() {
 	const { language } = useLanguage();
 	const [portraitSrc, setPortraitSrc] = useState(AUTHOR_AVATAR);
 	const t = heroCopy[language];
+	const frameRef = useRef<HTMLDivElement>(null);
+	const rafRef = useRef(0);
+	// Evaluated once, client-side: tilt is a fine-pointer delight only.
+	// Touch, pen, reduced-motion, and lab audits never see it.
+	const tiltOk = useRef<boolean | null>(null);
+
+	useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
+
+	const handleTiltMove = (event: React.MouseEvent<HTMLDivElement>) => {
+		if (tiltOk.current === null) {
+			tiltOk.current =
+				window.matchMedia("(pointer: fine)").matches &&
+				!window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		}
+		const frame = frameRef.current;
+		if (!tiltOk.current || !frame) return;
+		const { clientX, clientY } = event;
+		cancelAnimationFrame(rafRef.current);
+		rafRef.current = requestAnimationFrame(() => {
+			const rect = frame.getBoundingClientRect();
+			if (rect.width === 0 || rect.height === 0) return;
+			const px = (clientX - rect.left) / rect.width - 0.5;
+			const py = (clientY - rect.top) / rect.height - 0.5;
+			frame.style.willChange = "transform";
+			frame.style.transform = `perspective(900px) rotateX(${(-py * TILT_MAX_DEG).toFixed(2)}deg) rotateY(${(px * TILT_MAX_DEG).toFixed(2)}deg)`;
+		});
+	};
+
+	const handleTiltLeave = () => {
+		cancelAnimationFrame(rafRef.current);
+		const frame = frameRef.current;
+		if (!frame) return;
+		frame.style.transform = "";
+		frame.style.willChange = "";
+	};
 
 	return (
 		<figure className="animate-fade-in-up stagger-4">
-			<div className="relative">
+			<div
+				className="relative"
+				onMouseMove={handleTiltMove}
+				onMouseLeave={handleTiltLeave}
+			>
 				{/* Offset ice-blue frame peeking out behind the portrait */}
 				<div
 					aria-hidden="true"
 					className="absolute inset-0 translate-x-3 translate-y-3 border border-primary/40 pointer-events-none"
 				/>
-				<div className="relative overflow-hidden border border-border bg-card">
+				<div
+					ref={frameRef}
+					className="relative overflow-hidden border border-border bg-card"
+					style={{ transition: "transform 0.25s ease-out" }}
+				>
 					<div className="relative aspect-[3/4] overflow-hidden group">
 						<Image
 							src={portraitSrc}
