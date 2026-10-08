@@ -340,6 +340,28 @@ section[id] {
   animation: page-in 0.22s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
+/* ─── Spotlight hover glow for cards (mouse-only; lab never hovers) ─── */
+.spotlight-card {
+  position: relative;
+}
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    220px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--primary) 16%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
 /* ─── Lenis smooth-scroll base styles (required) ─── */
 html.lenis,
 html.lenis body {
@@ -366,6 +388,9 @@ html.lenis body {
   .animate-route-progress,
   .animate-page-in {
     animation: none;
+  }
+  .spotlight-card::before {
+    display: none;
   }
   .animate-fade-in-up {
     animation-duration: 0.01ms;

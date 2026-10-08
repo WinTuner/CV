@@ -80,7 +80,7 @@ export function Workbench({ wipItems: initialWipItems = [] }: { wipItems?: WipIt
 								target="_blank"
 								rel="noopener noreferrer"
 								className={cn(
-									"group flex flex-col gap-4 p-5 sm:p-6 transition-colors duration-300 sm:flex-row sm:items-center sm:justify-between hover:bg-secondary/30 opacity-0",
+									"group spotlight-card flex flex-col gap-4 p-5 sm:p-6 transition-colors duration-300 sm:flex-row sm:items-center sm:justify-between hover:bg-secondary/30 opacity-0",
 									isInView && "animate-fade-in",
 								)}
 								style={{ animationDelay: `${index * 80 + 300}ms` }}

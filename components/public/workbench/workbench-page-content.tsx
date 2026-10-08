@@ -111,8 +111,8 @@ export function WorkbenchPageContent({
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={cn(
-                      "group flex flex-col gap-4 p-5 sm:p-6 transition-colors duration-300 sm:flex-row sm:items-center sm:justify-between opacity-0 hover:bg-secondary/30",
+                      className={cn(
+                        "group spotlight-card flex flex-col gap-4 p-5 sm:p-6 transition-colors duration-300 sm:flex-row sm:items-center sm:justify-between opacity-0 hover:bg-secondary/30",
                       isVisible && "animate-fade-in",
                     )}
                     style={{ animationDelay: `${index * 80 + 200}ms` }}

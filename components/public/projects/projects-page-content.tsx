@@ -310,7 +310,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
             <article
               key={project.id}
               className={cn(
-                "group relative flex flex-col border bg-card p-6 sm:p-7 transition-all duration-300 opacity-0 hover:border-primary/50",
+                "group spotlight-card relative flex flex-col border bg-card p-6 sm:p-7 transition-all duration-300 opacity-0 hover:border-primary/50",
                 isVisible && "animate-fade-in-up",
                 hoveredProject === project.id && "border-primary/50",
                 "highlight" in project && project.highlight
