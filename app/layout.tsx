@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { cookies } from "next/headers";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces, Archivo, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -37,6 +37,19 @@ const fraunces = Fraunces({
 	variable: "--font-fraunces",
 	display: "swap",
 });
+// ArtCraft DNA: ultra-wide expanded display (watermark + headings) + serif
+// italic accent for the "for artists." moment.
+const archivo = Archivo({
+	subsets: ["latin"],
+	variable: "--font-archivo",
+	display: "swap",
+});
+const instrumentSerif = Instrument_Serif({
+	subsets: ["latin"],
+	variable: "--font-instrument-serif",
+	weight: "400",
+	display: "swap",
+});
 
 export const viewport: Viewport = {
 	width: "device-width",
@@ -44,8 +57,8 @@ export const viewport: Viewport = {
 	viewportFit: "cover",
 	// Color the mobile browser chrome (address bar) to match each theme.
 	themeColor: [
-		{ media: "(prefers-color-scheme: light)", color: "#f2fbff" },
-		{ media: "(prefers-color-scheme: dark)", color: "#101c23" },
+		{ media: "(prefers-color-scheme: light)", color: "#f2f1ee" },
+		{ media: "(prefers-color-scheme: dark)", color: "#0b0b0c" },
 	],
 };
 
@@ -143,7 +156,7 @@ export default async function RootLayout({
 			lang={initialLanguage}
 			suppressHydrationWarning
 			data-scroll-behavior="smooth"
-			className={`${geist.variable} ${geistMono.variable} ${fraunces.variable} no-js`}
+			className={`${geist.variable} ${geistMono.variable} ${fraunces.variable} ${archivo.variable} ${instrumentSerif.variable} no-js`}
 		>
 			<body className="font-sans antialiased">
 				{/* Photos load straight from the Cloudinary CDN (see

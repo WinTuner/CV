@@ -55,14 +55,14 @@ export function HeroPortrait() {
 				onMouseMove={handleTiltMove}
 				onMouseLeave={handleTiltLeave}
 			>
-				{/* Offset ice-blue frame peeking out behind the portrait */}
+				{/* Offset HUD block peeking out behind the portrait */}
 				<div
 					aria-hidden="true"
-					className="absolute inset-0 translate-x-3 translate-y-3 border border-primary/40 pointer-events-none"
+					className="absolute inset-0 translate-x-3 translate-y-3 bg-invert-bg pointer-events-none"
 				/>
 				<div
 					ref={frameRef}
-					className="relative overflow-hidden border border-border bg-card"
+					className="relative overflow-hidden border border-line-strong bg-card"
 					style={{ transition: "transform 0.25s ease-out" }}
 				>
 					<div className="relative aspect-[3/4] overflow-hidden group">
@@ -84,14 +84,14 @@ export function HeroPortrait() {
 							priority
 							fetchPriority="high"
 						/>
-						{/* Editorial frame accent — soft cyan */}
-						<div className="absolute inset-0 border border-primary/25 pointer-events-none" />
+						{/* HUD frame accent — hairline inner border */}
+						<div className="absolute inset-0 border border-line pointer-events-none" />
 					</div>
 				</div>
 			</div>
-			<figcaption className="mt-3 flex items-center justify-between gap-4 font-mono text-xs text-muted-foreground">
-				<span className="truncate">{t.kicker}</span>
-				<span className="shrink-0 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-primary">
+			<figcaption className="mt-3 flex items-center justify-between gap-4">
+				<span className="hud-label truncate text-faint">{t.kicker}</span>
+				<span className="hud-label shrink-0 border border-line-strong bg-card px-2.5 py-1 text-foreground">
 					{t.location}
 				</span>
 			</figcaption>

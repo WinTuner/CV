@@ -5,27 +5,34 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ─── Ice-blue pastel editorial palette ─── */
-/* Ice-blue paper, teal ink, deepened cyan primary, lavender accent. */
+/* ─── ArtCraft HUD palette: warm paper + ink, sharp segmented surfaces ─── */
+/* Light = #f2f1ee paper (ArtCraft), dark = #0b0b0c near-black. */
 :root {
-  --background: #f2fbff;
-  --foreground: #16262e;
-  --card: #ffffff;
-  --card-foreground: #16262e;
-  --popover: #ffffff;
-  --popover-foreground: #16262e;
+  --background: #f2f1ee;
+  --foreground: #1c1c1a;
+  --card: #faf9f6;
+  --card-foreground: #1c1c1a;
+  --popover: #faf9f6;
+  --popover-foreground: #1c1c1a;
   --primary: #0b7187;
   --primary-foreground: #ffffff;
-  --secondary: #e3f4fb;
-  --secondary-foreground: #274a59;
-  --muted: #e6f5fb;
-  --muted-foreground: #4e6a75;
+  --secondary: #e7e5df;
+  --secondary-foreground: #3d3d39;
+  --muted: #e9e7e1;
+  --muted-foreground: #6b6a64;
   --accent: #35609f;
   --accent-foreground: #ffffff;
+  /* HUD surface tokens (ArtCraft segmented nav / watermark / marquee) */
+  --line: #d8d5cc;
+  --line-strong: #b9b5a8;
+  --ink-strong: #0e0e0d;
+  --invert-bg: #0e0e0d;
+  --invert-fg: #f2f1ee;
+  --faint: #8a887f;
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: #d2eaf4;
-  --input: #d2eaf4;
+  --border: #d8d5cc;
+  --input: #d8d5cc;
   --ring: #0b7187;
   --chart-1: #0b7187;
   --chart-2: #3d6cb8;
@@ -33,48 +40,54 @@
   --chart-4: #7a5cc0;
   --chart-5: #b3276a;
   --radius: 0.5rem;
-  --sidebar: #f2fbff;
-  --sidebar-foreground: #16262e;
+  --sidebar: #f2f1ee;
+  --sidebar-foreground: #1c1c1a;
   --sidebar-primary: #0b7187;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e3f4fb;
-  --sidebar-accent-foreground: #274a59;
-  --sidebar-border: #d2eaf4;
+  --sidebar-accent: #e7e5df;
+  --sidebar-accent-foreground: #3d3d39;
+  --sidebar-border: #d8d5cc;
   --sidebar-ring: #0b7187;
 }
 
 .dark {
-  --background: #101c23;
-  --foreground: #e6f6fb;
-  --card: #16262e;
-  --card-foreground: #e6f6fb;
-  --popover: #16262e;
-  --popover-foreground: #e6f6fb;
+  --background: #0b0b0c;
+  --foreground: #eceae4;
+  --card: #141415;
+  --card-foreground: #eceae4;
+  --popover: #141415;
+  --popover-foreground: #eceae4;
   --primary: #c8f4ff;
   --primary-foreground: #0c2831;
-  --secondary: #1a2c35;
-  --secondary-foreground: #bfe0ec;
-  --muted: #16262e;
-  --muted-foreground: #8fb8c6;
+  --secondary: #1d1d1f;
+  --secondary-foreground: #c9c7bf;
+  --muted: #1a1a1c;
+  --muted-foreground: #9b998f;
   --accent: #aec9f7;
   --accent-foreground: #0c2831;
+  --line: #2a2a2c;
+  --line-strong: #3f3f42;
+  --ink-strong: #f4f2ec;
+  --invert-bg: #f2f1ee;
+  --invert-fg: #0b0b0c;
+  --faint: #7d7c75;
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: #2c4a58;
-  --input: #2c4a58;
+  --border: #2a2a2c;
+  --input: #2a2a2c;
   --ring: #c8f4ff;
   --chart-1: #c8f4ff;
   --chart-2: #9db0f5;
   --chart-3: #bda6ef;
   --chart-4: #c79be0;
   --chart-5: #f2a7e8;
-  --sidebar: #101c23;
-  --sidebar-foreground: #e6f6fb;
+  --sidebar: #0b0b0c;
+  --sidebar-foreground: #eceae4;
   --sidebar-primary: #c8f4ff;
   --sidebar-primary-foreground: #0c2831;
-  --sidebar-accent: #1a2c35;
-  --sidebar-accent-foreground: #bfe0ec;
-  --sidebar-border: #2c4a58;
+  --sidebar-accent: #1d1d1f;
+  --sidebar-accent-foreground: #c9c7bf;
+  --sidebar-border: #2a2a2c;
   --sidebar-ring: #c8f4ff;
 }
 
@@ -82,6 +95,14 @@
   --font-sans: var(--font-geist), "Geist", "Geist Fallback", system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), "Geist Mono", "Geist Mono Fallback", monospace;
   --font-serif: var(--font-fraunces), "Fraunces", Georgia, "Times New Roman", serif;
+  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-serif-accent: var(--font-instrument-serif), "Instrument Serif", Georgia, serif;
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink-strong: var(--ink-strong);
+  --color-invert-bg: var(--invert-bg);
+  --color-invert-fg: var(--invert-fg);
+  --color-faint: var(--faint);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -420,25 +441,20 @@ html.no-js main .opacity-0 {
   background: var(--card);
 }
 
-/* Solid primary CTA with a cyan offset hard shadow (editorial sticker look).
-   Shared by the hero, contact submit, and footer CTA buttons. */
+/* Solid primary CTA — ArtCraft sharp HUD (kept class name for compat). */
 .btn-cyan-shadow {
-  border: 1px solid var(--chart-2);
-  border-color: color-mix(in srgb, var(--chart-2) 60%, transparent);
-  background: var(--primary);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--primary-foreground) 20%, transparent),
-    4px 4px 0 0 var(--chart-2);
-  transition:
-    background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 0;
+  border: 1px solid var(--invert-bg);
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+  transition: opacity 0.15s ease;
 }
 
 .btn-cyan-shadow:hover {
-  background: color-mix(in srgb, var(--primary) 90%, transparent);
-  box-shadow: 6px 6px 0 0 var(--chart-2);
-  transform: translate(-2px, -2px);
+  opacity: 0.8;
+  background: var(--invert-bg);
+  box-shadow: none;
+  transform: none;
 }
 
 /* Arrow micro-interaction for CTA buttons: continuous 360° spin on group
@@ -489,9 +505,132 @@ html.no-js main .opacity-0 {
   box-shadow: 0 14px 34px -18px oklch(0.3 0.02 80 / 0.35);
 }
 
+/* ─── ArtCraft HUD kit: mono labels, sharp CTAs, marquee, watermark ─── */
 /* Editorial text accent — solid primary, no gradient */
 .text-gradient {
   color: var(--primary);
+}
+.hud-label {
+  font-family: var(--font-geist-mono), "Geist Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.font-display {
+  font-family: var(--font-archivo), "Archivo", system-ui, sans-serif;
+}
+
+.serif-accent {
+  font-family: var(--font-instrument-serif), "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.invert-block {
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+}
+
+/* Sharp rectangular HUD buttons (ArtCraft CTA). */
+.btn-hud {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 3rem;
+  padding: 0 1.5rem;
+  border-radius: 0;
+  font-family: var(--font-geist-mono), "Geist Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  background: var(--invert-bg);
+  color: var(--invert-fg);
+  transition: opacity 0.15s ease;
+}
+.btn-hud:hover {
+  opacity: 0.8;
+}
+.btn-hud-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 3rem;
+  padding: 0 1.5rem;
+  border-radius: 0;
+  font-family: var(--font-geist-mono), "Geist Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  border: 1px solid var(--line-strong);
+  background: var(--background);
+  color: var(--foreground);
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+.btn-hud-outline:hover {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--invert-bg) 8%, transparent);
+}
+
+/* HUD card: sharp corners, hairline border (replaces rounded editorial). */
+.hud-card {
+  border-radius: 0;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+
+/* Marquee strip (ArtCraft feature ticker). */
+.marquee {
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 32s linear infinite;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Giant watermark display (Archivo 750, stretched 125%). */
+.watermark-display {
+  font-family: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  font-weight: 750;
+  font-stretch: 125%;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+/* Numbered section kicker: 01/FRONTEND mono style. */
+.section-kicker {
+  font-family: var(--font-geist-mono), "Geist Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted-foreground);
 }
 
 /* Smooth underline animation */
@@ -647,6 +786,21 @@ html.no-js main .opacity-0 {
   .aurora-orb {
     animation: none !important;
   }
+}
+
+/* ─── ArtCraft site-wide normalization ─── */
+/* HUD kickers: every mono 0.3em-tracked kicker becomes an 11px bold label. */
+.tracking-\[0\.3em\] {
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 700;
+}
+/* HUD surfaces: square off large rounded cards/panels inside content. */
+/* Pills (rounded-full) and small controls (rounded-md) are untouched. */
+main .rounded-lg,
+main .rounded-xl,
+main .rounded-2xl {
+  border-radius: 0;
 }
 
 /* Print styles for Resume layout */

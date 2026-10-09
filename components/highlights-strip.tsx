@@ -105,6 +105,18 @@ const ACCENTS = [
 	{ dot: "bg-chart-5", value: "group-hover:text-chart-5", hoverBg: "hover:bg-chart-5/5" },
 ] as const;
 
+/* ArtCraft-style ticker: mono stack labels with ▪ separators, duplicated for loop. */
+const MARQUEE_ITEMS = [
+	"Next.js",
+	"TypeScript",
+	"Agentic AI",
+	"RAG · Pathumma LLM",
+	"LINE Messaging API",
+	"Docker",
+	"PostgreSQL · pgvector",
+	"Open Source",
+] as const;
+
 export function HighlightsStrip() {
 	const { language } = useLanguage();
 	const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.2 });
@@ -112,8 +124,19 @@ export function HighlightsStrip() {
 	const items = STATS[language];
 
 	return (
+		<>
+		<div className="marquee" aria-hidden="true">
+			<ul className="marquee-track items-center">
+				{[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((label, i) => (
+					<li key={i} className="hud-label flex items-center whitespace-nowrap px-6 py-3 text-muted-foreground">
+						<span aria-hidden="true" className="mr-6 text-primary">▪</span>
+						{label}
+					</li>
+				))}
+			</ul>
+		</div>
 		<section className="px-4 sm:px-6 py-10 sm:py-14">
-			<div ref={ref} className="mx-auto max-w-7xl border-y border-border/70">
+			<div ref={ref} className="mx-auto max-w-7xl border-y border-line">
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
 					{items.map((stat, index) => {
 						const isExternal = stat.href.startsWith("http");
@@ -122,8 +145,8 @@ export function HighlightsStrip() {
 							"group flex flex-col gap-2 px-6 py-8 sm:py-10 transition-colors duration-300 opacity-0",
 							accent.hoverBg,
 							// Hairline dividers: 2-col on sm (odd items), 4-col on lg (items 1-3)
-							index % 2 === 1 && "sm:border-l sm:border-border/70",
-							index > 0 && "lg:border-l lg:border-border/70",
+							index % 2 === 1 && "sm:border-l sm:border-line",
+							index > 0 && "lg:border-l lg:border-line",
 							isInView && "animate-fade-in-up",
 						);
 						const inner = (
@@ -132,13 +155,13 @@ export function HighlightsStrip() {
 									<span
 											aria-hidden="true"
 											className={cn(
-												"inline-block h-2 w-2 shrink-0 translate-y-[-2px] rounded-full",
+												"inline-block h-2 w-2 shrink-0 translate-y-[-2px]",
 												accent.dot,
 											)}
 										/>
 									<span
 											className={cn(
-												"font-serif text-2xl sm:text-[1.65rem] font-medium leading-tight text-foreground transition-colors duration-300",
+												"font-display text-2xl sm:text-[1.65rem] font-bold leading-tight tracking-tight text-foreground transition-colors duration-300",
 												accent.value,
 											)}
 										>
@@ -175,5 +198,6 @@ export function HighlightsStrip() {
 				</div>
 			</div>
 		</section>
+		</>
 	);
 }

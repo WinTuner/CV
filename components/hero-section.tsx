@@ -14,28 +14,40 @@ export function HeroSection() {
 	const t = heroCopy[language];
 
 	return (
-		<section className="relative px-4 sm:px-6 pt-32 sm:pt-40 pb-16 sm:pb-24">
-			{/* Soft ice-blue glow accents (decorative) */}
-			<div
-				aria-hidden="true"
-				className="pointer-events-none absolute -top-40 right-[-10%] h-[28rem] w-[28rem] rounded-full bg-primary/10 blur-[120px]"
-			/>
-			<div
-				aria-hidden="true"
-				className="pointer-events-none absolute -bottom-32 left-[-8%] h-[24rem] w-[24rem] rounded-full bg-chart-2/10 blur-[110px]"
-			/>
-			<div className="mx-auto max-w-7xl">
-				<div className="grid gap-14 lg:grid-cols-12 lg:gap-12 lg:items-center">
-					{/* Left column — editorial text */}
-					<div className="lg:col-span-7 space-y-7 sm:space-y-8">
+		<section id="hero" className="relative">
+			<div className="relative flex min-h-[calc(100svh-3rem)] flex-col">
+				<div className="pointer-events-none relative z-0 mx-auto flex w-full max-w-[1280px] flex-1 flex-col items-center justify-center px-4 sm:px-6 py-16 sm:py-20">
+					{/* Giant watermark backdrop (ArtCraft-style), masked + blurred */}
+					<div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-start justify-center overflow-hidden pt-10">
+						<div className="relative w-full max-w-5xl" style={{ containerType: "inline-size" }}>
+							<div
+								aria-hidden="true"
+								className="absolute -inset-x-[6%] -inset-y-[34%]"
+								style={{
+									backdropFilter: "blur(12px)",
+									WebkitBackdropFilter: "blur(12px)",
+									maskImage: "radial-gradient(closest-side, black 45%, transparent 100%)",
+									WebkitMaskImage: "radial-gradient(closest-side, black 45%, transparent 100%)",
+								}}
+							/>
+							<p className="watermark-display relative text-center text-foreground/[0.07] dark:text-foreground/[0.09] select-none whitespace-nowrap text-[13.5cqw]">
+								WINTUNER
+							</p>
+						</div>
+					</div>
+					<div className="relative z-10 grid gap-14 lg:grid-cols-12 lg:gap-12 lg:items-center w-full">
+					{/* Left column — display text */}
+					<div className="lg:col-span-7 space-y-7 sm:space-y-8 text-center lg:text-left flex flex-col items-center lg:items-start">
 						<div className="space-y-4 animate-fade-in-up">
-							<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+							<p className="hud-label text-muted-foreground">
 								{t.kicker}
 							</p>
-							<h1 className="font-serif text-[2.7rem] font-medium leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+							<h1 className="font-display text-[2.7rem] font-medium leading-[1.05] tracking-[-0.03em] sm:text-6xl lg:text-7xl text-ink-strong">
 								Forging digital
 								<br />
-								<HeroTypewriter />
+								<span className="serif-accent">
+									<HeroTypewriter />
+								</span>
 							</h1>
 						</div>
 
@@ -43,33 +55,33 @@ export function HeroSection() {
 							{t.intro}
 						</p>
 
-						<div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 animate-fade-in-up stagger-3">
+						<div className="flex flex-col sm:flex-row items-center gap-3 animate-fade-in-up stagger-3 w-full sm:w-auto">
 						<a
 							href="#projects"
-							className="btn-cyan-shadow group inline-flex w-full items-center justify-center gap-2.5 px-7 py-3.5 text-sm font-medium text-primary-foreground sm:w-auto"
+							className="btn-hud group w-full sm:w-auto"
 						>
 								{t.explore}
 								<ArrowRight className="arrow-spring h-4 w-4" />
 							</a>
 							<Link
 								href="/introduction"
-								className="group inline-flex w-full items-center justify-center gap-2 border border-primary/60 px-7 py-3.5 text-sm font-medium text-primary transition-all duration-300 hover:border-primary hover:bg-primary/10 sm:w-auto"
+								className="btn-hud-outline group w-full sm:w-auto"
 							>
 								{t.resume}
 								<ArrowRight className="arrow-spring h-4 w-4" />
 							</Link>
 						</div>
 
-						<div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 font-mono text-xs text-muted-foreground animate-fade-in-up stagger-4">
-							<span className="inline-flex items-center gap-1.5">
-								<MapPin className="h-3.5 w-3.5 text-primary" />
+						<div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 pt-2 animate-fade-in-up stagger-4">
+							<span className="hud-label inline-flex items-center gap-1.5 text-faint">
+								<MapPin className="h-3.5 w-3.5" />
 								{t.location}
 							</span>
 						<a
 							href={`mailto:${t.email}`}
-							className="underline-animate inline-flex items-center gap-1.5 transition-colors hover:text-primary"
+							className="hud-label inline-flex items-center gap-1.5 text-faint hover:text-foreground"
 						>
-							<Mail className="h-3.5 w-3.5 text-primary" />
+							<Mail className="h-3.5 w-3.5" />
 							{t.email}
 						</a>
 						<CopyEmailButton
@@ -85,6 +97,7 @@ export function HeroSection() {
 					{/* Right column — portrait */}
 					<div className="lg:col-span-5">
 						<HeroPortrait />
+					</div>
 					</div>
 				</div>
 			</div>
