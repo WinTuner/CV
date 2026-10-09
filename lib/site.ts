@@ -50,7 +50,7 @@ export const SOCIAL_LINKS = {
 	github: process.env.NEXT_PUBLIC_GITHUB_URL || GITHUB_PROFILE_URL,
 	linkedin:
 		process.env.NEXT_PUBLIC_LINKEDIN_URL ||
-		"https://www.linkedin.com/in/thanatphong-tarin-1b6619385/",
+		"https://www.linkedin.com/in/thanatphong-tarin",
 	x: process.env.NEXT_PUBLIC_X_URL || "",
 	lineOa:
 		process.env.NEXT_PUBLIC_LINE_OA_URL || "https://line.me/R/ti/p/%40636owbhl",

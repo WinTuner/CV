@@ -17,7 +17,7 @@ const socialLinks = [
 	{
 		label: "LinkedIn",
 		href: SOCIAL_LINKS.linkedin,
-		handle: "/in/thanatphong-tarin-1b6619385",
+		handle: "/in/thanatphong-tarin",
 		icon: LinkedinIcon,
 	},
 	{
