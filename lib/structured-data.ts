@@ -67,7 +67,6 @@ export function generatePersonStructuredData() {
     image: AUTHOR_AVATAR.startsWith("http") ? AUTHOR_AVATAR : `${SITE_URL}${AUTHOR_AVATAR}`,
     sameAs: [
       SOCIAL_LINKS.github,
-      SOCIAL_LINKS.x,
       SOCIAL_LINKS.linkedin,
     ],
     jobTitle: 'Co-Founder & CTO',
