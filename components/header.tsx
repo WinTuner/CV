@@ -121,7 +121,7 @@ export function Header() {
 				<div className="flex min-w-0 items-stretch">
 					<Link
 						href="/"
-						className="flex items-center border-r border-line px-4 sm:px-5 hover:opacity-70"
+						className="flex items-center border-r border-line px-4 transition-colors hover:bg-secondary sm:px-5"
 						onClick={() => {
 							const now = Date.now();
 							const clicks = logoClicksRef.current;
@@ -192,7 +192,7 @@ export function Header() {
 						</div>
 						<Link
 							href="/#connect"
-							className="hidden items-center justify-center gap-2 bg-invert-bg text-invert-fg hud-label border-l border-line px-5 transition-opacity hover:opacity-80 sm:inline-flex"
+							className="hidden items-center justify-center gap-2 bg-invert-bg text-invert-fg hud-label border-l border-line px-5 transition-colors hover:bg-[color-mix(in_srgb,var(--invert-bg)_80%,var(--invert-fg))] sm:inline-flex"
 						>
 							{ctaLabel}
 						</Link>

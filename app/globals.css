@@ -447,12 +447,11 @@ html.no-js main .opacity-0 {
   border: 1px solid var(--invert-bg);
   background: var(--invert-bg);
   color: var(--invert-fg);
-  transition: opacity 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .btn-cyan-shadow:hover {
-  opacity: 0.8;
-  background: var(--invert-bg);
+  background: color-mix(in srgb, var(--invert-bg) 80%, var(--invert-fg));
   box-shadow: none;
   transform: none;
 }
@@ -551,10 +550,10 @@ html.no-js main .opacity-0 {
   white-space: nowrap;
   background: var(--invert-bg);
   color: var(--invert-fg);
-  transition: opacity 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 .btn-hud:hover {
-  opacity: 0.8;
+  background: color-mix(in srgb, var(--invert-bg) 80%, var(--invert-fg));
 }
 .btn-hud-outline {
   display: inline-flex;
