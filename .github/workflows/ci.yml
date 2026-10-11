@@ -9,11 +9,18 @@ on:
 permissions:
   contents: read
 
+# Cancel stale runs on rapid pushes — only the latest commit per ref runs.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     name: Lint, Test, Build & Lighthouse
     # Pinned: ubuntu-latest migrates to 26 on 2026-10-19, stay on 24 until vetted.
     runs-on: ubuntu-24.04
+    # Fail fast instead of burning 6h when a step hangs.
+    timeout-minutes: 20
     env:
       # Photos live on Cloudinary, not in git — CI builds need the same
       # public env or images 404 and Lighthouse measures a broken page.
@@ -50,6 +57,14 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Cache Next.js build
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-
+
       - name: Build
         run: npm run build
 
@@ -63,6 +78,8 @@ jobs:
 
   e2e:
     name: E2E + axe
+    # Skip browsers + tests when lint/typecheck/unit/build already failed.
+    needs: verify
     # Pinned: see verify job.
     runs-on: ubuntu-24.04
     # Fail fast instead of burning 6h when the runner's apt mirror hangs.
@@ -85,6 +102,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-chromium-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browsers
         # --with-deps runs apt-get under the hood; the runner's Azure
