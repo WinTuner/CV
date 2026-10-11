@@ -21,19 +21,6 @@ export function isSupportedLanguage(value: unknown): value is SupportedLanguageC
 	return typeof value === "string" && (LANGUAGE_CODES as string[]).includes(value);
 }
 
-export function normalizeLanguage(value: unknown): SupportedLanguageCode {
-	if (isSupportedLanguage(value)) return value;
-	return DEFAULT_LANGUAGE;
-}
-
-export function getLanguageMeta(code: SupportedLanguageCode) {
-	return SUPPORTED_LANGUAGES.find((l) => l.code === code) ?? SUPPORTED_LANGUAGES[0];
-}
-
-/**
- * Pick translation with fallback: requested → en → first available.
- * Works for any `Record<string, T>` map where `en` exists.
- */
 export function pickTranslation<T>(map: Partial<Record<SupportedLanguageCode, T>>, lang: SupportedLanguageCode): T {
 	if (map[lang] !== undefined) return map[lang] as T;
 	if (map.en !== undefined) return map.en as T;

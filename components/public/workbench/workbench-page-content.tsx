@@ -9,7 +9,7 @@ import type { WipItem, ActivityItem } from "@/lib/github";
 import { useLiveGithubActivity } from "@/lib/use-live-github-activity";
 import { useLiveGithubWip } from "@/lib/use-live-github-wip";
 import { LivePill } from "@/components/live-pill";
-import { formatRelativeTime } from "@/lib/hero-utils";
+import { formatRelativeTime, getMessageText } from "@/lib/hero-utils";
 
 function formatDate(dateString: string, language: import("@/constants/languages").SupportedLanguageCode) {
   const date = new Date(dateString);
@@ -227,7 +227,7 @@ export function WorkbenchPageContent({
                         </div>
                       ) : (
                         <p className="truncate text-foreground">
-                          {typeof activity.message === "object" ? ((activity.message as Record<string, string>)[language] ?? (activity.message as Record<string,string>).en ?? "") : activity.message}
+                          {getMessageText(activity.message, language)}
                         </p>
                       )}
                       <p className="mt-1 flex items-center gap-1 text-muted-foreground">

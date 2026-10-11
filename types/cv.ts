@@ -1,10 +1,8 @@
 import type { SupportedLanguageCode } from "@/constants/languages";
 
-export type CVLanguage = SupportedLanguageCode;
-
 export type CVCategory = "production" | "competition" | "academic" | "personal" | "openSource"
 
-export type LanguageMap<T> = Record<CVLanguage, T>
+export type LanguageMap<T> = Record<SupportedLanguageCode, T>
 
 export type CategoryMap<T> = Record<CVCategory, T>
 
