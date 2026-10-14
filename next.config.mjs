@@ -76,6 +76,15 @@ const nextConfig = {
             },
           ]
         : [];
+    const scriptSrc = [
+      "'self'",
+      "'unsafe-inline'",
+      "https://va.vercel-scripts.com",
+      "https://vitals.vercel-insights.com",
+      // Turbopack's dev client evaluates chunks — production bundles never eval,
+      // so keep the production policy strict and silence dev-only noise here.
+      ...(process.env.NODE_ENV === "production" ? [] : ["'unsafe-eval'"]),
+    ].join(" ");
     return [
       ...cacheHeaders,
       {
@@ -94,7 +103,7 @@ const nextConfig = {
             key: 'Content-Security-Policy-Report-Only',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+              "script-src " + scriptSrc,
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https:",
               "font-src 'self' data:",

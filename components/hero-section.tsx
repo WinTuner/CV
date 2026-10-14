@@ -16,7 +16,7 @@ export function HeroSection() {
 	return (
 		<section id="hero" className="relative">
 			<div className="relative flex min-h-[calc(100svh-3rem)] flex-col">
-				<div className="pointer-events-none relative z-0 mx-auto flex w-full max-w-[1280px] flex-1 flex-col items-center justify-center px-4 sm:px-6 py-16 sm:py-20">
+				<div className="relative z-0 mx-auto flex w-full max-w-[1280px] flex-1 flex-col items-center justify-center px-4 sm:px-6 py-16 sm:py-20">
 					{/* Giant watermark backdrop (ArtCraft-style), masked + blurred */}
 					<div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-start justify-center overflow-hidden pt-10">
 						<div className="relative w-full max-w-5xl" style={{ containerType: "inline-size" }}>
