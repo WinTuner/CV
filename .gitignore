@@ -49,6 +49,10 @@ scratch/
 # --- Agent / local tooling (never commit) ---
 .serena/
 
+# --- Agent instructions (local only, never push to GitHub) ---
+/AGENTS.md
+/CLAUDE.md
+
 # --- OS ---
 Thumbs.db
 Desktop.ini
