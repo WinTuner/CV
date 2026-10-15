@@ -68,6 +68,7 @@ export function generatePersonStructuredData() {
     sameAs: [
       SOCIAL_LINKS.github,
       SOCIAL_LINKS.linkedin,
+      SOCIAL_LINKS.gearz,
     ],
     jobTitle: 'Co-Founder & CTO',
     worksFor: [

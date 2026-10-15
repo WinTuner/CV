@@ -51,6 +51,7 @@ export const SOCIAL_LINKS = {
 	linkedin:
 		process.env.NEXT_PUBLIC_LINKEDIN_URL ||
 		"https://www.linkedin.com/in/thanatphong-tarin",
+	gearz: process.env.NEXT_PUBLIC_GEARZ_URL || "https://gearz.gg/Natto",
 	lineOa:
 		process.env.NEXT_PUBLIC_LINE_OA_URL || "https://line.me/R/ti/p/%40636owbhl",
 } as const;

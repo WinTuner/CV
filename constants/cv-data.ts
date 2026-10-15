@@ -176,6 +176,18 @@ export const professionalExperience = {
 				image: img("/syntoolkit-hero.png"),
 			},
 			{
+				name: "SynergyOS",
+				role: "Contributor",
+				description:
+					"Windows optimization playbook that turns stock Windows into a high-performance system for gamers and power users — deep-level kernel and system tuning shipped as an .apbx playbook via AME Wizard, without giving up daily-driver stability.",
+				target: "Gamers, power users, and latency enthusiasts.",
+				problem: "Stock Windows ships with bloat and latency; generic debloat scripts fix it by gutting stability.",
+				learned:
+					"Windows internals, performance benchmarking, AME Wizard playbooks, and upstream open-source collaboration.",
+				url: "https://github.com/Synergy-Tweaks/SynergyOS",
+				image: img("https://raw.githubusercontent.com/Synergy-Tweaks/SynergyOS/main/Executables/SOS/4.%20More%20Wallpapers/SynergyOS%20Wallpaper%20v3.8%20silver%20main.png"),
+			},
+			{
 				name: "ProjectPruta Contributions",
 				role: "Contributor",
 				description:
@@ -278,6 +290,18 @@ export const professionalExperience = {
 					"C#, WinUI 3 / Windows App SDK, การผสาน WinGet และการร่วมงานกับโอเพนซอร์สต้นน้ำ",
 				url: "https://github.com/Synergy-Tweaks/SynToolkit",
 				image: img("/syntoolkit-hero.png"),
+			},
+			{
+				name: "SynergyOS",
+				role: "ผู้ร่วมพัฒนา",
+				description:
+					"เพลย์บุ๊กปรับแต่ง Windows ที่เปลี่ยน Windows มาตรฐานให้เป็นระบบประสิทธิภาพสูงสำหรับเกมเมอร์และผู้ใช้ขั้นสูง — ปรับแต่งเคอร์เนลและระบบเชิงลึก แจกจ่ายเป็นเพลย์บุ๊ก .apbx ผ่าน AME Wizard โดยไม่เสียเสถียรภาพการใช้งานประจำวัน",
+				target: "เกมเมอร์ ผู้ใช้ขั้นสูง และผู้ที่ใส่ใจเรื่อง latency",
+				problem: "Windows มาตรฐานมาพร้อมโปรแกรมไม่จำเป็นและความหน่วง; สคริปต์ debloat ทั่วไปแก้ด้วยการตัดฟีเจอร์จนเสียเสถียรภาพ",
+				learned:
+					"โครงสร้างภายใน Windows, การวัดประสิทธิภาพ, เพลย์บุ๊ก AME Wizard และการร่วมงานกับโอเพนซอร์สต้นน้ำ",
+				url: "https://github.com/Synergy-Tweaks/SynergyOS",
+				image: img("https://raw.githubusercontent.com/Synergy-Tweaks/SynergyOS/main/Executables/SOS/4.%20More%20Wallpapers/SynergyOS%20Wallpaper%20v3.8%20silver%20main.png"),
 			},
 			{
 				name: "การช่วยพัฒนา ProjectPruta",
@@ -389,6 +413,18 @@ export const professionalExperience = {
 				image: img("/syntoolkit-hero.png"),
 			},
 			{
+				name: "SynergyOS",
+				role: "コントリビューター",
+				description:
+					"ストックWindowsをゲーマーとパワーユーザー向けの高性能システムに変えるWindows最適化プレイブック — カーネルとシステムの深層チューニングをAME Wizard経由の.apbxプレイブックとして配布し、日常利用の安定性を犠牲にしない。",
+				target: "ゲーマー、パワーユーザー、レイテンシにこだわるユーザー。",
+				problem: "ストックWindowsのブロートと遅延に対し、汎用debloatスクリプトは安定性を削って対処する。",
+				learned:
+					"Windows内部構造、パフォーマンスベンチマーク、AME Wizardプレイブック、上流オープンソースとの協働。",
+				url: "https://github.com/Synergy-Tweaks/SynergyOS",
+				image: img("https://raw.githubusercontent.com/Synergy-Tweaks/SynergyOS/main/Executables/SOS/4.%20More%20Wallpapers/SynergyOS%20Wallpaper%20v3.8%20silver%20main.png"),
+			},
+			{
 				name: "ProjectPruta Contributions",
 				role: "コントリビューター",
 				description:
@@ -498,6 +534,18 @@ export const professionalExperience = {
 					"C#、WinUI 3 / Windows App SDK、WinGet 集成与上游开源协作。",
 				url: "https://github.com/Synergy-Tweaks/SynToolkit",
 				image: img("/syntoolkit-hero.png"),
+			},
+			{
+				name: "SynergyOS",
+				role: "贡献者",
+				description:
+					"将原生 Windows 打造成面向玩家与高级用户的高性能系统的 Windows 优化剧本 — 内核与系统级深度调优，以 .apbx 剧本经 AME Wizard 分发，且不牺牲日常使用的稳定性。",
+				target: "玩家、高级用户与关注延迟的用户。",
+				problem: "原生 Windows 臃肿且延迟高;通用精简脚本以牺牲稳定性为代价解决问题。",
+				learned:
+					"Windows 内部机制、性能基准测试、AME Wizard 剧本与上游开源协作。",
+				url: "https://github.com/Synergy-Tweaks/SynergyOS",
+				image: img("https://raw.githubusercontent.com/Synergy-Tweaks/SynergyOS/main/Executables/SOS/4.%20More%20Wallpapers/SynergyOS%20Wallpaper%20v3.8%20silver%20main.png"),
 			},
 			{
 				name: "ProjectPruta Contributions",

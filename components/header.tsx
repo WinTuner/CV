@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 import { GithubIcon, LinkedinIcon } from "./social-icons";
+import { Gamepad2 } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 import { LanguageToggle } from "./language-toggle";
 import { useLanguage } from "./language-provider";
@@ -31,6 +32,7 @@ const socialLinks = [
 		href: SOCIAL_LINKS.linkedin,
 		icon: LinkedinIcon,
 	},
+	{ label: "Gearz", href: SOCIAL_LINKS.gearz, icon: Gamepad2 },
 ];
 
 export function Header() {

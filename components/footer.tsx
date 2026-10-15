@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, ArrowRight, Gamepad2 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./social-icons";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
@@ -19,6 +19,12 @@ const socialLinks = [
 		href: SOCIAL_LINKS.linkedin,
 		handle: "/in/thanatphong-tarin",
 		icon: LinkedinIcon,
+	},
+	{
+		label: "Gearz",
+		href: SOCIAL_LINKS.gearz,
+		handle: "gearz.gg/Natto",
+		icon: Gamepad2,
 	},
 	{
 		label: "Email",

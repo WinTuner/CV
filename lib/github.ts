@@ -72,6 +72,7 @@ export interface Contributor {
 export const CONTRIBUTOR_UPSTREAMS: Record<string, { owner: string; repo: string }> = {
 	AutoOS: { owner: "tinodin", repo: "AutoOS" },
 	SynToolkit: { owner: "Synergy-Tweaks", repo: "SynToolkit" },
+	SynergyOS: { owner: "Synergy-Tweaks", repo: "SynergyOS" },
 };
 
 /**

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
-import { Mail, MessageSquare, CheckCircle2, ArrowRight } from "lucide-react";
+import { Mail, MessageSquare, CheckCircle2, ArrowRight, Gamepad2 } from "lucide-react";
 import { CONTACT_EMAIL, CONTACT_MAILTO, SOCIAL_LINKS } from "@/lib/site";
 import { CopyEmailButton } from "./copy-email-button";
 
@@ -198,6 +198,24 @@ export function ContactSection() {
 									</p>
 									<p className="text-sm font-medium transition-colors group-hover:text-primary">
 										github.com/WinTuner
+									</p>
+								</div>
+							</a>
+							<a
+								href={SOCIAL_LINKS.gearz}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="group flex items-center gap-4"
+							>
+								<div className="flex h-11 w-11 items-center justify-center border border-border/70 bg-card transition-colors duration-300 group-hover:border-primary/50">
+									<Gamepad2 className="icon-spring h-4 w-4 text-primary" />
+								</div>
+								<div>
+									<p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+										Gearz
+									</p>
+									<p className="text-sm font-medium transition-colors group-hover:text-primary">
+										gearz.gg/Natto
 									</p>
 								</div>
 							</a>

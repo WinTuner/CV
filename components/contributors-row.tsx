@@ -17,7 +17,7 @@ const MAX_AVATARS = 7;
 
 /**
  * Looks up the contributor source for any project card — upstream mapping
- * first (AutoOS, SynToolkit), otherwise the card's GitHub URL — and renders
+ * first (AutoOS, SynToolkit, SynergyOS), otherwise the card's GitHub URL — and renders
  * its contributor row. Null for non-GitHub links.
  */
 export function UpstreamContributors({ name, url }: { name: string; url?: string }) {
