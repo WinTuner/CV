@@ -104,6 +104,7 @@ for (const file of files) {
 	form.append("file", new Blob([buf]), file);
 	form.append("public_id", publicId);
 	form.append("overwrite", "true");
+	form.append("invalidate", "true");
 
 	const res = await fetch(`https://api.cloudinary.com/v1_1/${cloud}/image/upload`, {
 		method: "POST",

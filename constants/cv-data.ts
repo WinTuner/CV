@@ -185,7 +185,7 @@ export const professionalExperience = {
 				learned:
 					"Windows internals, performance benchmarking, AME Wizard playbooks, and upstream open-source collaboration.",
 				url: "https://github.com/Synergy-Tweaks/SynergyOS",
-				image: img("https://raw.githubusercontent.com/Synergy-Tweaks/SynergyOS/main/Executables/SOS/4.%20More%20Wallpapers/SynergyOS%20Wallpaper%20v3.8%20silver%20main.png"),
+				image: img("/synergyos-hero.jpg"),
 			},
 			{
 				name: "ProjectPruta Contributions",
@@ -301,7 +301,7 @@ export const professionalExperience = {
 				learned:
 					"โครงสร้างภายใน Windows, การวัดประสิทธิภาพ, เพลย์บุ๊ก AME Wizard และการร่วมงานกับโอเพนซอร์สต้นน้ำ",
 				url: "https://github.com/Synergy-Tweaks/SynergyOS",
-				image: img("https://raw.githubusercontent.com/Synergy-Tweaks/SynergyOS/main/Executables/SOS/4.%20More%20Wallpapers/SynergyOS%20Wallpaper%20v3.8%20silver%20main.png"),
+				image: img("/synergyos-hero.jpg"),
 			},
 			{
 				name: "การช่วยพัฒนา ProjectPruta",
@@ -422,7 +422,7 @@ export const professionalExperience = {
 				learned:
 					"Windows内部構造、パフォーマンスベンチマーク、AME Wizardプレイブック、上流オープンソースとの協働。",
 				url: "https://github.com/Synergy-Tweaks/SynergyOS",
-				image: img("https://raw.githubusercontent.com/Synergy-Tweaks/SynergyOS/main/Executables/SOS/4.%20More%20Wallpapers/SynergyOS%20Wallpaper%20v3.8%20silver%20main.png"),
+				image: img("/synergyos-hero.jpg"),
 			},
 			{
 				name: "ProjectPruta Contributions",
@@ -545,7 +545,7 @@ export const professionalExperience = {
 				learned:
 					"Windows 内部机制、性能基准测试、AME Wizard 剧本与上游开源协作。",
 				url: "https://github.com/Synergy-Tweaks/SynergyOS",
-				image: img("https://raw.githubusercontent.com/Synergy-Tweaks/SynergyOS/main/Executables/SOS/4.%20More%20Wallpapers/SynergyOS%20Wallpaper%20v3.8%20silver%20main.png"),
+				image: img("/synergyos-hero.jpg"),
 			},
 			{
 				name: "ProjectPruta Contributions",
