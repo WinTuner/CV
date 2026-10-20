@@ -55,6 +55,29 @@ const nextConfig = {
       { protocol: 'https', hostname: 'res.cloudinary.com' },
     ],
   },
+  // Consolidate the legacy vercel.app host onto the canonical is-a.dev
+  // domain. Both hosts serve this same project, so the rule is gated on the
+  // incoming host — without that gate every is-a.dev request would bounce
+  // back to vercel.app and loop forever.
+  async redirects() {
+    const canonicalHost = 'thanatphong.is-a.dev'
+    const legacyHost = 'thanatphong.vercel.app'
+    return [
+      {
+        // Absolute external destination: an absolute URL keeps the target host
+        // explicit instead of reusing the incoming one, which is what would
+        // otherwise cause the loop.
+        source: '/:path*',
+        destination: `https://${canonicalHost}/:path*`,
+        // `permanent: true` emits a 308 (Next never emits 301 here). Search
+        // engines treat 308 as permanent exactly like 301, and a 308 is the
+        // status that preserves non-GET methods. Swap `statusCode: 301` in
+        // for this line if a literal 301 is ever required.
+        permanent: true,
+        has: [{ type: 'host', value: legacyHost }],
+      },
+    ]
+  },
   // Cache static assets aggressively; keep HTML dynamic.
   // NOTE: the immutable rule is production-only. In `next dev`, Turbopack
   // chunk URLs can stay stable across edits — serving them as `immutable`
