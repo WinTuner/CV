@@ -48,7 +48,7 @@ function svg(kicker, title) {
   <rect x="80" y="80" width="1040" height="470" rx="24" fill="rgba(9,9,11,0.35)" stroke="rgba(255,255,255,0.18)"/>
   <text x="120" y="200" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="28" letter-spacing="4" fill="#7dd3fc">${kicker}</text>
   <text x="120" y="340" font-family="system-ui, sans-serif" font-size="64" font-weight="bold" fill="#ffffff">${title}</text>
-  <text x="120" y="480" font-family="ui-monospace, monospace" font-size="24" fill="#e2e8f0">&gt; thanatphong.vercel.app</text>
+  <text x="120" y="480" font-family="ui-monospace, monospace" font-size="24" fill="#e2e8f0">&gt; thanatphong.is-a.dev</text>
 </svg>`;
 }
 
@@ -100,7 +100,7 @@ function postSvg(title) {
   <rect x="80" y="80" width="1040" height="470" rx="24" fill="rgba(9,9,11,0.35)" stroke="rgba(255,255,255,0.18)"/>
   <text x="120" y="190" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="28" letter-spacing="4" fill="#7dd3fc">WinTuner · Blog</text>
   ${texts}
-  <text x="120" y="500" font-family="ui-monospace, monospace" font-size="24" fill="#e2e8f0">&gt; thanatphong.vercel.app</text>
+  <text x="120" y="500" font-family="ui-monospace, monospace" font-size="24" fill="#e2e8f0">&gt; thanatphong.is-a.dev</text>
 </svg>`;
 }
 

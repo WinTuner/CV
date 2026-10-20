@@ -107,7 +107,7 @@ Verify: `npm run build` + bilingual toggle shows TH without blank, `/projects` c
 - `next.config.mjs:41` `remotePatterns hostname ** ` → restrict to `avatars.githubusercontent.com`, `raw.githubusercontent.com`, `images.unsplash.com`, `**notion*`, etc. or keep `**` with comment if intentional permissive.
 - `public/` prune unused `placeholder*` if unreferenced (`rg placeholder` check).
 - `scripts/optimize-images.mjs` re-run after image replace.
-- Ensure `GITHUB_TOKEN` in Vercel env; `lib/site.ts:5` canonical fallback stays `thanatphong.vercel.app`.
+- Ensure `GITHUB_TOKEN` in Vercel env; `lib/site.ts:5` canonical fallback stays `thanatphong.is-a.dev`.
 
 ---
 
