@@ -40,10 +40,36 @@ const jobs = [
 		format: { png: { compressionLevel: 9, palette: true } },
 	},
 	{
+		// quality/effort matter here: the default palette quality (100)
+		// left these at ~50KB each; 80/10 gives visually identical icons ~4x smaller.
 		in: "apple-icon.png",
 		out: "apple-icon.png",
-		resize: { width: 180, height: 180 },
-		format: { png: { compressionLevel: 9, palette: true } },
+		resize: { width: 180, height: 180, fit: "fill" },
+		format: { png: { compressionLevel: 9, palette: true, quality: 80, effort: 10 } },
+	},
+	{
+		in: "apple-touch-icon.png",
+		out: "apple-touch-icon.png",
+		resize: { width: 180, height: 180, fit: "fill" },
+		format: { png: { compressionLevel: 9, palette: true, quality: 80, effort: 10 } },
+	},
+	{
+		in: "icon-192x192.png",
+		out: "icon-192x192.png",
+		resize: { width: 192, height: 192, fit: "fill" },
+		format: { png: { compressionLevel: 9, palette: true, quality: 80, effort: 10 } },
+	},
+	{
+		in: "icon-512x512.png",
+		out: "icon-512x512.png",
+		resize: { width: 512, height: 512, fit: "fill" },
+		format: { png: { compressionLevel: 9, palette: true, quality: 80, effort: 10 } },
+	},
+	{
+		in: "icon-maskable-512x512.png",
+		out: "icon-maskable-512x512.png",
+		resize: { width: 512, height: 512, fit: "fill" },
+		format: { png: { compressionLevel: 9, palette: true, quality: 80, effort: 10 } },
 	},
 	{
 		in: "og-image.png",

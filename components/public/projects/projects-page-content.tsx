@@ -204,8 +204,10 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
   return (
     <section ref={sectionRef} className="px-4 sm:px-6 py-12 sm:py-20">
       <div className="mx-auto max-w-7xl">
-        {/* Hero */}
-        <div className={cn("mb-12 sm:mb-16 space-y-4 opacity-0", isVisible && "animate-fade-in-up")}>
+        {/* Hero — intentionally NOT gated behind `useInView`/opacity-0:
+            as the page's LCP candidate it must paint with the server HTML,
+            not ~1s after hydration (LCP 5.0s → 1.6s in lab). */}
+        <div className="mb-12 sm:mb-16 space-y-4">
           <p className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
             {t[language].kicker}
             <LivePill updatedAt={updatedAt} isLive={isLive} label={t[language].liveBadge} language={language} />
@@ -216,8 +218,8 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
           </p>
         </div>
 
-        {/* Search and Filters */}
-        <div className={cn("mb-10 space-y-6 opacity-0", isVisible && "animate-fade-in-up stagger-2")}>
+        {/* Search and Filters — same LCP rule as the hero above */}
+        <div className="mb-10 space-y-6">
           {/* Search */}
           <div className="relative max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

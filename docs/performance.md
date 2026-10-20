@@ -32,21 +32,22 @@ The codebase has already adopted the baseline optimizations:
   ambient animation set in `app/globals.css`.
 - **Paint containment**: `.content-visibility-auto` on long sections.
 
-## Bundle Size (measured August 2026)
+## Bundle Size (measured October 2026)
 
 First-load JS (uncompressed) per route, from `.next/diagnostics/route-bundle-stats.json`
 (after the CommandPalette lazy-mount optimization; re-measured
 September 2026 after the 16.3.6 patch round — down ~20–40KB per route;
 re-measured October 2026 after adding Lenis smooth-scroll — lazy chunk,
 off the first-load bundle; re-measured Oct 2026 after the 16.3.8 patch
-round — no regression, within ~1KB per route, budgets stay at 800KiB):
+round; re-measured Oct 20, 2026 — up ~25KB per route vs the September
+figures, still under the 800KiB budget):
 
 | Route | First-load JS |
 | --- | --- |
-| `/` (home) | ~657KB |
-| `/introduction` | ~633KB |
-| `/blog` | ~595KB |
-| `/projects` | ~588KB |
+| `/` (home) | ~682KB |
+| `/introduction` | ~653KB |
+| `/blog` | ~610KB |
+| `/projects` | ~603KB |
 
 Notes:
 - The bulk (~370KB) is the Next.js 16 + React 19 framework runtime that every
@@ -72,17 +73,61 @@ Notes:
   alongside `@vercel/analytics` in `app/layout.tsx`; real-user Core Web
   Vitals now show in the Vercel dashboard.
 
+## Local Lighthouse audit (October 20, 2026)
+
+Medians of 2–3 runs per route, simulated mobile, production build served
+by `npm start`, Playwright Chromium (no system Chrome on the machine).
+Absolute numbers run ~5–8 points lower than CI/GitHub runners mainly
+because of local TTFB (~450ms vs ~100–200ms on Vercel edge) — treat
+these as *relative* signals, and Vercel Speed Insights as the
+production source of truth.
+
+| Route | Perf | LCP | TBT |
+| --- | --- | --- | --- |
+| `/` | ~77–79 | ~5.1s | ~150–240ms |
+| `/introduction` | ~84 | ~4.5s | ~50ms |
+| `/projects` | ~74–76 | ~5.1s | ~250–390ms |
+| `/blog` | ~86–88 | ~4.0s | ~20–75ms |
+| `/workbench` | ~90 | ~3.6s | ~42ms |
+| `/case-study/muanjai` | ~88 | ~3.9s | ~36ms |
+
+Dead ends measured on 2026-10-20 — all neutral (± noise), don't retry
+without a new signal:
+
+- **Trimming fonts** (dropping Archivo + Instrument Serif, ~49KB less
+  preloaded woff2): +1–2 pts at best. The LCP text on font-heavy routes
+  waits for the Fraunces swap (`lcp-breakdown` shows ~1.2s "element
+  render delay" = swap), and Fraunces can't shrink: the design uses it
+  at both 400 italic (hero typewriter) and 500 (headings).
+- **`<link rel="preload">` for the Cloudinary hero**: neutral in
+  Lantern (it already prioritizes the LCP image); the `preconnect` +
+  `fetchPriority=high` already in place cover the real-browser case.
+- **Same-origin hero** (Cloudinary disabled → `/_next/image`): neutral
+  locally; third-party connection setup is not the bottleneck.
+
+What did move things:
+
+- `/projects` hero (kicker + h1 + search) un-gated from
+  `opacity-0` + `useInView`: as a client component the whole block was
+  invisible until hydration + IntersectionObserver. LCP is now
+  server-painted (the same pattern `/blog` already used with a
+  CSS-only `animate-fade-in-up`, no `opacity-0`).
+- PWA/Apple icons re-encoded (palette PNG, quality 80): 683KB → 170KB
+  total; `apple-icon.png` alone 48KB → 13KB, which also cuts what
+  Lighthouse charges to every audited page's byte weight.
+  Re-run via `node scripts/optimize-images.mjs`.
+
 ## Remaining Opportunities
 
-1. **Audit locally** for before/after comparisons:
-   ```bash
-   npm run build && npm start
-   npx lighthouse http://localhost:3000 --view
-   ```
+1. `/projects` TBT (~250–390ms) is the last route-specific drag: the
+   card grid uses `transition-all` on every card; switching to explicit
+   properties (`transition-[border-color,box-shadow]`) is the obvious
+   candidate but was not measured yet.
 2. **Dependency audit** — `npx depcheck` to confirm nothing is orphaned.
-3. **More lazy components** — the GitHub contribution graph, skills matrix,
-   and projects grid could be wrapped in `next/dynamic` if any route's first
-   paint regresses.
+3. Home's simulated LCP (~5.1s) is dominated by the throttled
+   critical-path transfer (HTML 33KB + CSS 23KB + fonts ~140KB + hero).
+   If prod Speed Insights ever shows mobile LCP > 2.5s, the remaining
+   lever is the DOM itself (home SSR HTML is ~342KB).
 
 ## Notes
 
