@@ -71,12 +71,27 @@ export const metadata: Metadata = {
 	description:
 		"A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by Thanatphong Tarin.",
 	alternates: {
+		canonical: "/",
 		types: {
 			"application/rss+xml": `${SITE_URL}/feed.xml`,
 		},
-		languages: Object.fromEntries(
-			SUPPORTED_LANGUAGES.map((l) => [l.hreflang, `${SITE_URL}${l.code === "en" ? "/" : `/?lang=${l.code}`}`]),
-		),
+		languages: {
+			"x-default": `${SITE_URL}/`,
+			...Object.fromEntries(
+				SUPPORTED_LANGUAGES.map((l) => [l.hreflang, `${SITE_URL}${l.code === "en" ? "/" : `/?lang=${l.code}`}`]),
+			),
+		},
+	},
+	// Search-console ownership tokens (public by nature — rendered as
+	// <meta name="google-site-verification"> / msvalidate.01). Set the env
+	// var on the host after claiming the domain in GSC/Bing; unset = no tag.
+	// Bing has no dedicated key in Next's Verification type; it uses the
+	// `other` map, which renders <meta name="<key>" content="<value>">.
+	verification: {
+		google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+		other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+			? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
+			: undefined,
 	},
 	keywords: [
 		"Software Engineering",
