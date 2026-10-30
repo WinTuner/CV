@@ -5,98 +5,109 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ─── ArtCraft HUD palette: warm paper + ink, sharp segmented surfaces ─── */
-/* Light = #f2f1ee paper (ArtCraft), dark = #0b0b0c near-black. */
+/* ─── WinTuner playroom palette: soft lavender daylight + violet night ─── */
+/* Dark is the default identity; light is a pastel counterpart. */
 :root {
-  --background: #f2f1ee;
-  --foreground: #1c1c1a;
-  --card: #faf9f6;
-  --card-foreground: #1c1c1a;
-  --popover: #faf9f6;
-  --popover-foreground: #1c1c1a;
-  --primary: #0b7187;
+  --background: #f7f3ff;
+  --foreground: #221537;
+  --card: #ffffff;
+  --card-foreground: #221537;
+  --popover: #ffffff;
+  --popover-foreground: #221537;
+  --primary: #0b7d59;
   --primary-foreground: #ffffff;
-  --secondary: #e7e5df;
-  --secondary-foreground: #3d3d39;
-  --muted: #e9e7e1;
-  --muted-foreground: #6b6a64;
-  --accent: #35609f;
+  --secondary: #ede4fb;
+  --secondary-foreground: #4c3a69;
+  --muted: #efe8fa;
+  --muted-foreground: #6e6087;
+  --accent: #6d4aff;
   --accent-foreground: #ffffff;
-  /* HUD surface tokens (ArtCraft segmented nav / watermark / marquee) */
-  --line: #d8d5cc;
-  --line-strong: #b9b5a8;
-  --ink-strong: #0e0e0d;
-  --invert-bg: #0e0e0d;
-  --invert-fg: #f2f1ee;
-  --faint: #8a887f;
+  /* Surface tokens (nav / watermark / marquee / cards) */
+  --line: #e5daf6;
+  --line-strong: #d1c0ec;
+  --ink-strong: #1b0f2d;
+  --invert-bg: #241638;
+  --invert-fg: #f7f3ff;
+  --faint: #6f6188;
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: #d8d5cc;
-  --input: #d8d5cc;
-  --ring: #0b7187;
-  --chart-1: #0b7187;
-  --chart-2: #3d6cb8;
-  --chart-3: #6f4fb8;
-  --chart-4: #7a5cc0;
-  --chart-5: #b3276a;
-  --radius: 0.5rem;
-  --sidebar: #f2f1ee;
-  --sidebar-foreground: #1c1c1a;
-  --sidebar-primary: #0b7187;
+  --border: #e5daf6;
+  --input: #e5daf6;
+  --ring: #0b7d59;
+  --chart-1: #0b7d59;
+  --chart-2: #6d4aff;
+  --chart-3: #d9438f;
+  --chart-4: #a9780a;
+  --chart-5: #2f6fd0;
+  --radius: 1.25rem;
+  /* Chunky 3D card shadow: inset highlight + hard bottom edge + soft ambient */
+  --shadow-card: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 5px 0 #ded1f2,
+    0 18px 36px -18px rgba(75, 42, 135, 0.28);
+  --shadow-card-hover: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 8px 0 #ded1f2,
+    0 26px 44px -20px rgba(75, 42, 135, 0.34);
+  --gradient-text: linear-gradient(100deg, #0b7d59 0%, #6d4aff 52%, #d9438f 100%);
+  --sidebar: #f7f3ff;
+  --sidebar-foreground: #221537;
+  --sidebar-primary: #0b7d59;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e7e5df;
-  --sidebar-accent-foreground: #3d3d39;
-  --sidebar-border: #d8d5cc;
-  --sidebar-ring: #0b7187;
+  --sidebar-accent: #ede4fb;
+  --sidebar-accent-foreground: #4c3a69;
+  --sidebar-border: #e5daf6;
+  --sidebar-ring: #0b7d59;
 }
 
 .dark {
-  --background: #0b0b0c;
-  --foreground: #eceae4;
-  --card: #141415;
-  --card-foreground: #eceae4;
-  --popover: #141415;
-  --popover-foreground: #eceae4;
-  --primary: #c8f4ff;
-  --primary-foreground: #0c2831;
-  --secondary: #1d1d1f;
-  --secondary-foreground: #c9c7bf;
-  --muted: #1a1a1c;
-  --muted-foreground: #9b998f;
-  --accent: #aec9f7;
-  --accent-foreground: #0c2831;
-  --line: #2a2a2c;
-  --line-strong: #3f3f42;
-  --ink-strong: #f4f2ec;
-  --invert-bg: #f2f1ee;
-  --invert-fg: #0b0b0c;
-  --faint: #7d7c75;
+  --background: #0c0816;
+  --foreground: #f3edff;
+  --card: #171027;
+  --card-foreground: #f3edff;
+  --popover: #1b1230;
+  --popover-foreground: #f3edff;
+  --primary: #7ef0c4;
+  --primary-foreground: #052018;
+  --secondary: #221838;
+  --secondary-foreground: #ded3f5;
+  --muted: #1d1432;
+  --muted-foreground: #a99bc4;
+  --accent: #b9a4ff;
+  --accent-foreground: #160c2c;
+  --line: #2b2143;
+  --line-strong: #41335f;
+  --ink-strong: #fbf7ff;
+  --invert-bg: #7ef0c4;
+  --invert-fg: #062018;
+  --faint: #9d90b8;
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: #2a2a2c;
-  --input: #2a2a2c;
-  --ring: #c8f4ff;
-  --chart-1: #c8f4ff;
-  --chart-2: #9db0f5;
-  --chart-3: #bda6ef;
-  --chart-4: #c79be0;
-  --chart-5: #f2a7e8;
-  --sidebar: #0b0b0c;
-  --sidebar-foreground: #eceae4;
-  --sidebar-primary: #c8f4ff;
-  --sidebar-primary-foreground: #0c2831;
-  --sidebar-accent: #1d1d1f;
-  --sidebar-accent-foreground: #c9c7bf;
-  --sidebar-border: #2a2a2c;
-  --sidebar-ring: #c8f4ff;
+  --border: #2b2143;
+  --input: #2b2143;
+  --ring: #7ef0c4;
+  --chart-1: #7ef0c4;
+  --chart-2: #b9a4ff;
+  --chart-3: #ff9ecb;
+  --chart-4: #ffd479;
+  --chart-5: #8ecbff;
+  --shadow-card: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 5px 0 #06030e,
+    0 22px 40px -16px rgba(0, 0, 0, 0.6);
+  --shadow-card-hover: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 9px 0 #06030e,
+    0 30px 52px -18px rgba(0, 0, 0, 0.65);
+  --gradient-text: linear-gradient(100deg, #7ef0c4 0%, #b9a4ff 52%, #ff9ecb 100%);
+  --sidebar: #0c0816;
+  --sidebar-foreground: #f3edff;
+  --sidebar-primary: #7ef0c4;
+  --sidebar-primary-foreground: #052018;
+  --sidebar-accent: #221838;
+  --sidebar-accent-foreground: #ded3f5;
+  --sidebar-border: #2b2143;
+  --sidebar-ring: #7ef0c4;
 }
 
 @theme inline {
   --font-sans: var(--font-geist), "Geist", "Geist Fallback", system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), "Geist Mono", "Geist Mono Fallback", monospace;
-  --font-serif: var(--font-fraunces), "Fraunces", Georgia, "Times New Roman", serif;
-  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
-  --font-serif-accent: var(--font-instrument-serif), "Instrument Serif", Georgia, serif;
+  --font-serif: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
+  --font-display: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
+  --font-serif-accent: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-ink-strong: var(--ink-strong);
@@ -131,6 +142,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 6px);
+  --radius-3xl: calc(var(--radius) + 12px);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -441,19 +454,22 @@ html.no-js main .opacity-0 {
   background: var(--card);
 }
 
-/* Solid primary CTA — ArtCraft sharp HUD (kept class name for compat). */
+/* Solid primary CTA (kept class name for compat). */
 .btn-cyan-shadow {
-  border-radius: 0;
+  border-radius: 9999px;
   border: 1px solid var(--invert-bg);
   background: var(--invert-bg);
   color: var(--invert-fg);
-  transition: background-color 0.15s ease;
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--invert-bg) 55%, #000);
+  transition:
+    transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.18s ease;
 }
 
 .btn-cyan-shadow:hover {
-  background: color-mix(in srgb, var(--invert-bg) 80%, var(--invert-fg));
-  box-shadow: none;
-  transform: none;
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--invert-bg) 55%, #000);
 }
 
 /* Arrow micro-interaction for CTA buttons: continuous 360° spin on group
@@ -500,32 +516,40 @@ html.no-js main .opacity-0 {
 }
 
 .hover-lift:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 34px -18px oklch(0.3 0.02 80 / 0.35);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
 }
 
-/* ─── ArtCraft HUD kit: mono labels, sharp CTAs, marquee, watermark ─── */
-/* Editorial text accent — solid primary, no gradient */
+/* ─── Playroom kit: rounded labels, chunky CTAs, sticker cards ─── */
+/* Gradient display accent — mint → lavender → pink. */
 .text-gradient {
-  color: var(--primary);
+  background-image: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .hud-label {
-  font-family: var(--font-geist-mono), "Geist Mono", monospace;
-  font-size: 11px;
-  font-weight: 700;
+  font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   white-space: nowrap;
 }
 
 .font-display {
-  font-family: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
+  font-weight: 600;
 }
 
 .serif-accent {
-  font-family: var(--font-instrument-serif), "Instrument Serif", Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
+  font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  background-image: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .invert-block {
@@ -533,59 +557,71 @@ html.no-js main .opacity-0 {
   color: var(--invert-fg);
 }
 
-/* Sharp rectangular HUD buttons (ArtCraft CTA). */
+/* Rounded pill CTA: mint with a hard bottom edge, presses down on hover. */
 .btn-hud {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  height: 3rem;
-  padding: 0 1.5rem;
-  border-radius: 0;
-  font-family: var(--font-geist-mono), "Geist Mono", monospace;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  height: 3.1rem;
+  padding: 0 1.6rem;
+  border-radius: 9999px;
+  font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   background: var(--invert-bg);
   color: var(--invert-fg);
-  transition: background-color 0.15s ease;
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--invert-bg) 55%, #000);
+  transition:
+    transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.18s ease;
 }
 .btn-hud:hover {
-  background: color-mix(in srgb, var(--invert-bg) 80%, var(--invert-fg));
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--invert-bg) 55%, #000);
+}
+.btn-hud:active {
+  transform: translateY(4px);
+  box-shadow: none;
 }
 .btn-hud-outline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  height: 3rem;
-  padding: 0 1.5rem;
-  border-radius: 0;
-  font-family: var(--font-geist-mono), "Geist Mono", monospace;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  height: 3.1rem;
+  padding: 0 1.6rem;
+  border-radius: 9999px;
+  font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   white-space: nowrap;
-  border: 1px solid var(--line-strong);
-  background: var(--background);
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card) 65%, transparent);
   color: var(--foreground);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition:
-    border-color 0.15s ease,
-    background-color 0.15s ease;
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .btn-hud-outline:hover {
-  border-color: transparent;
-  background: color-mix(in srgb, var(--invert-bg) 8%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+  background: var(--card);
+  transform: translateY(-2px);
 }
 
-/* HUD card: sharp corners, hairline border (replaces rounded editorial). */
+/* Sticker card: 24px radius, hairline border, 3D bottom edge. */
 .hud-card {
-  border-radius: 0;
-  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  border: 1px solid var(--border);
   background: var(--card);
+  box-shadow: var(--shadow-card);
 }
 
 /* Marquee strip (ArtCraft feature ticker). */
@@ -613,22 +649,21 @@ html.no-js main .opacity-0 {
   }
 }
 
-/* Giant watermark display (Archivo 750, stretched 125%). */
+/* Giant watermark display. */
 .watermark-display {
-  font-family: var(--font-archivo), "Archivo", system-ui, sans-serif;
-  font-weight: 750;
-  font-stretch: 125%;
+  font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.04em;
 }
 
-/* Numbered section kicker: 01/FRONTEND mono style. */
+/* Numbered section kicker. */
 .section-kicker {
-  font-family: var(--font-geist-mono), "Geist Mono", monospace;
-  font-size: 11px;
-  font-weight: 700;
+  font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.1em;
   color: var(--muted-foreground);
 }
 
@@ -706,13 +741,29 @@ html.no-js main .opacity-0 {
   pointer-events: none;
 }
 
-/* Faint grain texture over the orbs for editorial depth */
+/* Dot grid over the orbs: the "playroom" texture from the reference. */
 .bg-aurora::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--foreground) 11%, transparent) 1px,
+    transparent 1.4px
+  );
+  background-size: 22px 22px;
+  opacity: 0.55;
+  -webkit-mask-image: radial-gradient(130% 85% at 50% 0%, black 10%, transparent 78%);
+  mask-image: radial-gradient(130% 85% at 50% 0%, black 10%, transparent 78%);
+}
+
+/* Faint grain for depth. */
+.bg-aurora::after {
   content: "";
   position: absolute;
   inset: -60%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
-  opacity: 0.05;
+  opacity: 0.035;
 }
 
 .aurora-orb {
@@ -726,7 +777,7 @@ html.no-js main .opacity-0 {
   left: -10%;
   width: 46rem;
   height: 46rem;
-  background: radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--primary) 40%, transparent), transparent 68%);
+  background: radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--primary) 22%, transparent), transparent 68%);
   animation: aurora-drift-1 26s ease-in-out infinite alternate;
 }
 
@@ -735,7 +786,7 @@ html.no-js main .opacity-0 {
   right: -14%;
   width: 40rem;
   height: 40rem;
-  background: radial-gradient(circle at 60% 40%, color-mix(in srgb, var(--chart-2) 34%, transparent), transparent 68%);
+  background: radial-gradient(circle at 60% 40%, color-mix(in srgb, var(--chart-2) 20%, transparent), transparent 68%);
   animation: aurora-drift-2 32s ease-in-out infinite alternate;
 }
 
@@ -744,7 +795,7 @@ html.no-js main .opacity-0 {
   left: 24%;
   width: 38rem;
   height: 38rem;
-  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 68%);
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--chart-3) 18%, transparent), transparent 68%);
   animation: aurora-drift-3 40s ease-in-out infinite alternate;
 }
 
@@ -787,19 +838,29 @@ html.no-js main .opacity-0 {
   }
 }
 
-/* ─── ArtCraft site-wide normalization ─── */
-/* HUD kickers: every mono 0.3em-tracked kicker becomes an 11px bold label. */
+/* ─── Site-wide playroom normalization ─── */
+/* Kickers: slightly tighter and bolder than the editorial 0.3em spacing. */
 .tracking-\[0\.3em\] {
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
 }
-/* HUD surfaces: square off large rounded cards/panels inside content. */
-/* Pills (rounded-full) and small controls (rounded-md) are untouched. */
-main .rounded-lg,
-main .rounded-xl,
-main .rounded-2xl {
-  border-radius: 0;
+/* Card surfaces default to the chunky radius. Explicit rounded-* utilities
+   still win: :where() carries zero specificity. */
+main :where(.bg-card, [class*="bg-card/"]) {
+  border-radius: var(--radius-lg);
+}
+/* Depth goes on surfaces that are actually card-shaped (bordered). */
+main :where(.bg-card).border {
+  box-shadow: var(--shadow-card);
+}
+/* Page/section headings wear the display gradient; card titles stay solid. */
+main h1.font-serif,
+main h2.font-serif {
+  background-image: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Print styles for Resume layout */

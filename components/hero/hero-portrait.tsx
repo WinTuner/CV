@@ -55,14 +55,14 @@ export function HeroPortrait() {
 				onMouseMove={handleTiltMove}
 				onMouseLeave={handleTiltLeave}
 			>
-				{/* Offset HUD block peeking out behind the portrait */}
+				{/* Offset sticker block peeking out behind the portrait */}
 				<div
 					aria-hidden="true"
-					className="absolute inset-0 translate-x-3 translate-y-3 bg-invert-bg pointer-events-none"
+					className="absolute inset-0 translate-x-3 translate-y-3 rounded-[2rem] bg-invert-bg pointer-events-none"
 				/>
 				<div
 					ref={frameRef}
-					className="relative overflow-hidden border border-line-strong bg-card"
+					className="relative overflow-hidden rounded-[2rem] border border-border bg-card shadow-[var(--shadow-card)]"
 					style={{ transition: "transform 0.25s ease-out" }}
 				>
 					<div className="relative aspect-[3/4] overflow-hidden group">
@@ -84,16 +84,14 @@ export function HeroPortrait() {
 							priority
 							fetchPriority="high"
 						/>
-						{/* HUD frame accent — hairline inner border */}
-						<div className="absolute inset-0 border border-line pointer-events-none" />
+					</div>
+					<div className="absolute left-4 top-4 rounded-full border border-white/20 bg-black/35 px-3 py-1 hud-label text-white backdrop-blur-md">
+						{t.location}
 					</div>
 				</div>
 			</div>
-			<figcaption className="mt-3 flex items-center justify-between gap-4">
+			<figcaption className="mt-4 px-2">
 				<span className="hud-label truncate text-faint">{t.kicker}</span>
-				<span className="hud-label shrink-0 border border-line-strong bg-card px-2.5 py-1 text-foreground">
-					{t.location}
-				</span>
 			</figcaption>
 		</figure>
 	);

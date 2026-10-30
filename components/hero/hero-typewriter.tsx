@@ -51,10 +51,10 @@ export function HeroTypewriter() {
 
 	return (
 		<span className="relative inline-block max-w-full align-bottom">
-			<span aria-hidden="true" className="invisible break-words font-serif italic">
-				{longestRole || " "}
+			<span aria-hidden="true" className="invisible break-words font-serif">
+				{longestRole || " "}
 			</span>
-			<span className="font-serif italic absolute inset-0 overflow-hidden break-words bg-gradient-to-r from-primary via-primary to-chart-2 bg-clip-text text-transparent">
+			<span className="font-serif absolute inset-0 overflow-hidden break-words bg-gradient-to-r from-primary via-accent to-chart-3 bg-clip-text text-transparent">
 				{displayText || " "}
 				<span className="typing-caret" aria-hidden="true" />
 			</span>

@@ -47,7 +47,7 @@ export function BackToTop() {
 			}}
 			aria-label={language === "th" ? "กลับขึ้นด้านบน" : language === "ja" ? "トップに戻る" : language === "zh" ? "返回顶部" : "Back to top"}
 			className={cn(
-				"fixed right-4 z-50 flex h-11 w-11 items-center justify-center border border-border/70 bg-card text-muted-foreground shadow-sm transition-all duration-300 hover:border-primary/50 hover:text-primary sm:right-8",
+				"fixed right-4 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-card text-muted-foreground shadow-sm transition-all duration-300 hover:border-primary/50 hover:text-primary sm:right-8",
 				// Keep clear of the iOS home indicator / Android gesture bar.
 				"bottom-[max(1.25rem,env(safe-area-inset-bottom))] sm:bottom-8",
 				visible

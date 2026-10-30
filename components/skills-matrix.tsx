@@ -222,14 +222,14 @@ export function SkillsMatrix() {
 					</p>
 				</div>
 
-				<div className="grid gap-px bg-border/70 border border-border/70 sm:grid-cols-2 lg:grid-cols-4">
+				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 					{skills[language].map((skill, index) => {
 						const accent = ACCENTS[index % ACCENTS.length];
 						return (
 							<div
 								key={skill.category}
 								className={cn(
-									"group bg-background p-8 pt-7 transition-colors duration-300 opacity-0",
+									"group rounded-[1.5rem] border border-border/70 bg-card p-7 shadow-[var(--shadow-card)] transition-[transform,border-color] duration-300 hover:-translate-y-1 opacity-0",
 									accent.borderTop, // pastel top hairline
 									accent.hoverBg,
 									isInView && "animate-fade-in-up",

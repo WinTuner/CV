@@ -113,17 +113,20 @@ export function Header() {
 		{ en: "Hire me", th: "จ้างงาน", ja: "採用", zh: "聘用" }[language] ?? "Hire me";
 
 	return (
-		<header
-			className={cn(
-				"fixed top-0 left-0 right-0 z-50 w-full border-b border-line transition-[background-color,border-color] duration-300 ease-out",
-				isScrolled ? "bg-background/95 backdrop-blur-sm" : "bg-background/95 backdrop-blur-sm",
-			)}
-		>
-			<div className="flex h-12 items-stretch justify-between">
-				<div className="flex min-w-0 items-stretch">
+		<header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 print:hidden">
+			<div
+				className={cn(
+					"mx-auto max-w-[1280px] overflow-hidden border border-border/70 bg-card/85 backdrop-blur-lg transition-[border-radius,box-shadow] duration-300 ease-out",
+					isMobileMenuOpen ? "rounded-[1.6rem]" : "rounded-full",
+					isScrolled
+						? "shadow-[0_4px_0_rgba(0,0,0,0.35),0_18px_40px_-20px_rgba(0,0,0,0.65)]"
+						: "shadow-[0_4px_0_rgba(0,0,0,0.22)]",
+				)}
+			>
+				<div className="flex h-14 items-center justify-between gap-2 px-2 sm:px-3">
 					<Link
 						href="/"
-						className="flex items-center border-r border-line px-4 transition-colors hover:bg-secondary sm:px-5"
+						className="flex shrink-0 items-center rounded-full px-2 py-1.5 transition-colors hover:bg-secondary/70 sm:px-3"
 						onClick={() => {
 							const now = Date.now();
 							const clicks = logoClicksRef.current;
@@ -137,79 +140,70 @@ export function Header() {
 						}}
 						aria-label="WinTuner — home"
 					>
-						<span className="font-display text-sm font-extrabold tracking-tight whitespace-nowrap">
-							WIN<span className="bg-invert-bg text-invert-fg px-1 ml-0.5">TUNER</span>
+						<span className="font-display text-[15px] font-bold tracking-tight whitespace-nowrap">
+							WIN
+							<span className="ml-1 rounded-full bg-invert-bg px-2 py-0.5 text-invert-fg">
+								TUNER
+							</span>
 						</span>
 					</Link>
 
 					{/* Desktop Navigation */}
-					<nav aria-label="Main" className="hidden min-w-0 items-stretch lg:flex">
-						<ul className="flex h-full items-stretch">
-							{navItems.map((item) => (
-								<li key={item.href} className="flex items-stretch">
-									<Link
-										href={item.href}
-										aria-current={isActive(item.href) ? "page" : undefined}
-										className={cn(
-											"group flex h-full items-center px-2.5 hud-label",
-											isActive(item.href) ? "text-foreground" : "text-muted-foreground hover:text-foreground",
-										)}
-									>
-										<span
-											className={cn(
-												"flex items-center gap-1.5 px-1.5 py-0.5 group-hover:bg-invert-bg group-hover:text-invert-fg",
-												isActive(item.href) && "bg-invert-bg text-invert-fg",
-											)}
-										>
-											{item.label[language]}
-										</span>
-									</Link>
-								</li>
-							))}
-						</ul>
-					</nav>
-				</div>
-
-				<div className="flex shrink-0 items-stretch">
-					<div className="hidden items-stretch md:flex">
-						{socialLinks.map((link) => (
-							<a
-								key={link.label}
-								href={link.href}
-								target="_blank"
-								rel="noopener noreferrer"
-								aria-label={link.label}
-								title={link.label}
-								className="flex w-12 items-center justify-center border-l border-line text-muted-foreground hover:bg-invert-bg hover:text-invert-fg"
+					<nav aria-label="Main" className="hidden min-w-0 items-center gap-1 lg:flex">
+						{navItems.map((item) => (
+							<Link
+								key={item.href}
+								href={item.href}
+								aria-current={isActive(item.href) ? "page" : undefined}
+								className={cn(
+									"hud-label rounded-full px-3.5 py-2 transition-colors duration-200",
+									isActive(item.href)
+										? "bg-secondary text-foreground"
+										: "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+								)}
 							>
-								<link.icon className="h-4 w-4" />
-							</a>
+								{item.label[language]}
+							</Link>
 						))}
-						<div className="flex items-center border-l border-line px-2">
-							<CommandPalette />
+					</nav>
+
+					<div className="flex shrink-0 items-center gap-1">
+						<div className="hidden items-center gap-0.5 md:flex">
+							{socialLinks.map((link) => (
+								<a
+									key={link.label}
+									href={link.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									aria-label={link.label}
+									title={link.label}
+									className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+								>
+									<link.icon className="h-4 w-4" />
+								</a>
+							))}
+							<div className="flex items-center px-0.5">
+								<CommandPalette />
+							</div>
+							<div className="flex items-center">
+								<LanguageToggle />
+								<ThemeToggle />
+							</div>
+							<Link
+								href="/#connect"
+								className="ml-1 hidden h-9 items-center justify-center gap-2 rounded-full bg-invert-bg px-4 font-display text-[13px] font-semibold text-invert-fg transition-transform hover:-translate-y-0.5 sm:inline-flex"
+							>
+								{ctaLabel}
+							</Link>
 						</div>
-						<div className="flex items-center border-l border-line px-1">
+						<div className="flex items-center md:hidden">
 							<LanguageToggle />
 							<ThemeToggle />
 						</div>
-						<Link
-							href="/#connect"
-							className="hidden items-center justify-center gap-2 bg-invert-bg text-invert-fg hud-label border-l border-line px-5 transition-colors hover:bg-[color-mix(in_srgb,var(--invert-bg)_80%,var(--invert-fg))] sm:inline-flex"
-						>
-							{ctaLabel}
-						</Link>
-					</div>
-					<div className="flex items-stretch md:hidden">
-						<div className="flex items-center border-l border-line px-1">
-							<LanguageToggle />
-							<ThemeToggle />
-						</div>
-					</div>
-					<div className="flex items-stretch lg:hidden">
 						<button
 							ref={menuToggleRef}
 							onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-							className="flex w-12 items-center justify-center border-l border-line text-muted-foreground hover:bg-invert-bg hover:text-invert-fg"
+							className="flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground lg:hidden"
 							aria-label="Toggle menu"
 							aria-expanded={isMobileMenuOpen}
 							aria-controls="mobile-menu"
@@ -217,19 +211,19 @@ export function Header() {
 							<div className="flex w-5 flex-col gap-1.5">
 								<span
 									className={cn(
-										"h-px bg-current transition-all duration-300 origin-center",
+										"h-0.5 rounded-full bg-current transition-all duration-300 origin-center",
 										isMobileMenuOpen ? "w-5 translate-y-1 rotate-45" : "w-5",
 									)}
 								/>
 								<span
 									className={cn(
-										"h-px bg-current transition-all duration-300",
+										"h-0.5 rounded-full bg-current transition-all duration-300",
 										isMobileMenuOpen && "opacity-0 translate-x-2",
 									)}
 								/>
 								<span
 									className={cn(
-										"h-px bg-current transition-all duration-300 origin-center",
+										"h-0.5 rounded-full bg-current transition-all duration-300 origin-center",
 										isMobileMenuOpen ? "w-5 -translate-y-1 -rotate-45" : "w-5",
 									)}
 								/>
@@ -237,22 +231,21 @@ export function Header() {
 						</button>
 					</div>
 				</div>
-			</div>
 
 				{/* Mobile Menu */}
 				<div
 					id="mobile-menu"
 					className={cn(
-					"grid transition-all duration-300 ease-in-out lg:hidden bg-background overflow-hidden border-line",
-					isMobileMenuOpen
-						? "grid-rows-[1fr] opacity-100 border-t"
-						: "grid-rows-[0fr] opacity-0",
+						"grid overflow-hidden transition-all duration-300 ease-in-out lg:hidden",
+						isMobileMenuOpen
+							? "grid-rows-[1fr] opacity-100 border-t border-border/60"
+							: "grid-rows-[0fr] opacity-0",
 					)}
 				>
 					<div className="overflow-hidden">
 						{/* Safe-area padding lives on the collapsible content (clipped when closed),
 							so phones with gesture bars / home indicators never hide the last row. */}
-						<div ref={mobileMenuRef} className="flex flex-col gap-1 px-4 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+						<div ref={mobileMenuRef} className="flex flex-col gap-1 px-3 pt-3 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
 							{navItems.map((item, index) => (
 								<Link
 									key={item.href}
@@ -261,17 +254,17 @@ export function Header() {
 									ref={index === 0 ? firstMenuLinkRef : undefined}
 									data-menu-inside="true"
 									className={cn(
-										"hud-label flex items-center gap-3 px-3 py-3 transition-colors duration-200",
+										"hud-label flex items-center gap-3 rounded-full px-4 py-3 transition-colors duration-200",
 										isActive(item.href)
-											? "bg-invert-bg text-invert-fg"
-											: "text-muted-foreground hover:text-foreground hover:bg-secondary/50",
+											? "bg-secondary text-foreground"
+											: "text-muted-foreground hover:bg-secondary/50 hover:text-foreground",
 									)}
 								>
 									{item.label[language]}
 								</Link>
 							))}
 
-							<div className="mt-3 flex items-center gap-2 border-t border-line pt-4 px-3">
+							<div className="mt-3 flex flex-wrap items-center gap-2 border-t border-border/60 pt-4 px-1">
 								<CommandPalette />
 								{socialLinks.map((link) => (
 									<a
@@ -280,7 +273,7 @@ export function Header() {
 										target="_blank"
 										rel="noopener noreferrer"
 										aria-label={link.label}
-										className="flex h-11 w-11 items-center justify-center border border-line text-muted-foreground transition-colors hover:bg-invert-bg hover:text-invert-fg"
+										className="flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
 									>
 										<link.icon className="h-4 w-4" />
 									</a>
@@ -288,7 +281,7 @@ export function Header() {
 								<Link
 									href="/#connect"
 									onClick={() => setIsMobileMenuOpen(false)}
-									className="ml-auto inline-flex h-11 items-center bg-invert-bg text-invert-fg hud-label px-5"
+									className="ml-auto inline-flex h-10 items-center rounded-full bg-invert-bg px-5 font-display text-[13px] font-semibold text-invert-fg"
 								>
 									{ctaLabel}
 								</Link>
@@ -296,6 +289,7 @@ export function Header() {
 						</div>
 					</div>
 				</div>
+			</div>
 		</header>
 	);
 }

@@ -110,7 +110,7 @@ export function Footer() {
 							</p>
 							<h2 className="font-serif text-4xl sm:text-5xl font-medium tracking-tight text-balance">
 								{t.togetherA}{" "}
-								<span className="italic text-primary">{t.togetherB}</span>
+								<span className="text-primary">{t.togetherB}</span>
 							</h2>
 						</div>
 						<p className="max-w-md text-base sm:text-lg text-muted-foreground leading-relaxed">

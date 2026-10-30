@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { cookies } from "next/headers";
-import { Geist, Geist_Mono, Fraunces, Archivo, Instrument_Serif } from "next/font/google";
+import { Geist, Geist_Mono, Mitr } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -32,22 +32,12 @@ const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
 	display: "swap",
 });
-const fraunces = Fraunces({
-	subsets: ["latin"],
-	variable: "--font-fraunces",
-	display: "swap",
-});
-// ArtCraft DNA: ultra-wide expanded display (watermark + headings) + serif
-// italic accent for the "for artists." moment.
-const archivo = Archivo({
-	subsets: ["latin"],
-	variable: "--font-archivo",
-	display: "swap",
-});
-const instrumentSerif = Instrument_Serif({
-	subsets: ["latin"],
-	variable: "--font-instrument-serif",
-	weight: "400",
+// Single rounded display family for headings, labels and the watermark:
+// Mitr covers Latin + Thai, which the site's four languages need.
+const mitr = Mitr({
+	subsets: ["latin", "thai"],
+	variable: "--font-mitr",
+	weight: ["400", "500", "600", "700"],
 	display: "swap",
 });
 
@@ -57,8 +47,8 @@ export const viewport: Viewport = {
 	viewportFit: "cover",
 	// Color the mobile browser chrome (address bar) to match each theme.
 	themeColor: [
-		{ media: "(prefers-color-scheme: light)", color: "#f2f1ee" },
-		{ media: "(prefers-color-scheme: dark)", color: "#0b0b0c" },
+		{ media: "(prefers-color-scheme: light)", color: "#f7f3ff" },
+		{ media: "(prefers-color-scheme: dark)", color: "#0c0816" },
 	],
 };
 
@@ -171,7 +161,7 @@ export default async function RootLayout({
 			lang={initialLanguage}
 			suppressHydrationWarning
 			data-scroll-behavior="smooth"
-			className={`${geist.variable} ${geistMono.variable} ${fraunces.variable} ${archivo.variable} ${instrumentSerif.variable} no-js`}
+			className={`${geist.variable} ${geistMono.variable} ${mitr.variable} no-js`}
 		>
 			<body className="font-sans antialiased">
 				{/* Photos load straight from the Cloudinary CDN (see
@@ -201,7 +191,7 @@ export default async function RootLayout({
 				</a>
 				<ThemeProvider
 					attribute="class"
-					defaultTheme="light"
+					defaultTheme="dark"
 					enableSystem={true}
 					storageKey="theme-mode"
 				>

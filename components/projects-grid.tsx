@@ -139,10 +139,10 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 								key={filter}
 								onClick={() => setActiveFilter(filter)}
 								className={cn(
-									"shrink-0 min-h-11 border-b-2 px-3 py-2 font-mono text-xs uppercase tracking-wider transition-colors duration-300",
+									"shrink-0 min-h-9 rounded-full border px-4 py-2 font-mono text-[11px] uppercase tracking-wider transition-colors duration-300",
 									activeFilter === filter
-										? "border-primary text-primary"
-										: "border-transparent text-muted-foreground hover:border-border hover:text-foreground",
+										? "border-primary/50 bg-primary/10 text-primary"
+										: "border-border/70 text-muted-foreground hover:border-primary/40 hover:text-foreground",
 								)}
 							>
 								{t.filters[filter as keyof typeof t.filters]}
@@ -220,7 +220,7 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 								{project.tags.map((tag) => (
 									<span
 										key={tag}
-										className="border border-border/70 px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
+										className="border border-border/70 rounded-full px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
 									>
 										{tag}
 									</span>

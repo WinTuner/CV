@@ -21,7 +21,7 @@ interface BlogListProps {
 
 export function BlogList({ posts, language }: BlogListProps) {
 	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
-		threshold: 0.1,
+		threshold: 0.01,
 	});
 
 	const t = {

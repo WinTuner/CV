@@ -44,7 +44,7 @@ export function BlogHero() {
           </p>
           <h1 className="font-serif text-5xl font-medium tracking-tight sm:text-6xl text-balance">
             {t.title}{" "}
-            <span className="italic text-primary">{t.accent}</span>
+            <span className="text-primary">{t.accent}</span>
           </h1>
           <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
             {t.desc}

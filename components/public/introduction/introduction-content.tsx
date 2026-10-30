@@ -57,7 +57,7 @@ export function IntroductionContent() {
 							<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
 								{t.pageLabel}
 							</p>
-							<h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-balance">
+							<h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-balance">
 								{t.name}
 							</h1>
 							<p className="text-base sm:text-lg leading-relaxed text-muted-foreground max-w-3xl">

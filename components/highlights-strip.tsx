@@ -136,17 +136,14 @@ export function HighlightsStrip() {
 			</ul>
 		</div>
 		<section className="px-4 sm:px-6 py-10 sm:py-14">
-			<div ref={ref} className="mx-auto max-w-7xl border-y border-line">
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+			<div ref={ref} className="mx-auto max-w-7xl">
+				<div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
 					{items.map((stat, index) => {
 						const isExternal = stat.href.startsWith("http");
 						const accent = ACCENTS[index % ACCENTS.length];
 						const className = cn(
-							"group flex flex-col gap-2 px-6 py-8 sm:py-10 transition-colors duration-300 opacity-0",
+							"group flex flex-col gap-2 rounded-[1.4rem] border border-border/70 bg-card px-6 py-8 sm:py-9 shadow-[var(--shadow-card)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:border-primary/40 opacity-0",
 							accent.hoverBg,
-							// Hairline dividers: 2-col on sm (odd items), 4-col on lg (items 1-3)
-							index % 2 === 1 && "sm:border-l sm:border-line",
-							index > 0 && "lg:border-l lg:border-line",
 							isInView && "animate-fade-in-up",
 						);
 						const inner = (
@@ -155,7 +152,7 @@ export function HighlightsStrip() {
 									<span
 											aria-hidden="true"
 											className={cn(
-												"inline-block h-2 w-2 shrink-0 translate-y-[-2px]",
+												"inline-block h-2 w-2 shrink-0 translate-y-[-2px] rounded-full",
 												accent.dot,
 											)}
 										/>
