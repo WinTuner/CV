@@ -1,4 +1,7 @@
-import { ProjectsPageContent } from "@/components/public/projects/projects-page-content";
+import {
+  ProjectsHero,
+  ProjectsPageContent,
+} from "@/components/public/projects/projects-page-content";
 import { getGithubRepos } from "@/lib/github";
 import { Suspense } from "react";
 import type { Metadata } from "next";
@@ -39,15 +42,8 @@ async function ProjectsList() {
 
 function ProjectsSkeleton() {
   return (
-    <section className="px-4 sm:px-6 py-12 sm:py-20">
+    <section className="px-4 sm:px-6 pb-12 sm:pb-20">
       <div className="mx-auto max-w-7xl">
-        {/* Skeleton Hero */}
-        <div className="mb-12 sm:mb-16 space-y-4 animate-pulse">
-          <div className="h-4 w-24 bg-muted rounded-md" />
-          <div className="h-10 sm:h-12 w-2/3 max-w-lg bg-muted rounded-md" />
-          <div className="h-6 w-full max-w-xl bg-muted rounded-md" />
-        </div>
-
         {/* Skeleton Search and Filters */}
         <div className="mb-10 space-y-6 animate-pulse">
           <div className="h-10 w-full max-w-md bg-muted rounded-md" />
@@ -79,6 +75,7 @@ function ProjectsSkeleton() {
 export default function ProjectsPage() {
   return (
     <div id="main" className="pt-24">
+      <ProjectsHero />
       <Suspense fallback={<ProjectsSkeleton />}>
         <ProjectsList />
       </Suspense>

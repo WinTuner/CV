@@ -39,6 +39,146 @@ function sortProjects(projects: Project[], sortBy: SortKey): Project[] {
   }
 }
 
+const t = {
+  en: {
+    kicker: "Selected Work",
+    title: "Open Source Projects",
+    desc:
+      "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
+    search: "Search projects...",
+    featured: "Featured",
+    fork: "Fork",
+    source: "source",
+    live: "live",
+    liveBadge: "live",
+    noResults: "No projects found matching your criteria.",
+    sortLabel: "sort by",
+    clearFilters: "clear filters",
+    count: (n: number) => `${n} project${n === 1 ? "" : "s"}`,
+    filters: {
+      all: "all",
+      shipped: "shipped",
+      "in-progress": "in-progress",
+      archived: "archived",
+    },
+    sort: {
+      recent: "recent",
+      stars: "stars",
+      forks: "forks",
+      name: "name",
+      year: "year",
+    },
+  },
+  th: {
+    kicker: "ผลงานที่คัดสรร",
+    title: "โปรเจกต์โอเพนซอร์ส",
+    desc: "รวมเครื่องมือ งานทดลอง และผลงานที่แบ่งปันให้ชุมชนโอเพนซอร์ส สร้างด้วยความตั้งใจ ดูแลต่อเนื่อง",
+    search: "ค้นหาโปรเจกต์...",
+    featured: "แนะนำ",
+    fork: "ฟอร์ก",
+    source: "ซอร์สโค้ด",
+    live: "เว็บไซต์",
+    liveBadge: "สด",
+    noResults: "ไม่พบโปรเจกต์ที่ตรงกับเงื่อนไขที่เลือก",
+    sortLabel: "เรียงตาม",
+    clearFilters: "ล้างตัวกรอง",
+    count: (n: number) => `${n} โปรเจกต์`,
+    filters: {
+      all: "ทั้งหมด",
+      shipped: "เผยแพร่แล้ว",
+      "in-progress": "กำลังพัฒนา",
+      archived: "เก็บถาวร",
+    },
+    sort: {
+      recent: "ล่าสุด",
+      stars: "ดาว",
+      forks: "ฟอร์ก",
+      name: "ชื่อ",
+      year: "ปี",
+    },
+  },
+	ja: {
+    kicker: "Selected Work",
+    title: "Open Source Projects",
+    desc:
+      "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
+    search: "Search projects...",
+    featured: "Featured",
+    fork: "Fork",
+    source: "source",
+    live: "live",
+    liveBadge: "live",
+    noResults: "No projects found matching your criteria.",
+    sortLabel: "sort by",
+    clearFilters: "clear filters",
+    count: (n: number) => `${n} project${n === 1 ? "" : "s"}`,
+    filters: {
+      all: "all",
+      shipped: "shipped",
+      "in-progress": "in-progress",
+      archived: "archived",
+    },
+    sort: {
+      recent: "recent",
+      stars: "stars",
+      forks: "forks",
+      name: "name",
+      year: "year",
+    },
+  },
+	zh: {
+    kicker: "Selected Work",
+    title: "Open Source Projects",
+    desc:
+      "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
+    search: "Search projects...",
+    featured: "Featured",
+    fork: "Fork",
+    source: "source",
+    live: "live",
+    liveBadge: "live",
+    noResults: "No projects found matching your criteria.",
+    sortLabel: "sort by",
+    clearFilters: "clear filters",
+    count: (n: number) => `${n} project${n === 1 ? "" : "s"}`,
+    filters: {
+      all: "all",
+      shipped: "shipped",
+      "in-progress": "in-progress",
+      archived: "archived",
+    },
+    sort: {
+      recent: "recent",
+      stars: "stars",
+      forks: "forks",
+      name: "name",
+      year: "year",
+    },
+  },
+} as const
+
+
+/** Static page hero: paints with the shell so it never waits on the GitHub fetch below. */
+export function ProjectsHero() {
+  const { language } = useLanguage()
+
+  return (
+    <section className="px-4 sm:px-6 pt-12 sm:pt-20">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 sm:mb-16 space-y-4">
+          <p className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
+            {t[language].kicker}
+          </p>
+          <h1 className="font-serif text-5xl sm:text-6xl font-medium tracking-tight">{t[language].title}</h1>
+          <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
+            {t[language].desc}
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export function ProjectsPageContent({ projects: initialProjects = [] }: { projects?: Project[] }) {
   const { language } = useLanguage()
   const [activeFilter, setActiveFilter] = useState("all")
@@ -51,124 +191,6 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
 
   const allTags = [...new Set(projects.flatMap((p) => p.tags))]
   const sectionRef = useRef<HTMLElement>(null)
-
-  const t = {
-    en: {
-      kicker: "Selected Work",
-      title: "Open Source Projects",
-      desc:
-        "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
-      search: "Search projects...",
-      featured: "Featured",
-      fork: "Fork",
-      source: "source",
-      live: "live",
-      liveBadge: "live",
-      noResults: "No projects found matching your criteria.",
-      sortLabel: "sort by",
-      clearFilters: "clear filters",
-      count: (n: number) => `${n} project${n === 1 ? "" : "s"}`,
-      filters: {
-        all: "all",
-        shipped: "shipped",
-        "in-progress": "in-progress",
-        archived: "archived",
-      },
-      sort: {
-        recent: "recent",
-        stars: "stars",
-        forks: "forks",
-        name: "name",
-        year: "year",
-      },
-    },
-    th: {
-      kicker: "ผลงานที่คัดสรร",
-      title: "โปรเจกต์โอเพนซอร์ส",
-      desc: "รวมเครื่องมือ งานทดลอง และผลงานที่แบ่งปันให้ชุมชนโอเพนซอร์ส สร้างด้วยความตั้งใจ ดูแลต่อเนื่อง",
-      search: "ค้นหาโปรเจกต์...",
-      featured: "แนะนำ",
-      fork: "ฟอร์ก",
-      source: "ซอร์สโค้ด",
-      live: "เว็บไซต์",
-      liveBadge: "สด",
-      noResults: "ไม่พบโปรเจกต์ที่ตรงกับเงื่อนไขที่เลือก",
-      sortLabel: "เรียงตาม",
-      clearFilters: "ล้างตัวกรอง",
-      count: (n: number) => `${n} โปรเจกต์`,
-      filters: {
-        all: "ทั้งหมด",
-        shipped: "เผยแพร่แล้ว",
-        "in-progress": "กำลังพัฒนา",
-        archived: "เก็บถาวร",
-      },
-      sort: {
-        recent: "ล่าสุด",
-        stars: "ดาว",
-        forks: "ฟอร์ก",
-        name: "ชื่อ",
-        year: "ปี",
-      },
-    },
-	ja: {
-      kicker: "Selected Work",
-      title: "Open Source Projects",
-      desc:
-        "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
-      search: "Search projects...",
-      featured: "Featured",
-      fork: "Fork",
-      source: "source",
-      live: "live",
-      liveBadge: "live",
-      noResults: "No projects found matching your criteria.",
-      sortLabel: "sort by",
-      clearFilters: "clear filters",
-      count: (n: number) => `${n} project${n === 1 ? "" : "s"}`,
-      filters: {
-        all: "all",
-        shipped: "shipped",
-        "in-progress": "in-progress",
-        archived: "archived",
-      },
-      sort: {
-        recent: "recent",
-        stars: "stars",
-        forks: "forks",
-        name: "name",
-        year: "year",
-      },
-    },
-	zh: {
-      kicker: "Selected Work",
-      title: "Open Source Projects",
-      desc:
-        "A collection of tools, experiments, and contributions to the open source community. Built with passion, maintained with care.",
-      search: "Search projects...",
-      featured: "Featured",
-      fork: "Fork",
-      source: "source",
-      live: "live",
-      liveBadge: "live",
-      noResults: "No projects found matching your criteria.",
-      sortLabel: "sort by",
-      clearFilters: "clear filters",
-      count: (n: number) => `${n} project${n === 1 ? "" : "s"}`,
-      filters: {
-        all: "all",
-        shipped: "shipped",
-        "in-progress": "in-progress",
-        archived: "archived",
-      },
-      sort: {
-        recent: "recent",
-        stars: "stars",
-        forks: "forks",
-        name: "name",
-        year: "year",
-      },
-    },
-  } as const
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount animation trigger
@@ -202,23 +224,10 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
   }
 
   return (
-    <section ref={sectionRef} className="px-4 sm:px-6 py-12 sm:py-20">
+    <section ref={sectionRef} className="px-4 sm:px-6 pb-12 sm:pb-20">
       <div className="mx-auto max-w-7xl">
-        {/* Hero — intentionally NOT gated behind `useInView`/opacity-0:
-            as the page's LCP candidate it must paint with the server HTML,
-            not ~1s after hydration (LCP 5.0s → 1.6s in lab). */}
-        <div className="mb-12 sm:mb-16 space-y-4">
-          <p className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
-            {t[language].kicker}
-            <LivePill updatedAt={updatedAt} isLive={isLive} label={t[language].liveBadge} language={language} />
-          </p>
-          <h1 className="font-serif text-5xl sm:text-6xl font-medium tracking-tight">{t[language].title}</h1>
-          <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-            {t[language].desc}
-          </p>
-        </div>
-
-        {/* Search and Filters — same LCP rule as the hero above */}
+        {/* Search and Filters — not gated behind `useInView`/opacity-0 so
+            the controls paint with the server HTML. */}
         <div className="mb-10 space-y-6">
           {/* Search */}
           <div className="relative max-w-md">
@@ -272,8 +281,9 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
 
         {/* Results meta row */}
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-border/40 pb-4">
-          <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-muted-foreground">
             <span>{t[language].count(filteredProjects.length)}</span>
+            <LivePill updatedAt={updatedAt} isLive={isLive} label={t[language].liveBadge} language={language} />
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
