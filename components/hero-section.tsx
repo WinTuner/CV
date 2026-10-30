@@ -44,6 +44,9 @@ export function HeroSection() {
 					<div className="lg:col-span-7 space-y-7 sm:space-y-8 text-center lg:text-left flex flex-col items-center lg:items-start">
 						<div className="space-y-5 animate-fade-in-up">
 							<p className="hud-label inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/70 px-4 py-1.5 text-primary backdrop-blur">
+								<span aria-hidden="true" className="halloween-only text-[13px] leading-none">
+									🎃
+								</span>
 								<span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary" />
 								{t.kicker}
 							</p>

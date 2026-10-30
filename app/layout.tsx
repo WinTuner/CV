@@ -11,6 +11,7 @@ import { LanguageProvider } from "@/components/language-provider";
 import { isSupportedLanguage, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/constants/languages";
 import type { SupportedLanguageCode } from "@/constants/languages";
 import { AnimatedBackground } from "@/components/animated-background";
+import { HalloweenLayer } from "@/components/halloween-layer";
 import { RouteProgress } from "@/components/route-progress";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { SpotlightTracker } from "@/components/spotlight-tracker";
@@ -171,6 +172,7 @@ export default async function RootLayout({
 					<link rel="preconnect" href="https://res.cloudinary.com" />
 				) : null}
 				<AnimatedBackground />
+				<HalloweenLayer />
 				{/*
 					Removes `no-js` as soon as the HTML is parsed. Until then the
 					`html.no-js` CSS override keeps below-the-fold content visible
