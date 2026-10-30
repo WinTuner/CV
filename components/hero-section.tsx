@@ -30,9 +30,13 @@ export function HeroSection() {
 									WebkitMaskImage: "radial-gradient(closest-side, black 45%, transparent 100%)",
 								}}
 							/>
-							<p className="watermark-display relative text-center text-foreground/[0.07] dark:text-foreground/[0.09] select-none whitespace-nowrap text-[13.5cqw]">
-								WINTUNER
-							</p>
+							{/* Decorative watermark: rendered through `::before` so its
+							    intentionally faint, aria-hidden text is not read by axe. */}
+							<p
+								aria-hidden="true"
+								data-text="WINTUNER"
+								className="watermark-display relative text-center text-foreground/[0.07] dark:text-foreground/[0.09] select-none whitespace-nowrap text-[13.5cqw]"
+							/>
 						</div>
 					</div>
 					<div className="relative z-10 grid gap-14 lg:grid-cols-12 lg:gap-12 lg:items-center w-full">

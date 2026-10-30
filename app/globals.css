@@ -649,7 +649,12 @@ html.no-js main .opacity-0 {
   }
 }
 
-/* Giant watermark display. */
+/* Giant watermark display. Text comes from `data-text` so this purely
+   decorative, low-contrast word is not exposed as readable text. */
+.watermark-display::before {
+  content: attr(data-text);
+}
+
 .watermark-display {
   font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
   font-weight: 700;
