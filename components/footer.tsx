@@ -166,7 +166,7 @@ export function Footer() {
 							© {new Date().getFullYear()} {GITHUB_USERNAME} — {t.rights}
 						</p>
 					</div>
-					<p className="text-center font-mono text-[11px] text-muted-foreground/70">
+					<p className="text-center font-mono text-[11px] text-muted-foreground">
 						{t.template}{" "}
 						<a
 							href="https://eindev.ir"

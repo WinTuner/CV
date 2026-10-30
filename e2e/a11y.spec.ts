@@ -22,7 +22,12 @@ for (const route of ROUTES) {
 			["critical", "serious"].includes(v.impact ?? ""),
 		);
 		expect(
-			blocking.map((v) => `${v.id}: ${v.nodes.length} node(s)\n${v.help}`),
+			blocking.map(
+				(v) =>
+					`${v.id}: ${v.nodes.length} node(s)\n${v.help}\n${v.nodes
+						.map((n) => n.target.join(" "))
+						.join("\n")}`,
+			),
 			`axe violations on ${route}`,
 		).toEqual([]);
 	});
