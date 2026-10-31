@@ -41,4 +41,13 @@ test.describe("print flow", () => {
 		await page.getByRole("button", { name: /print \/ save pdf/i }).click();
 		await expect.poll(() => printCalls, { timeout: 5_000 }).toBe(1);
 	});
+
+	test("photos stay visible when printing", async ({ page }) => {
+		await page.goto("/introduction");
+		await page.emulateMedia({ media: "print" });
+
+		const photo = page.locator("#experience img").first();
+		await expect(photo).toBeVisible();
+		await expect(photo).toHaveJSProperty("complete", true);
+	});
 });
