@@ -42,10 +42,9 @@ export function DownloadResumeButton({
 				import("jspdf"),
 			]);
 
-			// Let the forced layout settle before measuring element edges.
+			// Let the forced layout settle before capturing.
 			await new Promise((resolve) => requestAnimationFrame(resolve));
 
-			const sourceRect = element.getBoundingClientRect();
 			const canvas = await html2canvas(element, {
 				scale: 2,
 				backgroundColor: LIGHT_BG,
@@ -75,31 +74,59 @@ export function DownloadResumeButton({
 			const contentHeight = pageHeight - margin * 2;
 			const pagePx = Math.round((canvas.width * contentHeight) / contentWidth);
 
-			// Snap page breaks to card/section edges so photos and text blocks are
-			// not sliced in half. Positions are in canvas pixels.
-			const scaleY = canvas.height / sourceRect.height;
-			const breakpoints: number[] = [];
-			// Cards and media must never be cut, so a break inside one is rejected.
-			const protectedRanges: Array<[number, number]> = [];
-			for (const node of element.querySelectorAll(
-				"article, section, figure, img, li, h2, h3, table",
-			)) {
-				const rect = node.getBoundingClientRect();
-				if (rect.height < 1) continue;
-				const top = Math.round((rect.top - sourceRect.top) * scaleY);
-				const bottom = Math.round((rect.bottom - sourceRect.top) * scaleY);
-				breakpoints.push(top);
-				// Headings only offer a break *before* themselves, so they never sit
-				// alone at the bottom of a page.
-				if (!/^H[23]$/.test(node.tagName)) breakpoints.push(bottom);
-				if (node.matches("article, figure, img, table")) {
-					protectedRanges.push([top, bottom]);
+			// Break pages on a blank pixel row so cards, photos and headings are never
+			// sliced. The captured resume has a flat light background, so a row that
+			// matches it is a safe place to cut.
+			const fullCtx = canvas.getContext("2d");
+			if (!fullCtx) throw new Error("Canvas 2D context unavailable");
+			const [bgR, bgG, bgB] = [247, 243, 255];
+			const rowIsBlank = (row: Uint8ClampedArray) => {
+				for (let x = 0; x < row.length; x += 4) {
+					if (
+						Math.abs(row[x] - bgR) > 2 ||
+						Math.abs(row[x + 1] - bgG) > 2 ||
+						Math.abs(row[x + 2] - bgB) > 2
+					) {
+						return false;
+					}
 				}
-			}
-			breakpoints.sort((a, b) => a - b);
+				return true;
+			};
+			// Scan upward from `from` to `floor` for the lowest run of blank rows.
+			// A short run rules out anti-aliased edges inside a card.
+			const findBreak = (from: number, floor: number) => {
+				const height = from - floor;
+				if (height < 16) return from;
+				const band = fullCtx.getImageData(0, floor, canvas.width, height).data;
+				const rowBytes = canvas.width * 4;
+				let run = 0;
+				for (let row = height - 1; row >= 0; row--) {
+					if (rowIsBlank(band.subarray(row * rowBytes, (row + 1) * rowBytes))) {
+						run += 1;
+						if (run >= 10) return floor + row + run - 1;
+					} else {
+						run = 0;
+					}
+				}
+				return from;
+			};
 
-			const isInsideBlock = (point: number) =>
-				protectedRanges.some(([top, bottom]) => point > top && point < bottom);
+			const rootRect = element.getBoundingClientRect();
+			const scaleY = canvas.height / rootRect.height;
+			// Section headings sit with a small kicker label in one wrapper; treat the
+			// wrapper as the unit so a heading is never stranded at a page bottom.
+			// Breaking at a wrapper's top is always safe: it is a block boundary.
+			const headings = [...element.querySelectorAll("h2, h3")].map((heading) => {
+				const rect = heading.getBoundingClientRect();
+				const parentRect =
+					heading.parentElement && heading.parentElement !== element
+						? heading.parentElement.getBoundingClientRect()
+						: null;
+				return {
+					top: ((parentRect ?? rect).top - rootRect.top) * scaleY,
+					bottom: (rect.bottom - rootRect.top) * scaleY,
+				};
+			});
 
 			let offset = 0;
 			while (offset < canvas.height) {
@@ -107,14 +134,17 @@ export function DownloadResumeButton({
 				if (end < canvas.height) {
 					// Never break in the top 45% of a page: prefer a slightly fuller
 					// page over a near-empty one.
-					const minBreak = offset + pagePx * 0.55;
-					const snapped = breakpoints
-						.filter(
-							(point) =>
-								point >= minBreak && point <= end && !isInsideBlock(point),
-						)
-						.pop();
-					if (snapped !== undefined) end = snapped;
+					end = findBreak(end, offset + Math.floor(pagePx * 0.55));
+
+					// A section heading alone at the bottom reads like a mistake;
+					// move the break above it and let the heading start the next page.
+					const orphan = headings.find(
+						(heading) =>
+							end >= heading.bottom &&
+							end - heading.bottom < 140 &&
+							heading.top > offset + pagePx * 0.3,
+					);
+					if (orphan) end = orphan.top;
 				}
 
 				const sliceHeight = end - offset;
