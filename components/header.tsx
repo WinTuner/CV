@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 import { GithubIcon, LinkedinIcon } from "./social-icons";
 import { Gamepad2 } from "lucide-react";
-import { ThemeToggle } from "./theme-toggle";
 import { LanguageToggle } from "./language-toggle";
 import { useLanguage } from "./language-provider";
 import Link from "next/link";
@@ -116,7 +115,7 @@ export function Header() {
 		<header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 print:hidden">
 			<div
 				className={cn(
-					"mx-auto max-w-[1280px] overflow-hidden border border-border/70 bg-card/85 backdrop-blur-lg transition-[border-radius,box-shadow] duration-300 ease-out",
+					"mx-auto max-w-[1280px] border border-border/70 bg-card/85 backdrop-blur-lg transition-[border-radius,box-shadow] duration-300 ease-out",
 					isMobileMenuOpen ? "rounded-[1.6rem]" : "rounded-full",
 					isScrolled
 						? "shadow-[0_4px_0_rgba(0,0,0,0.35),0_18px_40px_-20px_rgba(0,0,0,0.65)]"
@@ -187,7 +186,6 @@ export function Header() {
 							</div>
 							<div className="flex items-center">
 								<LanguageToggle />
-								<ThemeToggle />
 							</div>
 							<Link
 								href="/#connect"
@@ -198,7 +196,6 @@ export function Header() {
 						</div>
 						<div className="flex items-center md:hidden">
 							<LanguageToggle />
-							<ThemeToggle />
 						</div>
 						<button
 							ref={menuToggleRef}

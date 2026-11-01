@@ -194,7 +194,8 @@ export default async function RootLayout({
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="dark"
-					enableSystem={true}
+					forcedTheme="dark"
+					enableSystem={false}
 					storageKey="theme-mode"
 				>
 					<LanguageProvider initialLanguage={initialLanguage}>
