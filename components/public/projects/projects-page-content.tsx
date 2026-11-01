@@ -241,14 +241,14 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
             />
           </div>
 
-          {/* Status Filters */}
-          <div className="flex flex-wrap gap-2">
+          {/* Status Filters — one scrollable row on phones, wrapped on desktop */}
+          <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-hide sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
             {filters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
                 className={cn(
-                  "rounded-lg border px-4 min-h-11 font-mono text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98]",
+                  "shrink-0 rounded-lg border px-4 min-h-11 font-mono text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98]",
                   activeFilter === filter
                     ? "border-primary bg-primary/15 text-primary shadow-sm shadow-primary/20"
                     : "border-border text-muted-foreground hover:border-foreground/50 hover:text-foreground hover:bg-secondary/50",
@@ -259,15 +259,15 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
             ))}
           </div>
 
-          {/* Tag Filters */}
-          <div className="flex flex-wrap gap-2">
-            <Filter className="h-4 w-4 text-muted-foreground mr-2 self-center" />
+          {/* Tag Filters — one scrollable row on phones, wrapped on desktop */}
+          <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+            <Filter className="h-4 w-4 shrink-0 text-muted-foreground mr-2 self-center" />
             {allTags.slice(0, 10).map((tag) => (
               <button
                 key={tag}
                 onClick={() => toggleTag(tag)}
                 className={cn(
-                  "rounded-md border px-3 min-h-11 font-mono text-xs transition-all duration-200",
+                  "shrink-0 rounded-md border px-3 min-h-11 font-mono text-xs transition-all duration-200",
                   selectedTags.includes(tag)
                     ? "border-primary/50 bg-primary/10 text-primary"
                     : "border-border/60 bg-secondary/40 text-muted-foreground hover:border-primary/30 hover:text-foreground",
@@ -294,8 +294,8 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
               </button>
             )}
           </div>
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="mr-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+          <div className="-mx-4 flex items-center gap-1.5 overflow-x-auto px-4 pb-1 scrollbar-hide sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
+            <span className="mr-1 shrink-0 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
               {t[language].sortLabel}
             </span>
             {sortOptions.map((option) => (
@@ -304,7 +304,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
                 onClick={() => setSortBy(option)}
                 aria-pressed={sortBy === option}
                 className={cn(
-                  "rounded-md border px-2.5 py-1.5 font-mono text-[11px] transition-all duration-200",
+                  "inline-flex shrink-0 items-center rounded-md border px-3 font-mono text-[11px] transition-all duration-200 min-h-10 sm:min-h-0 sm:px-2.5 sm:py-1.5",
                   sortBy === option
                     ? "border-primary bg-primary/10 text-primary"
                     : "border-border/60 text-muted-foreground hover:border-primary/30 hover:text-foreground",
@@ -409,7 +409,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors duration-300 hover:text-primary"
+                    className="inline-flex items-center gap-1.5 py-2 -my-2 text-muted-foreground transition-colors duration-300 hover:text-primary"
                   >
                     <GithubIcon className="h-3.5 w-3.5" />
                     <span className="underline-animate">{t[language].source}</span>
@@ -419,7 +419,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
                       href={project.homepage}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-primary transition-colors duration-300 hover:text-foreground"
+                      className="inline-flex items-center gap-1.5 py-2 -my-2 text-primary transition-colors duration-300 hover:text-foreground"
                     >
                       <span className="underline-animate">{t[language].live}</span>
                       <ExternalLink className="h-3.5 w-3.5" />

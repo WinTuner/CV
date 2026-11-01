@@ -926,6 +926,17 @@ html.no-js main .opacity-0 {
   }
 }
 
+/* Phones: keep the snow as background texture instead of covering text. */
+@media (max-width: 640px) {
+  .christmas-flake {
+    font-size: 11px !important;
+    opacity: 0.45 !important;
+  }
+  .christmas-flake:nth-child(n + 13) {
+    display: none;
+  }
+}
+
 /* Small seasonal accent, shown only while the Christmas layer is mounted. */
 .christmas-only {
   display: none;

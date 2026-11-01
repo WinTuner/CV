@@ -97,7 +97,7 @@ export function HeroSection() {
 							copyLabel={t.copyEmail}
 							copiedLabel={t.emailCopied}
 							iconClassName="h-3.5 w-3.5"
-							className="h-6 w-6"
+							className="h-9 w-9 sm:h-6 sm:w-6"
 						/>
 						</div>
 					</div>

@@ -365,7 +365,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 						<Button
 							type="submit"
 							disabled={subscribeState === "sending"}
-							className="w-full font-mono text-xs uppercase tracking-wider"
+							className="w-full min-h-11 font-mono text-xs uppercase tracking-wider"
 						>
 							{subscribeState === "sending" ? t.sending : t.subscribe}
 						</Button>

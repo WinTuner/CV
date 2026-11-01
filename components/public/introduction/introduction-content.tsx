@@ -146,7 +146,7 @@ export function IntroductionContent() {
 														target="_blank"
 														rel="noopener noreferrer"
 														aria-label={`Open ${proj.name} in a new tab`}
-														className="text-muted-foreground hover:text-primary transition-colors"
+														className="-m-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-secondary/60 hover:text-primary"
 													>
 														{(proj as { url?: string }).url!.includes("github.com") ? (
 															<GithubIcon className="h-4 w-4" />
