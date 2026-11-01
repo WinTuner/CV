@@ -140,6 +140,30 @@ export const professionalExperience = {
 		],
 		personal: [
 			{
+				name: "ClassMate-AI",
+				role: "Creator",
+				description:
+					"AI study assistant with a Supabase-backed workspace: Thai LLM answers grounded in your own course material via Gemini embeddings.",
+				target: "Students who want fast, verifiable answers from their own notes.",
+				problem:
+					"Course material is scattered across files, so revision is slow and answers are hard to verify.",
+				learned:
+					"Server-side API key handling, retrieval-augmented answers with embeddings, and shipping a full-stack app on Vercel.",
+				url: "https://github.com/WinTuner/ClassMate-AI",
+			},
+			{
+				name: "group-deploy-project",
+				role: "Back-end & DevOps (Team of 5)",
+				description:
+					"Online shop split into five microservices behind one nginx gateway, with a Next.js frontend.",
+				target: "Cloud deployment coursework and team delivery.",
+				problem:
+					"Coordinating five services and keeping releases repeatable across a team.",
+				learned:
+					"Service boundaries, gateway routing, and CI/CD that builds and pushes images to Docker Hub.",
+				url: "https://github.com/WinTuner/group-deploy-project",
+			},
+			{
 				name: "AIM4 Mod",
 				role: "Creator",
 				description:
@@ -256,6 +280,29 @@ export const professionalExperience = {
 			},
 		],
 		personal: [
+			{
+				name: "ClassMate-AI",
+				role: "ผู้สร้าง",
+				description:
+					"ผู้ช่วยเรียน AI ที่มี workspace หลังบ้านเป็น Supabase ตอบคำถามด้วย Thai LLM และค้นเนื้อหาด้วย Gemini embeddings",
+				target: "นักศึกษาที่ต้องการคำตอบเร็วและตรวจสอบได้จากโน้ตของตัวเอง",
+				problem:
+					"เนื้อหาวิชากระจายอยู่หลายไฟล์ ทำให้ทบทวนช้าและตรวจสอบคำตอบได้ยาก",
+				learned:
+					"การเก็บ API key ฝั่งเซิร์ฟเวอร์, RAG ด้วย embeddings และการ deploy แอป full-stack บน Vercel",
+				url: "https://github.com/WinTuner/ClassMate-AI",
+			},
+			{
+				name: "group-deploy-project",
+				role: "Back-end & DevOps (ทีม 5 คน)",
+				description:
+					"ร้านค้าออนไลน์แยกเป็น 5 microservices หลัง nginx gateway ตัวเดียว พร้อม frontend Next.js",
+				target: "งานวิชา cloud deployment และการส่งงานเป็นทีม",
+				problem: "การประสาน 5 service และทำให้ release ทำซ้ำได้ทั้งทีม",
+				learned:
+					"การแบ่งขอบเขต service, การ route ผ่าน gateway และ CI/CD ที่ build/push image ขึ้น Docker Hub",
+				url: "https://github.com/WinTuner/group-deploy-project",
+			},
 			{
 				name: "AIM4 Mod",
 				role: "ผู้สร้าง",
@@ -376,6 +423,28 @@ export const professionalExperience = {
 			},
 		],
 		personal: [
+			{
+				name: "ClassMate-AI",
+				role: "開発者",
+				description:
+					"Supabase をバックエンドにした AI 学習アシスタント。Thai LLM が回答し、Gemini embeddings で教材を検索する。",
+				target: "自分のノートから速く根拠のある答えを得たい学生。",
+				problem: "講義資料が複数ファイルに散らばり、復習と答えの検証に時間がかかる。",
+				learned:
+					"サーバー側での API キー管理、embeddings を使った RAG、Vercel へのフルスタック配信。",
+				url: "https://github.com/WinTuner/ClassMate-AI",
+			},
+			{
+				name: "group-deploy-project",
+				role: "バックエンド & DevOps（5人チーム）",
+				description:
+					"5 つのマイクロサービスを単一の nginx ゲートウェイの背後に置き、Next.js フロントエンドを添えたオンラインショップ。",
+				target: "クラウドデプロイの授業とチーム開発。",
+				problem: "5 つのサービスを連携させ、チームで再現性のあるリリースを行うこと。",
+				learned:
+					"サービス境界の設計、ゲートウェイ経由のルーティング、Docker Hub への CI/CD。",
+				url: "https://github.com/WinTuner/group-deploy-project",
+			},
 			{
 				name: "AIM4 Mod",
 				role: "クリエーター",
@@ -499,6 +568,27 @@ export const professionalExperience = {
 			},
 		],
 		personal: [
+			{
+				name: "ClassMate-AI",
+				role: "开发者",
+				description:
+					"以 Supabase 为后端的 AI 学习助手，使用 Thai LLM 回答，并用 Gemini embeddings 检索自己的课程资料。",
+				target: "希望从自己的笔记中快速获得可靠答案的学生。",
+				problem: "课程资料分散在多个文件中，复习和核对答案都很慢。",
+				learned:
+					"服务端密钥管理、基于 embeddings 的 RAG，以及在 Vercel 上部署全栈应用。",
+				url: "https://github.com/WinTuner/ClassMate-AI",
+			},
+			{
+				name: "group-deploy-project",
+				role: "后端与 DevOps（5 人团队）",
+				description:
+					"拆分为 5 个微服务的在线商店，统一由 nginx 网关对外，并配有 Next.js 前端。",
+				target: "云端部署课程与团队交付。",
+				problem: "协调 5 个服务，并让团队发布流程可重复。",
+				learned: "服务边界划分、网关路由，以及推送到 Docker Hub 的 CI/CD。",
+				url: "https://github.com/WinTuner/group-deploy-project",
+			},
 			{
 				name: "AIM4 Mod",
 				role: "创作者",
