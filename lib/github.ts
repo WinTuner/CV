@@ -31,7 +31,8 @@ export interface WipItem {
 	lastUpdated: string; // ISO timestamp
 	url: string;
 	branch: string;
-	commits: number;
+	/** Real commit count from GitHub; null when it could not be read. */
+	commits: number | null;
 }
 
 export interface ActivityItem {
@@ -178,16 +179,16 @@ const REPO_DESCRIPTIONS: Record<string, string> = {
 	"asg-backend-682110174": "Assignment: Spring Data JPA domain model with relationships, H2 database, RESTful API controller, and unit tests.",
 };
 
-const WIP_DEFAULTS: Record<string, { commits: number; progress: number; branch: string }> = {
-	AutoOS: { commits: 42, progress: 65, branch: "master" },
-	DotDoctor: { commits: 34, progress: 57, branch: "main" },
-	"aim4-mod": { commits: 100, progress: 80, branch: "main" },
-	"AEGIS-1-Terminal-Twine-game": { commits: 23, progress: 90, branch: "main" },
-	"linux-vs-windows-latency": { commits: 12, progress: 40, branch: "main" },
-	"sample-boot-3tier": { commits: 8, progress: 35, branch: "main" },
-	"sample-boot-microservice": { commits: 10, progress: 45, branch: "main" },
-	"sample-boot-pubsub": { commits: 12, progress: 50, branch: "main" },
-	"asg-backend-682110174": { commits: 20, progress: 55, branch: "main" },
+const WIP_DEFAULTS: Record<string, { progress: number; branch: string }> = {
+	AutoOS: { progress: 65, branch: "master" },
+	DotDoctor: { progress: 57, branch: "main" },
+	"aim4-mod": { progress: 80, branch: "main" },
+	"AEGIS-1-Terminal-Twine-game": { progress: 90, branch: "main" },
+	"linux-vs-windows-latency": { progress: 40, branch: "main" },
+	"sample-boot-3tier": { progress: 35, branch: "main" },
+	"sample-boot-microservice": { progress: 45, branch: "main" },
+	"sample-boot-pubsub": { progress: 50, branch: "main" },
+	"asg-backend-682110174": { progress: 55, branch: "main" },
 };
 
 function describeRepo(repo: GitHubRepo): string {
@@ -272,17 +273,16 @@ function mapRepoToProject(repo: GitHubRepo, index: number): Project {
 	};
 }
 
-function estimateWipProgress(repo: GitHubRepo): { progress: number; commits: number } {
+function estimateWipProgress(repo: GitHubRepo): { progress: number } {
 	const preset = WIP_DEFAULTS[repo.name];
-	if (preset) return { progress: preset.progress, commits: preset.commits };
+	if (preset) return { progress: preset.progress };
 	return {
 		progress: Math.min(95, Math.max(25, 30 + repo.stargazers_count * 5 + (Math.round(repo.size / 15) % 65))),
-		commits: Math.max(3, Math.round(repo.size / 12) % 150),
 	};
 }
 
 function mapRepoToWipItem(repo: GitHubRepo): WipItem {
-	const { progress, commits } = estimateWipProgress(repo);
+	const { progress } = estimateWipProgress(repo);
 	const preset = WIP_DEFAULTS[repo.name];
 	return {
 		id: repo.id,
@@ -292,8 +292,51 @@ function mapRepoToWipItem(repo: GitHubRepo): WipItem {
 		lastUpdated: repo.pushed_at,
 		url: repoUrl(repo),
 		branch: preset?.branch || repo.default_branch || "main",
-		commits,
+		commits: null,
 	};
+}
+
+/**
+ * Real commit count on the repo's default branch. GitHub reports the total in
+ * the `Link: rel="last"` header of a one-item page; when the REST API is rate
+ * limited (no token is configured in production) fall back to the count in the
+ * public repo page HTML. Returns null when neither source answers.
+ */
+async function fetchCommitCount(
+	owner: string,
+	repo: string,
+	headers: Record<string, string>,
+): Promise<number | null> {
+	try {
+		const response = await fetch(
+			`${GITHUB_API_BASE}/repos/${owner}/${repo}/commits?per_page=1`,
+			{ next: { revalidate: 3600 }, headers },
+		);
+		if (response.ok) {
+			const last = response.headers
+				.get("link")
+				?.match(/[?&]page=(\d+)>;\s*rel="last"/);
+			if (last) return Number(last[1]);
+			const commits = (await response.json()) as unknown;
+			// No Link header means the repo fits on one page: 0 or 1 commits.
+			return Array.isArray(commits) ? (commits.length > 0 ? 1 : 0) : null;
+		}
+	} catch {
+		// Fall through to the HTML count below.
+	}
+
+	try {
+		const response = await fetch(`https://github.com/${owner}/${repo}`, {
+			next: { revalidate: 3600 },
+			headers: { "User-Agent": GITHUB_USER_AGENT },
+		});
+		if (!response.ok) return null;
+		const html = await response.text();
+		const match = html.match(/([\d,]+)\s*Commits/);
+		return match ? Number(match[1].replace(/,/g, "")) : null;
+	} catch {
+		return null;
+	}
 }
 
 const fallbackProjects: Project[] = [
@@ -476,7 +519,7 @@ const fallbackWipItems: WipItem[] = [
 		lastUpdated: "2026-07-21T07:40:26Z",
 		url: AUTOOS_URL,
 		branch: "master",
-		commits: 42,
+		commits: null,
 	},
 	{
 		id: 100,
@@ -487,7 +530,7 @@ const fallbackWipItems: WipItem[] = [
 		lastUpdated: "2026-06-26T18:00:00Z",
 		url: githubRepoUrl("DotDoctor"),
 		branch: "main",
-		commits: 34,
+		commits: null,
 	},
 	{
 		id: 101,
@@ -498,7 +541,7 @@ const fallbackWipItems: WipItem[] = [
 		lastUpdated: "2026-06-23T12:00:00Z",
 		url: githubRepoUrl("aim4-mod"),
 		branch: "main",
-		commits: 100,
+		commits: null,
 	},
 ];
 
@@ -665,8 +708,24 @@ export async function getGithubWipItems(): Promise<WipItem[]> {
 					new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime(),
 			);
 
-		// Take top 3 repos
-		const result = activeRepos.slice(0, 3).map(mapRepoToWipItem);
+		// Take the 3 most recently pushed repos and fill in their real commit
+		// counts, so the workbench matches GitHub instead of an estimate.
+		const headers = githubHeaders();
+		const result = await Promise.all(
+			activeRepos.slice(0, 3).map(async (repo: GitHubRepo) => {
+				const item = mapRepoToWipItem(repo);
+				const source =
+					repo.name === "AutoOS"
+						? { owner: "tinodin", repo: "AutoOS" }
+						: { owner: GITHUB_USERNAME, repo: repo.name };
+				const commits = await fetchCommitCount(
+					source.owner,
+					source.repo,
+					headers,
+				);
+				return commits === null ? item : { ...item, commits };
+			}),
+		);
 
 		globalForGithub.githubWipCache = { data: result, timestamp: now };
 		return result;

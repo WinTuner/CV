@@ -133,9 +133,11 @@ export function WorkbenchPageContent({
                           <GitBranch className="h-3 w-3" />
                           {item.branch}
                         </span>
-                        <span>
-                          {item.commits} {t.commits}
-                        </span>
+                        {item.commits !== null && (
+                          <span>
+                            {item.commits.toLocaleString()} {t.commits}
+                          </span>
+                        )}
                       </div>
                     </div>
 
