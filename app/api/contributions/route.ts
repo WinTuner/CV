@@ -16,5 +16,7 @@ export const dynamic = "force-dynamic";
  * and keeps calendar mapping in one place.
  */
 export async function GET() {
-	return NextResponse.json(await getGithubContributions());
+	return NextResponse.json(await getGithubContributions(), {
+		headers: { "Cache-Control": "public, max-age=30, s-maxage=120, stale-while-revalidate=600" },
+	});
 }

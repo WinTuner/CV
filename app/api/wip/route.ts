@@ -16,5 +16,7 @@ export const dynamic = "force-dynamic";
  * the server-side cache, and keeps WIP mapping in one place.
  */
 export async function GET() {
-	return NextResponse.json(await getGithubWipItems());
+	return NextResponse.json(await getGithubWipItems(), {
+		headers: { "Cache-Control": "public, max-age=30, s-maxage=120, stale-while-revalidate=600" },
+	});
 }

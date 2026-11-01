@@ -16,5 +16,7 @@ export const dynamic = "force-dynamic";
  * the server-side cache, and keeps PR/commit parsing in one place.
  */
 export async function GET() {
-	return NextResponse.json(await getGithubRecentActivity());
+	return NextResponse.json(await getGithubRecentActivity(), {
+		headers: { "Cache-Control": "public, max-age=15, s-maxage=60, stale-while-revalidate=300" },
+	});
 }

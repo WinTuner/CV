@@ -21,5 +21,7 @@ export async function GET(request: Request) {
 	if (!NAME_PATTERN.test(owner) || !NAME_PATTERN.test(repo)) {
 		return NextResponse.json({ error: "Invalid owner or repo" }, { status: 400 });
 	}
-	return NextResponse.json(await getRepoContributors(owner, repo));
+	return NextResponse.json(await getRepoContributors(owner, repo), {
+		headers: { "Cache-Control": "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400" },
+	});
 }

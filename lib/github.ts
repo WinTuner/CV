@@ -152,7 +152,10 @@ const globalForGithub = globalThis as unknown as {
 	githubContributorsCache?: Record<string, { data: Contributor[]; timestamp: number }>;
 };
 
-const CACHE_DURATION = 120 * 1000; // 2 minutes in-memory cache
+const CACHE_DURATION = 10 * 60 * 1000; // 10-minute in-memory cache
+// Contributor lists barely change; keep them warm far longer so scrolling a
+// long project grid never re-hits the GitHub API.
+const CONTRIBUTOR_CACHE_DURATION = 60 * 60 * 1000;
 
 // Upstream main repo for AutoOS — link to tinodin/AutoOS, not the owner's fork.
 const AUTOOS_URL = "https://github.com/tinodin/AutoOS";
@@ -547,7 +550,7 @@ export async function getRepoContributors(
 	const cacheKey = `${owner}/${repo}`.toLowerCase();
 	const now = Date.now();
 	const cached = globalForGithub.githubContributorsCache?.[cacheKey];
-	if (cached && now - cached.timestamp < CACHE_DURATION) {
+	if (cached && now - cached.timestamp < CONTRIBUTOR_CACHE_DURATION) {
 		return cached.data;
 	}
 

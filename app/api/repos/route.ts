@@ -16,5 +16,7 @@ export const dynamic = "force-dynamic";
  * the server-side cache, and keeps repo mapping in one place.
  */
 export async function GET() {
-	return NextResponse.json(await getGithubRepos());
+	return NextResponse.json(await getGithubRepos(), {
+		headers: { "Cache-Control": "public, max-age=30, s-maxage=120, stale-while-revalidate=600" },
+	});
 }
