@@ -103,7 +103,7 @@ export function HeroSection() {
 					</div>
 
 					{/* Right column — portrait */}
-					<div className="lg:col-span-5">
+					<div className="lg:col-span-5 mx-auto w-full max-w-[22rem] lg:max-w-none">
 						<HeroPortrait />
 					</div>
 					</div>
