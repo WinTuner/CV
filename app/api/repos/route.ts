@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { getGithubRepos } from "@/lib/github";
 
-export const dynamic = "force-dynamic";
+// Cached at the CDN for 30s, then revalidated in the background: the
+// response is the same for every visitor, so this keeps polls cheap.
+export const revalidate = 30;
 
 /**
  * Live GitHub repos / projects list.
