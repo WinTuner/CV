@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "./language-provider";
 import { DISCORD_PROFILE_URL, DISCORD_USER_ID } from "@/lib/site";
@@ -35,24 +36,21 @@ const OPEN_LABEL = {
 	zh: "打个招呼",
 } as const;
 
-interface LanyardUser {
-	discord_user: {
-		id: string;
-		username: string;
-		global_name?: string | null;
-		avatar?: string | null;
-	};
-	discord_status: "online" | "idle" | "dnd" | "offline";
+interface Presence {
+	id: string;
+	name: string;
+	avatar: string | null;
+	status: "online" | "idle" | "dnd" | "offline";
 	activities: Array<{ type: number; name: string }>;
 }
 
-function avatarUrl(user: LanyardUser["discord_user"]) {
-	if (user.avatar) {
-		const ext = user.avatar.startsWith("a_") ? "gif" : "png";
-		return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=96`;
+function avatarUrl(presence: Presence) {
+	if (presence.avatar) {
+		const ext = presence.avatar.startsWith("a_") ? "gif" : "png";
+		return `https://cdn.discordapp.com/avatars/${presence.id}/${presence.avatar}.${ext}?size=96`;
 	}
 	// Default avatars are indexed by (id >> 22) % 6.
-	const index = Number(BigInt(user.id) >> 22n) % 6;
+	const index = Number(BigInt(presence.id) >> 22n) % 6;
 	return `https://cdn.discordapp.com/embed/avatars/${index}.png`;
 }
 
@@ -65,15 +63,15 @@ function DiscordIcon({ className }: { className?: string }) {
 }
 
 /**
- * Live Discord presence card for the hero (Lanyard API).
+ * Live Discord presence card for the hero.
  *
- * Renders nothing until `DISCORD_USER_ID` is configured, and falls back to a
- * plain profile card when Lanyard is unreachable. Polls once a minute while the
- * tab is visible.
+ * Reads `/api/discord` (our own proxy, so no third-party request or cookie)
+ * once a minute while the tab is visible, and falls back to a plain profile
+ * card when presence is unavailable.
  */
 export function DiscordCard() {
 	const { language } = useLanguage();
-	const [user, setUser] = useState<LanyardUser | null>(null);
+	const [presence, setPresence] = useState<Presence | null>(null);
 	const [failed, setFailed] = useState(false);
 
 	useEffect(() => {
@@ -82,14 +80,11 @@ export function DiscordCard() {
 
 		const load = async () => {
 			try {
-				const res = await fetch(
-					`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`,
-					{ cache: "no-store" },
-				);
+				const res = await fetch("/api/discord", { cache: "no-store" });
 				if (!res.ok) throw new Error(String(res.status));
-				const json = (await res.json()) as { data?: LanyardUser };
-				if (!cancelled && json.data) {
-					setUser(json.data);
+				const json = (await res.json()) as Presence;
+				if (!cancelled && json?.id) {
+					setPresence(json);
 					setFailed(false);
 				}
 			} catch {
@@ -109,14 +104,14 @@ export function DiscordCard() {
 
 	if (!DISCORD_USER_ID) return null;
 
-	const status = user?.discord_status ?? "offline";
+	const status = presence?.status ?? "offline";
 	const label = STATUS_LABEL[status][language] ?? STATUS_LABEL[status].en;
-	const activity = user?.activities.find((a) => a.type !== 4);
+	const activity = presence?.activities.find((a) => a.type !== 4);
 	const verb =
 		activity && ACTIVITY_VERB[activity.type as keyof typeof ACTIVITY_VERB]
 			? ACTIVITY_VERB[activity.type as keyof typeof ACTIVITY_VERB][language]
 			: null;
-	const name = user?.discord_user.global_name || user?.discord_user.username;
+	const name = presence?.name;
 
 	return (
 		<aside className="hud-card group animate-fade-in-up stagger-3 relative w-full max-w-md overflow-hidden p-4 text-left">
@@ -128,13 +123,13 @@ export function DiscordCard() {
 
 			<div className="relative flex items-center gap-3">
 				<span className="relative shrink-0">
-					{user ? (
-						// eslint-disable-next-line @next/next/no-img-element -- 48px avatar; Discord's CDN already serves WebP/animated GIF at this size
-						<img
-							src={avatarUrl(user.discord_user)}
+					{presence ? (
+						<Image
+							src={avatarUrl(presence)}
 							alt=""
 							width={48}
 							height={48}
+							sizes="48px"
 							loading="lazy"
 							className="h-12 w-12 rounded-full border border-border object-cover ring-2 ring-primary/25"
 						/>
@@ -143,7 +138,7 @@ export function DiscordCard() {
 							<DiscordIcon className="h-5 w-5" />
 						</span>
 					)}
-					{user && (
+					{presence && (
 						<span
 							className={`absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-card ${STATUS_COLOR[status]}`}
 							aria-hidden="true"
@@ -161,7 +156,7 @@ export function DiscordCard() {
 								className={`h-1.5 w-1.5 rounded-full ${STATUS_COLOR[status]}`}
 								aria-hidden="true"
 							/>
-							{failed && !user ? "discord" : label}
+							{failed && !presence ? "discord" : label}
 						</span>
 						{verb && activity ? ` · ${verb} ${activity.name}` : ""}
 					</p>

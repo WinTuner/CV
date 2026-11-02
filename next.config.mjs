@@ -53,6 +53,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'miro.medium.com' },
       { protocol: 'https', hostname: 'cdn-images-*.medium.com' },
       { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: 'cdn.discordapp.com' },
     ],
   },
   // Consolidate the legacy vercel.app host onto the canonical is-a.dev
@@ -130,7 +131,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https:",
               "font-src 'self' data:",
-              "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com https://api.lanyard.rest",
+              "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",
