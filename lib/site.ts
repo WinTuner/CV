@@ -60,7 +60,8 @@ export const SOCIAL_LINKS = {
  * Discord user id (numeric) for the live presence card. The card is hidden
  * until this is set, so the site never shows an empty widget.
  */
-export const DISCORD_USER_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID || "";
+export const DISCORD_USER_ID =
+	process.env.NEXT_PUBLIC_DISCORD_USER_ID || "876802812510613546";
 
 export const DISCORD_PROFILE_URL = DISCORD_USER_ID
 	? `https://discord.com/users/${DISCORD_USER_ID}`
