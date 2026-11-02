@@ -7,6 +7,7 @@ import { heroCopy } from "@/lib/hero-utils";
 import { HeroTypewriter } from "./hero/hero-typewriter";
 import { HeroPortrait } from "./hero/hero-portrait";
 import { CopyEmailButton } from "./copy-email-button";
+import { DiscordCard } from "./discord-card";
 
 export function HeroSection() {
 	const { language } = useLanguage();
@@ -79,6 +80,8 @@ export function HeroSection() {
 								<ArrowRight className="arrow-spring h-4 w-4" />
 							</Link>
 						</div>
+
+						<DiscordCard />
 
 						<div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 pt-2 animate-fade-in-up stagger-4">
 							<span className="hud-label inline-flex items-center gap-1.5 text-faint">
