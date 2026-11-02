@@ -55,3 +55,13 @@ export const SOCIAL_LINKS = {
 	lineOa:
 		process.env.NEXT_PUBLIC_LINE_OA_URL || "https://line.me/R/ti/p/%40636owbhl",
 } as const;
+
+/**
+ * Discord user id (numeric) for the live presence card. The card is hidden
+ * until this is set, so the site never shows an empty widget.
+ */
+export const DISCORD_USER_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID || "";
+
+export const DISCORD_PROFILE_URL = DISCORD_USER_ID
+	? `https://discord.com/users/${DISCORD_USER_ID}`
+	: "https://discord.com";

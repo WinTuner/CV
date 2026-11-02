@@ -2,6 +2,7 @@
 
 import { Mail, ArrowRight, Gamepad2 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./social-icons";
+import { DiscordCard } from "./discord-card";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
@@ -131,6 +132,7 @@ export function Footer() {
 						<p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
 							{t.findElsewhere}
 						</p>
+						<DiscordCard />
 						<div className="space-y-1">
 							{socialLinks.map((link) => (
 								<a
