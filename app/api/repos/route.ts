@@ -9,7 +9,7 @@ export const revalidate = 30;
  * Live GitHub repos / projects list.
  *
  * Thin wrapper over `getGithubRepos()`, which keeps its own in-memory
- * (2 min) + ISR (1 h) caching and falls back to curated static projects
+ * (10 min) + ISR (1 h) caching and falls back to curated static projects
  * when GitHub is unreachable.
  *
  * Project grids poll this route every 60s instead of calling

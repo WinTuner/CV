@@ -116,3 +116,37 @@ works out of the box on Vercel, Netlify, or any Node server. See
 ## Author
 
 - **Thanatphong Tarin (WinTuner)** — <https://github.com/WinTuner>
+
+## Usage examples
+
+With `npm run dev` running on <http://localhost:3000>:
+
+1. **Browse the site** — `/` for the landing page, `/projects` for the live
+   project grid, `/blog` for the Notion-backed posts.
+2. **Export the CV as a PDF** — open <http://localhost:3000/introduction?print=true>;
+   the page renders the resume and opens the print dialog automatically. The
+   `Print / Save PDF` button on `/introduction` does the same without the query
+   parameter.
+3. **Consume the JSON endpoints** — the routes the client widgets poll, so you
+   can inspect their shapes without a browser:
+
+   ```bash
+   curl http://localhost:3000/api/repos          # projects (30s CDN cache)
+   curl http://localhost:3000/api/activity       # recent GitHub activity
+   curl http://localhost:3000/api/contributions  # contribution calendar
+   curl http://localhost:3000/api/search         # projects + posts for the command palette
+   ```
+
+   Each returns JSON; the GitHub-backed routes fall back to curated static data
+   when the API is unreachable.
+
+4. **Run the end-to-end suite** — `npx playwright test` boots the dev server on
+   port 3100 itself (see `playwright.config.ts`) and runs the specs in `e2e/`
+   (language toggle, projects, blog, workbench, print flow, security headers,
+   axe accessibility scans).
+
+   ```bash
+   npx playwright test                      # all specs
+   npx playwright test e2e/print.spec.ts    # a single spec
+   E2E_BASE_URL=https://example.com npx playwright test   # against a deployed URL
+   ```

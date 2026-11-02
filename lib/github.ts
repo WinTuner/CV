@@ -579,7 +579,7 @@ const CONTRIBUTOR_NAME_PATTERN = /^[A-Za-z0-9_.-]{1,100}$/;
 /**
  * Live contributor list for an upstream repo (e.g. tinodin/AutoOS).
  *
- * Same caching shape as the other GitHub helpers: 2-minute in-memory +
+ * Same caching shape as the other GitHub helpers: 10-minute in-memory +
  * 1-hour ISR. Bots are filtered out. Returns [] when GitHub is
  * unreachable so callers can render nothing instead of failing.
  */

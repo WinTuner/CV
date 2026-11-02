@@ -30,7 +30,7 @@ Everything is optional — the site degrades gracefully when unset:
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL for sitemap/OG/RSS | Production URL |
 | `GITHUB_TOKEN` | Higher GitHub API rate limits + real contribution calendar | Bundled fallback data |
 | `NOTION_API_KEY`, `NOTION_DATABASE_ID` | Blog via Notion CMS | Bundled posts |
-| — (no env var) | Medium posts merge from the RSS feed URL hardcoded in `lib/medium-blog.ts` | No Medium posts |
+| — (no env var) | Medium posts merge from the RSS feed URL in `lib/site.ts` (`MEDIUM_FEED_URL`) | No Medium posts |
 | `NEWSLETTER_WEBHOOK_URL` | Newsletter signup endpoint | `501` + graceful UI |
 | `CONTACT_WEBHOOK_URL` | Contact form endpoint | `501` + graceful UI |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Optional rate limiting for webhooks | — |
@@ -45,9 +45,10 @@ A red CI blocks merging; keep the build green before deploying.
 
 | Data | Strategy |
 | --- | --- |
-| GitHub repos / WIP / activity | `revalidate = 3600` + 2-min in-memory cache |
+| GitHub repos / WIP | `revalidate = 3600` + 10-min in-memory cache |
+| GitHub activity events | `revalidate = 900` + 10-min in-memory cache |
 | GitHub contribution calendar | `revalidate = 3600` (GraphQL, token only) |
-| Homepage GitHub aggregate | `revalidate = 900` |
+| Homepage GitHub aggregate | No route-level `revalidate`; its GitHub fetches use `revalidate = 3600` |
 | Blog posts (Notion/Medium) | ISR with a revalidation schedule |
 | Static assets | Next.js immutable caching under `/_next/static` |
 

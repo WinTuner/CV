@@ -8,9 +8,9 @@ The codebase has already adopted the baseline optimizations:
 | --- | --- |
 | Image formats | ✅ AVIF + WebP configured, remote patterns allowed |
 | Type safety | ✅ `ignoreBuildErrors: false`, `npx tsc --noEmit` runs in CI |
-| Fonts | ✅ Geist + Geist Mono + Fraunces via `next/font`, `display: swap`, used as CSS vars |
-| ISR / caching | ✅ GitHub & blog data revalidate on a schedule + 2-min in-memory cache |
-| Loading states | ✅ `loading.tsx` skeletons for blog, projects, workbench, introduction |
+| Fonts | ✅ Geist + Geist Mono + Mitr via `next/font`, `display: swap`, used as CSS vars |
+| ISR / caching | ✅ GitHub & blog data revalidate on a schedule + 10-min in-memory cache (Notion 2-min) |
+| Loading states | ✅ `loading.tsx` skeletons at the root, blog, blog post, projects and workbench routes |
 | Error boundaries | ✅ `error.tsx` at root and per-route-group |
 | Streaming | ✅ Suspense around async data fetching (home page streams the
   GitHub-backed sections; projects & workbench pages stream their lists) |
@@ -22,8 +22,9 @@ The codebase has already adopted the baseline optimizations:
 
 ## What's Already In Place
 
-- **Font loading**: `app/layout.tsx` loads Geist + Geist Mono + Fraunces
-  (serif display) with `subsets`, `variable`, and `display: swap`, wired into
+- **Font loading**: `app/layout.tsx` loads Geist + Geist Mono + Mitr
+  (rounded display family, Latin + Thai at weights 400–700) with `subsets`,
+  `variable`, and `display: swap`, wired into
   `--font-sans` / `--font-mono` / `--font-serif` via `@theme inline`.
 - **Image pipeline**: `next.config.mjs` enables AVIF/WebP and a permissive
   `remotePatterns` block (images are also pre-optimized by
@@ -34,8 +35,9 @@ The codebase has already adopted the baseline optimizations:
 
 ## Bundle Size (measured October 2026)
 
-First-load JS (uncompressed) per route, from `.next/diagnostics/route-bundle-stats.json`
-(after the CommandPalette lazy-mount optimization; re-measured
+First-load JS (uncompressed) per route, from `.next-build/diagnostics/route-bundle-stats.json`
+(local production builds use `distDir: .next-build`, Vercel builds use `.next`),
+after the CommandPalette lazy-mount optimization; re-measured
 September 2026 after the 16.3.6 patch round — down ~20–40KB per route;
 re-measured October 2026 after adding Lenis smooth-scroll — lazy chunk,
 off the first-load bundle; re-measured Oct 2026 after the 16.3.8 patch
@@ -52,20 +54,22 @@ figures, still under the 800KiB budget):
 Notes:
 - The bulk (~370KB) is the Next.js 16 + React 19 framework runtime that every
   App Router page pays for — not directly reducible.
-- Lenis (~25KB uncompressed) ships as a lazy chunk booted on
-  `requestIdleCallback`, so it costs nothing at first paint; all routes
+- Lenis (~25KB uncompressed) ships as a lazy chunk booted on the first
+  user interaction (`pointerdown` / `wheel` / `touchstart` / `keydown`), so it
+  costs nothing at first paint; all routes
   stay well under the 800KiB script budget.
 - Reveal/transition keyframes animate transform + opacity only (no `filter`
   or `will-change` layers) to keep the Lighthouse performance score green.
-- The command palette and Spotify player were removed in the editorial
-  redesign, which also cut the terminal widget's ~71KB and its tab components.
+- The Spotify player was removed in the editorial redesign, which also cut the
+  terminal widget's ~71KB and its tab components; the command palette survives
+  as a lazy `dynamic()` import in `components/header.tsx`.
 - Re-check after any dependency change: `npx next build`, then inspect
-  `.next/diagnostics/route-bundle-stats.json`.
+  `.next-build/diagnostics/route-bundle-stats.json`.
 
 ## CI Guardrails
 
 - **Lighthouse CI** — `.github/workflows/ci.yml` runs `treosh/lighthouse-ci-action`
-  after each build (scores: performance ≥0.85, accessibility ≥0.95,
+  after each build (scores: performance ≥0.85, accessibility ≥0.9,
   best-practices ≥0.9, SEO ≥0.9) across `/`, `/introduction`, `/projects`, `/blog`.
 - **Resource budgets** — `config/budgets.json` fails the build if scripts exceed
   800KiB or the total page weight exceeds 2500KiB on any audited URL.
@@ -94,11 +98,11 @@ production source of truth.
 Dead ends measured on 2026-10-20 — all neutral (± noise), don't retry
 without a new signal:
 
-- **Trimming fonts** (dropping Archivo + Instrument Serif, ~49KB less
+- **Trimming fonts** (measured on the pre-redesign families, ~49KB less
   preloaded woff2): +1–2 pts at best. The LCP text on font-heavy routes
-  waits for the Fraunces swap (`lcp-breakdown` shows ~1.2s "element
-  render delay" = swap), and Fraunces can't shrink: the design uses it
-  at both 400 italic (hero typewriter) and 500 (headings).
+  waits for the Mitr swap (`lcp-breakdown` shows ~1.2s "element
+  render delay" = swap), and Mitr can't shrink much: the design uses it
+  across weights 400–700 for headings, labels and display type.
 - **`<link rel="preload">` for the Cloudinary hero**: neutral in
   Lantern (it already prioritizes the LCP image); the `preconnect` +
   `fetchPriority=high` already in place cover the real-browser case.
@@ -123,7 +127,9 @@ What did move things:
    card grid uses `transition-all` on every card; switching to explicit
    properties (`transition-[border-color,box-shadow]`) is the obvious
    candidate but was not measured yet.
-2. **Dependency audit** — `npx depcheck` to confirm nothing is orphaned.
+2. **Dependency audit** — `depcheck` is not a project dependency, so run it
+   ad hoc (`npx depcheck`) to confirm nothing is orphaned; `npm ls --depth=0`
+   covers the quick check.
 3. Home's simulated LCP (~5.1s) is dominated by the throttled
    critical-path transfer (HTML 33KB + CSS 23KB + fonts ~140KB + hero).
    If prod Speed Insights ever shows mobile LCP > 2.5s, the remaining
@@ -134,11 +140,13 @@ What did move things:
 - The homepage streams the GitHub-backed sections (contribution graph, projects
   grid, workbench) behind Suspense boundaries, so the hero and static content
   paint immediately and only the data sections wait on the GitHub API. Each
-  fetch still honors `revalidate = 900` + a 2-min in-memory cache.
+  fetch still honors `revalidate = 3600` (900 for activity events) + a 10-min
+  in-memory cache.
 - Below-the-fold sections gate entrance animations behind `useInView`; an
   inline script in `app/layout.tsx` removes the `no-js` class from `<html>` at
-  parse time, and `html.no-js .opacity-0 { opacity: 1 }` in `app/globals.css`
-  guarantees content is visible even before the JS bundle hydrates.
+  parse time, and `html.no-js main .opacity-0 { opacity: 1 !important;
+  animation: none !important }` in `app/globals.css` guarantees content is
+  visible even before the JS bundle hydrates.
 - The workbench pages poll `/api/activity` (server-cached) every 30s via
   `useLiveGithubActivity`; intervals are cleaned up on unmount.
 

@@ -9,7 +9,7 @@ export const revalidate = 30;
  * Live GitHub contribution calendar.
  *
  * Thin wrapper over `getGithubContributions()`, which keeps its own
- * in-memory (2 min) + ISR (1 h) caching and falls back to a deterministic
+ * in-memory (10 min) + ISR (1 h) caching and falls back to a deterministic
  * offline heatmap when GitHub is unreachable or no token is set.
  *
  * The contribution graph polls this route every 60s instead of calling

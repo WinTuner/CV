@@ -5,7 +5,7 @@ import type { ActivityItem } from "./github";
  * Shared 30s live-refresh for GitHub activity, used by the hero terminal
  * and the workbench "Recent Activity" panel.
  *
- * Polls the server-side `/api/activity` route, which serves a 2-min
+ * Polls the server-side `/api/activity` route, which serves a 10-min
  * in-memory cache (see `app/api/activity/route.ts`), so the refresh is
  * cheap and never trips the unauthenticated GitHub rate limit.
  *

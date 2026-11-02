@@ -9,7 +9,7 @@ export const revalidate = 30;
  * Live GitHub activity for the terminal widget and the workbench page.
  *
  * Thin wrapper over `getGithubRecentActivity()`, which keeps its own
- * in-memory (2 min) + ISR (15 min) caching and falls back to curated
+ * in-memory (10 min) + ISR (15 min) caching and falls back to curated
  * static activity when GitHub is unreachable.
  *
  * The widgets poll this route every 30s instead of calling

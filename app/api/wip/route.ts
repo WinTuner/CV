@@ -9,7 +9,7 @@ export const revalidate = 30;
  * Live GitHub workbench / WIP list (top 3 active repos).
  *
  * Thin wrapper over `getGithubWipItems()`, which keeps its own in-memory
- * (2 min) + ISR (1 h) caching and falls back to curated static items
+ * (10 min) + ISR (1 h) caching and falls back to curated static items
  * when GitHub is unreachable.
  *
  * Workbench sections poll this route every 60s instead of calling

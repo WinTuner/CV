@@ -5,7 +5,7 @@ import type { Contributions } from "./github";
  * Shared 60s live-refresh for the GitHub contribution calendar, mirroring
  * `useLiveGithubActivity` (30s poll).
  *
- * Polls the server-side `/api/contributions` route, which serves a 2-min
+ * Polls the server-side `/api/contributions` route, which serves a 10-min
  * in-memory cache + 1h ISR (`app/api/contributions/route.ts`), so the
  * refresh is cheap and never trips the GitHub GraphQL rate limit.
  * 60s (not 30s) because the calendar changes slowly and each upstream

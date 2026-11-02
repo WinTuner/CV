@@ -5,7 +5,7 @@ import type { Project } from "./github";
  * Shared 60s live-refresh for the GitHub repos / projects list, mirroring
  * `useLiveGithubContributions`.
  *
- * Polls the server-side `/api/repos` route, which serves a 2-min
+ * Polls the server-side `/api/repos` route, which serves a 10-min
  * in-memory cache + 1h ISR (`app/api/repos/route.ts`), so the refresh is
  * cheap and never trips the GitHub REST rate limit.
  *

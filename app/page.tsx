@@ -60,7 +60,7 @@ const Footer = dynamic(() => import("@/components/footer").then((m) => m.Footer)
 /*
  * The route is rendered on demand (streaming), so there is no route-level
  * HTML cache: caching lives on the individual fetches in `lib/github.ts`
- * (`next: { revalidate: 3600 }` Data Cache + a 2-minute in-memory cache),
+ * (`next: { revalidate: 3600 }` Data Cache + a 10-minute in-memory cache),
  * which keeps GitHub API round-trips out of the critical path.
  *
  * Data-driven sections are streamed behind Suspense so the hero and static

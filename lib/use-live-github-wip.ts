@@ -5,7 +5,7 @@ import type { WipItem } from "./github";
  * Shared 60s live-refresh for the GitHub workbench / WIP list, mirroring
  * `useLiveGithubContributions`.
  *
- * Polls the server-side `/api/wip` route, which serves a 2-min in-memory
+ * Polls the server-side `/api/wip` route, which serves a 10-min in-memory
  * cache + 1h ISR (`app/api/wip/route.ts`), so the refresh is cheap and
  * never trips the GitHub REST rate limit.
  *

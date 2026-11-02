@@ -10,7 +10,7 @@ const NAME_PATTERN = /^[A-Za-z0-9_.-]{1,100}$/;
  * `GET /api/contributors?owner=tinodin&repo=AutoOS`.
  *
  * Thin wrapper over `getRepoContributors()`, which keeps its own
- * in-memory (2 min) + ISR (1 h) caching and returns [] when GitHub is
+ * in-memory (60 min for contributors, 10 min otherwise) + ISR (1 h) caching and returns [] when GitHub is
  * unreachable. Owner/repo are allow-listed to plain GitHub names so the
  * route cannot be abused as an open proxy.
  */
