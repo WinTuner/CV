@@ -2,16 +2,12 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { useLanguage } from "../language-provider";
-import { heroCopy } from "@/lib/hero-utils";
 import { AUTHOR_AVATAR } from "@/lib/site";
 
 const TILT_MAX_DEG = 6;
 
 export function HeroPortrait() {
-	const { language } = useLanguage();
 	const [portraitSrc, setPortraitSrc] = useState(AUTHOR_AVATAR);
-	const t = heroCopy[language];
 	const frameRef = useRef<HTMLDivElement>(null);
 	const rafRef = useRef(0);
 	// Evaluated once, client-side: tilt is a fine-pointer delight only.
@@ -85,14 +81,8 @@ export function HeroPortrait() {
 							fetchPriority="high"
 						/>
 					</div>
-					<div className="absolute left-4 top-4 rounded-full border border-white/20 bg-black/35 px-3 py-1 hud-label text-white backdrop-blur-md">
-						{t.location}
-					</div>
 				</div>
 			</div>
-			<figcaption className="mt-4 px-2">
-				<span className="hud-label truncate text-faint">{t.kicker}</span>
-			</figcaption>
 		</figure>
 	);
 }
