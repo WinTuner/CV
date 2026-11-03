@@ -54,6 +54,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cdn-images-*.medium.com' },
       { protocol: 'https', hostname: 'res.cloudinary.com' },
       { protocol: 'https', hostname: 'cdn.discordapp.com' },
+      { protocol: 'https', hostname: 'i.scdn.co' },
     ],
   },
   // Consolidate the legacy vercel.app host onto the canonical is-a.dev
