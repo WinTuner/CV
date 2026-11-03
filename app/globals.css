@@ -721,6 +721,15 @@ html.no-js main .opacity-0 {
   display: none;
 }
 
+/* Horizontal scroll rows on phones: fade the trailing edge so it reads as
+   "there is more to the right" without a scrollbar. Desktop wraps instead. */
+@media (max-width: 639px) {
+  .scroll-fade-x {
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+  }
+}
+
 /* Focus styles enhancement */
 :focus-visible {
   outline: 2px solid var(--primary);
