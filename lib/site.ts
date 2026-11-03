@@ -38,7 +38,7 @@ export const AUTHOR_NAME =
 
 export const AUTHOR_AVATAR =
 	process.env.NEXT_PUBLIC_AUTHOR_AVATAR ||
-	"https://odjjjlexxatrayhzsokj.supabase.co/storage/v1/object/public/turnpro-assets/employee/thanatphong.webp";
+	"https://res.cloudinary.com/asfwanaw/image/upload/f_auto,q_auto/v1793704362/portrait-thanatphong-1200.webp";
 
 export const CONTACT_EMAIL =
 	process.env.NEXT_PUBLIC_CONTACT_EMAIL || "Thanatphong2719@gmail.com";
