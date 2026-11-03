@@ -202,7 +202,7 @@ export function DiscordCard() {
 								sizes="88px"
 								loading="lazy"
 								unoptimized
-								className="pointer-events-none absolute -inset-3 h-auto w-auto"
+								className="pointer-events-none absolute left-1/2 top-1/2 h-[88px] w-[88px] max-w-none -translate-x-1/2 -translate-y-1/2"
 							/>
 						)}
 						<span
