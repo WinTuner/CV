@@ -242,7 +242,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
           </div>
 
           {/* Status Filters — one scrollable row on phones, wrapped on desktop */}
-          <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-hide sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
+          <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-hide scroll-fade-x sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
             {filters.map((filter) => (
               <button
                 key={filter}
@@ -260,7 +260,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
           </div>
 
           {/* Tag Filters — one scrollable row on phones, wrapped on desktop */}
-          <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+          <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide scroll-fade-x sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
             <Filter className="h-4 w-4 shrink-0 text-muted-foreground mr-2 self-center" />
             {allTags.slice(0, 10).map((tag) => (
               <button
@@ -294,7 +294,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
               </button>
             )}
           </div>
-          <div className="-mx-4 flex items-center gap-1.5 overflow-x-auto px-4 pb-1 scrollbar-hide sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
+          <div className="-mx-4 flex items-center gap-1.5 overflow-x-auto px-4 pb-1 scrollbar-hide scroll-fade-x sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
             <span className="mr-1 shrink-0 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
               {t[language].sortLabel}
             </span>

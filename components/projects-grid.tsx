@@ -130,7 +130,7 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 
 					<div
 						className={cn(
-							"flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap scrollbar-hide opacity-0",
+							"flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap scrollbar-hide scroll-fade-x opacity-0",
 							isInView && "animate-fade-in-up stagger-2",
 						)}
 					>
