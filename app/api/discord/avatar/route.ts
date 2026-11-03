@@ -1,4 +1,5 @@
 import { DISCORD_USER_ID } from "@/lib/site";
+import sharp from "sharp";
 
 /**
  * Same-origin proxy for Discord avatar assets.
@@ -36,10 +37,35 @@ export async function GET(request: Request) {
 		return new Response("Not found", { status: 404 });
 	}
 
-	return new Response(response.body, {
-		headers: {
-			"Content-Type": response.headers.get("content-type") ?? "image/png",
-			"Cache-Control": "public, max-age=86400, s-maxage=604800, immutable",
-		},
-	});
+	const headers = {
+		"Cache-Control": "public, max-age=86400, s-maxage=604800, immutable",
+	};
+
+	// Discord ignores `size` for decoration presets: it always answers with the
+	// 288×288 master PNG (~360 KB) for an 88 px slot. Downscale here instead of
+	// shipping the master to every visitor. Animated avatars (gif) pass through
+	// untouched so the animation survives.
+	const contentType = response.headers.get("content-type") ?? "image/png";
+	if (contentType === "image/gif") {
+		return new Response(response.body, {
+			headers: { ...headers, "Content-Type": contentType },
+		});
+	}
+
+	try {
+		const size = kind === "decoration" ? 176 : 128;
+		const optimized = await sharp(Buffer.from(await response.arrayBuffer()))
+			.resize(size, size, { fit: "inside", withoutEnlargement: true })
+			.webp({ quality: 80 })
+			.toBuffer();
+
+		return new Response(optimized, {
+			headers: { ...headers, "Content-Type": "image/webp" },
+		});
+	} catch {
+		// sharp missing or an exotic source: serve the bytes as they came.
+		return new Response(response.body, {
+			headers: { ...headers, "Content-Type": contentType },
+		});
+	}
 }
