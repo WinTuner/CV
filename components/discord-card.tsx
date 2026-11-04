@@ -176,7 +176,7 @@ export function DiscordCard() {
 
 			<div className="px-4 pb-4">
 				<div className="-mt-7 flex items-end justify-between gap-2">
-					<span className="relative block h-16 w-16 shrink-0">
+					<span className="relative block h-16 w-16 shrink-0 drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)]">
 						{presence ? (
 							<Image
 								src={avatarUrl(presence)}
@@ -186,10 +186,10 @@ export function DiscordCard() {
 								sizes="64px"
 								loading="lazy"
 								unoptimized={Boolean(presence.avatar)}
-								className="h-16 w-16 rounded-full border-2 border-card object-cover"
+								className="h-16 w-16 rounded-full object-cover ring-1 ring-white/15"
 							/>
 						) : (
-							<span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-card bg-secondary text-muted-foreground">
+							<span className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary text-muted-foreground ring-1 ring-white/10">
 								<DiscordIcon className="h-6 w-6" />
 							</span>
 						)}
