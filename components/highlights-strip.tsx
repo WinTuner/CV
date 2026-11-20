@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "./language-provider";
 import { useInView } from "@/lib/use-in-view";
+import { localePath } from "@/constants/languages";
 import { cn } from "@/lib/utils";
 
 const STATS = {
@@ -184,7 +185,7 @@ export function HighlightsStrip() {
 						) : (
 							<Link
 								key={stat.label}
-								href={stat.href}
+								href={localePath(stat.href, language)}
 								className={className}
 								style={{ animationDelay: `${(index % 4) * 90 + 100}ms` }}
 							>

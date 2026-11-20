@@ -1,18 +1,21 @@
 import { BlogHero } from "@/components/public/blog/blog-hero";
 import { BlogList } from "@/components/public/blog/blog-list";
 import { BlogSidebar } from "@/components/public/blog/blog-sidebar";
-import { cookies } from "next/headers";
-import type { BlogLanguage } from "@/lib/blog-data";
 import { getLocalizedBlogPostsFromBackend } from "@/lib/notion-blog";
-import { isSupportedLanguage, DEFAULT_LANGUAGE } from "@/constants/languages";
 import mediumBlogApi from "@/lib/medium-blog";
 import type { Metadata } from "next";
+import { getRequestLocale, withLocaleAlternates } from "@/lib/seo";
+
 import { SITE_URL } from "@/lib/site"
 import { absoluteImg } from "@/lib/images"
 
+export async function generateMetadata(): Promise<Metadata> {
+	return withLocaleAlternates(pageMetadata, "/blog");
+}
+
 const baseUrl = SITE_URL;
 
-export const metadata: Metadata = {
+const pageMetadata: Metadata = {
   title: "Blog",
   description: "Technical articles, experiments, and insights from the digital laboratory. Exploring systems programming, web development, AI, and more.",
   openGraph: {
@@ -29,9 +32,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  alternates: {
-    canonical: `${baseUrl}/blog`,
-  },
 };
 
 interface BlogPageProps {
@@ -44,9 +44,7 @@ interface BlogPageProps {
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const { category, tag, q } = await searchParams
-  const cookieStore = await cookies()
-  const cookieLanguage = cookieStore.get("site-language")?.value
-  const language: BlogLanguage = isSupportedLanguage(cookieLanguage) ? (cookieLanguage as BlogLanguage) : DEFAULT_LANGUAGE
+  const { language } = await getRequestLocale()
 
   // Fetch both Notion/Local and Medium posts in parallel
   const [localPosts, mediumPosts] = await Promise.all([

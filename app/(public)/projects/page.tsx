@@ -5,14 +5,20 @@ import {
 import { getGithubRepos } from "@/lib/github";
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { withLocaleAlternates } from "@/lib/seo";
+
 import { SITE_URL } from "@/lib/site"
 import { absoluteImg } from "@/lib/images"
+
+export async function generateMetadata(): Promise<Metadata> {
+	return withLocaleAlternates(pageMetadata, "/projects");
+}
 
 export const revalidate = 3600
 
 const baseUrl = SITE_URL;
 
-export const metadata: Metadata = {
+const pageMetadata: Metadata = {
   title: "Projects",
   description: "Explore open source projects, experiments, and tools. From web applications to systems programming, dive into the code.",
   keywords: ["open source", "projects", "web development", "systems programming", "experiments"],
@@ -29,9 +35,6 @@ export const metadata: Metadata = {
         alt: "WinTuner Projects",
       },
     ],
-  },
-  alternates: {
-    canonical: `${baseUrl}/projects`,
   },
 };
 

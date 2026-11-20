@@ -2,14 +2,20 @@ import { WorkbenchPageContent } from "@/components/public/workbench/workbench-pa
 import { getGithubWipItems, getGithubRecentActivity } from "@/lib/github";
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { withLocaleAlternates } from "@/lib/seo";
+
 import { SITE_URL } from "@/lib/site"
 import { absoluteImg } from "@/lib/images"
+
+export async function generateMetadata(): Promise<Metadata> {
+	return withLocaleAlternates(pageMetadata, "/workbench");
+}
 
 export const revalidate = 900
 
 const baseUrl = SITE_URL;
 
-export const metadata: Metadata = {
+const pageMetadata: Metadata = {
   title: "Workbench",
   description: "Active experiments, prototypes, and work in progress. A peek into the digital workshop where ideas take shape.",
   keywords: ["experiments", "prototypes", "work in progress", "playground", "dev tools"],
@@ -26,9 +32,6 @@ export const metadata: Metadata = {
         alt: "WinTuner Workbench",
       },
     ],
-  },
-  alternates: {
-    canonical: `${baseUrl}/workbench`,
   },
 };
 

@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
-import { cookies } from "next/headers";
-import type { BlogLanguage } from "@/lib/blog-data";
-import { isSupportedLanguage, DEFAULT_LANGUAGE } from "@/constants/languages";
+import {
+  DEFAULT_LANGUAGE,
+  SUPPORTED_LANGUAGES,
+  localePath,
+} from "@/constants/languages";
+import { getRequestLocale } from "@/lib/seo";
 import { BlogPostContent } from "@/components/public/blog/blog-post-content";
 import { generateBlogPostStructuredData } from "@/lib/structured-data";
 import type { Metadata } from "next";
@@ -19,7 +22,6 @@ export const revalidate = 3600
 
 interface BlogPostPageProps {
   params: Promise<{ postSlug: string }>;
-  searchParams: Promise<{ lang?: string }>;
 }
 
 export async function generateStaticParams() {
@@ -30,12 +32,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params, searchParams }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { postSlug } = await params;
-  const { lang } = await searchParams;
-  const cookieStore = await cookies();
-  const cookieLanguage = cookieStore.get("site-language")?.value;
-  const language: BlogLanguage = isSupportedLanguage(lang) ? (lang as BlogLanguage) : isSupportedLanguage(cookieLanguage) ? (cookieLanguage as BlogLanguage) : DEFAULT_LANGUAGE;
+  const { language } = await getRequestLocale();
   const post = await getLocalizedPostBySlugFromBackend(postSlug, language);
 
   if (!post) {
@@ -45,7 +44,8 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
   }
 
   const baseUrl = SITE_URL;
-  const postUrl = `${baseUrl}/blog/${post.slug}${language !== "en" ? `?lang=${language}` : ""}`;
+  const postPath = localePath(`/blog/${post.slug}`, language);
+  const postUrl = `${baseUrl}${postPath}`;
   const ogImageUrl = absoluteImg(`/og-images/${post.slug}.png`, baseUrl);
 
   return {
@@ -71,17 +71,20 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
       ],
     },
     alternates: {
-      canonical: postUrl,
+      canonical: postPath,
+      languages: {
+        "x-default": localePath(`/blog/${post.slug}`, DEFAULT_LANGUAGE),
+        ...Object.fromEntries(
+          SUPPORTED_LANGUAGES.map((l) => [l.hreflang, localePath(`/blog/${post.slug}`, l.code)]),
+        ),
+      },
     },
   };
 }
 
-export default async function BlogPostPage({ params, searchParams }: BlogPostPageProps) {
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { postSlug } = await params;
-  const { lang } = await searchParams;
-  const cookieStore = await cookies();
-  const cookieLanguage = cookieStore.get("site-language")?.value;
-  const language: BlogLanguage = isSupportedLanguage(lang) ? (lang as BlogLanguage) : isSupportedLanguage(cookieLanguage) ? (cookieLanguage as BlogLanguage) : DEFAULT_LANGUAGE;
+  const { language } = await getRequestLocale();
   const post = await getLocalizedPostBySlugFromBackend(postSlug, language);
 
   if (!post) {
@@ -89,7 +92,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
   }
 
   const baseUrl = SITE_URL;
-  const postUrl = `${baseUrl}/blog/${post.slug}${language !== "en" ? `?lang=${language}` : ""}`;
+  const postUrl = `${baseUrl}${localePath(`/blog/${post.slug}`, language)}`;
   const structuredData = generateBlogPostStructuredData(post, baseUrl, postUrl);
   const relatedPosts = await getLocalizedRelatedPostsFromBackend(post.slug, language)
 

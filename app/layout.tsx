@@ -2,14 +2,11 @@ import type React from "react";
 import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { cookies } from "next/headers";
 import { Geist, Geist_Mono, Mitr } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/components/language-provider";
-import { isSupportedLanguage, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/constants/languages";
-import type { SupportedLanguageCode } from "@/constants/languages";
 import { AnimatedBackground } from "@/components/animated-background";
 import { ChristmasLayer } from "@/components/christmas-layer";
 import { RouteProgress } from "@/components/route-progress";
@@ -21,6 +18,14 @@ import { EasterEgg } from "@/components/easter-egg";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 import { absoluteImg, CLOUDINARY_CLOUD_NAME } from "@/lib/images";
+import { getRequestLocale, localeAlternates } from "@/lib/seo";
+
+const SKIP_LINK_LABEL = {
+	en: "Skip to content",
+	th: "ข้ามไปที่เนื้อหา",
+	ja: "本文へスキップ",
+	zh: "跳到主要内容",
+} as const;
 
 // Configure fonts with proper options
 const geist = Geist({
@@ -53,7 +58,7 @@ export const viewport: Viewport = {
 	],
 };
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
 	metadataBase: new URL(SITE_URL),
 	title: {
 		default: "WinTuner — Thanatphong Tarin's Digital Laboratory",
@@ -61,18 +66,7 @@ export const metadata: Metadata = {
 	},
 	description:
 		"A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by Thanatphong Tarin.",
-	alternates: {
-		canonical: "/",
-		types: {
-			"application/rss+xml": `${SITE_URL}/feed.xml`,
-		},
-		languages: {
-			"x-default": `${SITE_URL}/`,
-			...Object.fromEntries(
-				SUPPORTED_LANGUAGES.map((l) => [l.hreflang, `${SITE_URL}${l.code === "en" ? "/" : `/?lang=${l.code}`}`]),
-			),
-		},
-	},
+
 	// Search-console ownership tokens (public by nature — rendered as
 	// <meta name="google-site-verification"> / msvalidate.01). Set the env
 	// var on the host after claiming the domain in GSC/Bing; unset = no tag.
@@ -146,16 +140,35 @@ export const metadata: Metadata = {
 	manifest: "/site.webmanifest",
 };
 
+/**
+ * Canonical and hreflang come from the proxy's `x-locale` / `x-path` headers,
+ * so every language of a page points at itself and at its siblings.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+	const { language, path } = await getRequestLocale();
+	const canonical = localeAlternates(path, language).canonical;
+
+	return {
+		...baseMetadata,
+		alternates: {
+			...localeAlternates(path, language),
+			types: {
+				"application/rss+xml": `${SITE_URL}/feed.xml`,
+			},
+		},
+		openGraph: {
+			...baseMetadata.openGraph,
+			url: canonical,
+		},
+	};
+}
+
 export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const cookieStore = await cookies();
-	const cookieLanguage = cookieStore.get("site-language")?.value;
-	const initialLanguage: SupportedLanguageCode = isSupportedLanguage(cookieLanguage)
-		? (cookieLanguage as SupportedLanguageCode)
-		: DEFAULT_LANGUAGE;
+	const { language: initialLanguage } = await getRequestLocale();
 
 	return (
 		<html
@@ -189,7 +202,7 @@ export default async function RootLayout({
 					href="#main"
 					className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:font-mono focus:text-sm focus:text-primary-foreground focus:shadow-lg"
 				>
-					Skip to content
+					{SKIP_LINK_LABEL[initialLanguage]}
 				</a>
 				<ThemeProvider
 					attribute="class"

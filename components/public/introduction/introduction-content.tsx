@@ -109,7 +109,7 @@ export function IntroductionContent() {
 							{t.sectionProf}
 						</p>
 						<h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-							Working Experiments
+							{t.headingExp}
 						</h2>
 					</div>
 
@@ -161,7 +161,7 @@ export function IntroductionContent() {
 													<button
 														type="button"
 														onClick={() => setActiveImage((proj as { image?: string }).image!)}
-														aria-label={`Expand image: ${proj.name}`}
+														aria-label={`${t.expandImage}: ${proj.name}`}
 														className="w-full h-[160px] overflow-hidden rounded-lg border border-border/50 cursor-zoom-in relative group p-0 text-left"
 													>
 														<Image
@@ -175,7 +175,7 @@ export function IntroductionContent() {
 														<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 															<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
 																<span className="w-1.5 h-1.5 rounded-full bg-primary" />
-																Click to expand
+																{t.expandHint}
 															</span>
 														</div>
 													</button>
@@ -273,7 +273,7 @@ export function IntroductionContent() {
 												<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 													<span className="bg-background/85 text-[8px] font-mono px-2 py-1 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1 animate-scale-in">
 														<span className="w-1.5 h-1.5 rounded-full bg-primary" />
-														Expand
+														{t.expandLabel}
 													</span>
 												</div>
 											</button>
@@ -311,7 +311,7 @@ export function IntroductionContent() {
 							{t.sectionAwards}
 						</p>
 						<h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-balance">
-							Achievements
+							{t.headingAwards}
 						</h2>
 					</div>
 					<div className="grid gap-6 md:grid-cols-2">
@@ -338,7 +338,7 @@ export function IntroductionContent() {
 									<button
 										type="button"
 										onClick={() => setActiveImage(comp.image)}
-										aria-label={`Expand image: ${comp.name}`}
+										aria-label={`${t.expandImage}: ${comp.name}`}
 										className="overflow-hidden rounded-lg border border-primary/20 cursor-zoom-in relative group w-full h-[180px] p-0 text-left"
 									>
 										<Image
@@ -352,7 +352,7 @@ export function IntroductionContent() {
 										<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 											<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
 												<span className="w-1.5 h-1.5 rounded-full bg-primary" />
-												Click to expand
+												{t.expandHint}
 											</span>
 										</div>
 									</button>
@@ -388,7 +388,7 @@ export function IntroductionContent() {
 							{t.sectionLead}
 						</p>
 						<h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-							Soft Skills & Impact
+							{t.headingLead}
 						</h2>
 					</div>
 					<div className="grid gap-8">
@@ -413,7 +413,7 @@ export function IntroductionContent() {
 											<button
 												type="button"
 												onClick={() => setActiveImage(item.image)}
-												aria-label={`Expand image: ${item.title}`}
+												aria-label={`${t.expandImage}: ${item.title}`}
 												className="mt-4 w-full h-[300px] overflow-hidden rounded-xl border border-border/50 max-w-md cursor-zoom-in relative group p-0 text-left"
 											>
 												<Image
@@ -427,7 +427,7 @@ export function IntroductionContent() {
 												<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 													<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
 														<span className="w-1.5 h-1.5 rounded-full bg-primary" />
-														Click to expand
+														{t.expandHint}
 													</span>
 												</div>
 											</button>
@@ -483,7 +483,7 @@ export function IntroductionContent() {
 										<button
 											type="button"
 											onClick={() => setActiveImage(item.image)}
-											aria-label={`Expand image: ${item.school}`}
+											aria-label={`${t.expandImage}: ${item.school}`}
 											className="mt-3 w-full h-[200px] overflow-hidden rounded-xl border border-border/50 max-w-sm cursor-zoom-in relative group p-0 text-left"
 										>
 											<Image
@@ -497,7 +497,7 @@ export function IntroductionContent() {
 											<div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
 												<span className="bg-background/85 text-foreground text-[10px] font-mono px-2.5 py-1.5 rounded-full border border-border/50 backdrop-blur-sm flex items-center gap-1.5 animate-scale-in">
 													<span className="w-1.5 h-1.5 rounded-full bg-primary" />
-													Click to expand
+													{t.expandHint}
 												</span>
 											</div>
 										</button>
@@ -510,7 +510,13 @@ export function IntroductionContent() {
 					<div className="space-y-8">
 						<h3 className="text-2xl font-bold flex items-center gap-3">
 							<Briefcase className="h-6 w-6 text-primary" />
-							{language === "en" ? "Work" : "ประสบการณ์ทำงาน"}
+							{language === "th"
+								? "ประสบการณ์ทำงาน"
+								: language === "ja"
+									? "職務経験"
+									: language === "zh"
+										? "工作经历"
+										: "Work"}
 						</h3>
 						<div className="space-y-6">
 							{experiences[language].map((exp) => (

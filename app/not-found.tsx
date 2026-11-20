@@ -1,12 +1,9 @@
 import Link from "next/link";
-import { cookies } from "next/headers";
-import { isSupportedLanguage, DEFAULT_LANGUAGE } from "@/constants/languages";
-import type { SupportedLanguageCode } from "@/constants/languages";
+import { localePath } from "@/constants/languages";
+import { getRequestLocale } from "@/lib/seo";
 
 export default async function NotFound() {
-	const cookieStore = await cookies();
-	const rawLang = cookieStore.get("site-language")?.value;
-	const language: SupportedLanguageCode = isSupportedLanguage(rawLang) ? (rawLang as SupportedLanguageCode) : DEFAULT_LANGUAGE;
+	const { language } = await getRequestLocale();
 	const t = {
 		en: {
 			title: "Page Not Found",
@@ -61,19 +58,19 @@ export default async function NotFound() {
 
 				<div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
 					<Link
-						href="/"
+						href={localePath("/", language)}
 						className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
 					>
 						{t.home}
 					</Link>
 					<Link
-						href="/blog"
+						href={localePath("/blog", language)}
 						className="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors"
 					>
 						{t.blog}
 					</Link>
 					<Link
-						href="/projects"
+						href={localePath("/projects", language)}
 						className="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors"
 					>
 						{t.projects}

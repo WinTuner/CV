@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useMemo, Suspense, useState, useRef, useEffect } from "react"
 import { useLanguage, type SiteLanguage } from "./language-provider"
-import { SUPPORTED_LANGUAGES } from "@/constants/languages"
-import { Globe, ChevronDown } from "lucide-react"
+import { SUPPORTED_LANGUAGES, stripLocalePath } from "@/constants/languages"
+import { Globe, ChevronDown, Check } from "lucide-react"
 
 function LanguageToggleContent() {
   const { language, setLanguage } = useLanguage()
@@ -18,16 +18,18 @@ function LanguageToggleContent() {
   const nextHref = useMemo(
     () => (nextLanguage: SiteLanguage) => {
       const params = new URLSearchParams(searchParams.toString())
-      params.set("lang", nextLanguage)
+      params.delete("lang")
       const query = params.toString()
-      return query ? `${pathname}?${query}` : pathname
+      const { path } = stripLocalePath(pathname)
+      const target = `/${nextLanguage}${path === "/" ? "" : path}`
+      return query ? `${target}?${query}` : target
     },
     [pathname, searchParams],
   )
 
   const handleLanguageChange = (nextLanguage: SiteLanguage) => {
     setLanguage(nextLanguage)
-    router.replace(nextHref(nextLanguage), { scroll: false })
+    router.push(nextHref(nextLanguage), { scroll: false })
     setOpen(false)
   }
 
@@ -82,12 +84,12 @@ function LanguageToggleContent() {
         type="button"
         onClick={() => setOpen(!open)}
         className="flex items-center gap-1.5 rounded-lg border border-border/60 bg-card/70 px-3 min-h-11 text-muted-foreground hover:text-foreground transition-colors"
-        aria-label="Select language"
+        aria-label={`Select language, current: ${current.nativeLabel}`}
         aria-expanded={open}
         aria-haspopup="listbox"
       >
         <Globe className="h-3.5 w-3.5" />
-        <span className="font-mono text-[11px] uppercase tracking-wider">{current.label}</span>
+        <span className="text-xs font-medium">{current.nativeLabel}</span>
         <ChevronDown className={cn("h-3 w-3 transition-transform", open && "rotate-180")} />
       </button>
       {open && (
@@ -109,9 +111,12 @@ function LanguageToggleContent() {
                   : "text-muted-foreground hover:bg-secondary hover:text-foreground",
               )}
             >
-              <span className="text-base leading-none">{lang.flag}</span>
               <span className="flex-1 font-medium">{lang.nativeLabel}</span>
-              <span className="font-mono text-[10px] opacity-60">{lang.label}</span>
+              {language === lang.code ? (
+                <Check className="h-3.5 w-3.5" />
+              ) : (
+                <span className="font-mono text-[10px] uppercase opacity-60">{lang.code}</span>
+              )}
             </button>
           ))}
         </div>

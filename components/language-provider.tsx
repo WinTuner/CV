@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
 import {
-	isSupportedLanguage,
+	LANGUAGE_COOKIE,
 	type SupportedLanguageCode,
 	DEFAULT_LANGUAGE,
 } from "@/constants/languages"
@@ -15,13 +15,13 @@ type LanguageContextValue = {
 }
 
 const STORAGE_KEY = "site-language"
-const COOKIE_NAME = "site-language"
+const COOKIE_NAME = LANGUAGE_COOKIE
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
 export function LanguageProvider({
   children,
-  initialLanguage = "en",
+  initialLanguage = DEFAULT_LANGUAGE,
 }: {
   children: React.ReactNode
   initialLanguage?: SiteLanguage
@@ -34,35 +34,11 @@ export function LanguageProvider({
   }, [])
 
   useEffect(() => {
-    const urlLanguage = new URLSearchParams(window.location.search).get("lang") as SiteLanguage | null
-    if (urlLanguage && isSupportedLanguage(urlLanguage)) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional init from URL param
-      setLanguageState(urlLanguage)
-      applyLanguageDocumentState(urlLanguage)
-      localStorage.setItem(STORAGE_KEY, urlLanguage)
-      return
-    }
-
-    const cookieLanguage = document.cookie
-      .split("; ")
-      .find((entry) => entry.startsWith(`${COOKIE_NAME}=`))
-      ?.split("=")[1] as SiteLanguage | undefined
-
-    if (cookieLanguage && isSupportedLanguage(cookieLanguage)) {
-      setLanguageState(cookieLanguage)
-      applyLanguageDocumentState(cookieLanguage)
-      localStorage.setItem(STORAGE_KEY, cookieLanguage)
-      return
-    }
-
-    const savedLanguage = localStorage.getItem(STORAGE_KEY) as SiteLanguage | null
-    if (savedLanguage && isSupportedLanguage(savedLanguage)) {
-      setLanguageState(savedLanguage)
-      applyLanguageDocumentState(savedLanguage)
-      return
-    }
-    applyLanguageDocumentState(DEFAULT_LANGUAGE)
-  }, [applyLanguageDocumentState])
+    // The server decides the language from the URL prefix and passes it in;
+    // this only mirrors it to the document and the cookie.
+    localStorage.setItem(STORAGE_KEY, language)
+    applyLanguageDocumentState(language)
+  }, [language, applyLanguageDocumentState])
 
   const setLanguage = useCallback((nextLanguage: SiteLanguage) => {
     setLanguageState(nextLanguage)

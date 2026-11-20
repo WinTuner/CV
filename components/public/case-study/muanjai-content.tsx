@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, MessageSquare } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
 import { useInView } from "@/lib/use-in-view";
 import { SOCIAL_LINKS } from "@/lib/site";
-import { pickTranslation } from "@/constants/languages";
+import { localePath, pickTranslation } from "@/constants/languages";
 import { muanjaiCaseStudy } from "@/constants/case-study-muanjai";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +20,7 @@ export function MuanjaiContent() {
 				{/* Hero */}
 				<div ref={heroRef} className={cn("opacity-0", heroInView && "animate-fade-in-up")}>
 					<Link
-						href="/projects"
+						href={localePath("/projects", language)}
 						className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground transition-colors hover:text-primary"
 					>
 						<ArrowLeft className="h-3.5 w-3.5" />
@@ -127,7 +127,7 @@ export function MuanjaiContent() {
 								<ArrowRight className="arrow-spring h-4 w-4" />
 							</a>
 							<Link
-								href="/projects"
+								href={localePath("/projects", language)}
 								className="inline-flex items-center justify-center gap-2 rounded-lg border border-border/70 bg-card px-8 py-4 text-sm font-medium transition-colors hover:border-primary/50 hover:text-primary"
 							>
 								{t.ctaProjects}

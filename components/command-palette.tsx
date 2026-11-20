@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "./language-provider";
 import { fuzzySearch } from "@/lib/fuzzy";
 import type { SupportedLanguageCode } from "@/constants/languages";
+import { localePath } from "@/constants/languages";
 
 import type { Project } from "@/lib/github";
 import type { BlogPost } from "@/lib/blog-data";
@@ -111,7 +112,7 @@ function buildPageItems(language: SupportedLanguageCode): PaletteItem[] {
 		section: SECTION_LABELS.pages[language],
 		title: item.label[language],
 		subtitle: item.subtitle[language],
-		url: item.href,
+		url: localePath(item.href, language),
 		icon: item.icon,
 	}));
 }
@@ -148,7 +149,7 @@ function buildPostItems(
 		section,
 		title: item.title,
 		subtitle: item.excerpt,
-		url: `/blog/${item.slug}?lang=${language}`,
+		url: localePath(`/blog/${item.slug}`, language),
 		icon: FileText,
 	}));
 }

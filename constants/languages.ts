@@ -28,3 +28,48 @@ export function pickTranslation<T>(map: Partial<Record<SupportedLanguageCode, T>
 	if (first !== undefined) return first as T;
 	throw new Error("pickTranslation: empty map");
 }
+
+/** Cookie that stores the visitor's language. Read by the proxy and the provider. */
+export const LANGUAGE_COOKIE = "site-language";
+
+/**
+ * Split a pathname into its locale prefix (if any) and the unprefixed path.
+ * `/th/projects` -> { locale: "th", path: "/projects" }
+ */
+export function stripLocalePath(pathname: string): {
+	locale: SupportedLanguageCode | null;
+	path: string;
+} {
+	const segments = pathname.split("/");
+	const first = segments[1];
+	if (!isSupportedLanguage(first)) return { locale: null, path: pathname };
+	const rest = `/${segments.slice(2).join("/")}`.replace(/\/+$/, "");
+	return { locale: first, path: rest || "/" };
+}
+
+/** Prefix an internal path with the locale. External URLs and hashes pass through. */
+export function localePath(href: string, locale: SupportedLanguageCode): string {
+	if (!href.startsWith("/") || href.startsWith("//")) return href;
+	const cut = href.search(/[?#]/);
+	const path = cut === -1 ? href : href.slice(0, cut);
+	const tail = cut === -1 ? "" : href.slice(cut);
+	if (stripLocalePath(path).locale) return href;
+	return `/${locale}${path === "/" ? "" : path}${tail}`;
+}
+
+/** Pick the first supported language from an Accept-Language header. */
+export function detectLanguage(acceptLanguage: string | null): SupportedLanguageCode {
+	if (!acceptLanguage) return DEFAULT_LANGUAGE;
+	const ranked = acceptLanguage
+		.split(",")
+		.map((part) => {
+			const [tag, quality] = part.trim().split(";q=");
+			return { tag: (tag ?? "").toLowerCase(), quality: quality ? Number(quality) : 1 };
+		})
+		.sort((a, b) => b.quality - a.quality);
+	for (const { tag } of ranked) {
+		const base = tag.slice(0, 2);
+		if (isSupportedLanguage(base)) return base;
+	}
+	return DEFAULT_LANGUAGE;
+}

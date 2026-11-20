@@ -35,10 +35,11 @@ export const roles: Record<SupportedLanguageCode, readonly string[]> = {
 
 export const heroCopy: Record<
 	SupportedLanguageCode,
-	{ kicker: string; intro: string; explore: string; resume: string; scroll: string; location: string; email: string; copyEmail: string; emailCopied: string }
+	{ kicker: string; headlineLead: string; intro: string; explore: string; resume: string; scroll: string; location: string; email: string; copyEmail: string; emailCopied: string }
 > = {
 	en: {
 		kicker: "Thanatphong Tarin",
+		headlineLead: "Forging digital",
 		intro:
 			"Software engineering student at Chiang Mai University and Co-Founder & CTO of Muanjai. Building Agentic AI systems, full-stack web applications, and DevOps infrastructure.",
 		explore: "Explore projects",
@@ -51,6 +52,7 @@ export const heroCopy: Record<
 	},
 	th: {
 		kicker: "ธณัฐพงค์ ทะรินทร์",
+		headlineLead: "กำลัง",
 		intro:
 			"นักศึกษาชั้นปีที่ 2 วิทยาลัยศิลปะ สื่อ และเทคโนโลยี มหาวิทยาลัยเชียงใหม่ (CAMT • DII) และ Co-Founder & CTO ของ Muanjai — พัฒนาระบบ Agentic AI / RAG ภาษาไทย, เว็บ Full-Stack และ DevOps บน ThaiSC",
 		explore: "ดูโปรเจกต์",
@@ -63,6 +65,7 @@ export const heroCopy: Record<
 	},
 	ja: {
 		kicker: "Thanatphong Tarin",
+		headlineLead: "今、",
 		intro:
 			"チェンマイ大学のソフトウェア工学学生、Muanjai 共同創業者兼CTO。Agentic AI、フルスタックWeb、DevOps基盤を構築。",
 		explore: "プロジェクトを見る",
@@ -75,6 +78,7 @@ export const heroCopy: Record<
 	},
 	zh: {
 		kicker: "Thanatphong Tarin",
+		headlineLead: "正在",
 		intro:
 			"清迈大学软件工程学生，Muanjai 联合创始人兼CTO。构建 Agentic AI、全栈Web与DevOps基础设施。",
 		explore: "查看项目",

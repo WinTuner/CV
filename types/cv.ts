@@ -87,6 +87,12 @@ export interface CVCopy {
   honorLabel: string
   skillLabel: string
   gpaLabel: string
+  headingExp: string
+  headingAwards: string
+  headingLead: string
+  expandHint: string
+  expandLabel: string
+  expandImage: string
   categories: Record<CVCategory, string>
 }
 

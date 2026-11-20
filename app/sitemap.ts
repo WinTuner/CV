@@ -1,57 +1,46 @@
 import { MetadataRoute } from 'next'
 import { blogPosts } from '@/lib/blog-data'
 import { SITE_URL } from "@/lib/site"
+import { SUPPORTED_LANGUAGES, localePath } from '@/constants/languages'
+
+type RouteOptions = {
+  lastModified: Date
+  changeFrequency: 'daily' | 'weekly' | 'monthly'
+  priority: number
+}
+
+/** One entry per language, each carrying the full hreflang set. */
+function localized(path: string, options: RouteOptions): MetadataRoute.Sitemap {
+  const languages = {
+    'x-default': `${SITE_URL}${localePath(path, 'en')}`,
+    ...Object.fromEntries(
+      SUPPORTED_LANGUAGES.map((l) => [l.hreflang, `${SITE_URL}${localePath(path, l.code)}`]),
+    ),
+  }
+
+  return SUPPORTED_LANGUAGES.map((l) => ({
+    url: `${SITE_URL}${localePath(path, l.code)}`,
+    ...options,
+    alternates: { languages },
+  }))
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = SITE_URL
+  const now = new Date()
 
-  // Static routes
-  const staticRoutes = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/projects`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/workbench`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/introduction`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/case-study/muanjai`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.85,
-    },
+  return [
+    ...localized('/', { lastModified: now, changeFrequency: 'weekly', priority: 1 }),
+    ...localized('/blog', { lastModified: now, changeFrequency: 'daily', priority: 0.9 }),
+    ...localized('/projects', { lastModified: now, changeFrequency: 'weekly', priority: 0.8 }),
+    ...localized('/workbench', { lastModified: now, changeFrequency: 'weekly', priority: 0.7 }),
+    ...localized('/introduction', { lastModified: now, changeFrequency: 'monthly', priority: 0.6 }),
+    ...localized('/case-study/muanjai', { lastModified: now, changeFrequency: 'monthly', priority: 0.85 }),
+    ...blogPosts.flatMap((post) =>
+      localized(`/blog/${post.slug}`, {
+        lastModified: new Date(post.date),
+        changeFrequency: 'monthly',
+        priority: post.featured ? 0.9 : 0.7,
+      }),
+    ),
   ]
-
-  // Dynamic blog post routes
-  const blogRoutes = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: 'monthly' as const,
-    priority: post.featured ? 0.9 : 0.7,
-  }))
-
-  return [...staticRoutes, ...blogRoutes]
 }

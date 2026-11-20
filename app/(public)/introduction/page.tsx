@@ -1,13 +1,19 @@
 import { IntroductionContent } from "@/components/public/introduction/introduction-content";
 import { PrintTrigger } from "@/components/public/introduction/print-trigger";
 import type { Metadata } from "next";
+import { withLocaleAlternates } from "@/lib/seo";
+
 import { Suspense } from "react";
 import { SITE_URL } from "@/lib/site";
 import { absoluteImg } from "@/lib/images";
 
+export async function generateMetadata(): Promise<Metadata> {
+	return withLocaleAlternates(pageMetadata, "/introduction");
+}
+
 const baseUrl = SITE_URL;
 
-export const metadata: Metadata = {
+const pageMetadata: Metadata = {
 	title: "Resume & Introduction",
 	description:
 		"Detailed background, qualifications, certifications, achievements, and working experiments of Thanatphong Tarin.",
@@ -25,9 +31,6 @@ export const metadata: Metadata = {
 				alt: "Thanatphong Tarin profile page",
 			},
 		],
-	},
-	alternates: {
-		canonical: `${baseUrl}/introduction`,
 	},
 };
 

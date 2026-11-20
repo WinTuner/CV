@@ -8,6 +8,7 @@ import { GithubIcon, LinkedinIcon } from "./social-icons";
 import { Gamepad2 } from "lucide-react";
 import { LanguageToggle } from "./language-toggle";
 import { useLanguage } from "./language-provider";
+import { localePath, stripLocalePath } from "@/constants/languages";
 import Link from "next/link";
 import { SOCIAL_LINKS } from "@/lib/site";
 
@@ -43,10 +44,13 @@ export function Header() {
 	const logoClicksRef = useRef<{ count: number; last: number }>({ count: 0, last: 0 });
 	const pathname = usePathname();
 	const { language } = useLanguage();
+	// The proxy rewrites `/th/projects` to `/projects`; strip the prefix either way.
+	const currentPath = stripLocalePath(pathname).path;
+	const withLocale = (href: string) => localePath(href, language);
 
 	const isActive = (href: string) => {
-		if (href === "/") return pathname === "/";
-		return pathname.startsWith(href);
+		if (href === "/") return currentPath === "/";
+		return currentPath.startsWith(href);
 	};
 
 	useEffect(() => {
@@ -124,7 +128,7 @@ export function Header() {
 			>
 				<div className="flex h-14 items-center justify-between gap-2 px-2 sm:px-3">
 					<Link
-						href="/"
+						href={withLocale("/")}
 						className="flex shrink-0 items-center rounded-full px-2 py-1.5 transition-colors hover:bg-secondary/70 sm:px-3"
 						onClick={() => {
 							const now = Date.now();
@@ -152,7 +156,7 @@ export function Header() {
 						{navItems.map((item) => (
 							<Link
 								key={item.href}
-								href={item.href}
+								href={withLocale(item.href)}
 								aria-current={isActive(item.href) ? "page" : undefined}
 								className={cn(
 									"hud-label rounded-full px-3.5 py-2 transition-colors duration-200",
@@ -188,7 +192,7 @@ export function Header() {
 								<LanguageToggle />
 							</div>
 							<Link
-								href="/#connect"
+								href={withLocale("/#connect")}
 								className="ml-1 hidden h-9 items-center justify-center gap-2 rounded-full bg-invert-bg px-4 font-display text-[13px] font-semibold text-invert-fg transition-transform hover:-translate-y-0.5 sm:inline-flex"
 							>
 								{ctaLabel}
@@ -246,7 +250,7 @@ export function Header() {
 							{navItems.map((item, index) => (
 								<Link
 									key={item.href}
-									href={item.href}
+									href={withLocale(item.href)}
 									onClick={() => setIsMobileMenuOpen(false)}
 									ref={index === 0 ? firstMenuLinkRef : undefined}
 									data-menu-inside="true"
@@ -276,7 +280,7 @@ export function Header() {
 									</a>
 								))}
 								<Link
-									href="/#connect"
+									href={withLocale("/#connect")}
 									onClick={() => setIsMobileMenuOpen(false)}
 									className="ml-auto inline-flex h-10 items-center rounded-full bg-invert-bg px-5 font-display text-[13px] font-semibold text-invert-fg"
 								>

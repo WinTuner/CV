@@ -1,13 +1,19 @@
 import { MuanjaiContent } from "@/components/public/case-study/muanjai-content";
 import type { Metadata } from "next";
+import { withLocaleAlternates } from "@/lib/seo";
+
 import { SITE_URL } from "@/lib/site";
 import { absoluteImg } from "@/lib/images";
 import { toSafeJsonLd } from "@/lib/security";
 
+export async function generateMetadata(): Promise<Metadata> {
+	return withLocaleAlternates(pageMetadata, "/case-study/muanjai");
+}
+
 const baseUrl = SITE_URL;
 const pageUrl = `${baseUrl}/case-study/muanjai`;
 
-export const metadata: Metadata = {
+const pageMetadata: Metadata = {
 	title: "Muanjai Case Study — Thai RAG, PromptPay & Webhook Hardening",
 	description:
 		"Deep dive into Muanjai: an AI compliance helper bot with Thai RAG on Pathumma LLM + ThaiSC, real-time PromptPay verification, and a hardened LINE webhook pipeline guarded by 240+ tests.",

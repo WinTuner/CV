@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useInView } from "@/lib/use-in-view";
 import type { BlogLanguage, BlogPost } from "@/lib/blog-data";
+import { localePath } from "@/constants/languages";
 
 interface BlogListProps {
 	posts: Array<
@@ -72,7 +73,7 @@ export function BlogList({ posts, language }: BlogListProps) {
 						</a>
 					) : (
 						<Link
-							href={`/blog/${post.slug}?lang=${language}`}
+							href={localePath(`/blog/${post.slug}`, language)}
 							className="absolute inset-0 z-10"
 						>
 							<span className="sr-only">

@@ -9,6 +9,7 @@ import { Mail, Rss, Search, Tag, TrendingUp, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/components/language-provider";
+import { localePath } from "@/constants/languages";
 import type { BlogPost } from "@/lib/blog-data";
 
 interface BlogSidebarProps {
@@ -160,7 +161,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 		}
 		// Reset tag when category changes to avoid empty intersection results
 		params.delete("tag");
-		router.push(`/blog?${params.toString()}`, { scroll: false });
+		router.push(`${localePath("/blog", language)}?${params.toString()}`, { scroll: false });
 	};
 
 	const handleTagClick = (tag: string) => {
@@ -170,7 +171,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 		} else {
 			params.set("tag", tag);
 		}
-		router.push(`/blog?${params.toString()}`, { scroll: false });
+		router.push(`${localePath("/blog", language)}?${params.toString()}`, { scroll: false });
 	};
 
 	const handleSearchSubmit = (e: React.SyntheticEvent) => {
@@ -181,14 +182,14 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 		} else {
 			params.delete("q");
 		}
-		router.push(`/blog?${params.toString()}`, { scroll: false });
+		router.push(`${localePath("/blog", language)}?${params.toString()}`, { scroll: false });
 	};
 
 	const clearSearch = () => {
 		setSearchValue("");
 		const params = new URLSearchParams(searchParams.toString());
 		params.delete("q");
-		router.push(`/blog?${params.toString()}`, { scroll: false });
+		router.push(`${localePath("/blog", language)}?${params.toString()}`, { scroll: false });
 	};
 
 	const handleSubscribe = async (e: React.SyntheticEvent) => {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, MapPin, Mail } from "lucide-react";
 import { useLanguage } from "./language-provider";
 import { heroCopy } from "@/lib/hero-utils";
+import { localePath } from "@/constants/languages";
 import { HeroTypewriter } from "./hero/hero-typewriter";
 import { HeroPortrait } from "./hero/hero-portrait";
 import { CopyEmailButton } from "./copy-email-button";
@@ -52,7 +53,7 @@ export function HeroSection() {
 								{t.kicker}
 							</p>
 							<h1 className="font-display text-[2.6rem] font-bold leading-[1.08] tracking-[-0.03em] sm:text-6xl lg:text-7xl text-ink-strong">
-								Forging digital
+								{t.headlineLead}
 								<br />
 								<span className="serif-accent">
 									<HeroTypewriter />
@@ -73,7 +74,7 @@ export function HeroSection() {
 								<ArrowRight className="arrow-spring h-4 w-4" />
 							</a>
 							<Link
-								href="/introduction"
+								href={localePath("/introduction", language)}
 								className="btn-hud-outline group w-full sm:w-auto"
 							>
 								{t.resume}

@@ -17,6 +17,7 @@ import { LinkedinIcon } from "../../social-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import type { BlogPost, BlogLanguage } from "@/lib/blog-data";
+import { localePath } from "@/constants/languages";
 
 const XIcon = ({ className }: { className?: string }) => (
 	<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
@@ -207,7 +208,7 @@ export function BlogPostContent({
 				<div className="mx-auto max-w-4xl relative z-10">
 					{/* Back Link */}
 					<Link
-						href={`/blog?lang=${language}`}
+						href={localePath("/blog", language)}
 						className={cn(
 							"inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8 group opacity-0",
 							isVisible && "animate-fade-in-up",
@@ -549,7 +550,7 @@ export function BlogPostContent({
 							{relatedPosts.map((relatedPost, index) => (
 								<Link
 									key={relatedPost.id}
-									href={`/blog/${relatedPost.slug}?lang=${language}`}
+									href={localePath(`/blog/${relatedPost.slug}`, language)}
 									className={cn(
 										"group relative overflow-hidden rounded-xl border border-border bg-card/40 glass p-5 transition-all duration-300 hover:border-primary/40 hover:bg-card/60 hover-lift opacity-0",
 										isVisible && "animate-fade-in-up",

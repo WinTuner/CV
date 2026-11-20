@@ -18,7 +18,7 @@ test.describe("blog", () => {
 	test("post page renders content and JSON-LD", async ({ page }) => {
 		await page.goto("/blog");
 
-		const firstPost = page.locator('a[href^="/blog/"]').first();
+		const firstPost = page.locator('a[href*="/blog/"]').first();
 		await expect(firstPost).toBeVisible();
 		await firstPost.click();
 
