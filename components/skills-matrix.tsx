@@ -131,35 +131,6 @@ const skills = {
 	],
 } as const;
 
-/* Pastel accents, cycling through the five palette colors (theme-aware). */
-const ACCENTS = [
-	{
-		borderTop: "border-t-2 border-chart-1/70",
-		hoverBg: "hover:bg-chart-1/5",
-		titleText: "text-chart-1",
-	},
-	{
-		borderTop: "border-t-2 border-chart-2/70",
-		hoverBg: "hover:bg-chart-2/5",
-		titleText: "text-chart-2",
-	},
-	{
-		borderTop: "border-t-2 border-chart-3/70",
-		hoverBg: "hover:bg-chart-3/5",
-		titleText: "text-chart-3",
-	},
-	{
-		borderTop: "border-t-2 border-chart-4/70",
-		hoverBg: "hover:bg-chart-4/5",
-		titleText: "text-chart-4",
-	},
-	{
-		borderTop: "border-t-2 border-chart-5/70",
-		hoverBg: "hover:bg-chart-5/5",
-		titleText: "text-chart-5",
-	},
-] as const;
-
 export function SkillsMatrix() {
 	const { language } = useLanguage();
 	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
@@ -224,24 +195,16 @@ export function SkillsMatrix() {
 
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 					{skills[language].map((skill, index) => {
-						const accent = ACCENTS[index % ACCENTS.length];
 						return (
 							<div
 								key={skill.category}
 								className={cn(
-									"group rounded-[1.5rem] border border-border/70 bg-card p-7 shadow-[var(--shadow-card)] transition-[transform,border-color] duration-300 hover:-translate-y-1 opacity-0",
-									accent.borderTop, // pastel top hairline
-									accent.hoverBg,
+									"group rounded-[1.5rem] border border-border/70 bg-card p-7 shadow-[var(--shadow-card)] transition-colors duration-300 hover:border-primary/40 opacity-0",
 									isInView && "animate-fade-in-up",
 								)}
 								style={{ animationDelay: `${index * 100 + 200}ms` }}
 							>
-								<h3
-									className={cn(
-										"font-serif text-xl font-medium mb-4 transition-colors duration-300",
-										accent.titleText, // colored category title
-									)}
-								>
+								<h3 className="font-serif text-xl font-medium mb-4">
 									{skill.category}
 								</h3>
 								<p className="text-sm leading-relaxed text-muted-foreground">

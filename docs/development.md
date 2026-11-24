@@ -39,7 +39,7 @@ npx tsc --noEmit && npm run lint && npm test
   `border-border`, `text-primary`…). Custom colors are CSS variables in
   `app/globals.css`, exposed through `@theme inline`.
 - **Animation classes**: reuse the named utilities in `globals.css`
-  (`animate-fade-in-up`, `hover-lift`, …) instead of inventing new keyframes.
+  (`animate-fade-in-up`, `stagger-1`…) instead of inventing new keyframes.
 
 ## Editing Content
 

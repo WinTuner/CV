@@ -11,7 +11,6 @@ import { AnimatedBackground } from "@/components/animated-background";
 import { ChristmasLayer } from "@/components/christmas-layer";
 import { RouteProgress } from "@/components/route-progress";
 import { SmoothScroll } from "@/components/smooth-scroll";
-import { SpotlightTracker } from "@/components/spotlight-tracker";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { BackToTop } from "@/components/back-to-top";
 import { EasterEgg } from "@/components/easter-egg";
@@ -213,7 +212,6 @@ export default async function RootLayout({
 				>
 					<LanguageProvider initialLanguage={initialLanguage}>
 						<SmoothScroll />
-						<SpotlightTracker />
 						<Suspense fallback={null}>
 							<RouteProgress />
 						</Suspense>

@@ -156,7 +156,7 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 						<article
 							key={project.id}
 							className={cn(
-								"group spotlight-card relative flex flex-col border border-border/70 bg-card p-6 sm:p-7 transition-all duration-300 opacity-0 hover:border-primary/50 hover:shadow-[0_18px_40px_-24px_oklch(0.3_0.08_195/0.5)]",
+								"group relative flex flex-col rounded-[1.4rem] border border-border/70 bg-card p-6 sm:p-7 transition-colors duration-300 opacity-0 hover:border-primary/50",
 								isInView && "animate-fade-in-up",
 								project.highlight
 									? "sm:col-span-2 lg:col-span-2 border-primary/40"
@@ -185,25 +185,18 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 								)}
 								<span
 									className={cn(
-										"inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] uppercase tracking-widest",
+										"font-mono text-[10px] uppercase tracking-widest",
 										project.status === "in-progress"
-											? "border-primary/40 bg-primary/10 text-primary"
-											: "border-border/70 text-muted-foreground",
+											? "text-muted-foreground/70"
+											: "text-primary",
 									)}
 								>
-									<span
-										aria-hidden="true"
-										className={cn(
-											"h-1.5 w-1.5 rounded-full",
-											project.status === "in-progress" ? "bg-primary" : "bg-muted-foreground/60",
-										)}
-									/>
 									{t.status[project.status]}
 								</span>
 							</div>
 						</div>
 
-							<h3 className="mb-3 font-serif text-xl sm:text-2xl font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
+							<h3 className="mb-3 font-serif text-xl sm:text-2xl font-medium tracking-tight text-foreground">
 								{project.title}
 							</h3>
 

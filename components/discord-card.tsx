@@ -158,19 +158,11 @@ export function DiscordCard() {
 
 	return (
 		<aside className="hud-card group animate-fade-in-up stagger-3 relative w-full max-w-md overflow-hidden p-0 text-left">
-			{/* Banner: layered brand glow instead of a Discord banner image */}
-			<div className="relative h-20 w-full overflow-hidden bg-secondary/60">
+			{/* Banner: a plain neutral surface, no colour glow */}
+			<div className="relative h-20 w-full overflow-hidden border-b border-border/50 bg-secondary/60">
 				<div
 					aria-hidden="true"
-					className="absolute -left-10 -top-16 h-40 w-40 rounded-full bg-primary/35 blur-2xl"
-				/>
-				<div
-					aria-hidden="true"
-					className="absolute -right-8 -top-10 h-36 w-36 rounded-full bg-accent/35 blur-2xl"
-				/>
-				<div
-					aria-hidden="true"
-					className="absolute inset-0 opacity-40 [background-image:radial-gradient(circle,color-mix(in_srgb,var(--foreground)_18%,transparent)_1px,transparent_1.4px)] [background-size:14px_14px]"
+					className="absolute inset-0 opacity-30 [background-image:radial-gradient(circle,color-mix(in_srgb,var(--foreground)_18%,transparent)_1px,transparent_1.4px)] [background-size:14px_14px]"
 				/>
 			</div>
 

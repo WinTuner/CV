@@ -54,7 +54,7 @@ export function HeroTypewriter() {
 			<span aria-hidden="true" className="invisible break-words font-serif">
 				{longestRole || " "}
 			</span>
-			<span className="font-serif absolute inset-0 overflow-hidden break-words bg-gradient-to-r from-primary via-accent to-chart-3 bg-clip-text text-transparent">
+			<span className="font-serif absolute inset-0 overflow-hidden break-words text-primary">
 				{displayText || " "}
 				<span className="typing-caret" aria-hidden="true" />
 			</span>

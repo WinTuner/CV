@@ -97,15 +97,6 @@ const STATS = {
 	],
 } as const;
 
-/* Pastel accents, cycling through the five palette colors (theme-aware). */
-const ACCENTS = [
-	{ dot: "bg-chart-1", value: "group-hover:text-chart-1", hoverBg: "hover:bg-chart-1/5" },
-	{ dot: "bg-chart-2", value: "group-hover:text-chart-2", hoverBg: "hover:bg-chart-2/5" },
-	{ dot: "bg-chart-3", value: "group-hover:text-chart-3", hoverBg: "hover:bg-chart-3/5" },
-	{ dot: "bg-chart-4", value: "group-hover:text-chart-4", hoverBg: "hover:bg-chart-4/5" },
-	{ dot: "bg-chart-5", value: "group-hover:text-chart-5", hoverBg: "hover:bg-chart-5/5" },
-] as const;
-
 /* ArtCraft-style ticker: mono stack labels with ▪ separators, duplicated for loop. */
 const MARQUEE_ITEMS = [
 	"Next.js",
@@ -141,30 +132,20 @@ export function HighlightsStrip() {
 				<div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
 					{items.map((stat, index) => {
 						const isExternal = stat.href.startsWith("http");
-						const accent = ACCENTS[index % ACCENTS.length];
 						const className = cn(
-							"group flex flex-col gap-2 rounded-[1.4rem] border border-border/70 bg-card px-6 py-8 sm:py-9 shadow-[var(--shadow-card)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:border-primary/40 opacity-0",
-							accent.hoverBg,
+							"group flex flex-col gap-2 rounded-[1.4rem] border border-border/70 bg-card px-6 py-8 sm:py-9 shadow-[var(--shadow-card)] transition-colors duration-300 hover:border-primary/40 opacity-0",
 							isInView && "animate-fade-in-up",
 						);
 						const inner = (
 							<>
 								<span className="flex items-baseline gap-2.5">
 									<span
-											aria-hidden="true"
-											className={cn(
-												"inline-block h-2 w-2 shrink-0 translate-y-[-2px] rounded-full",
-												accent.dot,
-											)}
-										/>
-									<span
-											className={cn(
-												"font-display text-2xl sm:text-[1.65rem] font-bold leading-tight tracking-tight text-foreground transition-colors duration-300",
-												accent.value,
-											)}
-										>
-											{stat.value}
-										</span>
+										aria-hidden="true"
+										className="inline-block h-2 w-2 shrink-0 translate-y-[-2px] rounded-full bg-primary"
+									/>
+									<span className="font-display text-2xl sm:text-[1.65rem] font-bold leading-tight tracking-tight text-foreground">
+										{stat.value}
+									</span>
 								</span>
 								<span className="text-[13px] leading-relaxed text-muted-foreground">
 									{stat.label}

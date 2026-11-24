@@ -45,7 +45,6 @@
     0 18px 36px -18px rgba(75, 42, 135, 0.28);
   --shadow-card-hover: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 8px 0 #ded1f2,
     0 26px 44px -20px rgba(75, 42, 135, 0.34);
-  --gradient-text: linear-gradient(100deg, #0b7d59 0%, #6d4aff 52%, #d9438f 100%);
   --sidebar: #f7f3ff;
   --sidebar-foreground: #221537;
   --sidebar-primary: #0b7d59;
@@ -91,7 +90,6 @@
     0 22px 40px -16px rgba(0, 0, 0, 0.6);
   --shadow-card-hover: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 9px 0 #06030e,
     0 30px 52px -18px rgba(0, 0, 0, 0.65);
-  --gradient-text: linear-gradient(100deg, #7ef0c4 0%, #b9a4ff 52%, #ff9ecb 100%);
   --sidebar: #0c0816;
   --sidebar-foreground: #f3edff;
   --sidebar-primary: #7ef0c4;
@@ -374,28 +372,6 @@ section[id] {
   animation: page-in 0.22s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-/* ─── Spotlight hover glow for cards (mouse-only; lab never hovers) ─── */
-.spotlight-card {
-  position: relative;
-}
-.spotlight-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    220px circle at var(--mx, 50%) var(--my, 50%),
-    color-mix(in srgb, var(--primary) 16%, transparent),
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
-}
-.spotlight-card:hover::before {
-  opacity: 1;
-}
-
 /* ─── Lenis smooth-scroll base styles (required) ─── */
 html.lenis,
 html.lenis body {
@@ -422,9 +398,6 @@ html.lenis body {
   .animate-route-progress,
   .animate-page-in {
     animation: none;
-  }
-  .spotlight-card::before {
-    display: none;
   }
   .animate-fade-in-up {
     animation-duration: 0.01ms;
@@ -472,68 +445,30 @@ html.no-js main .opacity-0 {
   box-shadow: 0 2px 0 color-mix(in srgb, var(--invert-bg) 55%, #000);
 }
 
-/* Arrow micro-interaction for CTA buttons: continuous 360° spin on group
-   hover, tuned to a calm, steady pace. */
-@keyframes arrow-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.arrow-spring {
-  will-change: transform;
+/* Arrow/icon hovers are a small nudge, not a loop or a bounce. */
+.arrow-spring,
+.icon-spring {
+  transition: transform 0.2s ease-out;
 }
 
 .group:hover .arrow-spring {
-  animation: arrow-spin 1.4s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .group:hover .arrow-spring {
-    animation: none;
-  }
-}
-
-/* Icon micro-interaction for social/contact links: springs up with a slight
-   scale bump on group hover, using the same bouncy curve as .arrow-spring. */
-.icon-spring {
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  will-change: transform;
+  transform: translateX(3px);
 }
 
 .group:hover .icon-spring {
-  transform: translateY(-2px) scale(1.15);
-}
-
-/* Interactive hover card effect */
-.hover-lift {
-  transition:
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
 }
 
 /* ─── Playroom kit: rounded labels, chunky CTAs, sticker cards ─── */
-/* Gradient display accent — mint → lavender → pink. */
+/* Solid display ink: the accent lives in one place, not in a gradient. */
 .text-gradient {
-  background-image: var(--gradient-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--ink-strong);
 }
 .hud-label {
   font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
   font-size: 11.5px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.01em;
   white-space: nowrap;
 }
 
@@ -546,10 +481,7 @@ html.no-js main .opacity-0 {
   font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
   font-weight: 700;
   font-style: normal;
-  background-image: var(--gradient-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--primary);
 }
 
 .invert-block {
@@ -649,26 +581,12 @@ html.no-js main .opacity-0 {
   }
 }
 
-/* Giant watermark display. Text comes from `data-text` so this purely
-   decorative, low-contrast word is not exposed as readable text. */
-.watermark-display::before {
-  content: attr(data-text);
-}
-
-.watermark-display {
-  font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-}
-
 /* Numbered section kicker. */
 .section-kicker {
   font-family: var(--font-mitr), "Mitr", "Noto Sans Thai", system-ui, sans-serif;
   font-size: 11.5px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.01em;
   color: var(--muted-foreground);
 }
 
@@ -744,9 +662,8 @@ html.no-js main .opacity-0 {
 }
 
 /* ─── Animated aurora wallpaper ─── */
-/* Fixed, behind-content layer of slow-drifting pastel orbs + faint grain.
-   Animates transform/opacity only so the compositor handles it cheaply.
-   Uses theme color tokens, so it follows light/dark mode automatically. */
+/* Fixed, behind-content layer: a faint dot grid and grain over the neutral
+   background. No drifting colour orbs, so content leads the eye. */
 .bg-aurora {
   position: fixed;
   inset: 0;
@@ -766,7 +683,7 @@ html.no-js main .opacity-0 {
     transparent 1.4px
   );
   background-size: 22px 22px;
-  opacity: 0.55;
+  opacity: 0.32;
   -webkit-mask-image: radial-gradient(130% 85% at 50% 0%, black 10%, transparent 78%);
   mask-image: radial-gradient(130% 85% at 50% 0%, black 10%, transparent 78%);
 }
@@ -778,78 +695,6 @@ html.no-js main .opacity-0 {
   inset: -60%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
   opacity: 0.035;
-}
-
-.aurora-orb {
-  position: absolute;
-  border-radius: 9999px;
-  will-change: transform, opacity;
-}
-
-.aurora-orb-1 {
-  top: -12%;
-  left: -10%;
-  width: 46rem;
-  height: 46rem;
-  background: radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--primary) 22%, transparent), transparent 68%);
-  animation: aurora-drift-1 26s ease-in-out infinite alternate;
-}
-
-.aurora-orb-2 {
-  top: 22%;
-  right: -14%;
-  width: 40rem;
-  height: 40rem;
-  background: radial-gradient(circle at 60% 40%, color-mix(in srgb, var(--chart-2) 20%, transparent), transparent 68%);
-  animation: aurora-drift-2 32s ease-in-out infinite alternate;
-}
-
-.aurora-orb-3 {
-  bottom: -16%;
-  left: 24%;
-  width: 38rem;
-  height: 38rem;
-  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--chart-3) 18%, transparent), transparent 68%);
-  animation: aurora-drift-3 40s ease-in-out infinite alternate;
-}
-
-@keyframes aurora-drift-1 {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.7;
-  }
-  to {
-    transform: translate3d(5vw, 6vh, 0) scale(1.1);
-    opacity: 1;
-  }
-}
-
-@keyframes aurora-drift-2 {
-  from {
-    transform: translate3d(0, 0, 0) scale(1.05);
-    opacity: 0.8;
-  }
-  to {
-    transform: translate3d(-6vw, 4vh, 0) scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes aurora-drift-3 {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.75;
-  }
-  to {
-    transform: translate3d(4vw, -5vh, 0) scale(1.12);
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .aurora-orb {
-    animation: none !important;
-  }
 }
 
 /* ─── Christmas decoration (Nov 1 – Jan 6, client-side) ─── */
@@ -955,9 +800,10 @@ html[data-christmas] .christmas-only {
 }
 
 /* ─── Site-wide playroom normalization ─── */
-/* Kickers: slightly tighter and bolder than the editorial 0.3em spacing. */
+/* Kickers: sentence case, slightly bolder than body copy. */
 .tracking-\[0\.3em\] {
-  letter-spacing: 0.14em;
+  text-transform: none;
+  letter-spacing: 0.02em;
   font-size: 11px;
   font-weight: 600;
 }
@@ -969,14 +815,6 @@ main :where(.bg-card, [class*="bg-card/"]) {
 /* Depth goes on surfaces that are actually card-shaped (bordered). */
 main :where(.bg-card).border {
   box-shadow: var(--shadow-card);
-}
-/* Page/section headings wear the display gradient; card titles stay solid. */
-main h1.font-serif,
-main h2.font-serif {
-  background-image: var(--gradient-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 /* Print styles for Resume layout */

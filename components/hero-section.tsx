@@ -19,28 +19,6 @@ export function HeroSection() {
 		<section id="hero" className="relative">
 			<div className="relative flex min-h-[calc(100svh-3rem)] flex-col">
 				<div className="relative z-0 mx-auto flex w-full max-w-[1280px] flex-1 flex-col items-center justify-center px-4 sm:px-6 pt-24 pb-16 sm:pt-28 sm:pb-20">
-					{/* Giant watermark backdrop (ArtCraft-style), masked + blurred */}
-					<div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-start justify-center overflow-hidden pt-10">
-						<div className="relative w-full max-w-5xl" style={{ containerType: "inline-size" }}>
-							<div
-								aria-hidden="true"
-								className="absolute -inset-x-[6%] -inset-y-[34%]"
-								style={{
-									backdropFilter: "blur(12px)",
-									WebkitBackdropFilter: "blur(12px)",
-									maskImage: "radial-gradient(closest-side, black 45%, transparent 100%)",
-									WebkitMaskImage: "radial-gradient(closest-side, black 45%, transparent 100%)",
-								}}
-							/>
-							{/* Decorative watermark: rendered through `::before` so its
-							    intentionally faint, aria-hidden text is not read by axe. */}
-							<p
-								aria-hidden="true"
-								data-text="WINTUNER"
-								className="watermark-display relative text-center text-foreground/[0.07] dark:text-foreground/[0.09] select-none whitespace-nowrap text-[13.5cqw]"
-							/>
-						</div>
-					</div>
 					<div className="relative z-10 grid gap-14 lg:grid-cols-12 lg:gap-12 lg:items-center w-full">
 					{/* Left column — display text */}
 					<div className="lg:col-span-7 space-y-7 sm:space-y-8 text-center lg:text-left flex flex-col items-center lg:items-start">

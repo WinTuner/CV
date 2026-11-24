@@ -122,8 +122,8 @@ export function Header() {
 					"mx-auto max-w-[1280px] border border-border/70 bg-card/85 backdrop-blur-lg transition-[border-radius,box-shadow] duration-300 ease-out",
 					isMobileMenuOpen ? "rounded-[1.6rem]" : "rounded-full",
 					isScrolled
-						? "shadow-[0_4px_0_rgba(0,0,0,0.35),0_18px_40px_-20px_rgba(0,0,0,0.65)]"
-						: "shadow-[0_4px_0_rgba(0,0,0,0.22)]",
+						? "shadow-[0_10px_30px_-18px_rgba(0,0,0,0.7)]"
+						: "shadow-[0_8px_24px_-20px_rgba(0,0,0,0.6)]",
 				)}
 			>
 				<div className="flex h-14 items-center justify-between gap-2 px-2 sm:px-3">
