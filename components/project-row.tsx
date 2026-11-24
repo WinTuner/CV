@@ -6,7 +6,8 @@ import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/lib/github";
 
 export type ProjectRowLabels = {
-	status: string;
+	/** `null` hides the status — home shows it only when it is news (shipped/archived). */
+	status: string | null;
 	fork: string;
 	source: string;
 	live: string;
@@ -18,9 +19,7 @@ export function ProjectRow({ project, labels }: { project: Project; labels: Proj
 		<article className="group -mx-3 border-t border-border/70 px-3 py-6 transition-colors duration-200 hover:bg-warm/70 sm:py-7">
 			<div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[11px] text-muted-foreground">
 				<span>{project.year}</span>
-				<span className={project.status === "in-progress" ? undefined : "text-primary"}>
-					{labels.status}
-				</span>
+				{labels.status && <span className="text-primary">{labels.status}</span>}
 				{project.fork && (
 					<span className="inline-flex items-center gap-1">
 						<GitFork className="h-3 w-3" />
@@ -29,8 +28,15 @@ export function ProjectRow({ project, labels }: { project: Project; labels: Proj
 				)}
 			</div>
 
-			<h3 className="mt-2 font-serif text-xl font-medium tracking-tight transition-colors duration-200 group-hover:text-primary">
-				{project.title}
+			<h3 className="mt-2 font-serif text-xl font-medium tracking-tight">
+				<a
+					href={project.homepage || project.url}
+					target="_blank"
+					rel="noopener noreferrer"
+					className="transition-colors duration-200 group-hover:text-primary"
+				>
+					{project.title}
+				</a>
 			</h3>
 
 			<p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">

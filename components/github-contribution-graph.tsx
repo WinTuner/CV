@@ -104,7 +104,7 @@ export function GithubContributionGraph({
 	}, [contributions]);
 
 	return (
-		<section className="px-4 sm:px-6 py-20 sm:py-28 content-visibility-auto">
+		<section className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/60 content-visibility-auto">
 			<div ref={sectionRef} className="mx-auto max-w-7xl">
 				<div className={cn("mb-12 sm:mb-16 space-y-4 opacity-0", isInView && "animate-fade-in-up")}>
 					<p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">

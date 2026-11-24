@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { cn } from "@/lib/utils"
-import { Search, Filter, X } from "lucide-react"
+import { Search, Filter, X, ChevronDown } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/components/language-provider"
 import { useLiveGithubRepos } from "@/lib/use-live-github-repos"
@@ -13,8 +13,9 @@ import type { Project } from "@/lib/github"
 const filters = ["all", "shipped", "in-progress", "archived"]
 
 const sortOptions = ["recent", "stars", "forks", "name", "year"] as const
-
 export type SortKey = (typeof sortOptions)[number]
+
+const TAG_FILTER_LABEL = { en: "filters", th: "ตัวกรอง", ja: "フィルター", zh: "筛选" } as const
 
 function sortProjects(projects: Project[], sortBy: SortKey): Project[] {
   const sorted = [...projects]
@@ -184,6 +185,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [sortBy, setSortBy] = useState<SortKey>("recent")
+  const [tagsOpen, setTagsOpen] = useState(false)
   const { repos: projects, updatedAt, isLive } = useLiveGithubRepos(initialProjects)
 
   const allTags = [...new Set(projects.flatMap((p) => p.tags))]
@@ -250,9 +252,25 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
             ))}
           </div>
 
-          {/* Tag Filters — one scrollable row on phones, wrapped on desktop */}
-          <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide scroll-fade-x sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
-            <Filter className="h-4 w-4 shrink-0 text-muted-foreground mr-2 self-center" />
+          {/* Tag Filters — always visible on desktop, behind a toggle on phones */}
+          <div>
+            <button
+              type="button"
+              onClick={() => setTagsOpen((open) => !open)}
+              aria-expanded={tagsOpen}
+              className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border/60 px-3 font-mono text-xs text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground sm:hidden"
+            >
+              <Filter className="h-4 w-4" />
+              {TAG_FILTER_LABEL[language]}
+              <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-200", tagsOpen && "rotate-180")} />
+            </button>
+            <div
+              className={cn(
+                "gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide scroll-fade-x sm:mx-0 sm:flex sm:flex-wrap sm:overflow-visible sm:px-0 sm:pt-0",
+                tagsOpen ? "flex pt-2" : "hidden sm:flex",
+              )}
+            >
+              <Filter className="h-4 w-4 shrink-0 text-muted-foreground mr-2 self-center" />
             {allTags.slice(0, 10).map((tag) => (
               <button
                 key={tag}
@@ -267,6 +285,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
                 {tag}
               </button>
             ))}
+            </div>
           </div>
         </div>
 

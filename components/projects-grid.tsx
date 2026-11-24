@@ -65,7 +65,11 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 	} as const;
 
 	const t = copy[language];
-	const visibleProjects = projects.slice(0, HOME_PROJECT_COUNT);
+	// Featured work leads; the rest keeps its recency order. Sort is stable, so
+	// nothing else moves. (GitHub's own order puts plain forks up front.)
+	const visibleProjects = [...projects]
+		.sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)))
+		.slice(0, HOME_PROJECT_COUNT);
 
 	return (
 		<section
@@ -99,7 +103,7 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 							key={project.id}
 							project={project}
 							labels={{
-								status: t.status[project.status],
+								status: project.status === "in-progress" ? null : t.status[project.status],
 								fork: t.fork,
 								source: t.source,
 								live: t.live,

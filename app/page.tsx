@@ -86,7 +86,7 @@ function GithubContributionsSkeleton() {
 	return (
 		<section
 			aria-hidden="true"
-			className="px-4 sm:px-6 py-20 sm:py-28 content-visibility-auto"
+			className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/60 content-visibility-auto"
 		>
 			<div className="mx-auto max-w-7xl">
 				<div className="mb-12 sm:mb-16 space-y-4 animate-pulse">
@@ -168,11 +168,11 @@ export default async function Home() {
 					<HighlightsStrip />
 					<SkillsMatrix />
 					<ExperienceTimeline />
-					<Suspense fallback={<GithubContributionsSkeleton />}>
-						<GithubContributionsSection />
-					</Suspense>
 					<Suspense fallback={<ProjectsSkeleton />}>
 						<ProjectsSection />
+					</Suspense>
+					<Suspense fallback={<GithubContributionsSkeleton />}>
+						<GithubContributionsSection />
 					</Suspense>
 					<Suspense fallback={<WorkbenchSkeleton />}>
 						<WorkbenchSection />
