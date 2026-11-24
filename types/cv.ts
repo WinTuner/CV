@@ -74,6 +74,7 @@ export interface CVCopy {
   intro: string
   sectionProf: string
   sectionSelf: string
+  headingSelf: string
   sectionAwards: string
   sectionLead: string
   sectionEd: string
