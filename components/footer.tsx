@@ -119,10 +119,10 @@ export function Footer() {
 
 						<a
 							href={CONTACT_MAILTO}
-							className="btn-cyan-shadow group inline-flex w-full items-center justify-center gap-2.5 px-8 py-4 text-sm font-medium text-primary-foreground sm:w-auto"
+							className="group inline-flex w-full items-center justify-center gap-2.5 border border-primary/40 px-6 py-3 font-mono text-xs text-primary transition-colors duration-200 hover:bg-primary/10 sm:w-auto"
 						>
 							{t.sendSignal}
-							<ArrowRight className="arrow-spring h-4 w-4" />
+							<ArrowRight className="arrow-spring h-3.5 w-3.5" />
 						</a>
 					</div>
 

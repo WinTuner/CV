@@ -87,10 +87,10 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
       <section className="px-4 sm:px-6 py-16 sm:py-20 border-t border-border/30">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-12 lg:grid-cols-[1fr_320px]">
-            <div className="order-2 lg:order-1">
+            <div>
               <BlogList posts={filteredPosts} language={language} />
             </div>
-            <div className="order-1 lg:order-2">
+            <div>
               <BlogSidebar posts={allPosts} />
             </div>
           </div>

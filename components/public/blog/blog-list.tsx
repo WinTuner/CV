@@ -1,11 +1,9 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { ArrowRight, Clock, Calendar } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import Image from "next/image";
-import { useInView } from "@/lib/use-in-view";
 import type { BlogLanguage, BlogPost } from "@/lib/blog-data";
 import { localePath } from "@/constants/languages";
 
@@ -21,10 +19,6 @@ interface BlogListProps {
 }
 
 export function BlogList({ posts, language }: BlogListProps) {
-	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
-		threshold: 0.01,
-	});
-
 	const t = {
 		en: {
 			featured: "featured",
@@ -49,16 +43,11 @@ export function BlogList({ posts, language }: BlogListProps) {
 	}[language];
 
 	return (
-		<div ref={sectionRef} className="space-y-6">
-			{posts.map((post, index) => (
+		<div>
+			{posts.map((post) => (
 				<article
 					key={post.slug}
-					className={cn(
-						"group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-card/40 glass p-6 sm:p-7 transition-all duration-400 hover:border-primary/40 hover:bg-card/60 active:scale-[0.995] hover-lift opacity-0",
-						isInView && "animate-fade-in-up",
-						post.featured && "ring-1 ring-primary/20",
-					)}
-					style={{ animationDelay: `${index * 80 + 100}ms` }}
+					className="group relative -mx-3 cursor-pointer border-t border-border/70 px-3 py-8 transition-colors duration-200 hover:bg-warm/70"
 				>
 					{post.externalUrl ? (
 						<a
@@ -82,102 +71,87 @@ export function BlogList({ posts, language }: BlogListProps) {
 						</Link>
 					)}
 
-					<div
-						className={cn(
-							"absolute inset-0 bg-gradient-to-br opacity-0 transition-opacity duration-500 group-hover:opacity-100",
-							post.color,
-						)}
-					/>
-
-					<div className="relative z-0 flex flex-col md:flex-row gap-6">
+					<div className="relative z-0 flex flex-col gap-6 md:flex-row">
 						{post.image && post.image !== "" && (
-							<div className="w-full md:w-[240px] h-[180px] md:h-[160px] shrink-0 overflow-hidden rounded-xl border border-border/50 relative">
+							<div className="relative h-[180px] w-full shrink-0 overflow-hidden rounded-md border border-border/40 md:h-[150px] md:w-[220px]">
 								<Image
 									src={post.image}
 									alt={post.title}
 									fill
-									sizes="(max-width: 768px) 100vw, 240px"
-									className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+									sizes="(max-width: 768px) 100vw, 220px"
+									className="h-full w-full object-cover"
 								/>
 							</div>
 						)}
-						<div className="flex-1 min-w-0 flex flex-col justify-between">
+						<div className="flex min-w-0 flex-1 flex-col justify-between">
 							<div>
-								<div className="mb-4 flex flex-wrap items-center gap-3">
-									<span className="rounded-lg border border-border/80 bg-secondary/60 px-3 py-1.5 font-mono text-xs text-muted-foreground transition-colors group-hover:border-primary/50 group-hover:text-foreground">
-										{post.category}
-									</span>
+								<div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] text-muted-foreground">
+									<span>{post.category}</span>
 									{post.featured && (
-										<span className="rounded-lg border border-primary/50 bg-primary/10 px-3 py-1.5 font-mono text-xs text-primary">
-											{t.featured}
-										</span>
+										<>
+											<span aria-hidden>·</span>
+											<span className="text-primary">{t.featured}</span>
+										</>
 									)}
-									<div className="ml-auto flex items-center gap-4 text-xs text-muted-foreground">
-										<span className="flex items-center gap-1.5">
-											<Calendar className="h-3.5 w-3.5" />
+									<span className="ml-auto flex items-center gap-x-3">
+										<span className="flex items-center gap-1">
+											<Calendar className="h-3 w-3" />
 											{post.date}
 										</span>
-										<span className="flex items-center gap-1.5">
-											<Clock className="h-3.5 w-3.5" />
+										<span className="flex items-center gap-1">
+											<Clock className="h-3 w-3" />
 											{post.readTime}
 										</span>
-									</div>
+									</span>
 								</div>
 
-								<h2 className="mb-3 text-xl sm:text-2xl font-semibold tracking-tight transition-colors duration-300 group-hover:text-gradient">
+								<h2 className="mb-2 font-serif text-xl font-medium tracking-tight transition-colors duration-200 group-hover:text-primary sm:text-2xl">
 									{post.title}
 								</h2>
 
-								<p className="mb-5 text-sm sm:text-base leading-relaxed text-muted-foreground line-clamp-2">
+								<p className="mb-5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
 									{post.excerpt}
 								</p>
 							</div>
 
 							<div>
 								<div className="flex items-center justify-between gap-4">
-									<div className="flex items-center gap-3">
-										<Avatar className="h-9 w-9 border border-border">
+									<div className="flex items-center gap-2.5">
+										<Avatar className="h-7 w-7">
 											<AvatarImage
 												src={post.author.avatar || "/placeholder.svg"}
 												alt={post.author.name}
 											/>
-											<AvatarFallback className="bg-secondary text-xs font-mono">
+											<AvatarFallback className="bg-secondary font-mono text-[10px]">
 												{post.author.name
 													.split(" ")
 													.map((n) => n[0])
 													.join("")}
 											</AvatarFallback>
 										</Avatar>
-										<div className="flex flex-col">
-											<span className="text-sm font-medium">
-												{post.author.name}
-											</span>
-											<span className="text-xs text-muted-foreground">
+										<span className="text-xs text-muted-foreground">
+											{post.author.name}
+											<span className="text-muted-foreground/60">
+												{" · "}
 												{post.author.role}
 											</span>
-										</div>
-									</div>
-
-									<div className="flex items-center gap-2 font-mono text-xs text-primary transition-all duration-300 sm:opacity-0 sm:translate-x-[-8px] group-hover:opacity-100 group-hover:translate-x-0">
-										<span>{t.readArticle}</span>													<ArrowRight className="arrow-spring h-3.5 w-3.5" />
-									</div>
-								</div>
-
-								<div className="mt-4 flex flex-wrap gap-2">
-									{post.tags.map((tag) => (
-										<span
-											key={tag}
-											className="rounded-md bg-secondary/40 px-2 py-1 font-mono text-[10px] text-muted-foreground transition-colors group-hover:bg-secondary/60"
-										>
-											#{tag}
 										</span>
-									))}
+									</div>
+
+									<div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground transition-colors duration-200 group-hover:text-primary">
+										<span className="sr-only">{t.readArticle}</span>
+										<ArrowRight className="arrow-spring h-3.5 w-3.5" />
+									</div>
 								</div>
+
+								{post.tags.length > 0 && (
+									<p className="mt-3 font-mono text-[11px] text-muted-foreground/80">
+										{post.tags.map((tag) => `#${tag}`).join(" · ")}
+									</p>
+								)}
 							</div>
 						</div>
 					</div>
-
-					<div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-primary to-transparent transition-all duration-500 group-hover:w-full" />
 				</article>
 			))}
 		</div>

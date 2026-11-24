@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
 import { ExternalLink, Clock, GitBranch, Activity } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { GithubIcon } from "../../social-icons";
 import { useLanguage } from "@/components/language-provider";
 import type { WipItem, ActivityItem } from "@/lib/github";
@@ -30,7 +29,6 @@ export function WorkbenchPageContent({
   recentActivity?: ActivityItem[];
 }) {
   const { language } = useLanguage();
-  const [isVisible, setIsVisible] = useState(false);
   const { activity: liveActivity, updatedAt, isLive } = useLiveGithubActivity(recentActivity);
   const { wipItems: wipItems, updatedAt: wipUpdatedAt, isLive: isWipLive } = useLiveGithubWip(initialWipItems);
 
@@ -84,15 +82,10 @@ export function WorkbenchPageContent({
     },
   }[language];
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount animation trigger
-    setIsVisible(true);
-  }, []);
-
   return (
     <section className="px-4 sm:px-6 py-12 sm:py-20">
       <div className="mx-auto max-w-7xl">
-        <div className={cn("mb-12 sm:mb-16 space-y-4 opacity-0", isVisible && "animate-fade-in-up")}>
+        <div className="mb-12 space-y-4 sm:mb-16">
           <p className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
             {t.kicker}
             <LivePill updatedAt={wipUpdatedAt} isLive={isWipLive} label={t.live} language={language} />
@@ -103,19 +96,15 @@ export function WorkbenchPageContent({
 
         <div className="grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <div className={cn("border border-border/70 bg-card opacity-0", isVisible && "animate-fade-in-up stagger-2")}>
-              <div className="divide-y divide-border/60">
-                {wipItems.map((item, index) => (
+            <div>
+              <div>
+                {wipItems.map((item) => (
                   <a
                     key={item.id}
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                      className={cn(
-                        "group flex flex-col gap-4 p-5 sm:p-6 transition-colors duration-300 sm:flex-row sm:items-center sm:justify-between opacity-0 hover:bg-secondary/30",
-                      isVisible && "animate-fade-in",
-                    )}
-                    style={{ animationDelay: `${index * 80 + 200}ms` }}
+                      className="-mx-3 flex flex-col gap-4 border-t border-border/70 px-3 py-5 transition-colors duration-200 hover:bg-warm/70 sm:flex-row sm:items-center sm:justify-between"
                   >
                     <div className="flex-1 space-y-2 min-w-0">
                       <div className="flex items-center gap-3">
@@ -143,12 +132,9 @@ export function WorkbenchPageContent({
 
                     <div className="flex items-center justify-between gap-6 sm:justify-end">
                       <div className="flex w-full items-center gap-3 sm:w-40 sm:flex-none">
-                        <div className="h-1 w-full overflow-hidden rounded-full bg-secondary">
+                        <div className="h-[3px] w-full overflow-hidden bg-border">
                           <div
-                            className={cn(
-                              "h-full rounded-full transition-all duration-700 ease-out",
-                              item.progress >= 80 ? "bg-primary" : item.progress >= 50 ? "bg-accent" : "bg-muted-foreground/60",
-                            )}
+                            className="h-full bg-primary"
                             style={{ width: `${item.progress}%` }}
                           />
                         </div>
@@ -170,27 +156,27 @@ export function WorkbenchPageContent({
             </div>
           </div>
 
-          <div className="space-y-6">
-            <div className={cn("border border-border/70 bg-card p-6 opacity-0", isVisible && "animate-fade-in-up stagger-3")}>
-              <h3 className="mb-5 font-mono text-xs uppercase tracking-wider text-primary">{t.stats}</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="border border-border/60 p-4">
+          <div className="space-y-10">
+            <div className="border-t border-border/70 pt-6">
+              <h3 className="mb-5 font-mono text-[11px] text-muted-foreground">{t.stats}</h3>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="flex flex-col gap-1">
                   <p className="font-serif text-3xl font-medium text-foreground">{wipItems.length}</p>
-                  <p className="mt-1 font-mono text-xs text-muted-foreground">{t.active}</p>
+                  <p className="font-mono text-[10px] text-muted-foreground">{t.active}</p>
                 </div>
-                <div className="border border-border/60 p-4">
+                <div className="flex flex-col gap-1">
                   <p className="font-serif text-3xl font-medium text-primary">
                     {wipItems.length > 0
                       ? `${Math.round(wipItems.reduce((a, b) => a + b.progress, 0) / wipItems.length)}%`
                       : "0%"}
                   </p>
-                  <p className="mt-1 font-mono text-xs text-muted-foreground">{t.avgProgress}</p>
+                  <p className="font-mono text-[10px] text-muted-foreground">{t.avgProgress}</p>
                 </div>
               </div>
             </div>
 
-            <div className={cn("border border-border/70 bg-card p-6 opacity-0", isVisible && "animate-fade-in-up stagger-4")}>
-              <h3 className="mb-5 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-primary">
+            <div className="border-t border-border/70 pt-6">
+              <h3 className="mb-5 flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
                 <Activity className="h-3.5 w-3.5" />
                 {t.recentActivity}
                 <span className="ml-auto">
@@ -204,10 +190,10 @@ export function WorkbenchPageContent({
                       className={cn(
                         "mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full",
                         activity.type === "commit" && "bg-primary",
-                        activity.type === "pr" && activity.prAction === "opened" && "bg-accent",
                         activity.type === "pr" && activity.prAction === "merged" && "bg-primary",
-                        activity.type === "pr" && activity.prAction === "closed" && "bg-muted-foreground",
-                        (!activity.type || (activity.type !== "commit" && activity.type !== "pr")) && "bg-muted-foreground/50",
+                        activity.type === "pr" && activity.prAction === "opened" && "bg-muted-foreground/60",
+                        activity.type === "pr" && activity.prAction === "closed" && "bg-muted-foreground/40",
+                        (!activity.type || (activity.type !== "commit" && activity.type !== "pr")) && "bg-muted-foreground/40",
                       )}
                     />
                     <div className="min-w-0 flex-1">
@@ -215,10 +201,8 @@ export function WorkbenchPageContent({
                         <div className="flex flex-wrap items-center gap-1.5 text-foreground leading-normal">
                           <span
                             className={cn(
-                              "shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider",
-                              activity.prAction === "opened" && "border-accent/30 bg-accent/10 text-accent",
-                              activity.prAction === "merged" && "border-primary/30 bg-primary/10 text-primary",
-                              activity.prAction === "closed" && "border-border text-muted-foreground",
+                              "shrink-0 font-mono text-[9px] uppercase tracking-wider",
+                              activity.prAction === "merged" ? "text-primary" : "text-muted-foreground",
                             )}
                           >
                             {activity.prAction === "opened" ? (language === "th" ? "เปิด" : language === "ja" ? "オープン" : language === "zh" ? "已打开" : "OPENED") :

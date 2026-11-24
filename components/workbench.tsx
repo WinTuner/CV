@@ -71,20 +71,15 @@ export function Workbench({ wipItems: initialWipItems = [] }: { wipItems?: WipIt
 					</p>
 				</div>
 
-				<div className={cn("border border-border/70 bg-card opacity-0", isInView && "animate-fade-in-up stagger-2")}>
-					<div className="divide-y divide-border/60">
-						{wipItems.map((item, index) => (
-							<a
-								key={item.id}
-								href={item.url}
-								target="_blank"
-								rel="noopener noreferrer"
-								className={cn(
-									"group flex flex-col gap-4 p-5 sm:p-6 transition-colors duration-300 sm:flex-row sm:items-center sm:justify-between hover:bg-secondary/30 opacity-0",
-									isInView && "animate-fade-in",
-								)}
-								style={{ animationDelay: `${index * 80 + 300}ms` }}
-							>
+				<div>
+					{wipItems.map((item) => (
+						<a
+							key={item.id}
+							href={item.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="-mx-3 flex flex-col gap-4 border-t border-border/70 px-3 py-5 transition-colors duration-200 hover:bg-warm/70 sm:flex-row sm:items-center sm:justify-between"
+						>
 								<div className="flex-1 space-y-2 min-w-0">
 									<div className="flex items-center gap-3">
 										<h3 className="font-serif text-lg font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary truncate">
@@ -102,10 +97,10 @@ export function Workbench({ wipItems: initialWipItems = [] }: { wipItems?: WipIt
 
 								<div className="flex items-center justify-between gap-6 sm:justify-end">
 									<div className="flex w-full items-center gap-3 sm:w-44 sm:flex-none">
-										<div className="h-1 w-full overflow-hidden rounded-full bg-secondary">
+										<div className="h-[3px] w-full overflow-hidden bg-border">
 											<div
-												className="h-full rounded-full bg-primary transition-all duration-1000 ease-out"
-												style={{ width: isInView ? `${item.progress}%` : "0%" }}
+												className="h-full bg-primary"
+												style={{ width: `${item.progress}%` }}
 											/>
 										</div>
 										<span className="w-10 shrink-0 font-mono text-xs text-muted-foreground">
@@ -119,7 +114,6 @@ export function Workbench({ wipItems: initialWipItems = [] }: { wipItems?: WipIt
 								</div>
 							</a>
 						))}
-					</div>
 				</div>
 			</div>
 		</section>

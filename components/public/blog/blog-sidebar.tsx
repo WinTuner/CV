@@ -3,7 +3,6 @@
 import type React from "react";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useInView } from "@/lib/use-in-view";
 import { cn } from "@/lib/utils";
 import { Mail, Rss, Search, Tag, TrendingUp, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -26,9 +25,6 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 	const { language } = useLanguage();
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const { ref: sidebarRef, isInView: isVisible } = useInView<HTMLElement>({
-		threshold: 0.1,
-	});
 
 	const [email, setEmail] = useState("");
 	const [subscribeState, setSubscribeState] = useState<
@@ -224,20 +220,17 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 	};
 
 	return (
-		<aside
-			ref={sidebarRef}
-			className="space-y-8 lg:sticky lg:top-28 lg:self-start"
-		>
+		<aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
 			{/* Search */}
-			<div className={cn("opacity-0", isVisible && "animate-fade-in-up")}>
+			<div>
 				<form onSubmit={handleSearchSubmit} className="relative">
-					<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+					<Search className="absolute left-0 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
 					<Input
 						type="search"
 						placeholder={t.search}
 						value={searchValue}
 						onChange={(e) => setSearchValue(e.target.value)}
-						className="pl-10 pr-10 bg-card/40 border-border/50 focus:border-primary/50"
+						className="h-9 rounded-none border-0 border-b border-border bg-transparent pl-6 pr-10 font-mono text-xs shadow-none focus-visible:border-primary focus-visible:ring-0 dark:bg-transparent"
 					/>
 					{searchValue && (
 						<button
@@ -253,25 +246,23 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 			</div>
 
 			{/* Categories */}
-			<div
-				className={cn("opacity-0", isVisible && "animate-fade-in-up stagger-1")}
-			>
-				<div className="flex items-center gap-2 mb-4">
-					<TrendingUp className="h-4 w-4 text-primary" />
-					<h3 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+			<div>
+				<div className="mb-3 flex items-center gap-2">
+					<TrendingUp className="h-3.5 w-3.5 text-muted-foreground" />
+					<h3 className="font-mono text-[11px] text-muted-foreground">
 						{t.categories}
 					</h3>
 				</div>
-				<div className="space-y-1">
+				<div>
 					{categories.map((category) => (
 						<button
 							key={category.slug}
 							onClick={() => handleCategoryClick(category.slug)}
 							className={cn(
-								"flex min-h-11 w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-300",
+								"flex min-h-10 w-full items-center justify-between border-b border-border/50 py-2 font-mono text-xs transition-colors duration-200",
 								activeCategory === category.slug
-									? "bg-primary/10 text-primary border border-primary/30"
-									: "text-muted-foreground hover:bg-secondary/50 hover:text-foreground border border-transparent",
+									? "text-primary"
+									: "text-muted-foreground hover:text-foreground",
 							)}
 						>
 							<span>
@@ -287,7 +278,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 													: category.name
 									: category.name}
 							</span>
-							<span className="rounded-md bg-secondary/60 px-2 py-0.5 font-mono text-xs">
+							<span className="text-[11px] text-muted-foreground/70">
 								{category.count}
 							</span>
 						</button>
@@ -296,16 +287,14 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 			</div>
 
 			{/* Popular Tags */}
-			<div
-				className={cn("opacity-0", isVisible && "animate-fade-in-up stagger-2")}
-			>
-				<div className="flex items-center gap-2 mb-4">
-					<Tag className="h-4 w-4 text-primary" />
-					<h3 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+			<div>
+				<div className="mb-3 flex items-center gap-2">
+					<Tag className="h-3.5 w-3.5 text-muted-foreground" />
+					<h3 className="font-mono text-[11px] text-muted-foreground">
 						{t.tags}
 					</h3>
 				</div>
-				<div className="flex flex-wrap gap-2">
+				<div className="flex flex-wrap gap-x-3 gap-y-1.5">
 					{popularTags.map((tag) => {
 						const isActive = activeTag.toLowerCase() === tag.toLowerCase();
 						return (
@@ -313,10 +302,10 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 								key={tag}
 								onClick={() => handleTagClick(tag)}
 								className={cn(
-									"rounded-lg border px-3 min-h-11 font-mono text-xs transition-all duration-300",
+									"font-mono text-[11px] transition-colors duration-200",
 									isActive
-										? "border-primary bg-primary/10 text-primary"
-										: "border-border/50 bg-card/40 text-muted-foreground hover:border-primary/50 hover:bg-primary/10 hover:text-primary",
+										? "text-primary"
+										: "text-muted-foreground hover:text-primary",
 								)}
 							>
 								#{tag}
@@ -327,51 +316,46 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 			</div>
 
 			{/* Newsletter */}
-			<div
-				className={cn(
-					"rounded-xl border border-border/50 bg-card/40 glass p-6 opacity-0",
-					isVisible && "animate-fade-in-up stagger-3",
-				)}
-			>
-				<div className="flex items-center gap-2 mb-3">
-					<Mail className="h-4 w-4 text-primary" />
-					<h3 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+			<div className="border-t border-border/70 pt-6">
+				<div className="mb-3 flex items-center gap-2">
+					<Mail className="h-3.5 w-3.5 text-muted-foreground" />
+					<h3 className="font-mono text-[11px] text-muted-foreground">
 						{t.newsletter}
 					</h3>
 				</div>
-				<p className="text-sm text-muted-foreground mb-4">{t.newsletterDesc}</p>
+				<p className="mb-4 text-xs leading-relaxed text-muted-foreground">{t.newsletterDesc}</p>
 				{subscribeState === "success" ? (
 					<div className="space-y-2">
-						<div role="status" aria-live="polite" className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2.5 text-xs text-emerald-400 font-mono">
+						<div role="status" aria-live="polite" className="border-l-2 border-primary/40 pl-3 text-xs text-primary">
 							{t.subscribed}
 						</div>
 						<a
 							href="/feed.xml"
-							className="inline-flex items-center gap-1.5 text-[10px] text-muted-foreground hover:text-primary transition-colors"
+							className="inline-flex items-center gap-1.5 font-mono text-[10px] text-muted-foreground transition-colors hover:text-primary"
 						>
 							<Rss className="h-3 w-3" />
 							{t.rss}
 						</a>
 					</div>
 				) : (
-					<form onSubmit={handleSubscribe} className="space-y-3">
+					<form onSubmit={handleSubscribe} className="space-y-2">
 						<Input
 							type="email"
 							placeholder={t.email}
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							disabled={subscribeState === "sending"}
-							className="bg-background/50 border-border/50 focus:border-primary/50"
+							className="h-9 rounded-none border-0 border-b border-border bg-transparent font-mono text-xs shadow-none focus-visible:border-primary focus-visible:ring-0 dark:bg-transparent"
 						/>
 						<Button
 							type="submit"
 							disabled={subscribeState === "sending"}
-							className="w-full min-h-11 font-mono text-xs uppercase tracking-wider"
+							className="w-full rounded-none font-mono text-[11px]"
 						>
 							{subscribeState === "sending" ? t.sending : t.subscribe}
 						</Button>
 						{subscribeState === "error" && (
-							<p role="alert" className="text-[10px] text-rose-400 leading-snug">
+							<p role="alert" className="text-[10px] leading-snug text-rose-400">
 								{subscribeError}
 							</p>
 						)}
@@ -380,14 +364,12 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 			</div>
 
 			{/* RSS Feed */}
-			<div
-				className={cn("opacity-0", isVisible && "animate-fade-in-up stagger-4")}
-			>
+			<div>
 				<a
 					href="/feed.xml"
-					className="flex items-center justify-center gap-2 rounded-lg border border-border/50 bg-card/40 px-4 py-3 font-mono text-xs text-muted-foreground transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:text-primary"
+					className="inline-flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground transition-colors duration-200 hover:text-primary"
 				>
-					<Rss className="h-4 w-4" />
+					<Rss className="h-3.5 w-3.5" />
 					<span>{t.rss}</span>
 				</a>
 			</div>

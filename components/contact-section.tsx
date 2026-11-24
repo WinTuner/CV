@@ -158,81 +158,75 @@ export function ContactSection() {
 							</p>
 						</div>
 
-						<div className={cn("space-y-5 opacity-0", isInView && "animate-fade-in-up stagger-2")}>
-						<div className="flex items-center gap-1">
+						<div className={cn("divide-y divide-border/60 opacity-0", isInView && "animate-fade-in-up stagger-2")}>
+						<div className="flex items-center gap-3 py-3">
 							<a
 								href={CONTACT_MAILTO}
-								className="group flex flex-1 items-center gap-4"
+								className="group flex flex-1 items-center gap-3"
 							>
-								<div className="flex h-11 w-11 items-center justify-center border border-border/70 bg-card transition-colors duration-300 group-hover:border-primary/50">
-									<Mail className="icon-spring h-4 w-4 text-primary" />
-								</div>
-								<div>
-									<p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+								<Mail className="icon-spring h-4 w-4 shrink-0 text-muted-foreground" />
+								<span className="flex flex-1 items-center justify-between gap-4">
+									<span className="font-mono text-[10px] text-muted-foreground">
 										{t.directEmail}
-									</p>
-								<p className="text-sm font-medium transition-colors group-hover:text-primary">
+									</span>
+								<span className="font-mono text-xs transition-colors group-hover:text-primary">
 									{CONTACT_EMAIL}
-								</p>
-								</div>
+								</span>
+								</span>
 							</a>
 							<CopyEmailButton
 								email={CONTACT_EMAIL}
 								copyLabel={t.copyEmail}
 								copiedLabel={t.emailCopied}
-								className="h-9 w-9 shrink-0 border border-border/70 bg-card hover:border-primary/50"
+								className="h-8 w-8 shrink-0 border border-border/70 hover:border-primary/50"
 							/>
 						</div>
 						<a
 							href={SOCIAL_LINKS.github}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="group flex items-center gap-4"
+								className="group flex items-center gap-3 py-3"
 							>
-								<div className="flex h-11 w-11 items-center justify-center border border-border/70 bg-card transition-colors duration-300 group-hover:border-primary/50">
-									<MessageSquare className="icon-spring h-4 w-4 text-primary" />
-								</div>
-								<div>
-									<p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+								<MessageSquare className="icon-spring h-4 w-4 shrink-0 text-muted-foreground" />
+								<span className="flex flex-1 items-center justify-between gap-4">
+									<span className="font-mono text-[10px] text-muted-foreground">
 										{t.socialHub}
-									</p>
-									<p className="text-sm font-medium transition-colors group-hover:text-primary">
+									</span>
+									<span className="font-mono text-xs transition-colors group-hover:text-primary">
 										github.com/WinTuner
-									</p>
-								</div>
+									</span>
+								</span>
 							</a>
 							<a
 								href={SOCIAL_LINKS.gearz}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="group flex items-center gap-4"
+								className="group flex items-center gap-3 py-3"
 							>
-								<div className="flex h-11 w-11 items-center justify-center border border-border/70 bg-card transition-colors duration-300 group-hover:border-primary/50">
-									<Gamepad2 className="icon-spring h-4 w-4 text-primary" />
-								</div>
-								<div>
-									<p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+								<Gamepad2 className="icon-spring h-4 w-4 shrink-0 text-muted-foreground" />
+								<span className="flex flex-1 items-center justify-between gap-4">
+									<span className="font-mono text-[10px] text-muted-foreground">
 										Gearz
-									</p>
-									<p className="text-sm font-medium transition-colors group-hover:text-primary">
+									</span>
+									<span className="font-mono text-xs transition-colors group-hover:text-primary">
 										gearz.gg/Natto
-									</p>
-								</div>
+									</span>
+								</span>
 							</a>
 						</div>
 					</div>
 
-					<div className={cn("border border-border/70 bg-card p-6 sm:p-10 opacity-0", isInView && "animate-fade-in-up stagger-3")}>
+					<div className={cn("border-t border-border/70 pt-8 opacity-0", isInView && "animate-fade-in-up stagger-3")}>
 						{isSent ? (
 							<div
 								role="status"
 								aria-live="polite"
 								className="flex flex-col items-center justify-center py-14 text-center animate-fade-in"
 							>
-								<div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full border border-primary/40 bg-primary/10">
-									<CheckCircle2 className="h-7 w-7 text-primary" />
+								<div className="mb-6 flex items-center justify-center gap-2 font-mono text-xs text-primary">
+									<CheckCircle2 className="h-4 w-4" />
+									<span>{t.sent}</span>
 								</div>
-								<h3 className="mb-2 font-serif text-2xl font-medium">{t.sent}</h3>
 								<p className="max-w-sm text-sm text-muted-foreground">{t.sentThanks}</p>
 								<button
 									onClick={() => setIsSent(false)}
@@ -247,7 +241,7 @@ export function ContactSection() {
 									<div className="space-y-2">
 										<label
 											htmlFor="contact-name"
-											className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
+											className="font-mono text-[10px] text-muted-foreground"
 										>
 											{t.name}
 										</label>
@@ -266,7 +260,7 @@ export function ContactSection() {
 									<div className="space-y-2">
 										<label
 											htmlFor="contact-email"
-											className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
+											className="font-mono text-[10px] text-muted-foreground"
 										>
 											{t.email}
 										</label>
@@ -286,7 +280,7 @@ export function ContactSection() {
 								<div className="space-y-2">
 									<label
 										htmlFor="contact-message"
-										className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
+										className="font-mono text-[10px] text-muted-foreground"
 									>
 										{t.message}
 									</label>
@@ -317,7 +311,7 @@ export function ContactSection() {
 									disabled={isSubmitting}
 									type="submit"
 								className={cn(
-									"btn-cyan-shadow group inline-flex w-full items-center justify-center gap-2.5 py-4 text-sm font-medium text-primary-foreground",
+									"group inline-flex items-center justify-center gap-2 bg-primary px-6 py-3 font-mono text-xs text-primary-foreground transition-opacity hover:opacity-90",
 									isSubmitting && "opacity-80",
 								)}
 								>

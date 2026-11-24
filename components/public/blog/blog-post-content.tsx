@@ -535,51 +535,35 @@ export function BlogPostContent({
 				<section className="px-4 sm:px-6 py-16 sm:py-20 border-t border-border/30">
 					<div className="mx-auto max-w-4xl">
 						<div className="mb-8">
-							<span className="inline-block rounded-lg border border-border bg-secondary/50 px-3 py-1.5 font-mono text-xs tracking-wider text-muted-foreground mb-4">
-								[RELATED_POSTS]
-							</span>
-							<h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+							<h2 className="font-serif text-2xl font-medium tracking-tight sm:text-3xl">
 								{t.related}{" "}
-								<span className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text">
-									{t.reading}
-								</span>
+								<span className="text-primary">{t.reading}</span>
 							</h2>
 						</div>
 
-						<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-							{relatedPosts.map((relatedPost, index) => (
+						<div className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+							{relatedPosts.map((relatedPost) => (
 								<Link
 									key={relatedPost.id}
 									href={localePath(`/blog/${relatedPost.slug}`, language)}
-									className={cn(
-										"group relative overflow-hidden rounded-xl border border-border bg-card/40 glass p-5 transition-all duration-300 hover:border-primary/40 hover:bg-card/60 hover-lift opacity-0",
-										isVisible && "animate-fade-in-up",
-									)}
-									style={{ animationDelay: `${500 + index * 100}ms` }}
+									className="group -mx-3 border-t border-border/70 px-3 py-5 transition-colors duration-200 hover:bg-warm/70"
 								>
-									<div
-										className={cn(
-											"absolute inset-0 bg-gradient-to-br opacity-0 transition-opacity duration-500 group-hover:opacity-100",
-											relatedPost.color,
-										)}
-									/>
-									<div className="relative z-10">
-										<span className="inline-block rounded-md bg-secondary/60 px-2 py-1 font-mono text-[10px] text-muted-foreground mb-3">
+									<div>
+										<span className="mb-2 block font-mono text-[11px] text-muted-foreground">
 											{relatedPost.category}
 										</span>
-										<h3 className="font-semibold mb-2 line-clamp-2 group-hover:text-gradient transition-colors">
+										<h3 className="mb-2 line-clamp-2 font-serif text-lg font-medium transition-colors duration-200 group-hover:text-primary">
 											{relatedPost.title}
 										</h3>
-										<p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+										<p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
 											{relatedPost.excerpt}
 										</p>
-										<div className="flex items-center gap-3 text-xs text-muted-foreground">
+										<div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
 											<span>{relatedPost.date}</span>
-											<span className="text-border">•</span>
+											<span aria-hidden>·</span>
 											<span>{relatedPost.readTime}</span>
 										</div>
 									</div>
-									<div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-primary to-transparent transition-all duration-500 group-hover:w-full" />
 								</Link>
 							))}
 						</div>
