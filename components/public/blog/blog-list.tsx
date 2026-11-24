@@ -85,7 +85,7 @@ export function BlogList({ posts, language }: BlogListProps) {
 						)}
 						<div className="flex min-w-0 flex-1 flex-col justify-between">
 							<div>
-								<div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] text-muted-foreground">
+								<div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-muted-foreground">
 									<span>{post.category}</span>
 									{post.featured && (
 										<>
@@ -109,7 +109,7 @@ export function BlogList({ posts, language }: BlogListProps) {
 									{post.title}
 								</h2>
 
-								<p className="mb-5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+								<p className="mb-5 line-clamp-2 max-w-[62ch] text-sm leading-relaxed text-muted-foreground">
 									{post.excerpt}
 								</p>
 							</div>
@@ -129,23 +129,23 @@ export function BlogList({ posts, language }: BlogListProps) {
 													.join("")}
 											</AvatarFallback>
 										</Avatar>
-										<span className="text-xs text-muted-foreground">
+										<span className="text-[13px] text-muted-foreground">
 											{post.author.name}
-											<span className="text-muted-foreground/60">
+											<span className="text-muted-foreground">
 												{" · "}
 												{post.author.role}
 											</span>
 										</span>
 									</div>
 
-									<div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground transition-colors duration-200 group-hover:text-primary">
+									<div className="flex items-center gap-2 font-mono text-xs text-muted-foreground transition-colors duration-200 group-hover:text-primary">
 										<span className="sr-only">{t.readArticle}</span>
 										<ArrowRight className="arrow-spring h-3.5 w-3.5" />
 									</div>
 								</div>
 
 								{post.tags.length > 0 && (
-									<p className="mt-3 font-mono text-[11px] text-muted-foreground/80">
+									<p className="mt-3 font-mono text-xs text-muted-foreground">
 										{post.tags.map((tag) => `#${tag}`).join(" · ")}
 									</p>
 								)}

@@ -17,7 +17,7 @@ export type ProjectRowLabels = {
 export function ProjectRow({ project, labels }: { project: Project; labels: ProjectRowLabels }) {
 	return (
 		<article className="group -mx-3 border-t border-border/70 px-3 py-6 transition-colors duration-200 hover:bg-warm/70 sm:py-7">
-			<div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[11px] text-muted-foreground">
+			<div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-xs text-muted-foreground">
 				<span>{project.year}</span>
 				{labels.status && <span className="text-primary">{labels.status}</span>}
 				{project.fork && (
@@ -43,7 +43,7 @@ export function ProjectRow({ project, labels }: { project: Project; labels: Proj
 				{project.description}
 			</p>
 
-			<p className="mt-3 font-mono text-[11px] text-muted-foreground/80">
+			<p className="mt-3 font-mono text-xs text-muted-foreground">
 				{project.tags.join(" · ")}
 			</p>
 
@@ -51,7 +51,7 @@ export function ProjectRow({ project, labels }: { project: Project; labels: Proj
 				<UpstreamContributors name={project.title} url={project.url} />
 			</div>
 
-			<div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] text-muted-foreground">
+			<div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-muted-foreground">
 				<a
 					href={project.url}
 					target="_blank"

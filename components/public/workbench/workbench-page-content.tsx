@@ -116,8 +116,8 @@ export function WorkbenchPageContent({
                           <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
                         </div>
                       </div>
-                      <p className="text-xs text-muted-foreground line-clamp-2 sm:line-clamp-1">{item.description}</p>
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                      <p className="text-sm text-muted-foreground line-clamp-2 sm:line-clamp-1">{item.description}</p>
+                      <div className="flex items-center gap-4 font-mono text-xs text-muted-foreground">
                         <span className="inline-flex items-center gap-1">
                           <GitBranch className="h-3 w-3" />
                           {item.branch}
@@ -162,7 +162,7 @@ export function WorkbenchPageContent({
               <div className="grid grid-cols-2 gap-6">
                 <div className="flex flex-col gap-1">
                   <p className="font-serif text-3xl font-medium text-foreground">{wipItems.length}</p>
-                  <p className="font-mono text-[10px] text-muted-foreground">{t.active}</p>
+                  <p className="font-mono text-[11px] text-muted-foreground">{t.active}</p>
                 </div>
                 <div className="flex flex-col gap-1">
                   <p className="font-serif text-3xl font-medium text-primary">
@@ -170,7 +170,7 @@ export function WorkbenchPageContent({
                       ? `${Math.round(wipItems.reduce((a, b) => a + b.progress, 0) / wipItems.length)}%`
                       : "0%"}
                   </p>
-                  <p className="font-mono text-[10px] text-muted-foreground">{t.avgProgress}</p>
+                  <p className="font-mono text-[11px] text-muted-foreground">{t.avgProgress}</p>
                 </div>
               </div>
             </div>
@@ -185,7 +185,7 @@ export function WorkbenchPageContent({
               </h3>
               <div className="space-y-4">
                 {liveActivity.map((activity, index) => (
-                  <div key={index} className="flex items-start gap-3 text-xs">
+                  <div key={index} className="flex items-start gap-3 text-[13px]">
                     <span
                       className={cn(
                         "mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full",
@@ -201,7 +201,7 @@ export function WorkbenchPageContent({
                         <div className="flex flex-wrap items-center gap-1.5 text-foreground leading-normal">
                           <span
                             className={cn(
-                              "shrink-0 font-mono text-[9px] uppercase tracking-wider",
+                              "shrink-0 font-mono text-[10px] uppercase tracking-wider",
                               activity.prAction === "merged" ? "text-primary" : "text-muted-foreground",
                             )}
                           >

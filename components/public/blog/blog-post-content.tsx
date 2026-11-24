@@ -549,7 +549,7 @@ export function BlogPostContent({
 									className="group -mx-3 border-t border-border/70 px-3 py-5 transition-colors duration-200 hover:bg-warm/70"
 								>
 									<div>
-										<span className="mb-2 block font-mono text-[11px] text-muted-foreground">
+										<span className="mb-2 block font-mono text-xs text-muted-foreground">
 											{relatedPost.category}
 										</span>
 										<h3 className="mb-2 line-clamp-2 font-serif text-lg font-medium transition-colors duration-200 group-hover:text-primary">
@@ -558,7 +558,7 @@ export function BlogPostContent({
 										<p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
 											{relatedPost.excerpt}
 										</p>
-										<div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
+										<div className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
 											<span>{relatedPost.date}</span>
 											<span aria-hidden>·</span>
 											<span>{relatedPost.readTime}</span>

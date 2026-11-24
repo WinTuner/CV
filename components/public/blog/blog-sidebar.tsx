@@ -259,7 +259,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 							key={category.slug}
 							onClick={() => handleCategoryClick(category.slug)}
 							className={cn(
-								"flex min-h-10 w-full items-center justify-between border-b border-border/50 py-2 font-mono text-xs transition-colors duration-200",
+								"flex min-h-10 w-full items-center justify-between border-b border-border/50 py-2 font-mono text-[13px] transition-colors duration-200",
 								activeCategory === category.slug
 									? "text-primary"
 									: "text-muted-foreground hover:text-foreground",
@@ -278,7 +278,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 													: category.name
 									: category.name}
 							</span>
-							<span className="text-[11px] text-muted-foreground/70">
+							<span className="text-xs text-muted-foreground/70">
 								{category.count}
 							</span>
 						</button>
@@ -302,7 +302,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 								key={tag}
 								onClick={() => handleTagClick(tag)}
 								className={cn(
-									"font-mono text-[11px] transition-colors duration-200",
+									"font-mono text-xs transition-colors duration-200",
 									isActive
 										? "text-primary"
 										: "text-muted-foreground hover:text-primary",
@@ -323,7 +323,7 @@ export function BlogSidebar({ posts = [] }: BlogSidebarProps) {
 						{t.newsletter}
 					</h3>
 				</div>
-				<p className="mb-4 text-xs leading-relaxed text-muted-foreground">{t.newsletterDesc}</p>
+				<p className="mb-4 text-sm leading-relaxed text-muted-foreground">{t.newsletterDesc}</p>
 				{subscribeState === "success" ? (
 					<div className="space-y-2">
 						<div role="status" aria-live="polite" className="border-l-2 border-primary/40 pl-3 text-xs text-primary">

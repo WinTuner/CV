@@ -133,7 +133,7 @@ export function HighlightsStrip() {
 							"group flex flex-col gap-1.5 border-t border-border pt-5 transition-colors duration-300 hover:border-primary/50";
 						const inner = (
 							<>
-								<span className="font-mono text-[10px] leading-none text-muted-foreground/50">
+								<span className="font-mono text-[11px] leading-none text-muted-foreground/70">
 									{String(index + 1).padStart(2, "0")}
 								</span>
 								<span className="font-serif text-2xl font-medium leading-tight tracking-tight text-foreground">

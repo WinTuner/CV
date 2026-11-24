@@ -90,7 +90,7 @@ export function Workbench({ wipItems: initialWipItems = [] }: { wipItems?: WipIt
 											<ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground" />
 										</div>
 									</div>
-									<p className="text-xs text-muted-foreground line-clamp-2 sm:line-clamp-1">
+									<p className="text-sm text-muted-foreground line-clamp-2 sm:line-clamp-1">
 										{item.description}
 									</p>
 								</div>

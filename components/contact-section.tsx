@@ -166,10 +166,10 @@ export function ContactSection() {
 							>
 								<Mail className="icon-spring h-4 w-4 shrink-0 text-muted-foreground" />
 								<span className="flex flex-1 items-center justify-between gap-4">
-									<span className="font-mono text-[10px] text-muted-foreground">
+									<span className="font-mono text-[11px] text-muted-foreground">
 										{t.directEmail}
 									</span>
-								<span className="font-mono text-xs transition-colors group-hover:text-primary">
+								<span className="font-mono text-[13px] transition-colors group-hover:text-primary">
 									{CONTACT_EMAIL}
 								</span>
 								</span>
@@ -189,10 +189,10 @@ export function ContactSection() {
 							>
 								<MessageSquare className="icon-spring h-4 w-4 shrink-0 text-muted-foreground" />
 								<span className="flex flex-1 items-center justify-between gap-4">
-									<span className="font-mono text-[10px] text-muted-foreground">
+									<span className="font-mono text-[11px] text-muted-foreground">
 										{t.socialHub}
 									</span>
-									<span className="font-mono text-xs transition-colors group-hover:text-primary">
+									<span className="font-mono text-[13px] transition-colors group-hover:text-primary">
 										github.com/WinTuner
 									</span>
 								</span>
@@ -205,10 +205,10 @@ export function ContactSection() {
 							>
 								<Gamepad2 className="icon-spring h-4 w-4 shrink-0 text-muted-foreground" />
 								<span className="flex flex-1 items-center justify-between gap-4">
-									<span className="font-mono text-[10px] text-muted-foreground">
+									<span className="font-mono text-[11px] text-muted-foreground">
 										Gearz
 									</span>
-									<span className="font-mono text-xs transition-colors group-hover:text-primary">
+									<span className="font-mono text-[13px] transition-colors group-hover:text-primary">
 										gearz.gg/Natto
 									</span>
 								</span>
@@ -241,7 +241,7 @@ export function ContactSection() {
 									<div className="space-y-2">
 										<label
 											htmlFor="contact-name"
-											className="font-mono text-[10px] text-muted-foreground"
+											className="font-mono text-[11px] text-muted-foreground"
 										>
 											{t.name}
 										</label>
@@ -260,7 +260,7 @@ export function ContactSection() {
 									<div className="space-y-2">
 										<label
 											htmlFor="contact-email"
-											className="font-mono text-[10px] text-muted-foreground"
+											className="font-mono text-[11px] text-muted-foreground"
 										>
 											{t.email}
 										</label>
@@ -280,7 +280,7 @@ export function ContactSection() {
 								<div className="space-y-2">
 									<label
 										htmlFor="contact-message"
-										className="font-mono text-[10px] text-muted-foreground"
+										className="font-mono text-[11px] text-muted-foreground"
 									>
 										{t.message}
 									</label>
