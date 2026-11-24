@@ -14,16 +14,14 @@ const BOOT_EVENTS = ["pointerdown", "wheel", "touchstart", "keydown"] as const;
 /**
  * Buttery inertial smooth-scroll for the whole site (Lenis).
  *
- * Zero first-paint cost by design: Lenis ships in its own lazy chunk and
- * boots on the first user interaction (wheel, touch, click, or scroll key).
- * Lab audits never interact, so they measure the page without it; before it
- * arrives, anchor jumps and BackToTop fall back to native CSS
- * `scroll-behavior: smooth` — same feel, zero cost.
+ * Lenis ships in its own lazy chunk and boots once the page is idle, so the
+ * very first wheel gets the same glide as every later one. Interaction events
+ * boot it earlier if the user moves before idle fires.
  *
  * - `lerp: 0.15` glides without lagging behind the wheel.
  * - `anchors: { offset: -88 }` keeps `#projects` / `#experience` jumps clear
  *   of the fixed header, same offset as the CSS `scroll-margin-top`.
- * - Skipped entirely for `prefers-reduced-motion` users and before hydration.
+ * - Skipped entirely for `prefers-reduced-motion` users.
  * - The instance is exposed on `window.__lenis` so one-off buttons
  *   (e.g. BackToTop) can scroll through Lenis instead of jumping natively.
  */
@@ -60,6 +58,14 @@ export function SmoothScroll() {
 			});
 		}
 
+		// Safari lacks requestIdleCallback; fall back to a short timer.
+		const idle = (
+			window as unknown as {
+				requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+			}
+		).requestIdleCallback;
+		const idleHandle = idle ? idle(boot, { timeout: 2000 }) : window.setTimeout(boot, 1200);
+
 		for (const name of BOOT_EVENTS) {
 			window.addEventListener(name, boot, { passive: true });
 		}
@@ -67,6 +73,11 @@ export function SmoothScroll() {
 		return () => {
 			cancelled = true;
 			cleanupListeners();
+			if (idle) {
+				window.cancelIdleCallback(idleHandle);
+			} else {
+				window.clearTimeout(idleHandle);
+			}
 			window.__lenis = undefined;
 			lenis?.destroy();
 		};

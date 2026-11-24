@@ -1,29 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useInView } from "@/lib/use-in-view";
-import { GithubIcon } from "./social-icons";
-import { Star, GitFork, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useLanguage } from "./language-provider";
 import { useLiveGithubRepos } from "@/lib/use-live-github-repos";
 import { LivePill } from "./live-pill";
-import { UpstreamContributors } from "./contributors-row";
+import { ProjectRow } from "./project-row";
+import { localePath } from "@/constants/languages";
 
 import type { Project } from "@/lib/github";
 
-const filters = [
-	"all",
-	"production",
-	"competition",
-	"academic",
-	"personal",
-	"openSource",
-];
+const HOME_PROJECT_COUNT = 10;
 
 export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Project[] }) {
 	const { language } = useLanguage();
-	const [activeFilter, setActiveFilter] = useState("all");
 	const { ref: sectionRef, isInView } = useInView<HTMLDivElement>({
 		threshold: 0.05,
 	});
@@ -33,83 +25,47 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 		en: {
 			kicker: "Selected Work",
 			title: "Projects",
-			featured: "Featured",
 			fork: "Fork",
 			source: "source",
 			live: "live",
 			liveBadge: "live",
+			viewAll: "All projects",
 			status: { "in-progress": "in progress", shipped: "shipped", archived: "archived" },
-			filters: {
-				all: "all",
-				production: "production",
-				competition: "competition",
-				academic: "academic",
-				personal: "personal",
-				openSource: "open source",
-			},
 		},
 		th: {
 			kicker: "ผลงานที่คัดสรร",
 			title: "โปรเจกต์",
-			featured: "แนะนำ",
 			fork: "ฟอร์ก",
 			source: "ซอร์สโค้ด",
 			live: "เว็บไซต์",
 			liveBadge: "สด",
+			viewAll: "ดูทั้งหมด",
 			status: { "in-progress": "กำลังพัฒนา", shipped: "เผยแพร่แล้ว", archived: "เก็บแล้ว" },
-			filters: {
-				all: "ทั้งหมด",
-				production: "งานจริง",
-				competition: "แข่งขัน",
-				academic: "วิชาการ",
-				personal: "ส่วนตัว",
-				openSource: "โอเพนซอร์ส",
-			},
 		},
-	ja: {
+		ja: {
 			kicker: "Selected Work",
 			title: "Projects",
-			featured: "Featured",
 			fork: "Fork",
 			source: "source",
 			live: "live",
 			liveBadge: "live",
+			viewAll: "すべて見る",
 			status: { "in-progress": "in progress", shipped: "shipped", archived: "archived" },
-			filters: {
-				all: "all",
-				production: "production",
-				competition: "competition",
-				academic: "academic",
-				personal: "personal",
-				openSource: "open source",
-			},
 		},
-	zh: {
+		zh: {
 			kicker: "Selected Work",
 			title: "Projects",
-			featured: "Featured",
 			fork: "Fork",
 			source: "source",
 			live: "live",
 			liveBadge: "live",
+			viewAll: "查看全部",
 			status: { "in-progress": "in progress", shipped: "shipped", archived: "archived" },
-			filters: {
-				all: "all",
-				production: "production",
-				competition: "competition",
-				academic: "academic",
-				personal: "personal",
-				openSource: "open source",
-			},
 		},
 	} as const;
 
 	const t = copy[language];
-
-	const filteredProjects =
-		activeFilter === "all"
-			? projects
-			: projects.filter((p) => p.category === activeFilter);
+	const visibleProjects = projects.slice(0, HOME_PROJECT_COUNT);
 
 	return (
 		<section
@@ -117,7 +73,7 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 			className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/60 content-visibility-auto"
 		>
 			<div ref={sectionRef} className="mx-auto max-w-7xl">
-				<div className="mb-10 sm:mb-14 flex flex-col gap-6 sm:gap-8 sm:flex-row sm:items-end sm:justify-between">
+				<div className="mb-10 sm:mb-14 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 					<div className={cn("space-y-4 opacity-0", isInView && "animate-fade-in-up")}>
 						<p className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
 							{t.kicker}
@@ -128,134 +84,27 @@ export function ProjectsGrid({ projects: initialProjects = [] }: { projects?: Pr
 						</h2>
 					</div>
 
-					<div
-						className={cn(
-							"flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap scrollbar-hide scroll-fade-x opacity-0",
-							isInView && "animate-fade-in-up stagger-2",
-						)}
+					<Link
+						href={localePath("/projects", language)}
+						className="group inline-flex shrink-0 items-center gap-2 self-start font-mono text-xs text-muted-foreground transition-colors duration-200 hover:text-primary sm:self-end"
 					>
-						{filters.map((filter) => (
-							<button
-								key={filter}
-								onClick={() => setActiveFilter(filter)}
-								className={cn(
-									"shrink-0 min-h-9 rounded-full border px-4 py-2 font-mono text-[11px] uppercase tracking-wider transition-colors duration-300",
-									activeFilter === filter
-										? "border-primary/50 bg-primary/10 text-primary"
-										: "border-border/70 text-muted-foreground hover:border-primary/40 hover:text-foreground",
-								)}
-							>
-								{t.filters[filter as keyof typeof t.filters]}
-							</button>
-						))}
-					</div>
+						{t.viewAll}
+						<ArrowRight className="arrow-spring h-3.5 w-3.5" />
+					</Link>
 				</div>
 
-				<div key={activeFilter} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-					{filteredProjects.map((project, index) => (
-						<article
+				<div className="grid border-b border-border/70 sm:grid-cols-2 sm:gap-x-12">
+					{visibleProjects.map((project) => (
+						<ProjectRow
 							key={project.id}
-							className={cn(
-								"group relative flex flex-col rounded-[1.4rem] border border-border/70 bg-card p-6 sm:p-7 transition-colors duration-300 opacity-0 hover:border-primary/50",
-								isInView && "animate-fade-in-up",
-								project.highlight
-									? "sm:col-span-2 lg:col-span-2 border-primary/40"
-									: "",
-								project.featured && !project.highlight && "sm:col-span-2 lg:col-span-1",
-							)}
-							style={{ animationDelay: `${(index % 6) * 80 + 200}ms` }}
-						>
-						<div className="mb-4 flex items-center justify-between gap-3 font-mono text-xs">
-							<span className="flex items-center gap-2 text-muted-foreground">
-								{project.year}
-								{project.fork && (
-									<span
-										title="Forked repository"
-										className="inline-flex items-center gap-1 rounded-full border border-border/70 px-2 py-0.5 text-[10px] uppercase tracking-widest"
-									>
-										<GitFork className="h-3 w-3" /> {t.fork}
-									</span>
-								)}
-							</span>
-							<div className="flex shrink-0 items-center gap-2">
-								{project.highlight && (
-									<span className="font-mono text-[10px] uppercase tracking-widest text-primary">
-										★ {t.featured}
-									</span>
-								)}
-								<span
-									className={cn(
-										"font-mono text-[10px] uppercase tracking-widest",
-										project.status === "in-progress"
-											? "text-muted-foreground/70"
-											: "text-primary",
-									)}
-								>
-									{t.status[project.status]}
-								</span>
-							</div>
-						</div>
-
-							<h3 className="mb-3 font-serif text-xl sm:text-2xl font-medium tracking-tight text-foreground">
-								{project.title}
-							</h3>
-
-							<p
-								className={cn(
-									"mb-6 text-sm leading-relaxed text-muted-foreground",
-									project.highlight ? "line-clamp-3" : "line-clamp-2",
-								)}
-							>
-								{project.description}
-							</p>
-
-							<div className="mb-6 flex flex-wrap gap-1.5">
-								{project.tags.map((tag) => (
-									<span
-										key={tag}
-										className="border border-border/70 rounded-full px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
-									>
-										{tag}
-									</span>
-								))}
-							</div>
-
-							<UpstreamContributors name={project.title} url={project.url} />
-
-							<div className="mt-auto flex items-center justify-between border-t border-border/50 pt-4">
-								<div className="flex items-center gap-4">
-									<a
-										href={project.url}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="group/link inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors duration-300 hover:text-primary"
-									>
-										<GithubIcon className="h-4 w-4" />
-										<span className="underline-animate">{t.source}</span>
-									</a>
-									{project.homepage && (
-										<a
-											href={project.homepage}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="group/link inline-flex items-center gap-1.5 font-mono text-xs text-primary transition-colors duration-300 hover:text-foreground"
-										>
-											<span className="underline-animate">{t.live}</span>
-											<ArrowUpRight className="h-3.5 w-3.5" />
-										</a>
-									)}
-								</div>
-
-								<div className="flex items-center gap-4 font-mono text-[10px] text-muted-foreground">
-									<span className="inline-flex items-center gap-1">
-										<Star className="h-3 w-3" /> {project.stars}
-									</span>
-									<span className="inline-flex items-center gap-1">
-										<GitFork className="h-3 w-3" /> {project.forks}
-									</span>
-								</div>
-							</div>
-						</article>
+							project={project}
+							labels={{
+								status: t.status[project.status],
+								fork: t.fork,
+								source: t.source,
+								live: t.live,
+							}}
+						/>
 					))}
 				</div>
 			</div>

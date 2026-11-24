@@ -199,11 +199,9 @@ export function SkillsMatrix() {
 							<div
 								key={skill.category}
 								className={cn(
-									"group grid gap-2 py-6 opacity-0 sm:grid-cols-[220px_1fr] sm:gap-8",
+									"group grid gap-2 py-6 sm:grid-cols-[220px_1fr] sm:gap-8",
 									index > 0 && "border-t border-border/70",
-									isInView && "animate-fade-in-up",
 								)}
-								style={{ animationDelay: `${index * 100 + 200}ms` }}
 							>
 								<h3 className="flex items-baseline gap-3 font-serif text-lg font-medium">
 									<span className="font-mono text-[10px] text-muted-foreground/50">

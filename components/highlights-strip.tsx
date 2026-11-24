@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { useLanguage } from "./language-provider";
-import { useInView } from "@/lib/use-in-view";
 import { localePath } from "@/constants/languages";
-import { cn } from "@/lib/utils";
 
 const STATS = {
 	en: [
@@ -111,7 +109,6 @@ const MARQUEE_ITEMS = [
 
 export function HighlightsStrip() {
 	const { language } = useLanguage();
-	const { ref, isInView } = useInView<HTMLDivElement>({ threshold: 0.2 });
 
 	const items = STATS[language];
 
@@ -128,23 +125,21 @@ export function HighlightsStrip() {
 			</ul>
 		</div>
 		<section className="px-4 sm:px-6 py-10 sm:py-14">
-			<div ref={ref} className="mx-auto max-w-7xl">
+			<div className="mx-auto max-w-7xl">
 				<div className="grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
 					{items.map((stat, index) => {
 						const isExternal = stat.href.startsWith("http");
-						const className = cn(
-							"group flex flex-col gap-2 border-t border-border pt-5 opacity-0 transition-colors duration-300 hover:border-primary/50",
-							isInView && "animate-fade-in-up",
-						);
+						const className =
+							"group flex flex-col gap-1.5 border-t border-border pt-5 transition-colors duration-300 hover:border-primary/50";
 						const inner = (
 							<>
-									<span className="font-mono text-[10px] leading-none text-muted-foreground/50">
-										{String(index + 1).padStart(2, "0")}
-									</span>
-									<span className="font-serif text-2xl font-medium leading-tight tracking-tight text-foreground">
-										{stat.value}
-									</span>
-								<span className="text-[13px] leading-relaxed text-muted-foreground">
+								<span className="font-mono text-[10px] leading-none text-muted-foreground/50">
+									{String(index + 1).padStart(2, "0")}
+								</span>
+								<span className="font-serif text-2xl font-medium leading-tight tracking-tight text-foreground">
+									{stat.value}
+								</span>
+								<span className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
 									{stat.label}
 								</span>
 							</>
@@ -156,7 +151,6 @@ export function HighlightsStrip() {
 								target="_blank"
 								rel="noopener noreferrer"
 								className={className}
-								style={{ animationDelay: `${(index % 4) * 90 + 100}ms` }}
 							>
 								{inner}
 							</a>
@@ -165,7 +159,6 @@ export function HighlightsStrip() {
 								key={stat.label}
 								href={localePath(stat.href, language)}
 								className={className}
-								style={{ animationDelay: `${(index % 4) * 90 + 100}ms` }}
 							>
 								{inner}
 							</Link>

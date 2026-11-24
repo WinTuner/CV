@@ -1,14 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
-import { Star, GitFork, ExternalLink, Search, Filter, X } from "lucide-react"
-import { GithubIcon } from "../../social-icons"
+import { Search, Filter, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useLanguage } from "@/components/language-provider"
 import { useLiveGithubRepos } from "@/lib/use-live-github-repos"
 import { LivePill } from "@/components/live-pill"
-import { UpstreamContributors } from "@/components/contributors-row"
+import { ProjectRow } from "@/components/project-row"
 import type { Project } from "@/lib/github"
 
 const filters = ["all", "shipped", "in-progress", "archived"]
@@ -185,17 +184,9 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [sortBy, setSortBy] = useState<SortKey>("recent")
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null)
-  const [isVisible, setIsVisible] = useState(false)
   const { repos: projects, updatedAt, isLive } = useLiveGithubRepos(initialProjects)
 
   const allTags = [...new Set(projects.flatMap((p) => p.tags))]
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount animation trigger
-    setIsVisible(true)
-  }, [])
 
   const filteredProjects = sortProjects(
     projects.filter((p) => {
@@ -224,7 +215,7 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
   }
 
   return (
-    <section ref={sectionRef} className="px-4 sm:px-6 pb-12 sm:pb-20">
+    <section className="px-4 sm:px-6 pb-12 sm:pb-20">
       <div className="mx-auto max-w-7xl">
         {/* Search and Filters — not gated behind `useInView`/opacity-0 so
             the controls paint with the server HTML. */}
@@ -317,117 +308,18 @@ export function ProjectsPageContent({ projects: initialProjects = [] }: { projec
         </div>
 
         {/* Projects Grid */}
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map((project, index) => (
-            <article
+        <div className="grid border-b border-border/70 sm:grid-cols-2 sm:gap-x-12">
+          {filteredProjects.map((project) => (
+            <ProjectRow
               key={project.id}
-              className={cn(
-                "group relative flex flex-col border bg-card p-6 sm:p-7 transition-colors duration-300 opacity-0 hover:border-primary/50",
-                isVisible && "animate-fade-in-up",
-                hoveredProject === project.id && "border-primary/50",
-                "highlight" in project && project.highlight
-                  ? "sm:col-span-2 lg:col-span-2 border-primary/40"
-                  : "border-border/70",
-                project.featured && !("highlight" in project && project.highlight) && "sm:col-span-2 lg:col-span-1",
-              )}
-              style={{ animationDelay: `${(index % 6) * 80 + 200}ms` }}
-              onMouseEnter={() => setHoveredProject(project.id)}
-              onMouseLeave={() => setHoveredProject(null)}
-            >
-              <div className="absolute right-6 top-6 flex shrink-0 items-center gap-3">
-                {"highlight" in project && project.highlight && (
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-primary">
-                    ★ {t[language].featured}
-                  </span>
-                )}
-                <span className="font-mono text-xs text-muted-foreground">
-                  {t[language].filters[project.status as keyof typeof t.en.filters]}
-                </span>
-              </div>
-
-              <div
-                className={cn(
-                  "mb-5 flex items-center gap-2 font-mono text-xs text-muted-foreground",
-                  "highlight" in project && project.highlight && "mt-10",
-                )}
-              >
-                {project.year}
-                {project.fork && (
-                  <span
-                    title="Forked repository"
-                    className="inline-flex items-center gap-1 rounded-full border border-border/70 px-2 py-0.5 text-[10px] uppercase tracking-widest"
-                  >
-                    <GitFork className="h-3 w-3" /> {t[language].fork}
-                  </span>
-                )}
-              </div>
-
-              <h3
-                className={cn(
-                  "mb-3 font-serif font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary",
-                  "highlight" in project && project.highlight ? "text-xl sm:text-2xl" : "text-lg sm:text-xl",
-                )}
-              >
-                {project.title}
-              </h3>
-
-              <p
-                className={cn(
-                  "mb-5 text-sm leading-relaxed text-muted-foreground",
-                  "highlight" in project && project.highlight ? "line-clamp-3" : "line-clamp-2",
-                )}
-              >
-                {project.description}
-              </p>
-
-              <div className="mb-5 flex flex-wrap gap-1.5">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="border border-border/70 px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mb-5">
-                <UpstreamContributors name={project.title} url={project.url} />
-              </div>
-
-              <div className="mt-auto flex items-center gap-5 border-t border-border/50 pt-4 font-mono text-xs text-muted-foreground">
-                <span className="inline-flex items-center gap-1.5">
-                  <Star className="h-3.5 w-3.5" />
-                  {project.stars}
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <GitFork className="h-3.5 w-3.5" />
-                  {project.forks}
-                </span>
-                <span className="ml-auto flex items-center gap-4">
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 py-2 -my-2 text-muted-foreground transition-colors duration-300 hover:text-primary"
-                  >
-                    <GithubIcon className="h-3.5 w-3.5" />
-                    <span className="underline-animate">{t[language].source}</span>
-                  </a>
-                  {project.homepage && (
-                    <a
-                      href={project.homepage}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 py-2 -my-2 text-primary transition-colors duration-300 hover:text-foreground"
-                    >
-                      <span className="underline-animate">{t[language].live}</span>
-                      <ExternalLink className="h-3.5 w-3.5" />
-                    </a>
-                  )}
-                </span>
-              </div>
-            </article>
+              project={project}
+              labels={{
+                status: t[language].filters[project.status as keyof typeof t.en.filters],
+                fork: t[language].fork,
+                source: t[language].source,
+                live: t[language].live,
+              }}
+            />
           ))}
         </div>
 
