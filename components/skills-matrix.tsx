@@ -193,18 +193,22 @@ export function SkillsMatrix() {
 					</p>
 				</div>
 
-				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+				<div className="border-y border-border">
 					{skills[language].map((skill, index) => {
 						return (
 							<div
 								key={skill.category}
 								className={cn(
-									"group rounded-[1.5rem] border border-border/70 bg-card p-7 shadow-[var(--shadow-card)] transition-colors duration-300 hover:border-primary/40 opacity-0",
+									"group grid gap-2 py-6 opacity-0 sm:grid-cols-[220px_1fr] sm:gap-8",
+									index > 0 && "border-t border-border/70",
 									isInView && "animate-fade-in-up",
 								)}
 								style={{ animationDelay: `${index * 100 + 200}ms` }}
 							>
-								<h3 className="font-serif text-xl font-medium mb-4">
+								<h3 className="flex items-baseline gap-3 font-serif text-lg font-medium">
+									<span className="font-mono text-[10px] text-muted-foreground/50">
+										{String(index + 1).padStart(2, "0")}
+									</span>
 									{skill.category}
 								</h3>
 								<p className="text-sm leading-relaxed text-muted-foreground">

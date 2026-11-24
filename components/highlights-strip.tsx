@@ -129,24 +129,21 @@ export function HighlightsStrip() {
 		</div>
 		<section className="px-4 sm:px-6 py-10 sm:py-14">
 			<div ref={ref} className="mx-auto max-w-7xl">
-				<div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+				<div className="grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
 					{items.map((stat, index) => {
 						const isExternal = stat.href.startsWith("http");
 						const className = cn(
-							"group flex flex-col gap-2 rounded-[1.4rem] border border-border/70 bg-card px-6 py-8 sm:py-9 shadow-[var(--shadow-card)] transition-colors duration-300 hover:border-primary/40 opacity-0",
+							"group flex flex-col gap-2 border-t border-border pt-5 opacity-0 transition-colors duration-300 hover:border-primary/50",
 							isInView && "animate-fade-in-up",
 						);
 						const inner = (
 							<>
-								<span className="flex items-baseline gap-2.5">
-									<span
-										aria-hidden="true"
-										className="inline-block h-2 w-2 shrink-0 translate-y-[-2px] rounded-full bg-primary"
-									/>
-									<span className="font-display text-2xl sm:text-[1.65rem] font-bold leading-tight tracking-tight text-foreground">
+									<span className="font-mono text-[10px] leading-none text-muted-foreground/50">
+										{String(index + 1).padStart(2, "0")}
+									</span>
+									<span className="font-serif text-2xl font-medium leading-tight tracking-tight text-foreground">
 										{stat.value}
 									</span>
-								</span>
 								<span className="text-[13px] leading-relaxed text-muted-foreground">
 									{stat.label}
 								</span>
